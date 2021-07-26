@@ -1,13 +1,13 @@
-package com.diary.init.base.basic;
+package com.birdwind.inspire.medical.diary.base.basic;
 
 import org.json.JSONObject;
 
-import com.diary.init.App;
-import com.diary.init.R;
-import com.diary.init.base.network.response.BaseSystemResponse;
-import com.diary.init.base.utils.GsonUtils;
-import com.diary.init.base.utils.LogUtils;
-import com.diary.init.base.utils.rxHelper.RxException;
+import com.birdwind.inspire.medical.diary.App;
+import com.birdwind.inspire.medical.diary.R;
+import com.birdwind.inspire.medical.diary.base.network.response.BaseSystemResponse;
+import com.birdwind.inspire.medical.diary.base.utils.GsonUtils;
+import com.birdwind.inspire.medical.diary.base.utils.LogUtils;
+import com.birdwind.inspire.medical.diary.base.utils.rxHelper.RxException;
 
 import android.content.Context;
 
@@ -40,7 +40,7 @@ public abstract class AbstractBaseObserver<T extends ResponseBody, BR extends Ba
         this.isShowLoading = isShowLoading;
 
         if (errorTitle == null || errorTitle.isEmpty()) {
-            this.errorTitle = context.getString(R.string.dialog_error_title);
+            this.errorTitle = context.getString(R.string.common_dialog_title);
         } else {
             this.errorTitle = errorTitle;
         }

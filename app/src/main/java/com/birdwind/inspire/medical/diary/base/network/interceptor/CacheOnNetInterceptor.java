@@ -1,4 +1,4 @@
-package com.diary.init.base.network.interceptor;
+package com.birdwind.inspire.medical.diary.base.network.interceptor;
 
 import org.jetbrains.annotations.NotNull;
 import java.io.IOException;

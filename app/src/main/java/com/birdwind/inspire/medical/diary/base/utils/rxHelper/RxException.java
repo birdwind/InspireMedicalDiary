@@ -1,6 +1,6 @@
-package com.diary.init.base.utils.rxHelper;
+package com.birdwind.inspire.medical.diary.base.utils.rxHelper;
 
-import com.diary.init.base.enums.ErrorCodeEnums;
+import com.birdwind.inspire.medical.diary.base.enums.ErrorCodeEnums;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializer;
 import org.apache.http.conn.ConnectTimeoutException;

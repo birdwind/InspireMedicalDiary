@@ -1,11 +1,11 @@
-package com.diary.init.base.utils.fcm;
+package com.birdwind.inspire.medical.diary.base.utils.fcm;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.diary.init.App;
-import com.diary.init.base.Config;
-import com.diary.init.base.utils.LogUtils;
-import com.diary.init.base.utils.SharedPreferencesUtils;
+import com.birdwind.inspire.medical.diary.App;
+import com.birdwind.inspire.medical.diary.base.Config;
+import com.birdwind.inspire.medical.diary.base.utils.LogUtils;
+import com.birdwind.inspire.medical.diary.base.utils.SharedPreferencesUtils;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 

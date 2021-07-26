@@ -1,4 +1,4 @@
-package com.diary.init.base.view.loadingDialog.components;
+package com.birdwind.inspire.medical.diary.base.view.loadingDialog.components;
 
 public class PetalCoordinate {
 

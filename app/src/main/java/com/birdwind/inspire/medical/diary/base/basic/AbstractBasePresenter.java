@@ -1,14 +1,14 @@
-package com.diary.init.base.basic;
+package com.birdwind.inspire.medical.diary.base.basic;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
-import com.diary.init.App;
-import com.diary.init.base.network.ApiServer;
-import com.diary.init.base.network.RetrofitManager;
-import com.diary.init.base.utils.GsonUtils;
-import com.diary.init.base.utils.LogUtils;
+import com.birdwind.inspire.medical.diary.App;
+import com.birdwind.inspire.medical.diary.base.network.ApiServer;
+import com.birdwind.inspire.medical.diary.base.network.RetrofitManager;
+import com.birdwind.inspire.medical.diary.base.utils.GsonUtils;
+import com.birdwind.inspire.medical.diary.base.utils.LogUtils;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

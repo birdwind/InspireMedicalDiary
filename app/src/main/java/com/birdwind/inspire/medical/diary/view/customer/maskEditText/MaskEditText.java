@@ -1,6 +1,6 @@
-package com.diary.init.view.customer.maskEditText;
+package com.birdwind.inspire.medical.diary.view.customer.maskEditText;
 
-import com.diary.init.R;
+import com.birdwind.inspire.medical.diary.R;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Bundle;

@@ -1,7 +1,7 @@
-package com.diary.init.model.request;
+package com.birdwind.inspire.medical.diary.model.request;
 
-import com.diary.init.base.network.request.AbstractRequest;
-import com.diary.init.base.utils.SystemUtils;
+import com.birdwind.inspire.medical.diary.base.network.request.AbstractRequest;
+import com.birdwind.inspire.medical.diary.base.utils.SystemUtils;
 
 public class ExampleRequest extends AbstractRequest {
 

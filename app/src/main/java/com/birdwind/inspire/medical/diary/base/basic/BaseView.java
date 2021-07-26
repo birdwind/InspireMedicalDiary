@@ -1,6 +1,6 @@
-package com.diary.init.base.basic;
+package com.birdwind.inspire.medical.diary.base.basic;
 
-import com.diary.init.view.dialog.callback.CommonDialogListener;
+import com.birdwind.inspire.medical.diary.view.dialog.callback.CommonDialogListener;
 
 public interface BaseView {
 

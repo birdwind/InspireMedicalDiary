@@ -1,4 +1,4 @@
-package com.diary.init.view.customer.maskEditText;
+package com.birdwind.inspire.medical.diary.view.customer.maskEditText;
 
 public class RawText {
     private String text;

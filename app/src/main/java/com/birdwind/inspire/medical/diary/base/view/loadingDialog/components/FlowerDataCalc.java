@@ -1,4 +1,4 @@
-package com.diary.init.base.view.loadingDialog.components;
+package com.birdwind.inspire.medical.diary.base.view.loadingDialog.components;
 
 import java.util.ArrayList;
 import java.util.List;

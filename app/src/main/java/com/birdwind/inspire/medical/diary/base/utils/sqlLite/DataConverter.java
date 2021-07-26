@@ -1,10 +1,10 @@
-package com.diary.init.base.utils.sqlLite;
+package com.birdwind.inspire.medical.diary.base.utils.sqlLite;
 
 import java.lang.reflect.Type;
 import java.util.Date;
 import java.util.List;
 
-import com.diary.init.base.utils.GsonUtils;
+import com.birdwind.inspire.medical.diary.base.utils.GsonUtils;
 import com.google.gson.reflect.TypeToken;
 
 import androidx.room.TypeConverter;

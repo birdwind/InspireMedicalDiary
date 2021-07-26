@@ -1,4 +1,4 @@
-package com.diary.init.base.network.cookie;
+package com.birdwind.inspire.medical.diary.base.network.cookie;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

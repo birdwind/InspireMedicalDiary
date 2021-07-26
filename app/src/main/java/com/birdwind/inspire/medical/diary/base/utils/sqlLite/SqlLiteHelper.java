@@ -1,4 +1,4 @@
-package com.diary.init.base.utils.sqlLite;
+package com.birdwind.inspire.medical.diary.base.utils.sqlLite;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

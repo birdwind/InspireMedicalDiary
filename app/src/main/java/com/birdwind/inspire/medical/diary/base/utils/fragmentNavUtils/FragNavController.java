@@ -1,4 +1,4 @@
-package com.diary.init.base.utils.fragmentNavUtils;
+package com.birdwind.inspire.medical.diary.base.utils.fragmentNavUtils;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

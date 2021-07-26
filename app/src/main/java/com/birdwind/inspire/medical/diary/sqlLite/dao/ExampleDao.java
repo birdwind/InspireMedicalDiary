@@ -1,7 +1,7 @@
-package com.diary.init.sqlLite.dao;
+package com.birdwind.inspire.medical.diary.sqlLite.dao;
 
-import com.diary.init.base.utils.sqlLite.BaseDao;
-import com.diary.init.model.response.ExampleResponse;
+import com.birdwind.inspire.medical.diary.base.utils.sqlLite.BaseDao;
+import com.birdwind.inspire.medical.diary.model.response.ExampleResponse;
 
 import androidx.room.Dao;
 import androidx.room.Query;

@@ -1,7 +1,7 @@
-package com.diary.init.base.utils.analytics;
+package com.birdwind.inspire.medical.diary.base.utils.analytics;
 
-import com.diary.init.App;
-import com.diary.init.BuildConfig;
+import com.birdwind.inspire.medical.diary.App;
+import com.birdwind.inspire.medical.diary.BuildConfig;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import java.text.SimpleDateFormat;
 import java.util.Locale;

@@ -1,6 +1,6 @@
-package com.diary.init.base.basic;
+package com.birdwind.inspire.medical.diary.base.basic;
 
-import com.diary.init.base.network.response.BaseResponse;
+import com.birdwind.inspire.medical.diary.base.network.response.BaseResponse;
 
 public interface BaseObserver<R extends BaseResponse> {
 

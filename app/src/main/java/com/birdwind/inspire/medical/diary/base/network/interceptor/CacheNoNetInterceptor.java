@@ -1,6 +1,6 @@
-package com.diary.init.base.network.interceptor;
+package com.birdwind.inspire.medical.diary.base.network.interceptor;
 
-import com.diary.init.base.utils.NetworkUtils;
+import com.birdwind.inspire.medical.diary.base.utils.NetworkUtils;
 import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;

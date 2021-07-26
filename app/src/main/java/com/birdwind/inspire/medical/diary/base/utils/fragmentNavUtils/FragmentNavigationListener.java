@@ -1,9 +1,9 @@
-package com.diary.init.base.utils.fragmentNavUtils;
+package com.birdwind.inspire.medical.diary.base.utils.fragmentNavUtils;
 
 import androidx.annotation.DrawableRes;
 import androidx.fragment.app.Fragment;
 
-import com.diary.init.view.viewCallback.BottomNavigationCallback;
+import com.birdwind.inspire.medical.diary.view.viewCallback.BottomNavigationCallback;
 
 public interface FragmentNavigationListener {
 

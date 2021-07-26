@@ -1,13 +1,13 @@
-package com.diary.init.base.utils.fcm;
+package com.birdwind.inspire.medical.diary.base.utils.fcm;
 
 import java.util.Map;
 
-import com.diary.init.App;
-import com.diary.init.R;
-import com.diary.init.base.Config;
-import com.diary.init.base.utils.GsonUtils;
-import com.diary.init.base.utils.LogUtils;
-import com.diary.init.view.activity.BottomNavigationActivity;
+import com.birdwind.inspire.medical.diary.App;
+import com.birdwind.inspire.medical.diary.R;
+import com.birdwind.inspire.medical.diary.base.Config;
+import com.birdwind.inspire.medical.diary.base.utils.GsonUtils;
+import com.birdwind.inspire.medical.diary.base.utils.LogUtils;
+import com.birdwind.inspire.medical.diary.view.activity.BottomNavigationActivity;
 import com.google.firebase.messaging.RemoteMessage;
 
 import android.app.Notification;

@@ -1,6 +1,6 @@
-package com.diary.init.base.network.interceptor;
+package com.birdwind.inspire.medical.diary.base.network.interceptor;
 
-import com.diary.init.base.utils.LogUtils;
+import com.birdwind.inspire.medical.diary.base.utils.LogUtils;
 import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import okhttp3.Interceptor;

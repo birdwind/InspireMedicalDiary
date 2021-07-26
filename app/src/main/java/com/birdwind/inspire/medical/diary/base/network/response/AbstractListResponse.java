@@ -1,4 +1,4 @@
-package com.diary.init.base.network.response;
+package com.birdwind.inspire.medical.diary.base.network.response;
 
 import java.util.ArrayList;
 

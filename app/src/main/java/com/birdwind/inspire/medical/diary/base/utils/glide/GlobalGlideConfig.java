@@ -1,4 +1,4 @@
-package com.diary.init.base.utils.glide;
+package com.birdwind.inspire.medical.diary.base.utils.glide;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.GlideBuilder;

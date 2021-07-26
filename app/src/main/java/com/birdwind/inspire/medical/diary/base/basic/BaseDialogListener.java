@@ -1,4 +1,4 @@
-package com.diary.init.base.basic;
+package com.birdwind.inspire.medical.diary.base.basic;
 
 public interface BaseDialogListener {
 

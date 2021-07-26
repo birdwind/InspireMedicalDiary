@@ -1,4 +1,4 @@
-package com.diary.init.base.network.request;
+package com.birdwind.inspire.medical.diary.base.network.request;
 
 import java.io.Serializable;
 

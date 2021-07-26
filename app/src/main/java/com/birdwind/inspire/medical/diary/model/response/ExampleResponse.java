@@ -1,11 +1,11 @@
-package com.diary.init.model.response;
+package com.birdwind.inspire.medical.diary.model.response;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import com.diary.init.base.network.response.AbstractResponse;
-import com.diary.init.base.network.response.BaseResponse;
+import com.birdwind.inspire.medical.diary.base.network.response.AbstractResponse;
+import com.birdwind.inspire.medical.diary.base.network.response.BaseResponse;
 
 public class ExampleResponse extends AbstractResponse<ExampleResponse.Response> {
 

@@ -1,6 +1,6 @@
-package com.diary.init.view.customer.calendar;
+package com.birdwind.inspire.medical.diary.view.customer.calendar;
 
-import com.diary.init.R;
+import com.birdwind.inspire.medical.diary.R;
 import com.haibin.calendarview.Calendar;
 import com.haibin.calendarview.WeekBar;
 
