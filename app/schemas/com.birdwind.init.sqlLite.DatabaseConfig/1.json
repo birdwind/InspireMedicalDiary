@@ -1,0 +1,40 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "7d4ab2624c7c25f07c44f02a78a6cdc7",
+    "entities": [
+      {
+        "tableName": "example",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`SMSToken` TEXT NOT NULL, `LoginToken` TEXT, PRIMARY KEY(`SMSToken`))",
+        "fields": [
+          {
+            "fieldPath": "SMSToken",
+            "columnName": "SMSToken",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "LoginToken",
+            "columnName": "LoginToken",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "SMSToken"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7d4ab2624c7c25f07c44f02a78a6cdc7')"
+    ]
+  }
+}

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">@color/colorBlue_252D37</color>
+    <color name="colorAccent">@color/colorBrown_C1AA8F</color>
+    <color name="colorPrimaryDark">@color/colorBrown_98836E</color>
+
+    <!--Common-->
+    <color name="colorBackground">@color/colorWhite_FFFFFF</color>
+    <color name="colorBackgroundTheme">@color/colorPrimary</color>
+    <color name="colorBackgroundWhite">@color/colorWhite_FFFFFF</color>
+    <color name="colorTextBlack">@color/colorBlack_1A1A1A</color>
+    <color name="colorUnderLineDefault">@color/colorBlack_333333</color>
+    <color name="colorUnderLineBlue">@color/colorBlue_03139F</color>
+
+    <!--White-->
+    <color name="colorWhite_FFFFFF">#FFFFFF</color>
+
+    <!--Black-->
+    <color name="colorBlack_000000">#000000</color>
+    <color name="colorBlack_1A1A1A">#1A1A1A</color>
+    <color name="colorBlack_282828">#282828</color>
+    <color name="colorBlack_333333">#333333</color>
+    <color name="colorBlack_404040">#404040</color>
+
+    <!--Gray-->
+    <color name="colorGray_4D4D4D">#4D4D4D</color>
+    <color name="colorGray_6D6D6D">#6D6D6D</color>
+    <color name="colorGray_828282">#828282</color>
+    <color name="colorGray_A6A6A6">#A6A6A6</color>
+    <color name="colorGray_B3B3B3">#B3B3B3</color>
+    <color name="colorGray_C4C4C4">#C4C4C4</color>
+    <color name="colorGray_E5E5E5">#E5E5E5</color>
+    <color name="colorGray_F2F2F2">#F2F2F2</color>
+    <color name="colorGray_F7F7F7">#F7F7F7</color>
+    <color name="colorGray_E7E9EC">#E7E9EC</color>
+
+    <!--Brown-->
+    <color name="colorBrown_98836E">#98836E</color>
+    <color name="colorBrown_C1AA8F">#C1AA8F</color>
+    <color name="colorBrown_F4EDE4">#F4EDE4</color>
+
+    <!--Blue-->
+    <color name="colorBlue_002979">#002979</color>
+    <color name="colorBlue_00369C">#00369C</color>
+    <color name="colorBlue_00359C">#00359C</color>
+    <color name="colorBlue_004EA2">#004EA2</color>
+    <color name="colorBlue_008EFF">#008EFF</color>
+    <color name="colorBlue_03139F">#03139F</color>
+    <color name="colorBlue_104EC5">#104EC5</color>
+    <color name="colorBlue_121920">#121920</color>
+    <color name="colorBlue_1B2F66">#1B2F66</color>
+    <color name="colorBlue_252D37">#252D37</color>
+    <color name="colorBlue_334254">#334254</color>
+    <color name="colorBlue_55ADFF">#55ADFF</color>
+    <color name="colorBlue_67BCFF">#67BCFF</color>
+    <color name="colorBlue_90CAFF">#90CAFF</color>
+    <color name="colorBlue_91A3C9">#91A3C9</color>
+
+    <!--Red-->
+    <color name="colorRed_E74245">#E74245</color>
+
+    <!--Green-->
+    <color name="colorGreen_1E9E23">#1E9E23</color>
+    <color name="colorGreen_D9F3B7">#D9F3B7</color>
+
+    <!--Purple-->
+    <color name="colorPurple_9077C3">#9077C3</color>
+
+    <!--Yellow-->
+    <color name="colorYellow_FFE814">#FFE814</color>
+
+    <!--Orange-->
+    <color name="colorOrange_E89210">#E89210</color>
+
+</resources>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="UnderLine">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/colorUnderLineDefault</item>
+    </style>
+
+    <style name="EditTextStyle">
+        <item name="android:background">@drawable/bg_edittext_null_ffffff</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">10dp</item>
+        <item name="android:paddingTop">7dp</item>
+        <item name="android:paddingBottom">7dp</item>
+    </style>
+
+    <style name="FormTitleTextViewStyle">
+        <item name="android:textColor">@color/colorGray_6D6D6D</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="LoadingDialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="TabLayoutTextSize" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
+        <item name="android:textSize">15dp</item>
+    </style>
+
+    <style name="ThemeButton" parent="TextAppearance.AppCompat.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">44dp</item>
+        <item name="android:background">@drawable/selector_background_radius_solid_00359c</item>
+        <item name="android:textColor">@color/colorWhite_FFFFFF</item>
+        <item name="android:textSize">15dp</item>
+    </style>
+
+    <style name="ThemeGrayButton" parent="TextAppearance.AppCompat.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">44dp</item>
+        <item name="android:background">@drawable/selector_background_radius_solid_6d6d6d</item>
+        <item name="android:textColor">@color/colorWhite_FFFFFF</item>
+        <item name="android:textSize">15dp</item>
+    </style>
+
+    <style name="TabLayoutStyle" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">18dp</item>
+    </style>
+
+
+</resources>

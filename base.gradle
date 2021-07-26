@@ -1,0 +1,11 @@
+ext{
+    debugBase = [
+            baseUrl        : "\"https://google.com.tw/\"",
+            preferences     : "\"debug\""
+    ]
+
+    releaseBase = [
+            baseUrl      : "\"https://google.com.tw/\"",
+            preferences     : "\"release\""
+    ]
+}

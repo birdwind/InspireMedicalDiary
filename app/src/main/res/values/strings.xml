@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?><!DOCTYPE resources
+    [<!ENTITY appname "BirdWind">]
+    >
+<resources>
+    <string name="app_name">&appname;</string>
+    <string name="company_name">BirdWind</string>
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <string name="function_not_complete">施工中，尚不開放</string>
+
+    <string name="error_update">已有最新版本\n點擊確認至Play商店獲取更新。</string>
+    <string name="error_common_unknow">未知錯誤，請稍後再試</string>
+    <string name="error_common_timeout">網路連線超時，請稍後再試</string>
+    <string name="error_common_connect">網路連線問題，請檢查網路是否正常，確認無誤後請再再嘗試動作</string>
+    <string name="error_common_null_point">資料異常，請稍後再試</string>
+    <string name="error_common_ssl">網路異常，請稍後再試</string>
+    <string name="error_common_cast">資料異常，請稍後再試</string>
+    <string name="error_common_parse">資料解析異常，請稍後再試</string>
+    <string name="error_common_server">伺服器異常，請稍後再試</string>
+    <string name="error_common_server_data">伺服器資料異常，請稍後再試</string>
+    <string name="error_common_server_shutdown">伺服器維護中，數位黨部APP將自動關閉。</string>
+    <string name="error_common_gps">目前無法取得您當下的位置</string>
+    <string name="error_common_google_map">GoogleMap初始化失敗，請重新打開數位黨部</string>
+    <string name="error_common_notification_unable">請至設定開啟通知以獲得最新通知</string>
+    <string name="error_common_99000">登入權限過期，請重新登入</string>
+    <string name="error_common_logout">您已在其他裝置登入，因此將此裝置登出</string>
+    <string name="error_common_permission_denied_some">您拒絕了部分授權，部分功能將會在未來需要您的授權</string>
+    <string name="error_common_permission_never_show">您勾選了不再顯示授權提示，請至設定開啟授權</string>
+
+    <!--SmartRefreshHeader-->
+    <string name="srl_text_header_pulling">下拉載入最新</string>
+    <string name="srl_text_header_refreshing">載入最新&#8230;</string>
+    <string name="srl_text_header_failed">載入失敗</string>
+    <string name="srl_text_header_update">上次更新 M-d HH:mm</string>
+    <string name="srl_text_header_finish">更新完成</string>
+    <string name="srl_text_header_loading">正在載入&#8230;</string>
+    <string name="srl_text_header_release">釋放立即載入</string>
+    <string name="srl_text_footer_failed">載入失敗</string>
+    <string name="srl_text_footer_finish">載入完成</string>
+    <string name="srl_text_footer_loading">載入更多&#8230;</string>
+    <string name="srl_text_footer_nothing">沒有更多</string>
+    <string name="srl_text_footer_pulling">上拉載入更多</string>
+    <string name="srl_text_footer_refreshing">正在載入更多&#8230;</string>
+    <string name="srl_text_footer_release">釋放立即載入更多</string>
+
+    <string name="account">行政帳號</string>
+    <string name="password">行政密碼</string>
+    <string name="register"><u>申請帳號</u></string>
+    <string name="forget_password"><u>忘記密碼</u></string>
+
+    <string name="navigation_notification">通知</string>
+    <string name="navigation_schedule">班表</string>
+    <string name="navigation_application">申請</string>
+    <string name="navigation_sign">簽核</string>
+    <string name="navigation_me">我</string>
+
+    <string name="menu_onjob">在職總覽</string>
+    <string name="menu_basic_info">基本資料</string>
+    <string name="menu_specialty">專業身分</string>
+    <string name="menu_office">任職經歷</string>
+    <string name="menu_work">出勤紀錄</string>
+    <string name="menu_holiday">請假配額</string>
+    <string name="menu_reset_password">修改密碼</string>
+    <string name="menu_login_record">登入紀錄</string>
+    <string name="menu_device">我的裝置</string>
+    <string name="menu_advice">友善建議</string>
+    <string name="menu_logout">登出</string>
+
+    <string name="common_double_click_back">再次點擊上一步，將結束&appname;</string>
+    <string name="common_confirm">確認</string>
+    <string name="common_cancel">取消</string>
+    <string name="common_last_page">上一頁</string>
+    <string name="common_version">V ${version}</string>
+    <string name="common_info_last_update">資料最後更新時間：${date}</string>
+
+    <string name="dialog_title">系統訊息</string>
+    <string name="dialog_error_title">錯誤訊息</string>
+
+    <string name="login">驗證登入</string>
+    <string name="login_verification">裝置認證</string>
+    <string name="login_terms"><u>隱私權政策與服務條款</u></string>
+    <string name="login_verification_verification_code">簡訊驗證碼</string>
+    <string name="login_verification_resent"><u>重新發送簡訊驗證碼</u></string>
+    <string name="login_verification_resent_countdown"><u>(${second}S)</u></string>
+    <string name="login_verification_notice">系通將會寄送驗證碼簡訊至您的手機門號${phone}，請收到簡訊後10分鐘內輸入驗證碼後登入</string>
+
+    <string name="notification_menu_announcement">公告</string>
+    <string name="notification_menu_notification">通知</string>
+
+    <string name="reset_password_name"><font color='#F85858'>*</font>姓名</string>
+    <string name="reset_password_id_card"><font color='#F85858'>*</font>身分證字號</string>
+    <string name="reset_password_phone"><font color='#F85858'>*</font>行動電話</string>
+    <string name="reset_password_notice">身分驗證成功後系統將自動發送新的密碼簡訊給您</string>
+
+    <string name="notification_title">我的通知</string>
+    <string name="notification_announcement_title">@string/notification_menu_announcement</string>
+    <string name="notification_notification_title">@string/notification_menu_notification</string>
+    <string name="notification_show_unread">顯示未讀</string>
+    <string name="notification_show_all">全部顯示</string>
+    <string name="notification_time_title">公告時間:</string>
+    <string name="notification_announcer">發佈者:${announcer}</string>
+    <string name="notification_publish_to">發佈對象:${publish_to}</string>
+
+    <string name="schedule_title">我的班表</string>
+    <string name="schedule_date_top">${year}年${month}月</string>
+    <string name="schedule_name">${name}/${department}</string>
+    <string name="schedule_info_title">班表顏色對照</string>
+    <string name="schedule_info_attendance">考勤異常(優先顯示)</string>
+    <string name="schedule_info_leave">請假、減班</string>
+    <string name="schedule_info_overtime">加班、公差</string>
+    <string name="schedule_info_out_of_time">無班打卡</string>
+    <string name="schedule_info_change">職務異動</string>
+    <string name="schedule_info_multiple">多種狀態</string>
+    <string name="schedule_support_title">值班支援對照表</string>
+    <string name="schedule_support_duty">值班</string>
+    <string name="schedule_support_sup">支援</string>
+
+    <string name="application_title">@string/navigation_application</string>
+
+    <string name="sign_title">@string/navigation_sign</string>
+
+    <string name="me_title">@string/navigation_me</string>
+    <string name="me_employ_id">員工編號 ${id}</string>
+    <string name="me_account">行政帳號 ${account}</string>
+
+    <string name="basic_info_birthday">生日</string>
+    <string name="basic_info_gender">性別</string>
+    <string name="basic_info_county">國籍</string>
+    <string name="basic_info_id">身分證字號/居留證號</string>
+    <string name="basic_info_passport">護照號碼</string>
+    <string name="basic_info_phone">行動電話</string>
+    <string name="basic_info_telephone">室內電話</string>
+    <string name="basic_info_current_address">通訊地址</string>
+    <string name="basic_info_permanent_address">戶籍地址</string>
+    <string name="basic_info_emergency_contact">緊急聯絡人</string>
+    <string name="basic_info_emergency_contact_relate">緊急聯絡人關係</string>
+    <string name="basic_info_emergency_contact_phone">緊急聯絡人行動電話</string>
+    <string name="basic_info_emergency_contact_telephone">緊急聯絡人室內電話</string>
+    <string name="basic_info_id_card">識別證</string>
+    <string name="basic_info_id_card_info">${count}張(${id})</string>
+    <string name="basic_info_face_id">臉部辨識</string>
+    <string name="basic_info_not_setting">未設定</string>
+    <string name="basic_info_finger_id">指紋辨識</string>
+    <string name="basic_info_finger_id_info">${count}枚</string>
+
+    <string name="advice_send">發送</string>
+    <string name="advice_content">意見內容</string>
+
+    <string name="reset_password_old_password">舊密碼<font color='#F85858'>*</font></string>
+    <string name="reset_password_new_password">新密碼<font color='#F85858'>*</font></string>
+    <string name="reset_password_check_password">確認新密碼<font color='#F85858'>*</font></string>
+    <string name="reset_confirm_check_password">確認修改</string>
+
+    <string name="login_record_show_time">顯示3個月內</string>
+    <string name="login_record_login_type">登入狀況</string>
+    <string name="login_record_device">登入設備</string>
+    <string name="login_record_device_version">設備版本</string>
+    <string name="login_record_browser_version">瀏覽器/APP版本</string>
+    <string name="login_record_eip">EIP版本</string>
+    <string name="login_record_ip">連線IP</string>
+
+    <string name="profession_info">目前擁有專業身分</string>
+    <string name="profession_last_update">資料最後更新時間:${datetime}</string>
+    <string name="profession_no">序</string>
+    <string name="profession_title">專業身分</string>
+
+    <string name="device_remove">移除裝置認證</string>
+    <string name="device_logout">登出裝置</string>
+    <string name="device_platform">登入平台: ${platform}</string>
+    <string name="device_ip">IP: ${ip}</string>
+    <string name="device_login_time">登入時間: ${datetime}</string>
+    <string name="device_certification">認證到期日: ${datetime}</string>
+
+    <string name="onjob_state_title">在職狀態</string>
+    <string name="onjob_arrival_title">到職日</string>
+    <string name="onjob_seniority_title">總年資</string>
+    <string name="onjob_total_welfare_year_title">總福利年資</string>
+    <string name="onjob_total_foreign_year_title">總出國年資</string>
+    <string name="onjob_current_department">目前任職單位</string>
+    <string name="onjob_unit_day_working_time">單位日工時</string>
+    <string name="onjob_arrival_date">到任日期</string>
+    <string name="onjob_cumulative_years">累積單位年資</string>
+    <string name="onjob_attendance">考勤打卡</string>
+    <string name="onjob_duty_fee">值班費</string>
+    <string name="onjob_department">部門</string>
+    <string name="onjob_department_title">職稱</string>
+    <string name="onjob_department_unit_day_working_time">部門日工時</string>
+    <string name="onjob_attendance_yes">需打卡</string>
+    <string name="onjob_attendance_no">不需打卡</string>
+    <string name="onjob_duty_fee_yes">有</string>
+    <string name="onjob_duty_fee_no">無</string>
+    <string name="onjob_department_title_content">${title}(${level})</string>
+
+</resources>

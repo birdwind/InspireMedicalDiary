@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_radius_5dp_shadow"
+    android:orientation="vertical"
+    android:padding="11dp">
+
+    <Button
+        android:id="@+id/bt_remove_my_device_popup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_board_radius_5dp"
+        android:backgroundTint="@color/colorRed_E74245"
+        android:paddingHorizontal="13dp"
+        android:paddingVertical="12dp"
+        android:text="@string/device_remove"
+        android:textColor="@color/colorWhite_FFFFFF" />
+
+    <Button
+        android:id="@+id/bt_logout_my_device_popup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_board_radius_5dp"
+        android:paddingHorizontal="13dp"
+        android:paddingVertical="12dp"
+        android:text="@string/device_logout"
+        android:textAlignment="textStart"/>
+
+</LinearLayout>

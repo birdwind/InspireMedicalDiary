@@ -1,0 +1,283 @@
+apply plugin: 'com.android.application'
+//apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
+
+def cfg = rootProject.ext.config
+def libs = rootProject.ext.libraries
+def test = rootProject.ext.test
+def debugBase = rootProject.ext.debugBase
+def releaseBase = rootProject.ext.releaseBase
+
+static def releaseTime() {
+    return new Date().format("yyyy.MM.dd", TimeZone.getTimeZone("UTC"))
+}
+
+//plugins {
+//    id 'com.android.application'
+//}
+
+android {
+    compileSdkVersion cfg.compileVersion
+
+    defaultConfig {
+        applicationId 'com.birdwind.init'
+        minSdkVersion cfg.minSDK
+        targetSdkVersion cfg.targetSDK
+        versionCode cfg.versionCode
+        versionName cfg.versionName
+
+//        multiDexEnabled true
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
+    signingConfigs {
+        sign
+    }
+
+    buildFeatures {
+        viewBinding true
+        dataBinding = true
+    }
+
+    buildTypes {
+        debug {
+            buildConfigField("String", "BASE_URL", debugBase.baseUrl)
+            buildConfigField("String", "PREFERENCE_NAME", debugBase.preferences)
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            debuggable true
+//            signingConfig signingConfigs.sign
+            android.applicationVariants.all { variant ->
+                variant.outputs.all {
+                    outputFileName = "${releaseTime()}-${cfg.appName}(${variant.versionName}-${variant.versionCode}).apk"
+                }
+            }
+        }
+        release {
+            buildConfigField "String", "BASE_URL", releaseBase.baseUrl
+            buildConfigField "String", "PREFERENCE_NAME", releaseBase.preferences
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            debuggable false
+//            signingConfig signingConfigs.sign
+            android.applicationVariants.all { variant ->
+                variant.outputs.all {
+                    outputFileName = "${releaseTime()}-${cfg.appName}(${variant.versionName}-${variant.versionCode}).apk"
+                }
+            }
+        }
+    }
+
+//    buildTypes {
+//        release {
+//            minifyEnabled false
+//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//        }
+//    }
+
+    compileOptions {
+//        coreLibraryDesugaringEnabled true
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+//    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
+    debugImplementation 'com.facebook.stetho:stetho:1.5.1'
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.12.3'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+
+    implementation "androidx.appcompat:appcompat:${libs.appcompat}"
+    implementation "androidx.constraintlayout:constraintlayout:${libs.constraintlayout}"
+    implementation "androidx.recyclerview:recyclerview:${libs.recyclerview}"
+    implementation "androidx.cardview:cardview:${libs.androidx_cardview}"
+    implementation "com.google.android.material:material:${libs.material}"
+    implementation "com.android.support:support-v4:${libs.support_v4}"
+
+    /**
+     * firebase
+     */
+    implementation platform('com.google.firebase:firebase-bom:28.2.0')
+    implementation 'com.google.firebase:firebase-messaging'
+    implementation 'com.google.firebase:firebase-analytics'
+//    implementation 'com.google.firebase:firebase-crashlytics'
+//    implementation "com.google.firebase:firebase-messaging-directboot"
+
+    /**
+     *  flexbox
+     */
+    implementation "com.google.android:flexbox:${libs.flexbox}"
+
+    /**
+     *  Retrofit2
+     */
+    implementation "com.squareup.retrofit2:retrofit:${libs.retrofit}"
+    implementation "com.squareup.retrofit2:converter-gson:${libs.retrofit}"
+    implementation "com.squareup.retrofit2:converter-scalars:${libs.retrofit}"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:${libs.retrofit}"
+
+    /**
+     *  RxJava
+     */
+    //RxJava的依赖包
+    implementation "io.reactivex.rxjava3:rxandroid:${libs.rxandroid}"
+    //RxAndroid的依赖包
+    implementation "io.reactivex.rxjava3:rxjava:${libs.rxjava}"
+
+    /**
+     *  RxBinding
+     */
+    implementation "com.jakewharton.rxbinding3:rxbinding:${libs.rxbinding}"
+    implementation "com.jakewharton.rxbinding3:rxbinding-core:${libs.rxbinding}"
+    implementation "com.jakewharton.rxbinding3:rxbinding-appcompat:${libs.rxbinding}"
+    implementation "com.jakewharton.rxbinding3:rxbinding-drawerlayout:${libs.rxbinding}"
+    implementation "com.jakewharton.rxbinding3:rxbinding-leanback:${libs.rxbinding}"
+    implementation "com.jakewharton.rxbinding3:rxbinding-recyclerview:${libs.rxbinding}"
+    implementation "com.jakewharton.rxbinding3:rxbinding-slidingpanelayout:${libs.rxbinding}"
+    implementation "com.jakewharton.rxbinding3:rxbinding-swiperefreshlayout:${libs.rxbinding}"
+    implementation "com.jakewharton.rxbinding3:rxbinding-viewpager:${libs.rxbinding}"
+    implementation "com.jakewharton.rxbinding3:rxbinding-viewpager2:${libs.rxbinding}"
+    implementation "com.jakewharton.rxbinding3:rxbinding-material:${libs.rxbinding}"
+
+    /**
+     *  RxPermission
+     */
+    implementation "com.github.tbruyelle:rxpermissions:${libs.rxPermission}"
+
+    /**
+     *  okhttp
+     */
+    implementation "com.squareup.okhttp3:okhttp:${libs.okhttp3}"
+    implementation "com.squareup.okhttp3:logging-interceptor:${libs.okhttp3}"
+    implementation "org.conscrypt:conscrypt-android:${libs.conscrypt}"
+
+    /**
+     *  android-async-http
+     */
+    implementation "com.loopj.android:android-async-http:${libs.asyncHttp}"
+
+    /**
+     *  BaseRecycleView
+     */
+    implementation "com.github.CymChad:BaseRecyclerViewAdapterHelper:${libs.base_recycleview}"
+
+    /**
+     *  Jsoup
+     */
+    implementation "org.jsoup:jsoup:${libs.jsoup}"
+
+    /**
+     * Glide
+     */
+    implementation "com.github.bumptech.glide:glide:${libs.glide}"
+    implementation "com.github.bumptech.glide:okhttp3-integration:${libs.glide}"
+    // glide 相关注解，生成GlideApp代码
+    annotationProcessor "com.github.bumptech.glide:compiler:${libs.glide}"
+
+    /**
+     * GifDrawable
+     */
+    implementation "pl.droidsonroids.gif:android-gif-drawable:${libs.gifDrawable}"
+
+    /**
+     *  SmartRefreshLayout
+     */
+    implementation "com.scwang.smart:refresh-layout-horizontal:${libs.smartRefreshLayoutHori}"
+    implementation "com.scwang.smart:refresh-layout-kernel:${libs.smartRefreshLayout}"
+    implementation "com.scwang.smart:refresh-header-classics:${libs.smartRefreshLayout}"
+    implementation "com.scwang.smart:refresh-footer-classics:${libs.smartRefreshLayout}"
+
+    /**
+     *  StatusBarUtil
+     */
+    implementation "com.github.Ye-Miao:StatusBarUtil:${libs.statusBarUtil}"
+
+    /**
+     * BottomNavigationViewEx
+     */
+    implementation "com.github.ittianyu:BottomNavigationViewEx:${libs.bottomNavigationViewEx}"
+
+    /**
+     * Badge
+     */
+    implementation "q.rorbin:badgeview:${libs.badgeview}"
+
+    /**
+     *  ShortCutBadger
+     */
+    implementation "me.leolin:ShortcutBadger:${libs.shortCutBadger}"
+
+    /**
+     *  EasyImage
+     */
+    implementation "com.github.jkwiecien:EasyImage:${libs.easyImage}"
+
+    /**
+     *  SwipeBackLayout
+     */
+    implementation "com.github.bingoogolapple:BGASwipeBackLayout-Android:${libs.swipeBackLayout}"
+
+    /**
+     *  CircleImageView
+     */
+    implementation "com.mikhaellopez:circularimageview:${libs.circularImageView}"
+//    implementation "de.hdodenhof:circleimageview:${libs.circleImageView}"
+
+    /**
+     * Room - SqlLite
+     */
+    implementation "androidx.room:room-runtime:${libs.room}"
+    annotationProcessor "androidx.room:room-compiler:${libs.room}"
+    implementation "androidx.room:room-rxjava3:${libs.room}"
+
+    /**
+     * CalendarView
+     */
+    implementation "com.haibin:calendarview:${libs.CalendarView}"
+
+
+    /**
+     * SignalR
+     */
+    implementation 'com.microsoft.signalr:signalr:6.0.0-preview.5.21301.17'
+    implementation group: 'org.slf4j', name: 'slf4j-android', version: '1.7.7'
+
+
+    implementation 'com.google.android.material:material:1.3.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+}
+
+//rootProject.file(): 取得根目錄中的檔案
+//def ksFile = rootProject.file('keystore.properties')
+//def props = new Properties()
+//if (ksFile.canRead()) {
+//    props.load(new FileInputStream(ksFile))
+//
+//    if (props != null) {
+//        android.signingConfigs.sign.storeFile file(props['KEYSTORE_FILE'])
+//        android.signingConfigs.sign.storePassword props['KEYSTORE_PASSWORD']
+//        android.signingConfigs.sign.keyAlias props['KEYSTORE_ALIAS']
+//        android.signingConfigs.sign.keyPassword props['KEYSTORE_ALIAS_PASSWORD']
+//    } else {
+//        println 'some entries in \'keystore.properties\' not found!'
+//    }
+//} else {
+//    println '\'keystore.properties\' not found!'
+//}

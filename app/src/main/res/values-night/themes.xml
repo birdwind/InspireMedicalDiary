@@ -1,0 +1,53 @@
+<resources>
+    <!-- Base application theme. -->
+    <!--    <style name="Theme.Android_init" parent="Theme.MaterialComponents.DayNight.NoActionBar">-->
+    <!--        &lt;!&ndash; Primary brand color. &ndash;&gt;-->
+    <!--        <item name="colorPrimary">@color/colorBrown_F4EDE4</item>-->
+    <!--        <item name="colorPrimaryVariant">@color/colorBrown_98836E</item>-->
+    <!--        <item name="colorOnPrimary">@color/colorBlack_000000</item>-->
+    <!--        &lt;!&ndash; Secondary brand color. &ndash;&gt;-->
+    <!--        <item name="colorSecondary">@color/colorBrown_F4EDE4</item>-->
+    <!--        <item name="colorSecondaryVariant">@color/colorBrown_98836E</item>-->
+    <!--        <item name="colorOnSecondary">@color/colorBlack_000000</item>-->
+    <!--        &lt;!&ndash; Status bar color. &ndash;&gt;-->
+    <!--        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>-->
+    <!--        &lt;!&ndash; Customize your theme here. &ndash;&gt;-->
+    <!--    </style>-->
+    <style name="Theme.Android_init" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/colorBlue_1B2F66</item>
+        <item name="colorPrimaryVariant">@color/colorBlue_1B2F66</item>
+        <item name="colorOnPrimary">@color/colorBlue_004EA2</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/colorBrown_C1AA8F</item>
+        <item name="colorSecondaryVariant">@color/colorBrown_98836E</item>
+        <item name="colorOnSecondary">@color/colorBlack_000000</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+        <item name="android:editTextColor">@color/colorBlack_404040</item>
+
+        <!--TextView-->
+        <item name="android:textColor">@color/colorBlack_404040</item>
+        <item name="android:textSize">18dp</item>
+        <item name="android:textColorHint">@color/colorGray_4D4D4D</item>
+
+        <item name="android:windowBackground">@color/colorWhite_FFFFFF</item>
+    </style>
+
+    <style name="DLClinicEditTextStyle" parent="EditTextStyle"></style>
+
+    <style name="DLClinicFormTitleTextViewStyle" parent="FormTitleTextViewStyle"></style>
+
+    <style name="DLClinicButtonStyle" parent="ThemeButton">
+
+    </style>
+
+    <style name="DLClinicButtonGrayStyle" parent="ThemeGrayButton">
+
+    </style>
+
+    <style name="DLClinicTabLayoutStyle" parent="TabLayoutStyle">
+
+    </style>
+</resources>

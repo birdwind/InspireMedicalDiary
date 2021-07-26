@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/view_web_view_header"
+        layout="@layout/component_top_bar" />
+
+    <com.birdwind.init.view.customer.ProgressWebView
+        android:id="@+id/progress_web_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/view_web_view_header" />
+
+</RelativeLayout>
