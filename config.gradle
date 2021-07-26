@@ -12,7 +12,7 @@ ext {
             targetSDK        : 30,
             versionCode      : 1,
             versionName      : "1.0.0",
-            appName          : "BirdWind"
+            appName          : "Diary"
     ]
 
     libraries = [

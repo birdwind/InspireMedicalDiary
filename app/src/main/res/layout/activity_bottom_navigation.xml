@@ -32,7 +32,7 @@
             android:layout_above="@id/bottom_navigation_view_ex"
             android:background="@color/colorGray_F2F2F2" />
 
-        <com.birdwind.init.view.customer.BottomNavigationIndicatorView
+        <com.birdwind.inspire.medical.diary.view.customer.BottomNavigationIndicatorView
             android:id="@+id/bottom_navigation_view_ex"
             android:layout_width="match_parent"
             android:layout_height="82dp"

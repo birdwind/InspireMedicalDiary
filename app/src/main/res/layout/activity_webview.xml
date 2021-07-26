@@ -7,7 +7,7 @@
         android:id="@+id/view_web_view_header"
         layout="@layout/component_top_bar" />
 
-    <com.birdwind.init.view.customer.ProgressWebView
+    <com.birdwind.inspire.medical.diary.view.customer.ProgressWebView
         android:id="@+id/progress_web_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

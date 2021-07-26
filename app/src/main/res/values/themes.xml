@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.Android_init" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/colorBlue_1B2F66</item>
+        <item name="colorPrimary">@color/colorWhite_FFFFFF</item>
         <item name="colorPrimaryVariant">@color/colorBlue_1B2F66</item>
         <item name="colorOnPrimary">@color/colorBlue_004EA2</item>
         <!-- Secondary brand color. -->
@@ -15,9 +15,9 @@
         <item name="android:editTextColor">@color/colorBlack_404040</item>
 
         <!--TextView-->
-        <item name="android:textColor">@color/colorBlack_404040</item>
-        <item name="android:textSize">18dp</item>
-        <item name="android:textColorHint">@color/colorGray_4D4D4D</item>
+        <item name="android:textColor">@color/colorBlack_333333</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColorHint">@color/colorGray_AAAAAA</item>
 
         <item name="android:windowBackground">@color/colorWhite_FFFFFF</item>
 

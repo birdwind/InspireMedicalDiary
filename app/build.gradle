@@ -20,7 +20,7 @@ android {
     compileSdkVersion cfg.compileVersion
 
     defaultConfig {
-        applicationId 'com.birdwind.init'
+        applicationId 'com.birdwind.inspire.medical.diary'
         minSdkVersion cfg.minSDK
         targetSdkVersion cfg.targetSDK
         versionCode cfg.versionCode

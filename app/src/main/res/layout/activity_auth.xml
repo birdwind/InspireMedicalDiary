@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_logo_auth_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="64dp"
+        android:layout_marginBottom="100dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="27dp"
+            android:src="@drawable/ic_logo" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_logo_text" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_main_auth_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_logo_auth_activity"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/fl_doctor_auth_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/bg_double_green"
+            android:minWidth="205dp"
+            android:minHeight="74dp">
+
+            <Button
+                android:id="@+id/bt_doctor_auth_activity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@null"
+                android:drawableStart="@drawable/ic_doctor"
+                android:drawablePadding="10dp"
+                android:gravity="center"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:text="@string/auth_doctor"
+                android:textColor="@color/colorWhite_FFFFFF" />
+        </FrameLayout>
+
+
+        <FrameLayout
+            android:id="@+id/fl_patient_auth_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/bg_double_orange"
+            android:minWidth="205dp"
+            android:minHeight="74dp">
+
+            <Button
+                android:id="@+id/bt_patient_auth_activity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@null"
+                android:drawableStart="@drawable/ic_patient"
+                android:drawablePadding="10dp"
+                android:gravity="center"
+                android:text="@string/auth_patient"
+                android:textColor="@color/colorWhite_FFFFFF" />
+        </FrameLayout>
+
+
+        <FrameLayout
+            android:id="@+id/fl_family_members_auth_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_double_red"
+            android:minWidth="205dp"
+            android:minHeight="74dp">
+
+            <Button
+                android:id="@+id/bt_family_members_auth_activity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@null"
+                android:drawableStart="@drawable/ic_family_members"
+                android:drawablePadding="10dp"
+                android:gravity="center"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:text="@string/auth_family_members"
+                android:textColor="@color/colorWhite_FFFFFF" />
+        </FrameLayout>
+    </LinearLayout>
+
+</RelativeLayout>

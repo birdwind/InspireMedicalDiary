@@ -14,7 +14,7 @@
         android:backgroundTint="@color/colorRed_E74245"
         android:paddingHorizontal="13dp"
         android:paddingVertical="12dp"
-        android:text="@string/device_remove"
+        android:text="Menu1"
         android:textColor="@color/colorWhite_FFFFFF" />
 
     <Button
@@ -24,7 +24,7 @@
         android:background="@drawable/background_board_radius_5dp"
         android:paddingHorizontal="13dp"
         android:paddingVertical="12dp"
-        android:text="@string/device_logout"
+        android:text="Menu2"
         android:textAlignment="textStart"/>
 
 </LinearLayout>
