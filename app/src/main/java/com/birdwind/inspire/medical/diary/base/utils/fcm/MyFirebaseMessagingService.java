@@ -6,6 +6,7 @@ import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.base.Config;
 import com.birdwind.inspire.medical.diary.base.utils.LogUtils;
 import com.birdwind.inspire.medical.diary.base.utils.SharedPreferencesUtils;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -22,14 +23,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public static String getFCMToken() {
         FCM = SharedPreferencesUtils.get(Config.FCM_NAME, "");
         if (TextUtils.isEmpty(FCM)) {
-//            FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
-//                if (!task.isSuccessful()) {
-//                    LogUtils.d("FCM產生失敗 : " + task.getException());
-//                    return;
-//                }
-//
-//                FCM = task.getResult();
-//            });
+            FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+                if (!task.isSuccessful()) {
+                    LogUtils.d("FCM產生失敗 : " + task.getException());
+                    return;
+                }
+
+                FCM = task.getResult();
+            });
         }
         return FCM;
     }

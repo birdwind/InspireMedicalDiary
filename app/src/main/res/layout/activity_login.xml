@@ -38,11 +38,43 @@
             android:gravity="center"
             android:orientation="vertical">
 
+            <!--            <LinearLayout-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginBottom="25dp"-->
+            <!--                android:background="@color/colorGray_F3F3F3"-->
+            <!--                android:gravity="center_vertical"-->
+            <!--                android:minWidth="305dp"-->
+            <!--                android:minHeight="55dp"-->
+            <!--                android:orientation="horizontal">-->
+
+            <!--                <TextView-->
+            <!--                    android:layout_width="0dp"-->
+            <!--                    android:layout_height="match_parent"-->
+            <!--                    android:layout_weight="0.3"-->
+            <!--                    android:gravity="center"-->
+            <!--                    android:text="@string/login_name" />-->
+
+            <!--                <EditText-->
+            <!--                    android:id="@+id/et_name_login_activity"-->
+            <!--                    android:layout_width="0dp"-->
+            <!--                    android:layout_height="match_parent"-->
+            <!--                    android:layout_weight="0.7"-->
+            <!--                    android:background="@null"-->
+            <!--                    android:importantForAutofill="no"-->
+            <!--                    android:imeOptions="actionNext"-->
+            <!--                    android:maxLines="1"-->
+            <!--                    android:hint="@string/login_name_hint"-->
+            <!--                    android:inputType="text" />-->
+
+            <!--            </LinearLayout>-->
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="25dp"
-                android:background="@color/colorGray_F3F3F3"
+                android:background="@drawable/background_board_radius_5dp"
+                android:backgroundTint="@color/colorGray_F3F3F3"
                 android:gravity="center_vertical"
                 android:minWidth="305dp"
                 android:minHeight="55dp"
@@ -53,34 +85,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.3"
                     android:gravity="center"
-                    android:text="@string/login_name"/>
-
-                <EditText
-                    android:id="@+id/et_name_login_activity"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.7"
-                    android:background="@null"
-                    android:hint="@string/login_name_hint" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="25dp"
-                android:background="@color/colorGray_F3F3F3"
-                android:gravity="center_vertical"
-                android:minWidth="305dp"
-                android:minHeight="55dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.3"
-                    android:gravity="center"
-                    android:text="@string/login_phone"/>
+                    android:text="@string/login_phone" />
 
                 <EditText
                     android:id="@+id/et_phone_login_activity"
@@ -88,47 +93,13 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.7"
                     android:background="@null"
-                    android:hint="@string/login_phone_hint" />
+                    android:hint="@string/login_phone_hint"
+                    android:imeOptions="actionDone"
+                    android:importantForAutofill="no"
+                    android:inputType="phone"
+                    android:maxLines="1" />
 
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:background="@color/colorGray_F3F3F3"
-                android:gravity="center_vertical"
-                android:minWidth="305dp"
-                android:minHeight="55dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.3"
-                    android:gravity="center"
-                    android:text="@string/login_verification_code" />
-
-                <EditText
-                    android:id="@+id/et_verification_code_login_activity"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.7"
-                    android:background="@null"
-                    android:hint="@string/login_verification_code_hint" />
-
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/bt_send_verification_code_login_activity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_marginBottom="32dp"
-                android:background="@null"
-                android:text="@string/login_send_verification_code"
-                android:textColor="@color/colorBlue_009CB2"
-                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/bt_login_login_activity"

@@ -15,15 +15,12 @@ public class App extends Application {
 
     private static App App;
 
-    public static boolean isLoginError;
-
     public static UserModel userModel;
 
     @Override
     public void onCreate() {
         super.onCreate();
         App = this;
-        isLoginError = false;
         LogUtils.e("FirebaseToken", MyFirebaseMessagingService.getFCMToken());
         if (BuildConfig.DEBUG) {
             // Stetho.initializeWithDefaults(this);

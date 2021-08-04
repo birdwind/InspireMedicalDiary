@@ -1,18 +1,5 @@
 package com.birdwind.inspire.medical.diary.base.utils;
 
-import java.lang.reflect.Method;
-import java.util.List;
-import java.util.Locale;
-import java.util.UUID;
-
-import org.jsoup.Jsoup;
-
-import com.birdwind.inspire.medical.diary.App;
-import com.birdwind.inspire.medical.diary.base.Config;
-import com.birdwind.inspire.medical.diary.base.utils.fcm.MyFirebaseMessagingService;
-import com.birdwind.inspire.medical.diary.base.view.AbstractDialog;
-import com.birdwind.inspire.medical.diary.view.dialog.CommonDialog;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -38,6 +25,19 @@ import android.view.Display;
 import android.view.WindowManager;
 
 import androidx.core.content.ContextCompat;
+
+import com.birdwind.inspire.medical.diary.App;
+import com.birdwind.inspire.medical.diary.base.Config;
+import com.birdwind.inspire.medical.diary.base.utils.fcm.MyFirebaseMessagingService;
+import com.birdwind.inspire.medical.diary.base.view.AbstractDialog;
+import com.birdwind.inspire.medical.diary.view.dialog.CommonDialog;
+
+import org.jsoup.Jsoup;
+
+import java.lang.reflect.Method;
+import java.util.List;
+import java.util.Locale;
+import java.util.UUID;
 
 public class SystemUtils {
 
@@ -151,19 +151,6 @@ public class SystemUtils {
         return new UUID(m_szDevIDShort.hashCode(), serial.hashCode()).toString();
     }
 
-    // public static String initKMTUniquePass() {
-    // String pass = MyFirebaseMessagingService.getFCMToken();
-    // if (TextUtils.isEmpty(pass)) {
-    // pass = getUniquePsuedoID();
-    // }
-    // SharedPreferencesUtils.put(Config.KMT_UNI_PASS, pass);
-    // return pass;
-    // }
-    //
-    // public static String getKMTUniquePass() {
-    // return SharedPreferencesUtils.get(Config.KMT_UNI_PASS, "");
-    // }
-
     // 設定忽略系統文字大小
     public static void setSystemTextDefault(Context context) {
         Resources res = context.getResources();
@@ -217,7 +204,7 @@ public class SystemUtils {
         return Config.APP_PACKAGE_NAME;
     }
 
-    public static boolean isServiceRunning(Class<?> serviceClass, Context context){
+    public static boolean isServiceRunning(Class<?> serviceClass, Context context) {
         ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
             if (serviceClass.getName().equals(service.service.getClassName())) {
@@ -332,11 +319,14 @@ public class SystemUtils {
     }
 
     public static String initUniquePass() {
-        String pass = MyFirebaseMessagingService.getFCMToken();
+        String pass = SharedPreferencesUtils.get(Config.UNI_PASS, "");
         if (TextUtils.isEmpty(pass)) {
-            pass = getUniquePsuedoID();
+            pass = MyFirebaseMessagingService.getFCMToken();
+            if (TextUtils.isEmpty(pass)) {
+                pass = getUniquePsuedoID();
+            }
+            SharedPreferencesUtils.put(Config.UNI_PASS, pass);
         }
-        SharedPreferencesUtils.put(Config.UNI_PASS, pass);
         return pass;
     }
 }

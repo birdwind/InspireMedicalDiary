@@ -92,7 +92,7 @@ public abstract class AbstractBasePresenter<V extends BaseView> implements BaseP
     private void initHeaderMap() {
         headerMap.clear();
         headerMap.put("Token",
-            App.userModel != null && App.userModel.getToken() != null ? App.userModel.getToken() : "dltech");
+            App.userModel != null && App.userModel.getToken() != null ? App.userModel.getToken() : "0000");
     }
 
     private void initFieldMap() {

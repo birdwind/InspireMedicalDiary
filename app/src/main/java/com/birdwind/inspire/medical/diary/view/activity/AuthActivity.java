@@ -6,15 +6,12 @@ import android.view.ViewGroup;
 
 import com.birdwind.inspire.medical.diary.base.view.AbstractActivity;
 import com.birdwind.inspire.medical.diary.databinding.ActivityAuthBinding;
+import com.birdwind.inspire.medical.diary.enums.IdentityEnums;
 import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
 
 public class AuthActivity extends AbstractActivity<AbstractPresenter, ActivityAuthBinding> {
 
-    public final String LOGIN_TYPE = "LOGIN_TYPE";
-
-    public final int DOCTOR_LOGIN = 0;
-    public final int PATIENT_LOGIN = 1;
-    public final int FAMILY_MEMBER_LOGIN = 2;
+    public static final String LOGIN_TYPE = "LOGIN_TYPE";
 
     @Override
     public AbstractPresenter createPresenter() {
@@ -29,22 +26,22 @@ public class AuthActivity extends AbstractActivity<AbstractPresenter, ActivityAu
     @Override
     public void addListener() {
         binding.flDoctorAuthActivity.setOnClickListener(v -> {
-            openLoginActivity(DOCTOR_LOGIN);
+            openLoginActivity(IdentityEnums.DOCTOR);
         });
         binding.flPatientAuthActivity.setOnClickListener(v -> {
-            openLoginActivity(PATIENT_LOGIN);
+            openLoginActivity(IdentityEnums.PAINTER);
         });
         binding.flFamilyMembersAuthActivity.setOnClickListener(v -> {
-            openLoginActivity(FAMILY_MEMBER_LOGIN);
+            openLoginActivity(IdentityEnums.FAMILY);
         });
         binding.btDoctorAuthActivity.setOnClickListener(v -> {
-            openLoginActivity(DOCTOR_LOGIN);
+            openLoginActivity(IdentityEnums.DOCTOR);
         });
         binding.btPatientAuthActivity.setOnClickListener(v -> {
-            openLoginActivity(PATIENT_LOGIN);
+            openLoginActivity(IdentityEnums.PAINTER);
         });
         binding.btFamilyMembersAuthActivity.setOnClickListener(v -> {
-            openLoginActivity(FAMILY_MEMBER_LOGIN);
+            openLoginActivity(IdentityEnums.FAMILY);
         });
     }
 
@@ -63,19 +60,9 @@ public class AuthActivity extends AbstractActivity<AbstractPresenter, ActivityAu
 
     }
 
-    private void openLoginActivity(int loginType) {
+    private void openLoginActivity(IdentityEnums identityEnums) {
         Bundle bundle = new Bundle();
-        switch (loginType) {
-            case DOCTOR_LOGIN:
-                bundle.putInt(LOGIN_TYPE, DOCTOR_LOGIN);
-                break;
-            case PATIENT_LOGIN:
-                bundle.putInt(LOGIN_TYPE, PATIENT_LOGIN);
-                break;
-            case FAMILY_MEMBER_LOGIN:
-                bundle.putInt(LOGIN_TYPE, FAMILY_MEMBER_LOGIN);
-                break;
-        }
-        startActivityWithFinish(LoginActivity.class);
+        bundle.putInt(LOGIN_TYPE, identityEnums.getType());
+        startActivityWithFinish(LoginActivity.class, bundle);
     }
 }

@@ -1,6 +1,6 @@
 package com.birdwind.inspire.medical.diary.base.basic;
 
-import org.json.JSONObject;
+import android.content.Context;
 
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
@@ -9,7 +9,7 @@ import com.birdwind.inspire.medical.diary.base.utils.GsonUtils;
 import com.birdwind.inspire.medical.diary.base.utils.LogUtils;
 import com.birdwind.inspire.medical.diary.base.utils.rxHelper.RxException;
 
-import android.content.Context;
+import org.json.JSONObject;
 
 import io.reactivex.observers.DisposableObserver;
 import okhttp3.ResponseBody;
@@ -71,15 +71,13 @@ public abstract class AbstractBaseObserver<T extends ResponseBody, BR extends Ba
                     if (response.isSuccess()) {
                         onSuccess(response);
                     } else {
-                        String title = (response.getTitle() == null || response.getTitle().isEmpty()) ? errorTitle
-                            : response.getTitle();
-                        String code = response.getCode() == null ? "L00001" : response.getCode();
+                        String title = errorTitle;
                         String message =
                             response.getMessage() == null ? context.getString(R.string.error_common_server_data)
                                 : response.getMessage();
 
-                        if (!onErrorHandler(title, code, message, true, response)) {
-                            // 全域錯誤管理
+                        if (!onErrorHandler(title, null, message, true, response)) {
+                            showMsg(title, message, true);
                         }
                     }
                 }
@@ -97,6 +95,7 @@ public abstract class AbstractBaseObserver<T extends ResponseBody, BR extends Ba
         if (view != null && isShowLoading) {
             view.hideLoading();
         }
+        showMsg(functionName + e.getMessage(), true);
         RxException rxException = RxException.handleException(e);
         onError(errorTitle, String.valueOf(rxException.getCode()),
             "(" + rxException.getCode() + ")" + rxException.getMessage(), false);
@@ -118,13 +117,17 @@ public abstract class AbstractBaseObserver<T extends ResponseBody, BR extends Ba
 
     @Override
     public void onError(String title, String code, String msg, boolean isDialog) {
-        showMsg(title, code, msg, isDialog);
+        showMsg(title, msg, isDialog);
         LogUtils.e(functionName + "Error", msg);
     }
 
-    protected void showMsg(String title, String code, String msg, boolean isDialog) {
+    protected void showMsg(String title, String msg, boolean isDialog) {
         if (view != null) {
             view.showMessage(title, msg, isDialog, null);
         }
+    }
+
+    protected void showMsg(String msg, boolean isDialog) {
+        showMsg(errorTitle, msg, isDialog);
     }
 }

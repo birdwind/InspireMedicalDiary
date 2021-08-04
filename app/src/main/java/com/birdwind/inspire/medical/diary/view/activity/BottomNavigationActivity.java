@@ -19,7 +19,7 @@ import com.birdwind.inspire.medical.diary.databinding.ActivityBottomNavigationBi
 import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
 import com.birdwind.inspire.medical.diary.service.SignalRService;
 import com.birdwind.inspire.medical.diary.view.customer.BadgeView;
-import com.birdwind.inspire.medical.diary.view.fragment.ExampleFragment;
+import com.birdwind.inspire.medical.diary.view.fragment.ScanFragment;
 import com.birdwind.inspire.medical.diary.view.viewCallback.BottomNavigationCallback;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.leaf.library.StatusBarUtil;
@@ -92,15 +92,15 @@ public class BottomNavigationActivity extends AbstractActivity<AbstractPresenter
     public Fragment getRootFragment(int index) {
         switch (index) {
             case FragNavController.TAB1:
-                return new ExampleFragment();
+                return new ScanFragment();
             case FragNavController.TAB2:
-                return new ExampleFragment();
+                return new ScanFragment();
             case FragNavController.TAB3:
-                return new ExampleFragment();
+                return new ScanFragment();
             case FragNavController.TAB4:
-                return new ExampleFragment();
+                return new ScanFragment();
             case FragNavController.TAB5:
-                return new ExampleFragment();
+                return new ScanFragment();
         }
         throw new IllegalStateException("Need to send an index that we know");
     }

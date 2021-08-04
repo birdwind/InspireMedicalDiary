@@ -4,11 +4,11 @@ import com.birdwind.inspire.medical.diary.base.enums.BaseEnums;
 
 import java.io.Serializable;
 
-public enum ExampleApiServer implements BaseEnums {
-    ICON_BADGE("iconbadges");
+public enum LoginApiServer implements BaseEnums {
+    LOGIN("login"), SEND_PHONE_VERIFICATION("sendphoneverification"), CHECK_PHONE_VERIFY("checkphoneverify");
 
-    ExampleApiServer(String url) {
-        this.url = "api/index/" + url;
+    LoginApiServer(String url) {
+        this.url = "api/Login/" + url;
     }
 
     private String url;

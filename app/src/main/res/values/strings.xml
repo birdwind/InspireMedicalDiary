@@ -61,5 +61,15 @@
     <string name="login_verification_code_hint">請輸入驗證碼</string>
     <string name="login_send_verification_code"><u>發送簡訊驗證碼</u></string>
     <string name="login_login">登入</string>
+    <string name="login_verification">驗證</string>
+
+    <!--ComponentTopBar-->
+    <string name="component_top_bar_prev">上一頁</string>
+
+    <!--DoctorMain-->
+    <string name="doctor_main_menu_scan">掃描條碼</string>
+    <string name="doctor_main_menu_qrcode">行動條碼</string>
+    <string name="doctor_main_menu_report">報告</string>
+    <string name="doctor_main_menu_setting">設定</string>
 
 </resources>

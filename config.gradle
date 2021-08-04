@@ -18,7 +18,7 @@ ext {
     libraries = [
             adapter_rxjava2       : "2.9.0",
             androidx_cardview     : "1.0.0",
-            appcompat             : "1.3.0",
+            appcompat             : "1.3.1",
             asyncHttp             : "1.4.11",
             base_recycleview      : "3.0.4",
             badgeview             : "1.1.3",
@@ -46,7 +46,7 @@ ext {
             jsoup                 : "1.13.1",
             kprogresshud          : "1.2.0",
             lombok                : "1.18.12",
-            material              : "1.3.0",
+            material              : "1.4.0",
             CalendarView          : "3.7.1",
             okhttp3               : "5.0.0-alpha.2",
             phoneNumber           : "8.12.11",

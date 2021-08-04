@@ -51,8 +51,8 @@ public class RetrofitManager {
             cookieManger = new CookieManger(context);
         }
         Map<String, String> headers = new HashMap<>();
-        headers.put("OS", "A");
-        headers.put("Ver", Config.APP_VERSION);
+//        headers.put("OS", "A");
+//        headers.put("Ver", Config.APP_VERSION);
         // headers.put("Token",App.userModel != null && App.userModel.getToken() != null ? App.userModel.getToken() :
         // "dltech");
         OkHttpClient okHttpClient =

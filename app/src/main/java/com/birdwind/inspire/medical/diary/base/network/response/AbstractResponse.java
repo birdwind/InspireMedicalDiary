@@ -2,61 +2,37 @@ package com.birdwind.inspire.medical.diary.base.network.response;
 
 public class AbstractResponse<BR extends BaseResponse> implements BaseSystemResponse {
 
-    private boolean IsSuccess;
+    private boolean isSuccess;
 
-    private String Code;
+    private String message;
 
-    private String Title;
-
-    private String Message;
-
-    private BR JsonData;
+    private BR jsonData;
 
     @Override
     public boolean isSuccess() {
-        return IsSuccess;
+        return isSuccess;
     }
 
     @Override
     public void setSuccess(boolean success) {
-        IsSuccess = success;
-    }
-
-    @Override
-    public String getCode() {
-        return Code;
-    }
-
-    @Override
-    public String getTitle() {
-        return Title;
-    }
-
-    @Override
-    public void setTitle(String title) {
-        Title = title;
-    }
-
-    @Override
-    public void setCode(String code) {
-        Code = code;
+        this.isSuccess = success;
     }
 
     @Override
     public String getMessage() {
-        return Message;
+        return message;
     }
 
     @Override
     public void setMessage(String message) {
-        Message = message;
+        this.message = message;
     }
 
     public BR getJsonData() {
-        return JsonData;
+        return jsonData;
     }
 
     public void setJsonData(BR jsonData) {
-        JsonData = jsonData;
-    };
+        this.jsonData = jsonData;
+    }
 }

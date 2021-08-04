@@ -2,6 +2,7 @@ package com.birdwind.inspire.medical.diary.view.customer;
 
 import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.base.utils.Utils;
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewInner;
 
 import android.animation.ValueAnimator;
@@ -133,13 +134,13 @@ public class BottomNavigationIndicatorViewInner extends BottomNavigationViewInne
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-            @Override
-            public boolean onPreDraw() {
-                moveTabIndicator(0, false);
-                getViewTreeObserver().removeOnPreDrawListener(this);
-                return true;
-            }
-        });
+//        getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+//            @Override
+//            public boolean onPreDraw() {
+//                moveTabIndicator(0, false);
+//                getViewTreeObserver().removeOnPreDrawListener(this);
+//                return true;
+//            }
+//        });
     }
 }

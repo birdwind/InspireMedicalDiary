@@ -3,7 +3,7 @@
     <style name="Theme.Android_init" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/colorWhite_FFFFFF</item>
-        <item name="colorPrimaryVariant">@color/colorBlue_1B2F66</item>
+        <item name="colorPrimaryVariant">@color/colorWhite_FFFFFF</item>
         <item name="colorOnPrimary">@color/colorBlue_004EA2</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/colorBrown_C1AA8F</item>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rl_background_top_bar_comp"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:background="@color/colorBlue_009CB2">
+
+    <LinearLayout
+        android:id="@+id/ll_back_top_bar_comp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:padding="12dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="10dp"
+            android:text="@string/component_top_bar_prev"
+            android:textColor="@color/colorWhite_FFFFFF"
+            android:textSize="14sp"
+            app:drawableStartCompat="@drawable/ic_left_arrow" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iv_logo_top_bar_comp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginEnd="6dp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_title_top_bar_comp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/app_name"
+            android:textColor="@color/colorWhite_FFFFFF"
+            android:textSize="22sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_right_top_bar_comp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true">
+
+        <LinearLayout
+            android:id="@+id/ll_close_top_bar_comp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="12dp"
+            android:visibility="invisible">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_close" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_right_button_top_bar_comp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="12dp"
+            android:visibility="invisible">
+
+            <ImageView
+                android:id="@+id/iv_right_button_top_bar_comp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_info" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

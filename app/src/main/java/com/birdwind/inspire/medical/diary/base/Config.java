@@ -23,7 +23,5 @@ public class Config {
 
     public static final String UNI_PASS = "UniPass";
 
-    public static final String VERIFICATION_MODEL_NAME = "verify_model";
-
     public static final int MAX_LIST_DATA = 10;
 }

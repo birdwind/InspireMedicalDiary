@@ -1,25 +1,5 @@
 package com.birdwind.inspire.medical.diary.base.view;
 
-import com.birdwind.inspire.medical.diary.App;
-import com.birdwind.inspire.medical.diary.R;
-import com.birdwind.inspire.medical.diary.base.Config;
-import com.birdwind.inspire.medical.diary.base.basic.BaseView;
-import com.birdwind.inspire.medical.diary.base.utils.LogUtils;
-import com.birdwind.inspire.medical.diary.base.utils.SharedPreferencesUtils;
-import com.birdwind.inspire.medical.diary.base.utils.SystemUtils;
-import com.birdwind.inspire.medical.diary.base.utils.ToastUtils;
-import com.birdwind.inspire.medical.diary.base.view.loadingDialog.LoadingBaseDialog;
-import com.birdwind.inspire.medical.diary.base.view.loadingDialog.LoadingConstant;
-import com.birdwind.inspire.medical.diary.base.view.loadingDialog.LoadingFlower;
-import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
-import com.birdwind.inspire.medical.diary.sqlLite.DatabaseConfig;
-import com.birdwind.inspire.medical.diary.view.dialog.CommonDialog;
-import com.birdwind.inspire.medical.diary.view.dialog.callback.CommonDialogListener;
-import com.birdwind.inspire.medical.diary.view.viewCallback.BaseCustomView;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.tbruyelle.rxpermissions3.Permission;
-import com.tbruyelle.rxpermissions3.RxPermissions;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -40,6 +20,26 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewbinding.ViewBinding;
+
+import com.birdwind.inspire.medical.diary.App;
+import com.birdwind.inspire.medical.diary.R;
+import com.birdwind.inspire.medical.diary.base.Config;
+import com.birdwind.inspire.medical.diary.base.basic.BaseView;
+import com.birdwind.inspire.medical.diary.base.utils.LogUtils;
+import com.birdwind.inspire.medical.diary.base.utils.SharedPreferencesUtils;
+import com.birdwind.inspire.medical.diary.base.utils.SystemUtils;
+import com.birdwind.inspire.medical.diary.base.utils.ToastUtils;
+import com.birdwind.inspire.medical.diary.base.view.loadingDialog.LoadingBaseDialog;
+import com.birdwind.inspire.medical.diary.base.view.loadingDialog.LoadingConstant;
+import com.birdwind.inspire.medical.diary.base.view.loadingDialog.LoadingFlower;
+import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
+import com.birdwind.inspire.medical.diary.sqlLite.DatabaseConfig;
+import com.birdwind.inspire.medical.diary.view.dialog.CommonDialog;
+import com.birdwind.inspire.medical.diary.view.dialog.callback.CommonDialogListener;
+import com.birdwind.inspire.medical.diary.view.viewCallback.BaseCustomView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.tbruyelle.rxpermissions3.Permission;
+import com.tbruyelle.rxpermissions3.RxPermissions;
 
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
@@ -68,17 +68,6 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
         className = setClassName();
         presenter = createPresenter();
         rxPermissions = new RxPermissions(this);
-
-        // Type type = this.getClass().getGenericSuperclass();
-        // if (type instanceof ParameterizedType) {
-        // try {
-        // Class<VB> clazz = (Class<VB>) ((ParameterizedType) type).getActualTypeArguments()[0];
-        // Method method = clazz.getMethod("inflate", LayoutInflater.class);
-        // binding = (VB) method.invoke(null, getLayoutInflater());
-        // } catch (Exception e) {
-        // e.printStackTrace();
-        // }
-        // }
 
         binding = getViewBinding(null, null, false);
         setContentView(binding.getRoot());
@@ -120,9 +109,9 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
     @Override
     public void showFileDialog() {
         // TODO:Show File Dialog
-        if(!isFinishing()){
+        if (!isFinishing()) {
             loadingDialog = new LoadingFlower.Builder(this).direction(LoadingConstant.DIRECT_CLOCKWISE)
-                    .themeColor(Color.WHITE).text("正在下載中,請稍後").fadeColor(Color.DKGRAY).build();
+                .themeColor(Color.WHITE).text("正在下載中,請稍後").fadeColor(Color.DKGRAY).build();
             loadingDialog.show();
         }
     }
@@ -253,25 +242,22 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
      */
     @Override
     public void logout(Bundle bundle) {
-        //TODO: Logout
+        // TODO: Logout
         showToast("全域登出尚未實作");
     }
 
     @Override
     public void onLogoutSuccess() {
         DatabaseConfig.getInstance(context).clearAllTables();
-        // SharedPreferencesUtils.put(Config.FCM_NAME, null);
         SharedPreferencesUtils.put(Config.USER_MODEL_NAME, null);
-        // SharedPreferencesUtils.put(Config.UNI_PASS, null);
-        SharedPreferencesUtils.put(Config.VERIFICATION_MODEL_NAME, null);
+        SharedPreferencesUtils.put(Config.UNI_PASS, null);
         App.userModel = null;
-        App.isLoginError = false;
         startActivityWithFinish(BottomNavigationView.class);
     }
 
     @Override
     public void onLoginError(String msg) {
-        if(!isFinishing()){
+        if (!isFinishing()) {
             CommonDialog autoLogoutDialog = new CommonDialog(context, new CommonDialogListener() {
                 @Override
                 public void clickConfirm() {
@@ -431,8 +417,12 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
         }
     }
 
+    public void showDialog(String msg, CommonDialogListener commonDialogListener) {
+        showDialog(getString(R.string.common_dialog_title), msg, commonDialogListener);
+    }
+
     public void showDialog(String title, String msg, CommonDialogListener commonDialogListener) {
-        if(!isFinishing()){
+        if (!isFinishing()) {
             if (commonDialogListener == null) {
                 commonDialogListener = new CommonDialogListener() {
                     @Override
@@ -474,7 +464,7 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
             new CommonDialogListener() {
                 @Override
                 public void clickConfirm() {
-                    if(isNeedBake){
+                    if (isNeedBake) {
                         onBackPressed();
                     }
                 }
@@ -482,7 +472,7 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
                 @Override
                 public void clickClose() {
 
-                    if(isNeedBake){
+                    if (isNeedBake) {
                         onBackPressed();
                     }
                 }
