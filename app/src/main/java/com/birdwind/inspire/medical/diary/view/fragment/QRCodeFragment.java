@@ -4,10 +4,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.birdwind.inspire.medical.diary.App;
+import com.birdwind.inspire.medical.diary.base.Config;
 import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
 import com.birdwind.inspire.medical.diary.databinding.FragmentQrcodeBinding;
-import com.birdwind.inspire.medical.diary.databinding.FragmentScanBinding;
 import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
+import com.birdwind.inspire.medical.diary.server.FileApiServer;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.model.GlideUrl;
+import com.bumptech.glide.load.model.LazyHeaders;
+import com.bumptech.glide.request.target.Target;
 
 public class QRCodeFragment extends AbstractFragment<AbstractPresenter, FragmentQrcodeBinding> {
 
@@ -38,5 +44,6 @@ public class QRCodeFragment extends AbstractFragment<AbstractPresenter, Fragment
 
     @Override
     public void doSomething() {
+         Glide.with(this).load(Config.BASE_URL + FileApiServer.MQ_QR_CODE.valueOfName()).into(binding.ivQrcodeFragment);
     }
 }

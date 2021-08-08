@@ -39,6 +39,10 @@
         android:theme="@style/Theme.Android_init">
 
         <meta-data
+            android:name="com.birdwind.inspire.medical.diary.base.utils.glide.GlobalGlideConfig"
+            android:value="GlideModule" />
+
+        <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
 

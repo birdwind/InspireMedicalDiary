@@ -27,8 +27,6 @@ public class LoginRequest extends AbstractRequest {
 
     private String SDK;
 
-    private String IMEI;
-
     private String Model;
 
 
@@ -70,14 +68,6 @@ public class LoginRequest extends AbstractRequest {
 
     public void setSDK(String SDK) {
         this.SDK = SDK;
-    }
-
-    public String getIMEI() {
-        return IMEI;
-    }
-
-    public void setIMEI(String IMEI) {
-        this.IMEI = IMEI;
     }
 
     public String getModel() {

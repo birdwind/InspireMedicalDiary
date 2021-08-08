@@ -2,10 +2,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <ImageView
+        android:id="@+id/iv_qrcode_fragment"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="QR Code"
+        android:layout_marginHorizontal="48dp"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
         android:layout_centerInParent="true"/>
 
 </RelativeLayout>

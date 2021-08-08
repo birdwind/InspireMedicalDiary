@@ -1,21 +1,45 @@
 package com.birdwind.inspire.medical.diary.base.utils.glide;
 
+import android.content.Context;
+
+import androidx.annotation.NonNull;
+
+import com.birdwind.inspire.medical.diary.App;
+import com.birdwind.inspire.medical.diary.base.Config;
+import com.birdwind.inspire.medical.diary.base.network.AppOkHttpClient;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.Registry;
+import com.bumptech.glide.annotation.Excludes;
 import com.bumptech.glide.annotation.GlideModule;
+import com.bumptech.glide.integration.okhttp3.OkHttpLibraryGlideModule;
+import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.cache.ExternalPreferredCacheDiskCacheFactory;
+import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.module.AppGlideModule;
 import com.bumptech.glide.request.RequestOptions;
-import android.content.Context;
-import androidx.annotation.NonNull;
+
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
+
+import okhttp3.OkHttpClient;
 
 @GlideModule
+@Excludes(OkHttpLibraryGlideModule.class) // initialize OkHttp manually
 public class GlobalGlideConfig extends AppGlideModule {
     @Override
     public void registerComponents(@NonNull Context context, @NonNull Glide glide, @NonNull Registry registry) {
         super.registerComponents(context, glide, registry);
+        Map<String, String> headers = new HashMap<>();
+        headers.put("OS", "A");
+        headers.put("Ver", Config.APP_VERSION);
+        headers.put("Token",
+            App.userModel != null && App.userModel.getToken() != null ? App.userModel.getToken() : "0000");
+        OkHttpClient okHttpClient =
+            new AppOkHttpClient().getInstance().setIsCache(true).setIsNeedHeader(true, headers).init(context);
+        registry.replace(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory(okHttpClient));
     }
 
     @Override
