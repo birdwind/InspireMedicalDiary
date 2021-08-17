@@ -51,10 +51,20 @@ public class SplashActivity extends AbstractActivity<AbstractPresenter, Activity
         binding.llLogoSplashActivity.animate().alpha(1f).setDuration(3000).setListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
-                if(App.userModel == null || TextUtils.isEmpty(App.userModel.getToken())){
+                if (App.userModel == null || TextUtils.isEmpty(App.userModel.getToken())) {
                     startActivityWithFinish(AuthActivity.class);
-                }else{
-                    startActivityWithFinish(DoctorMainActivity.class);
+                } else {
+                    switch (App.userModel.getIdentityEnums()) {
+                        case DOCTOR:
+                            startActivityWithFinish(DoctorMainActivity.class);
+                            break;
+                        case FAMILY:
+                            startActivityWithFinish(FamilyMainActivity.class);
+                            break;
+                        case PAINTER:
+                            startActivityWithFinish(PainterMainActivity.class);
+                            break;
+                    }
                 }
             }
         });

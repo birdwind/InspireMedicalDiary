@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.base.Config;
-import com.birdwind.inspire.medical.diary.base.network.AppOkHttpClient;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.Registry;
@@ -37,8 +36,9 @@ public class GlobalGlideConfig extends AppGlideModule {
         headers.put("Ver", Config.APP_VERSION);
         headers.put("Token",
             App.userModel != null && App.userModel.getToken() != null ? App.userModel.getToken() : "0000");
-        OkHttpClient okHttpClient =
-            new AppOkHttpClient().getInstance().setIsCache(true).setIsNeedHeader(true, headers).init(context);
+        // OkHttpClient okHttpClient =
+        // new AppOkHttpClient().getInstance().setIsCache(true).setIsNeedHeader(true, headers).init(context);
+        OkHttpClient okHttpClient = HttpsGlideOkHttpClient.getUnsafeOkHttpClient();
         registry.replace(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory(okHttpClient));
     }
 

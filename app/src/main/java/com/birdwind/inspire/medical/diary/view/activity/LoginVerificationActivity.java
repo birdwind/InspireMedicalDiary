@@ -1,10 +1,15 @@
 package com.birdwind.inspire.medical.diary.view.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import androidx.appcompat.content.res.AppCompatResources;
+
+import com.birdwind.inspire.medical.diary.App;
+import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.base.utils.SystemUtils;
 import com.birdwind.inspire.medical.diary.base.view.AbstractActivity;
 import com.birdwind.inspire.medical.diary.databinding.ActivityLoginVerificationBinding;
@@ -76,7 +81,7 @@ public class LoginVerificationActivity extends
 
     @Override
     public void doSomething() {
-
+        initVerifyButtonBackground();
     }
 
     @Override
@@ -89,6 +94,35 @@ public class LoginVerificationActivity extends
 
     @Override
     public void onVerify(boolean isSuccess) {
-        startActivityWithFinish(DoctorMainActivity.class);
+        App.userModel.setIdentityEnums(identityEnums);
+        App.updateUserModel();
+        switch (identityEnums){
+            case DOCTOR:
+                startActivityWithFinish(DoctorMainActivity.class);
+                break;
+            case FAMILY:
+                startActivityWithFinish(FamilyMainActivity.class);
+                break;
+            case PAINTER:
+                startActivityWithFinish(PainterMainActivity.class);
+                break;
+        }
+    }
+
+    private void initVerifyButtonBackground() {
+        Drawable drawable = AppCompatResources.getDrawable(this, R.drawable.bg_double_green);
+        switch (identityEnums) {
+            case DOCTOR:
+                drawable = AppCompatResources.getDrawable(this, R.drawable.bg_double_green);
+                break;
+            case FAMILY:
+                drawable = AppCompatResources.getDrawable(this, R.drawable.bg_double_red);
+                break;
+            case PAINTER:
+                drawable = AppCompatResources.getDrawable(this, R.drawable.bg_double_orange);
+                break;
+        }
+
+        binding.btVerifyLoginVerificationActivity.setBackground(drawable);
     }
 }

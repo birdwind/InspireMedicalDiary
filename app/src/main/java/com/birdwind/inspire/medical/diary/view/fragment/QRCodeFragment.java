@@ -13,7 +13,6 @@ import com.birdwind.inspire.medical.diary.server.FileApiServer;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.model.LazyHeaders;
-import com.bumptech.glide.request.target.Target;
 
 public class QRCodeFragment extends AbstractFragment<AbstractPresenter, FragmentQrcodeBinding> {
 
@@ -44,6 +43,11 @@ public class QRCodeFragment extends AbstractFragment<AbstractPresenter, Fragment
 
     @Override
     public void doSomething() {
-         Glide.with(this).load(Config.BASE_URL + FileApiServer.MQ_QR_CODE.valueOfName()).into(binding.ivQrcodeFragment);
+//        GlideUrl glideUrl = new GlideUrl(Config.BASE_URL + FileApiServer.MQ_QR_CODE.valueOfName(),
+//            new LazyHeaders.Builder().addHeader("OS", "A").addHeader("Ver", "Config.APP_VERSION")
+//                .addHeader("Token",
+//                    App.userModel != null && App.userModel.getToken() != null ? App.userModel.getToken() : "0000")
+//                .build());
+        Glide.with(this).load(Config.BASE_URL + FileApiServer.MQ_QR_CODE.valueOfName()).into(binding.ivQrcodeFragment);
     }
 }

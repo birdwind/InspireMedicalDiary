@@ -47,7 +47,7 @@ ext {
             kprogresshud          : "1.2.0",
             lombok                : "1.18.12",
             material              : "1.4.0",
-            CalendarView          : "3.7.1",
+            calendarView          : "3.7.1",
             okhttp3               : "5.0.0-alpha.2",
             phoneNumber           : "8.12.11",
             picasso               : "2.71828",
@@ -66,6 +66,7 @@ ext {
             statusBarUtil         : "1.7.5",
             support_v4            : "28.0.0",
             tree_node_adapter     : "1.0.0",
+            zxing                 : "2.2.0"
     ]
 
     test = [

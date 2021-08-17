@@ -1,12 +1,17 @@
 package com.birdwind.inspire.medical.diary.view.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 
+import androidx.appcompat.content.res.AppCompatResources;
+
+import com.birdwind.inspire.medical.diary.App;
+import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.base.view.AbstractActivity;
 import com.birdwind.inspire.medical.diary.databinding.ActivityLoginBinding;
 import com.birdwind.inspire.medical.diary.enums.IdentityEnums;
@@ -18,7 +23,9 @@ import com.leaf.library.StatusBarUtil;
 public class LoginActivity extends AbstractActivity<LoginPresenter, ActivityLoginBinding> implements LoginView {
 
     private String phone;
+
     private String name;
+
     private IdentityEnums identityEnums;
 
     @Override
@@ -65,6 +72,7 @@ public class LoginActivity extends AbstractActivity<LoginPresenter, ActivityLogi
     public void initView() {
         StatusBarUtil.setDarkMode(this);
         binding.etPhoneLoginActivity.setText(phone);
+        initLoginButtonBackground();
     }
 
     @Override
@@ -79,7 +87,19 @@ public class LoginActivity extends AbstractActivity<LoginPresenter, ActivityLogi
 
     @Override
     public void onLoginSuccess() {
-        startActivityWithFinish(DoctorMainActivity.class);
+        App.userModel.setIdentityEnums(identityEnums);
+        App.updateUserModel();
+        switch (identityEnums){
+            case DOCTOR:
+                startActivityWithFinish(DoctorMainActivity.class);
+                break;
+            case FAMILY:
+                startActivityWithFinish(FamilyMainActivity.class);
+                break;
+            case PAINTER:
+                startActivityWithFinish(PainterMainActivity.class);
+                break;
+        }
     }
 
     @Override
@@ -99,5 +119,22 @@ public class LoginActivity extends AbstractActivity<LoginPresenter, ActivityLogi
         }
         LoginRequest loginRequest = new LoginRequest(phone, identityEnums);
         presenter.login(loginRequest);
+    }
+
+    private void initLoginButtonBackground() {
+        Drawable drawable = AppCompatResources.getDrawable(this, R.drawable.bg_double_green);
+        switch (identityEnums) {
+            case DOCTOR:
+                drawable = AppCompatResources.getDrawable(this, R.drawable.bg_double_green);
+                break;
+            case FAMILY:
+                drawable = AppCompatResources.getDrawable(this, R.drawable.bg_double_red);
+                break;
+            case PAINTER:
+                drawable = AppCompatResources.getDrawable(this, R.drawable.bg_double_orange);
+                break;
+        }
+
+        binding.btLoginLoginActivity.setBackground(drawable);
     }
 }
