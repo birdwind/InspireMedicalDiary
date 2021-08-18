@@ -2,9 +2,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.mylhyl.zxing.scanner.ScannerView
-        android:id="@+id/sv_camera_scan_fragment"
+    <com.dlazaro66.qrcodereaderview.QRCodeReaderView
+        android:id="@+id/qrcode_camera_scan_fragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
 </RelativeLayout>

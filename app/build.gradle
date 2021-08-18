@@ -252,7 +252,8 @@ dependencies {
     /**
      * Zxing QRCode
      */
-    implementation "com.mylhyl:zxingscanner:${libs.zxing}"
+//    implementation "me.dm7.barcodescanner:zxing:${libs.zxing}"
+    implementation "com.dlazaro66.qrcodereaderview:qrcodereaderview:${libs.zxing}"
 
 
     /**

@@ -24,7 +24,7 @@
             android:paddingStart="21dp"
             android:text="title"
             android:textColor="@color/colorBlack_404040"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
         <ImageButton
             android:id="@+id/ibtn_header_close_dialog_common"
@@ -56,7 +56,7 @@
             android:maxEms="11"
             android:text="content"
             android:textColor="@color/colorTextBlack"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
     </LinearLayout>
 
     <RelativeLayout
@@ -69,12 +69,12 @@
 
         <Button
             android:id="@+id/bt_confirm_dialog_common"
+            style="@style/ThemeButton"
             android:layout_width="151dp"
             android:layout_centerInParent="true"
-            style="@style/ThemeButton"
             android:layout_gravity="center_horizontal"
             android:text="@string/common_confirm"
-            android:textSize="16dp" />
+            android:textSize="16sp" />
     </RelativeLayout>
 
 </RelativeLayout>

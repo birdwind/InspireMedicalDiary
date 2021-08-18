@@ -4,18 +4,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.Animation;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.birdwind.inspire.medical.diary.R;
-import com.birdwind.inspire.medical.diary.animation.SlideHeightAnimation;
-import com.birdwind.inspire.medical.diary.base.utils.Utils;
-import com.birdwind.inspire.medical.diary.base.utils.fragmentNavUtils.FragNavTransactionOptions;
 import com.birdwind.inspire.medical.diary.base.view.AbstractActivity;
+import com.birdwind.inspire.medical.diary.base.view.AbstractMainActivity;
 import com.birdwind.inspire.medical.diary.databinding.ActivityPainterMainBinding;
 import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
 import com.birdwind.inspire.medical.diary.view.fragment.FriendFragment;
@@ -28,35 +23,8 @@ import com.leaf.library.StatusBarUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PainterMainActivity extends AbstractActivity<AbstractPresenter, ActivityPainterMainBinding> {
-
-    private final int PAGE_FRIEND = 0;
-
-    private final int PAGE_SCAN = 1;
-
-    private final int PAGE_QRCODE = 2;
-
-    private final int PAGE_REPORT = 3;
-
-    private final int PAGE_SETTING = 4;
-
-    private SlideHeightAnimation expandSlideMenuAnimation;
-
-    private SlideHeightAnimation shrinkSlideMenuAnimation;
-
-    private SlideHeightAnimation expandSlideTopBarAnimation;
-
-    private SlideHeightAnimation shrinkSlideTopBarAnimation;
-
-    private FragNavTransactionOptions popFragNavTransactionOptions;
-
-    private FragNavTransactionOptions tabToRightFragNavTransactionOptions;
-
-    private FragNavTransactionOptions tabToLeftFragNavTransactionOptions;
-
-    private List<Fragment> fragments;
-
-    private int currentFragmentIndex;
+public class PainterMainActivity extends AbstractMainActivity<AbstractPresenter, ActivityPainterMainBinding>
+    implements AbstractActivity.PermissionRequestListener {
 
     @Override
     public AbstractPresenter createPresenter() {
@@ -76,62 +44,34 @@ public class PainterMainActivity extends AbstractActivity<AbstractPresenter, Act
         });
         binding.llScanPainterMainActivity.setOnClickListener(v -> {
             swipeFragment(PAGE_SCAN);
-            hideTopBar(false);
+
         });
         binding.llQrcodePainterMainActivity.setOnClickListener(v -> {
             swipeFragment(PAGE_QRCODE);
-            hideTopBar(false);
+
         });
         binding.llQuizPainterMainActivity.setOnClickListener(v -> {
             swipeFragment(PAGE_REPORT);
-            hideTopBar(false);
+
         });
         binding.llVisitPainterMainActivity.setOnClickListener(v -> {
             swipeFragment(PAGE_REPORT);
-            hideTopBar(false);
+
         });
         binding.llSettingPainterMainActivity.setOnClickListener(v -> {
             swipeFragment(PAGE_SETTING);
-            hideTopBar(false);
+
         });
     }
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        expandSlideMenuAnimation = new SlideHeightAnimation(binding.llMenuPainterMainActivity, Utils.dp2px(this, 91),
-            Utils.dp2px(this, 126), 300);
-        shrinkSlideMenuAnimation = new SlideHeightAnimation(binding.llMenuPainterMainActivity, Utils.dp2px(this, 126),
-            Utils.dp2px(this, 91), 300);
-        expandSlideMenuAnimation.setInterpolator(new AccelerateInterpolator());
-        shrinkSlideMenuAnimation.setInterpolator(new AccelerateInterpolator());
-
-        expandSlideTopBarAnimation =
-            new SlideHeightAnimation(binding.componentTopBarPainterMainActivity.rlBackgroundTopBarComp,
-                Utils.dp2px(this, 0), Utils.dp2px(this, 44), 300);
-        shrinkSlideTopBarAnimation =
-            new SlideHeightAnimation(binding.componentTopBarPainterMainActivity.rlBackgroundTopBarComp,
-                Utils.dp2px(this, 44), Utils.dp2px(this, 0), 300);
-        expandSlideTopBarAnimation.setInterpolator(new AccelerateInterpolator());
-        shrinkSlideTopBarAnimation.setInterpolator(new AccelerateInterpolator());
-
-        popFragNavTransactionOptions = FragNavTransactionOptions.newBuilder()
-            .customAnimations(R.anim.slide_in_from_left, R.anim.slide_out_to_right).build();
-
-        tabToRightFragNavTransactionOptions = FragNavTransactionOptions.newBuilder()
-            .customAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left).build();
-
-        tabToLeftFragNavTransactionOptions = FragNavTransactionOptions.newBuilder()
-            .customAnimations(R.anim.slide_in_from_left, R.anim.slide_out_to_right).build();
-
-        fragments = new ArrayList<>();
-        currentFragmentIndex = -1;
-        initFragmentList();
+        super.initData(savedInstanceState);
     }
 
     @Override
     public void initView() {
-        binding.componentTopBarPainterMainActivity.rlBackgroundTopBarComp.setBackgroundColor(ContextCompat.getColor(this, R.color.colorOrange_DC7400));
-        StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.colorOrange_DC7400));
+        super.initView();
     }
 
     @Override
@@ -139,58 +79,30 @@ public class PainterMainActivity extends AbstractActivity<AbstractPresenter, Act
         swipeFragment(PAGE_FRIEND);
     }
 
-    private void hideTopBar(boolean isHide) {
-        if (isHide) {
-            slideHeightAnimation(binding.componentTopBarPainterMainActivity.rlBackgroundTopBarComp,
-                shrinkSlideTopBarAnimation);
-            slideHeightAnimation(binding.llMenuPainterMainActivity, expandSlideMenuAnimation);
-        } else {
-            slideHeightAnimation(binding.componentTopBarPainterMainActivity.rlBackgroundTopBarComp,
-                expandSlideTopBarAnimation);
-            slideHeightAnimation(binding.llMenuPainterMainActivity, shrinkSlideMenuAnimation);
-        }
-    }
-
-    private void initFragmentList() {
-        fragments.add(new FriendFragment());
-        fragments.add(new ScanFragment());
-        fragments.add(new QRCodeFragment());
-        fragments.add(new ReportFragment());
-        fragments.add(new SettingFragment());
-    }
-
-    private void slideHeightAnimation(View view, Animation animation) {
-        view.setAnimation(animation);
-        view.startAnimation(animation);
-    }
-
-    private void pushFragment(int pageIndex, boolean isRightToLeft) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        if (isRightToLeft) {
-            transaction.setCustomAnimations(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
-        } else {
-            transaction.setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
-        }
-
-        transaction.setTransition(FragmentTransaction.TRANSIT_NONE);
-        transaction.replace(binding.flMainPainterMainActivity.getId(), fragments.get(pageIndex));
-        transaction.commit();
-    }
-
-    private void swipeFragment(int pageIndex) {
-        if (currentFragmentIndex == pageIndex)
-            return;
-        pushFragment(pageIndex, currentFragmentIndex > pageIndex);
-        currentFragmentIndex = pageIndex;
+    @Override
+    protected View setTopBar() {
+        return binding.componentTopBarPainterMainActivity.rlBackgroundTopBarComp;
     }
 
     @Override
-    public void onBackPressed() {
-        if (currentFragmentIndex != PAGE_FRIEND) {
-            swipeFragment(PAGE_FRIEND);
-            hideTopBar(true);
-        } else {
-            super.onBackPressed();
-        }
+    protected View setTopMenu() {
+        return binding.llMenuPainterMainActivity;
     }
+
+    @Override
+    protected View setFragmentView() {
+        return binding.flMainPainterMainActivity;
+    }
+
+    @Override
+    protected List<Fragment> initFragmentList() {
+        List<Fragment> fragmentList = new ArrayList<>();
+        fragmentList.add(new FriendFragment());
+        fragmentList.add(new ScanFragment());
+        fragmentList.add(new QRCodeFragment());
+        fragmentList.add(new ReportFragment());
+        fragmentList.add(new SettingFragment());
+        return fragmentList;
+    }
+
 }

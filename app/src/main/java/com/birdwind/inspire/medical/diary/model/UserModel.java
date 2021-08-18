@@ -1,5 +1,10 @@
 package com.birdwind.inspire.medical.diary.model;
 
+import androidx.annotation.ColorInt;
+import androidx.core.content.ContextCompat;
+
+import com.birdwind.inspire.medical.diary.App;
+import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.base.model.BaseModel;
 import com.birdwind.inspire.medical.diary.enums.IdentityEnums;
 
@@ -33,5 +38,17 @@ public class UserModel implements BaseModel {
 
     public void setIdentityEnums(IdentityEnums identityEnums) {
         this.identityEnums = identityEnums;
+    }
+
+    public @ColorInt int getIdentityMainColor() {
+        switch (identityEnums) {
+            case DOCTOR:
+                return ContextCompat.getColor(App.getAppContext(), R.color.colorBlue_009CB2);
+            case FAMILY:
+                return ContextCompat.getColor(App.getAppContext(), R.color.colorRed_B70908);
+            case PAINTER:
+            default:
+                return ContextCompat.getColor(App.getAppContext(), R.color.colorOrange_DC7400);
+        }
     }
 }

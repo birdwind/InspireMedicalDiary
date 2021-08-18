@@ -42,8 +42,14 @@
 
     <!--Common-->
     <string name="common_confirm">確認</string>
+    <string name="common_add">新增</string>
     <string name="common_dialog_title">系統提醒</string>
     <string name="common_double_click_back">再次點擊上一步，將結束&appname;</string>
+
+    <!--Identity-->
+    <string name="identity_patient">患者</string>
+    <string name="identity_family">家屬</string>
+    <string name="identity_doctor">醫生</string>
 
     <!--Auth-->
     <string name="auth_doctor">醫生登入</string>

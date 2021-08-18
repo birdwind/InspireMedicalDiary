@@ -1,23 +1,30 @@
 package com.birdwind.inspire.medical.diary.view.fragment;
 
-import android.graphics.Bitmap;
+import android.graphics.PointF;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.birdwind.inspire.medical.diary.base.utils.GsonUtils;
+import com.birdwind.inspire.medical.diary.base.view.AbstractActivity;
 import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
-import com.birdwind.inspire.medical.diary.databinding.ExampleLoginBinding;
 import com.birdwind.inspire.medical.diary.databinding.FragmentScanBinding;
-import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
-import com.google.zxing.Result;
-import com.google.zxing.client.result.ParsedResult;
-import com.mylhyl.zxing.scanner.OnScannerCompletionListener;
+import com.birdwind.inspire.medical.diary.model.ScanUserModel;
+import com.birdwind.inspire.medical.diary.model.response.UserResponse;
+import com.birdwind.inspire.medical.diary.presenter.ScanPresenter;
+import com.birdwind.inspire.medical.diary.view.dialog.UserDialog;
+import com.birdwind.inspire.medical.diary.view.dialog.callback.UserDialogListener;
+import com.birdwind.inspire.medical.diary.view.viewCallback.ScanView;
+import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
 
-public class ScanFragment extends AbstractFragment<AbstractPresenter, FragmentScanBinding> implements OnScannerCompletionListener {
+public class ScanFragment extends AbstractFragment<ScanPresenter, FragmentScanBinding> implements ScanView,
+    AbstractActivity.PermissionRequestListener, QRCodeReaderView.OnQRCodeReadListener, UserDialogListener {
+
+    private UserDialog userDialog;
 
     @Override
-    public AbstractPresenter createPresenter() {
-        return null;
+    public ScanPresenter createPresenter() {
+        return new ScanPresenter(this);
     }
 
     @Override
@@ -27,40 +34,60 @@ public class ScanFragment extends AbstractFragment<AbstractPresenter, FragmentSc
 
     @Override
     public void addListener() {
-
+        binding.qrcodeCameraScanFragment.setOnQRCodeReadListener(this);
     }
 
     @Override
     public void initView() {
-
+        binding.qrcodeCameraScanFragment.setQRDecodingEnabled(true);
+        binding.qrcodeCameraScanFragment.setTorchEnabled(true);
     }
 
     @Override
-    public void initData(Bundle savedInstanceState) {
-
-    }
+    public void initData(Bundle savedInstanceState) {}
 
     @Override
-    public void doSomething() {
-    }
+    public void doSomething() {}
 
     @Override
     public void onResume() {
-        binding.svCameraScanFragment.onResume();
+        binding.qrcodeCameraScanFragment.startCamera();
         super.onResume();
     }
 
     @Override
     public void onPause() {
-        binding.svCameraScanFragment.onPause();
+        binding.qrcodeCameraScanFragment.stopCamera();
+        if (userDialog.isShowing()) {
+            userDialog.dismiss();
+        }
         super.onPause();
     }
 
     @Override
-    public void onScannerCompletion(Result rawResult, ParsedResult parsedResult, Bitmap barcode) {
-        if (rawResult == null) {
-            showToast("沒有QRCode");
-            return;
+    public void onQRCodeRead(String text, PointF[] points) {
+        ScanUserModel scanUserModel = GsonUtils.parseJsonToBean(text, ScanUserModel.class);
+        binding.qrcodeCameraScanFragment.stopCamera();
+        presenter.checkQRCodeUid(scanUserModel.getUID());
+    }
+
+    @Override
+    public void onCheckUidResponse(boolean isSuccess, UserResponse userResponse) {
+        if (isSuccess) {
+            userDialog = new UserDialog(context, userResponse, this);
+            userDialog.show();
+        } else {
+            binding.qrcodeCameraScanFragment.startCamera();
         }
+    }
+
+    @Override
+    public void added() {
+
+    }
+
+    @Override
+    public void close() {
+        binding.qrcodeCameraScanFragment.startCamera();
     }
 }

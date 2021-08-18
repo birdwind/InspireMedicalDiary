@@ -11,18 +11,20 @@ import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
 import com.birdwind.inspire.medical.diary.databinding.FragmentFriendBinding;
 import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
+import com.birdwind.inspire.medical.diary.presenter.FriendPresenter;
 import com.birdwind.inspire.medical.diary.view.adapter.PatientAdapter;
+import com.birdwind.inspire.medical.diary.view.viewCallback.FriendView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FriendFragment extends AbstractFragment<AbstractPresenter, FragmentFriendBinding> {
+public class FriendFragment extends AbstractFragment<FriendPresenter, FragmentFriendBinding> implements FriendView {
 
     private PatientAdapter patientAdapter;
 
     @Override
-    public AbstractPresenter createPresenter() {
-        return null;
+    public FriendPresenter createPresenter() {
+        return new FriendPresenter(this);
     }
 
     @Override
@@ -56,5 +58,7 @@ public class FriendFragment extends AbstractFragment<AbstractPresenter, Fragment
     }
 
     @Override
-    public void doSomething() {}
+    public void doSomething() {
+        presenter.getPatient();
+    }
 }

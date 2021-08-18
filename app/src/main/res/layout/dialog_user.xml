@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginStart="22dp"
+    android:layout_marginEnd="22dp"
+    android:background="@drawable/background_dialog_radius"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_header_dialog_user"
+        android:layout_width="match_parent"
+        android:layout_height="66dp"
+        android:layout_alignParentTop="true">
+
+        <ImageButton
+            android:id="@+id/ibtn_header_close_dialog_user"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:paddingHorizontal="21dp"
+            android:src="@drawable/ic_close" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_main_dialog_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rl_header_dialog_user"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingBottom="12dp">
+
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/civ_image_dialog_user"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_marginBottom="12dp"
+            android:src="@drawable/ic_avator" />
+
+        <TextView
+            android:id="@+id/tv_identity_dialog_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:text="患者1"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_name_dialog_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:text="患者1"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_reason_dialog_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_board_radius_10dp"
+            android:backgroundTint="@color/colorRed_B70908"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="3dp"
+            android:textColor="@color/colorWhite_FFFFFF"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/bt_button_dialog_user"
+            style="@style/ThemeButton"
+            android:layout_width="151dp"
+            android:layout_gravity="center_horizontal"
+            android:backgroundTint="@color/colorBlue_009CB2"
+            android:text="@string/common_add" />
+    </LinearLayout>
+</RelativeLayout>

@@ -95,7 +95,6 @@ public abstract class AbstractBaseObserver<T extends ResponseBody, BR extends Ba
         if (view != null && isShowLoading) {
             view.hideLoading();
         }
-        showMsg(functionName + e.getMessage(), true);
         RxException rxException = RxException.handleException(e);
         onError(errorTitle, String.valueOf(rxException.getCode()),
             "(" + rxException.getCode() + ")" + rxException.getMessage(), false);
