@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:id="@+id/civ_avatar_chat_other_item"
+        android:layout_width="47dp"
+        android:layout_height="47dp"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/ic_avatar" />
+
+    <LinearLayout
+        android:id="@+id/ll_message_chat_other_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/civ_avatar_chat_other_item"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_name_chat_other_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="7dp"
+            android:text="患者"
+            android:textColor="@color/colorBlue_009CB2"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_left_chat_other_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_other_message_left" />
+
+            <TextView
+                android:id="@+id/tv_message_chat_other_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-3dp"
+                android:background="@drawable/background_board_radius_5dp"
+                android:backgroundTint="@color/colorGray_F3F3F3"
+                android:paddingHorizontal="18dp"
+                android:paddingVertical="17dp"
+                android:text="測試"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

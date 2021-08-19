@@ -41,7 +41,7 @@
             android:layout_width="72dp"
             android:layout_height="72dp"
             android:layout_marginBottom="12dp"
-            android:src="@drawable/ic_avator" />
+            android:src="@drawable/ic_avatar" />
 
         <TextView
             android:id="@+id/tv_identity_dialog_user"

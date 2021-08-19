@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="148dp"
+    android:background="@color/colorGray_F3F3F3">
+
+    <RelativeLayout
+        android:id="@+id/rl_main_group_friend_component"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/iv_down_arrow_group_friend_component"
+        android:paddingTop="14dp"
+        android:layout_marginBottom="12dp"
+        android:paddingHorizontal="35dp">
+
+        <LinearLayout
+            android:id="@+id/ll_patient_group_friend_component"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:id="@+id/civ_patient_avatar_group_friend_component"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/ic_avatar" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="患者"
+                android:textColor="@color/colorBlack_333333"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/view_spector_group_friend_component"
+            style="@style/UnderLine"
+            android:layout_width="2dp"
+            android:layout_height="62dp"
+            android:layout_centerVertical="true"
+            android:layout_marginHorizontal="35dp"
+            android:layout_toEndOf="@id/ll_patient_group_friend_component"
+            android:background="@color/colorGray_C4C4C4" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_family_group_friend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@id/view_spector_group_friend_component" />
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/iv_down_arrow_group_friend_component"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="12dp"
+        android:src="@drawable/ic_down_arrow" />
+
+</RelativeLayout>

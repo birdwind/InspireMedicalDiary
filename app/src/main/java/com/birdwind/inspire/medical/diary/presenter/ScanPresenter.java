@@ -6,6 +6,7 @@ import com.birdwind.inspire.medical.diary.base.network.response.AbstractResponse
 import com.birdwind.inspire.medical.diary.enums.IdentityEnums;
 import com.birdwind.inspire.medical.diary.model.response.UserResponse;
 import com.birdwind.inspire.medical.diary.server.DoctorApiServer;
+import com.birdwind.inspire.medical.diary.server.FamilyApiServer;
 import com.birdwind.inspire.medical.diary.server.PatientApiServer;
 import com.birdwind.inspire.medical.diary.view.viewCallback.ScanView;
 
@@ -24,7 +25,7 @@ public class ScanPresenter extends AbstractPresenter<ScanView> {
                 api = DoctorApiServer.CHECK_QRCODE_UID.valueOfName();
                 break;
             case FAMILY:
-                // api = DoctorApiServer.GET_MY_PATIENT.valueOfName();
+                 api = FamilyApiServer.CHECK_QRCODE_UID.valueOfName();
                 break;
             case PAINTER:
                 api = PatientApiServer.CHECK_QRCODE_UID.valueOfName();

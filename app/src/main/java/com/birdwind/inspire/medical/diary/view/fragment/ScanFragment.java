@@ -22,6 +22,10 @@ public class ScanFragment extends AbstractFragment<ScanPresenter, FragmentScanBi
 
     private UserDialog userDialog;
 
+    private boolean isShowDialog;
+
+    private boolean isAdded;
+
     @Override
     public ScanPresenter createPresenter() {
         return new ScanPresenter(this);
@@ -44,7 +48,10 @@ public class ScanFragment extends AbstractFragment<ScanPresenter, FragmentScanBi
     }
 
     @Override
-    public void initData(Bundle savedInstanceState) {}
+    public void initData(Bundle savedInstanceState) {
+        isShowDialog = false;
+        isAdded = false;
+    }
 
     @Override
     public void doSomething() {}
@@ -66,9 +73,12 @@ public class ScanFragment extends AbstractFragment<ScanPresenter, FragmentScanBi
 
     @Override
     public void onQRCodeRead(String text, PointF[] points) {
-        ScanUserModel scanUserModel = GsonUtils.parseJsonToBean(text, ScanUserModel.class);
-        binding.qrcodeCameraScanFragment.stopCamera();
-        presenter.checkQRCodeUid(scanUserModel.getUID());
+        if (!isShowDialog) {
+            isShowDialog = true;
+            ScanUserModel scanUserModel = GsonUtils.parseJsonToBean(text, ScanUserModel.class);
+            binding.qrcodeCameraScanFragment.stopCamera();
+            presenter.checkQRCodeUid(scanUserModel.getUID());
+        }
     }
 
     @Override
@@ -82,12 +92,18 @@ public class ScanFragment extends AbstractFragment<ScanPresenter, FragmentScanBi
     }
 
     @Override
-    public void added() {
-
+    public void userDialogAdded() {
+        isAdded = true;
     }
 
     @Override
-    public void close() {
-        binding.qrcodeCameraScanFragment.startCamera();
+    public void userDialogClose() {
+        if (!isAdded) {
+            isShowDialog = false;
+            binding.qrcodeCameraScanFragment.startCamera();
+            binding.qrcodeCameraScanFragment.forceAutoFocus();
+        } else {
+            onBackPressed();
+        }
     }
 }

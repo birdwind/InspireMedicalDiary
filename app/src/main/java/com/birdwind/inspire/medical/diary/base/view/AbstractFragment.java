@@ -347,7 +347,7 @@ public abstract class AbstractFragment<P extends AbstractPresenter, VB extends V
     }
 
     public void onBackPressed() {
-        ((BottomNavigationActivity) context).onBackPressed();
+        ((AbstractActivity) context).onBackPressed();
     }
 
     public void onPopBack(int popTabIndex, int popDeep) {

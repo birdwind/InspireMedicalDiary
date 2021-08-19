@@ -34,7 +34,7 @@ public enum ScanUserMessageEnums {
 
     public static ScanUserMessageEnums parseEnumsByKey(String key) {
         for (ScanUserMessageEnums scanUserMessageEnums : ScanUserMessageEnums.values()) {
-            if (scanUserMessageEnums.key == key) {
+            if (scanUserMessageEnums.key.equals(key)) {
                 return scanUserMessageEnums;
             }
         }
@@ -43,7 +43,7 @@ public enum ScanUserMessageEnums {
 
     public static ScanUserMessageEnums parseEnumsByValue(String value) {
         for (ScanUserMessageEnums scanUserMessageEnums : ScanUserMessageEnums.values()) {
-            if (scanUserMessageEnums.value == value) {
+            if (scanUserMessageEnums.value.equals(value)) {
                 return scanUserMessageEnums;
             }
         }

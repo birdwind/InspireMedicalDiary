@@ -10,7 +10,7 @@
         android:id="@+id/civ_image_patient_item"
         android:layout_width="72dp"
         android:layout_height="72dp"
-        android:src="@drawable/example"
+        android:src="@drawable/ic_avatar"
         android:layout_marginBottom="9dp"/>
 
     <TextView

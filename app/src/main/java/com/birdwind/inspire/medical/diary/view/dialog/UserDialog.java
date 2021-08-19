@@ -78,7 +78,7 @@ public class UserDialog extends AbstractDialog<CommonDialogListener, UserDialogP
 
         parseWithIdentity();
         Glide.with(context).load(userResponse.getJsonData().getPhotoUrl())
-            .placeholder(ContextCompat.getDrawable(context, R.drawable.ic_avator)).into(binding.civImageDialogUser);
+            .placeholder(ContextCompat.getDrawable(context, R.drawable.ic_avatar)).into(binding.civImageDialogUser);
 
     }
 
@@ -128,7 +128,14 @@ public class UserDialog extends AbstractDialog<CommonDialogListener, UserDialogP
 
     @Override
     public void dismiss() {
-        userDialogListener.close();
+        userDialogListener.userDialogClose();
         super.dismiss();
+    }
+
+    @Override
+    public void onAddUser(boolean isSuccess) {
+        if(isSuccess){
+            userDialogListener.userDialogAdded();
+        }
     }
 }

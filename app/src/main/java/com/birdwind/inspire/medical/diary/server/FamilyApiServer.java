@@ -4,11 +4,13 @@ import com.birdwind.inspire.medical.diary.base.enums.BaseEnums;
 
 import java.io.Serializable;
 
-public enum PatientApiServer implements BaseEnums {
-    GET_MY_MESSAGES("getmymessages"), GET_PATIENT_MEMBER("getpatientmember"), CHECK_QRCODE_UID("checkqrcodeuid"), JOIN_MY_GROUP("joinmygroup");
+public enum FamilyApiServer implements BaseEnums {
+    GET_MY_FAMILY_MESSAGES("getmyfamilymessages"), CHECK_QRCODE_UID("checkqrcodeuid"), BE_FAMILY("befamily");
 
-    PatientApiServer(String url) {
-        this.url = "patient/" + url;
+    FamilyApiServer(
+
+        String url) {
+        this.url = "family/" + url;
     }
 
     private String url;

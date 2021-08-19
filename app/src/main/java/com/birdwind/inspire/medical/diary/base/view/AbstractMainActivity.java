@@ -163,7 +163,11 @@ public abstract class AbstractMainActivity<P extends AbstractPresenter, VB exten
         }
     }
 
-    private void pushFragment(int pageIndex, boolean isRightToLeft) {
+    private void pushFragment(int pageIndex, boolean isRightToLeft){
+        pushFragment(fragments.get(pageIndex), isRightToLeft);
+    }
+
+    public void pushFragment(Fragment fragment, boolean isRightToLeft) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         if (isRightToLeft) {
             transaction.setCustomAnimations(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
@@ -172,7 +176,7 @@ public abstract class AbstractMainActivity<P extends AbstractPresenter, VB exten
         }
 
         transaction.setTransition(FragmentTransaction.TRANSIT_NONE);
-        transaction.replace(fragmentView.getId(), fragments.get(pageIndex));
+        transaction.replace(fragmentView.getId(), fragment);
         transaction.commit();
     }
 }
