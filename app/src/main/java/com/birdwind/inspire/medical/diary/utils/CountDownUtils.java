@@ -53,7 +53,7 @@ public class CountDownUtils {
         if (countDownTimer != null && isCountDown) {
             Date date = new Date();
             long now = date.getTime();
-//            countDownTimer.onTick(endTimeMill - now);
+            // countDownTimer.onTick(endTimeMill - now);
             countDownTimer = new CountDownTimer(endTimeMill - now, 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {

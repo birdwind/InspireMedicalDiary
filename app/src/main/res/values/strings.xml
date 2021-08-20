@@ -64,6 +64,7 @@
     <string name="login_phone_hint">請輸入手機</string>
     <string name="login_verification_code_hint">請輸入驗證碼</string>
     <string name="login_send_verification_code"><u>發送簡訊驗證碼</u></string>
+    <string name="login_send_verification_code_countdown">${second}秒後重新發送</string>
     <string name="login_login">登入</string>
     <string name="login_verification">驗證</string>
 

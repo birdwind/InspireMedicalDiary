@@ -7,10 +7,9 @@
     <RelativeLayout
         android:id="@+id/rl_main_group_friend_component"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/iv_down_arrow_group_friend_component"
+        android:layout_height="120dp"
+        android:layout_above="@id/ll_down_arrow_group_friend_component"
         android:paddingTop="14dp"
-        android:layout_marginBottom="12dp"
         android:paddingHorizontal="35dp">
 
         <LinearLayout
@@ -54,13 +53,21 @@
 
     </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/iv_down_arrow_group_friend_component"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/ll_down_arrow_group_friend_component"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="12dp"
-        android:src="@drawable/ic_down_arrow" />
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/iv_down_arrow_group_friend_component"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="12dp"
+            android:src="@drawable/ic_down_arrow" />
+    </LinearLayout>
 
 </RelativeLayout>

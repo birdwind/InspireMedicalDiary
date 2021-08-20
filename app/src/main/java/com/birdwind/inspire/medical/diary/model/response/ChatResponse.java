@@ -2,12 +2,13 @@ package com.birdwind.inspire.medical.diary.model.response;
 
 import com.birdwind.inspire.medical.diary.base.network.response.AbstractListResponse;
 import com.birdwind.inspire.medical.diary.base.network.response.BaseResponse;
+import com.chad.library.adapter.base.entity.MultiItemEntity;
 
 import java.util.Date;
 
 public class ChatResponse extends AbstractListResponse<ChatResponse.Response> {
 
-    public class Response implements BaseResponse {
+    public class Response implements BaseResponse, MultiItemEntity {
         private int id;
 
         private int pid;
@@ -86,6 +87,11 @@ public class ChatResponse extends AbstractListResponse<ChatResponse.Response> {
 
         public void setTimeC(Date timeC) {
             this.timeC = timeC;
+        }
+
+        @Override
+        public int getItemType() {
+            return 0;
         }
     }
 }

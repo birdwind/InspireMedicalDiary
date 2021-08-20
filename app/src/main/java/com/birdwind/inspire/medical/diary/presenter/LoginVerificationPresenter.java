@@ -28,14 +28,13 @@ public class LoginVerificationPresenter extends AbstractPresenter<LoginVerificat
                 @Override
                 public void onSuccess(AbstractResponse response) {
                     showMsg(response.getMessage(), true);
+                    baseView.onSendVerify(true);
                 }
 
                 @Override
                 public boolean onErrorHandler(String title, String code, String msg, boolean isDialog,
                     AbstractResponse response) {
-                    if (msg.equals("已驗證")) {
-                        baseView.onVerify(false);
-                    }
+                    baseView.onSendVerify(false);
                     return false;
                 }
             });

@@ -1,14 +1,5 @@
 package com.birdwind.inspire.medical.diary.view.fragment;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
 import com.birdwind.inspire.medical.diary.base.view.AbstractMainActivity;
@@ -19,11 +10,17 @@ import com.birdwind.inspire.medical.diary.view.adapter.FriendAdapter;
 import com.birdwind.inspire.medical.diary.view.viewCallback.FriendView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
-
 import java.util.List;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class FriendFragment extends AbstractFragment<FriendPresenter, FragmentFriendBinding>
-    implements FriendView, OnItemClickListener {
+        implements FriendView, OnItemClickListener {
 
     private FriendAdapter friendAdapter;
 
@@ -46,7 +43,7 @@ public class FriendFragment extends AbstractFragment<FriendPresenter, FragmentFr
     public void initView() {
         binding.rvPatientFriendFragment.setHasFixedSize(true);
         binding.rvPatientFriendFragment
-            .setLayoutManager(new GridLayoutManager(getContext(), 3, RecyclerView.VERTICAL, false));
+                .setLayoutManager(new GridLayoutManager(getContext(), 3, RecyclerView.VERTICAL, false));
         // binding.rvPatientDoctorMainActivity.setNestedScrollingEnabled(false);
         binding.rvPatientFriendFragment.setAdapter(friendAdapter);
     }
@@ -77,5 +74,6 @@ public class FriendFragment extends AbstractFragment<FriendPresenter, FragmentFr
         chatFragment.setArguments(bundle);
 
         ((AbstractMainActivity) context).pushFragment(chatFragment, true);
+        ((AbstractMainActivity) context).hideTopBar(false);
     }
 }

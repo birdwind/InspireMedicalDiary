@@ -1,13 +1,5 @@
 package com.birdwind.inspire.medical.diary.view.activity;
 
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
-
-import androidx.appcompat.content.res.AppCompatResources;
-
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.base.utils.SystemUtils;
@@ -15,11 +7,19 @@ import com.birdwind.inspire.medical.diary.base.view.AbstractActivity;
 import com.birdwind.inspire.medical.diary.databinding.ActivityLoginVerificationBinding;
 import com.birdwind.inspire.medical.diary.enums.IdentityEnums;
 import com.birdwind.inspire.medical.diary.presenter.LoginVerificationPresenter;
+import com.birdwind.inspire.medical.diary.utils.CountDownUtils;
 import com.birdwind.inspire.medical.diary.view.viewCallback.LoginVerificationView;
 import com.leaf.library.StatusBarUtil;
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+import androidx.appcompat.content.res.AppCompatResources;
 
-public class LoginVerificationActivity extends
-    AbstractActivity<LoginVerificationPresenter, ActivityLoginVerificationBinding> implements LoginVerificationView {
+public class LoginVerificationActivity
+    extends AbstractActivity<LoginVerificationPresenter, ActivityLoginVerificationBinding>
+    implements LoginVerificationView, CountDownUtils.CountDownUtilsCallback {
 
     private Bundle bundle;
 
@@ -30,6 +30,8 @@ public class LoginVerificationActivity extends
     private IdentityEnums identityEnums;
 
     private String FCM;
+
+    private CountDownUtils countDownUtils;
 
     @Override
     public LoginVerificationPresenter createPresenter() {
@@ -45,7 +47,9 @@ public class LoginVerificationActivity extends
     @Override
     public void addListener() {
         binding.btSendVerificationCodeLoginVerificationActivity.setOnClickListener(v -> {
-            presenter.sendVerificationCode(phone, FCM);
+            if (!countDownUtils.isCountDown()) {
+                presenter.sendVerificationCode(phone, FCM);
+            }
         });
 
         binding.btVerifyLoginVerificationActivity.setOnClickListener(v -> {
@@ -70,6 +74,7 @@ public class LoginVerificationActivity extends
         }
         FCM = SystemUtils.initUniquePass();
         identityEnums = IdentityEnums.parseEnumsByType(identity);
+        countDownUtils = new CountDownUtils(60, this);
     }
 
     @Override
@@ -82,6 +87,8 @@ public class LoginVerificationActivity extends
     @Override
     public void doSomething() {
         initVerifyButtonBackground();
+        presenter.sendVerificationCode(phone, FCM);
+        countDownUtils.start();
     }
 
     @Override
@@ -93,10 +100,23 @@ public class LoginVerificationActivity extends
     }
 
     @Override
+    protected void onDestroy() {
+        countDownUtils.delete();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onSendVerify(boolean isSuccess) {
+        if (isSuccess) {
+            countDownUtils.start();
+        }
+    }
+
+    @Override
     public void onVerify(boolean isSuccess) {
         App.userModel.setIdentityEnums(identityEnums);
         App.updateUserModel();
-        switch (identityEnums){
+        switch (identityEnums) {
             case DOCTOR:
                 startActivityWithFinish(DoctorMainActivity.class);
                 break;
@@ -124,5 +144,18 @@ public class LoginVerificationActivity extends
         }
 
         binding.btVerifyLoginVerificationActivity.setBackground(drawable);
+    }
+
+    @Override
+    public void onTick(long millisUntilFinished) {
+        long sec = (millisUntilFinished / 1000) % 60;
+        binding.btSendVerificationCodeLoginVerificationActivity.setText(
+            getString(R.string.login_send_verification_code_countdown).replace("${second}", String.valueOf(sec)));
+    }
+
+    @Override
+    public void onFinish() {
+        binding.btSendVerificationCodeLoginVerificationActivity
+            .setText(getString(R.string.login_send_verification_code));
     }
 }
