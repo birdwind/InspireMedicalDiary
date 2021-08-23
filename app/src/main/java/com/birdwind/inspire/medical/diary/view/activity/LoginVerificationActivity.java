@@ -1,5 +1,14 @@
 package com.birdwind.inspire.medical.diary.view.activity;
 
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+
+import androidx.appcompat.content.res.AppCompatResources;
+
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.base.utils.SystemUtils;
@@ -10,12 +19,6 @@ import com.birdwind.inspire.medical.diary.presenter.LoginVerificationPresenter;
 import com.birdwind.inspire.medical.diary.utils.CountDownUtils;
 import com.birdwind.inspire.medical.diary.view.viewCallback.LoginVerificationView;
 import com.leaf.library.StatusBarUtil;
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
-import androidx.appcompat.content.res.AppCompatResources;
 
 public class LoginVerificationActivity
     extends AbstractActivity<LoginVerificationPresenter, ActivityLoginVerificationBinding>
@@ -53,9 +56,14 @@ public class LoginVerificationActivity
         });
 
         binding.btVerifyLoginVerificationActivity.setOnClickListener(v -> {
-            name = binding.etNameLoginVerificationActivity.getText().toString();
-            String verificationCode = binding.etVerificationCodeLoginVerificationActivity.getText().toString();
-            presenter.verify(phone, verificationCode, name, FCM, identityEnums);
+            verify();
+        });
+
+        binding.etVerificationCodeLoginVerificationActivity.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                verify();
+            }
+            return false;
         });
     }
 
@@ -157,5 +165,11 @@ public class LoginVerificationActivity
     public void onFinish() {
         binding.btSendVerificationCodeLoginVerificationActivity
             .setText(getString(R.string.login_send_verification_code));
+    }
+
+    private void verify() {
+        name = binding.etNameLoginVerificationActivity.getText().toString();
+        String verificationCode = binding.etVerificationCodeLoginVerificationActivity.getText().toString();
+        presenter.verify(phone, verificationCode, name, FCM, identityEnums);
     }
 }

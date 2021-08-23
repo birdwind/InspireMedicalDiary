@@ -1,32 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_chat_group_component"
     android:layout_width="match_parent"
     android:layout_height="148dp"
-    android:background="@color/colorGray_F3F3F3">
+    android:background="@color/colorGray_F3F3F3"
+    android:elevation="3dp">
 
     <RelativeLayout
-        android:id="@+id/rl_main_group_friend_component"
+        android:id="@+id/rl_main_chat_group_component"
         android:layout_width="match_parent"
         android:layout_height="120dp"
-        android:layout_above="@id/ll_down_arrow_group_friend_component"
-        android:paddingTop="14dp"
-        android:paddingHorizontal="35dp">
+        android:layout_above="@id/ll_down_arrow_chat_group_component"
+        android:paddingHorizontal="35dp"
+        android:paddingTop="14dp">
 
         <LinearLayout
-            android:id="@+id/ll_patient_group_friend_component"
+            android:id="@+id/ll_patient_chat_group_component"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical">
 
             <com.mikhaellopez.circularimageview.CircularImageView
-                android:id="@+id/civ_patient_avatar_group_friend_component"
+                android:id="@+id/civ_target_avatar_chat_group_component"
                 android:layout_width="72dp"
                 android:layout_height="72dp"
                 android:layout_marginBottom="10dp"
                 android:src="@drawable/ic_avatar" />
 
             <TextView
+                android:id="@+id/tv_target_avatar_chat_group_component"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="患者"
@@ -35,39 +38,41 @@
         </LinearLayout>
 
         <View
-            android:id="@+id/view_spector_group_friend_component"
+            android:id="@+id/view_spector_chat_group_component"
             style="@style/UnderLine"
             android:layout_width="2dp"
             android:layout_height="62dp"
             android:layout_centerVertical="true"
             android:layout_marginHorizontal="35dp"
-            android:layout_toEndOf="@id/ll_patient_group_friend_component"
+            android:layout_toEndOf="@id/ll_patient_chat_group_component"
             android:background="@color/colorGray_C4C4C4" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_family_group_friend"
+            android:id="@+id/rv_member_chat_group_component"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_toEndOf="@id/view_spector_group_friend_component" />
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/view_spector_chat_group_component" />
 
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/ll_down_arrow_group_friend_component"
+        android:id="@+id/ll_down_arrow_chat_group_component"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/iv_down_arrow_group_friend_component"
+            android:id="@+id/iv_down_arrow_chat_group_component"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="12dp"
-            android:src="@drawable/ic_down_arrow" />
+            android:src="@drawable/ic_down_arrow"
+            android:rotation="-180"/>
     </LinearLayout>
 
 </RelativeLayout>

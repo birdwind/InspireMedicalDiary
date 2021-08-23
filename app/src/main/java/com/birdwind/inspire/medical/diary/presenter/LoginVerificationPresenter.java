@@ -57,6 +57,7 @@ public class LoginVerificationPresenter extends AbstractPresenter<LoginVerificat
                 public void onSuccess(LoginResponse response) {
                     UserModel userModel = new UserModel();
                     userModel.setToken(response.getJsonData().getLoginKey());
+                    userModel.setUid(response.getJsonData().getUID());
                     App.userModel = userModel;
                     App.updateUserModel();
                     baseView.onVerify(true);

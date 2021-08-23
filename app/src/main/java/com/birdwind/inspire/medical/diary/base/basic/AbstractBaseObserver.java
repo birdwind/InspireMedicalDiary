@@ -71,13 +71,17 @@ public abstract class AbstractBaseObserver<T extends ResponseBody, BR extends Ba
                     if (response.isSuccess()) {
                         onSuccess(response);
                     } else {
-                        String title = errorTitle;
-                        String message =
-                            response.getMessage() == null ? context.getString(R.string.error_common_server_data)
-                                : response.getMessage();
+                        if (response.getMessage().equals("金鑰失效。")) {
+                            view.onLoginError(response.getMessage());
+                        } else {
+                            String title = errorTitle;
+                            String message =
+                                response.getMessage() == null ? context.getString(R.string.error_common_server_data)
+                                    : response.getMessage();
 
-                        if (!onErrorHandler(title, null, message, true, response)) {
-                            showMsg(title, message, true);
+                            if (!onErrorHandler(title, null, message, true, response)) {
+                                showMsg(title, message, true);
+                            }
                         }
                     }
                 }

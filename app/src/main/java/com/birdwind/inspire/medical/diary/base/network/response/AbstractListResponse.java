@@ -4,37 +4,37 @@ import java.util.ArrayList;
 
 public class AbstractListResponse<BR extends BaseResponse> implements BaseSystemResponse {
 
-    private boolean isSuccess;
+    private boolean IsSuccess;
 
-    private String message;
+    private String Message;
 
-    private ArrayList<BR> jsonData;
+    private ArrayList<BR> JsonData;
 
     @Override
     public boolean isSuccess() {
-        return isSuccess;
+        return IsSuccess;
     }
 
     @Override
     public void setSuccess(boolean success) {
-        this.isSuccess = success;
+        this.IsSuccess = success;
     }
 
     @Override
     public String getMessage() {
-        return this.message;
+        return this.Message;
     }
 
     @Override
     public void setMessage(String message) {
-        this.message = message;
+        this.Message = message;
     }
 
     public ArrayList<BR> getJsonData() {
-        return this.jsonData;
+        return this.JsonData;
     }
 
     public void setJsonData(ArrayList<BR> jsonData) {
-        this.jsonData = jsonData;
+        this.JsonData = jsonData;
     }
 }

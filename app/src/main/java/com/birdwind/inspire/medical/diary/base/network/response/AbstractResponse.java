@@ -1,38 +1,40 @@
 package com.birdwind.inspire.medical.diary.base.network.response;
 
-public class AbstractResponse<BR extends BaseResponse> implements BaseSystemResponse {
+import java.io.Serializable;
 
-    private boolean isSuccess;
+public class AbstractResponse<BR extends BaseResponse> implements Serializable, BaseSystemResponse {
 
-    private String message;
+    private boolean IsSuccess;
 
-    private BR jsonData;
+    private String Message;
+
+    private BR JsonData;
 
     @Override
     public boolean isSuccess() {
-        return isSuccess;
+        return IsSuccess;
     }
 
     @Override
     public void setSuccess(boolean success) {
-        this.isSuccess = success;
+        this.IsSuccess = success;
     }
 
     @Override
     public String getMessage() {
-        return message;
+        return Message;
     }
 
     @Override
     public void setMessage(String message) {
-        this.message = message;
+        this.Message = message;
     }
 
     public BR getJsonData() {
-        return jsonData;
+        return JsonData;
     }
 
     public void setJsonData(BR jsonData) {
-        this.jsonData = jsonData;
+        this.JsonData = jsonData;
     }
 }

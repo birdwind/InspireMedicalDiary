@@ -34,6 +34,7 @@ import com.birdwind.inspire.medical.diary.base.view.loadingDialog.LoadingConstan
 import com.birdwind.inspire.medical.diary.base.view.loadingDialog.LoadingFlower;
 import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
 import com.birdwind.inspire.medical.diary.sqlLite.DatabaseConfig;
+import com.birdwind.inspire.medical.diary.view.activity.AuthActivity;
 import com.birdwind.inspire.medical.diary.view.dialog.CommonDialog;
 import com.birdwind.inspire.medical.diary.view.dialog.callback.CommonDialogListener;
 import com.birdwind.inspire.medical.diary.view.viewCallback.BaseCustomView;
@@ -242,8 +243,10 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
      */
     @Override
     public void logout(Bundle bundle) {
-        // TODO: Logout
-        showToast("全域登出尚未實作");
+        DatabaseConfig.getInstance(context).clearAllTables();
+        SharedPreferencesUtils.put(Config.USER_MODEL_NAME, null);
+        App.userModel = null;
+        startActivityWithFinish(AuthActivity.class);
     }
 
     @Override

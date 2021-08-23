@@ -5,20 +5,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.base.view.AbstractActivity;
 import com.birdwind.inspire.medical.diary.base.view.AbstractMainActivity;
 import com.birdwind.inspire.medical.diary.databinding.ActivityFamilyMainBinding;
 import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
-import com.birdwind.inspire.medical.diary.view.fragment.FriendFragment;
+import com.birdwind.inspire.medical.diary.view.fragment.ChatFragment;
 import com.birdwind.inspire.medical.diary.view.fragment.QRCodeFragment;
 import com.birdwind.inspire.medical.diary.view.fragment.ReportFragment;
 import com.birdwind.inspire.medical.diary.view.fragment.ScanFragment;
 import com.birdwind.inspire.medical.diary.view.fragment.SettingFragment;
-import com.leaf.library.StatusBarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,12 +94,11 @@ public class FamilyMainActivity extends AbstractMainActivity<AbstractPresenter, 
     @Override
     protected List<Fragment> initFragmentList() {
         List<Fragment> fragmentList = new ArrayList<>();
-        fragmentList.add(new FriendFragment());
+        fragmentList.add(new ChatFragment());
         fragmentList.add(new ScanFragment());
         fragmentList.add(new QRCodeFragment());
         fragmentList.add(new ReportFragment());
         fragmentList.add(new SettingFragment());
         return fragmentList;
     }
-
 }

@@ -1,12 +1,5 @@
 package com.birdwind.inspire.medical.diary.sqlLite;
 
-import org.jetbrains.annotations.NotNull;
-
-import com.birdwind.inspire.medical.diary.base.Config;
-import com.birdwind.inspire.medical.diary.base.utils.sqlLite.DataConverter;
-import com.birdwind.inspire.medical.diary.model.response.ExampleResponse;
-import com.birdwind.inspire.medical.diary.sqlLite.dao.ExampleDao;
-
 import android.content.Context;
 
 import androidx.annotation.NonNull;
@@ -17,11 +10,27 @@ import androidx.room.TypeConverters;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = {ExampleResponse.Response.class}, version = 1)
+import com.birdwind.inspire.medical.diary.base.Config;
+import com.birdwind.inspire.medical.diary.base.utils.sqlLite.DataConverter;
+import com.birdwind.inspire.medical.diary.model.response.ChatMemberResponse;
+import com.birdwind.inspire.medical.diary.model.response.ChatResponse;
+import com.birdwind.inspire.medical.diary.model.response.FriendResponse;
+import com.birdwind.inspire.medical.diary.sqlLite.dao.ChatDao;
+import com.birdwind.inspire.medical.diary.sqlLite.dao.ChatMemberDao;
+import com.birdwind.inspire.medical.diary.sqlLite.dao.FriendDao;
+
+import org.jetbrains.annotations.NotNull;
+
+@Database(entities = {FriendResponse.Response.class, ChatResponse.Response.class, ChatMemberResponse.Response.class},
+    version = 1)
 @TypeConverters(DataConverter.class)
 public abstract class DatabaseConfig extends RoomDatabase {
 
-    public abstract ExampleDao exampleDao();
+    public abstract FriendDao friendDao();
+
+    public abstract ChatDao chatDao();
+
+    public abstract ChatMemberDao chatMemberDao();
 
     private static final String DB_Name = Config.APP_DEFINE_NAME;
 

@@ -6,113 +6,64 @@ import com.birdwind.inspire.medical.diary.base.network.response.BaseResponse;
 public class LoginResponse extends AbstractResponse<LoginResponse.Response> {
 
     public class Response implements BaseResponse {
-        private int uid;
-        private String name;
-        private String password;
-        private String phone;
-        private String timeC;
-        private String userC;
-        private String timeU;
-        private String userU;
-        private boolean isEnable;
-        private boolean isDoctor;
-        private String cont;
-        private String loginKey;
+        private int UID;
 
-        public int getUid() {
-            return uid;
+        private String Name;
+
+        private String Phone;
+
+        private int Identity;
+
+        private String PhotoUrl;
+
+        private String LoginKey;
+
+        public int getUID() {
+            return UID;
         }
 
-        public void setUid(int uid) {
-            this.uid = uid;
+        public void setUID(int UID) {
+            this.UID = UID;
         }
 
         public String getName() {
-            return name;
+            return Name;
         }
 
         public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
+            Name = name;
         }
 
         public String getPhone() {
-            return phone;
+            return Phone;
         }
 
         public void setPhone(String phone) {
-            this.phone = phone;
+            Phone = phone;
         }
 
-        public String getTimeC() {
-            return timeC;
+        public int getIdentity() {
+            return Identity;
         }
 
-        public void setTimeC(String timeC) {
-            this.timeC = timeC;
+        public void setIdentity(int identity) {
+            Identity = identity;
         }
 
-        public String getUserC() {
-            return userC;
+        public String getPhotoUrl() {
+            return PhotoUrl;
         }
 
-        public void setUserC(String userC) {
-            this.userC = userC;
-        }
-
-        public String getTimeU() {
-            return timeU;
-        }
-
-        public void setTimeU(String timeU) {
-            this.timeU = timeU;
-        }
-
-        public String getUserU() {
-            return userU;
-        }
-
-        public void setUserU(String userU) {
-            this.userU = userU;
-        }
-
-        public boolean isEnable() {
-            return isEnable;
-        }
-
-        public void setEnable(boolean enable) {
-            isEnable = enable;
-        }
-
-        public boolean isDoctor() {
-            return isDoctor;
-        }
-
-        public void setDoctor(boolean doctor) {
-            isDoctor = doctor;
-        }
-
-        public String getCont() {
-            return cont;
-        }
-
-        public void setCont(String cont) {
-            this.cont = cont;
+        public void setPhotoUrl(String photoUrl) {
+            PhotoUrl = photoUrl;
         }
 
         public String getLoginKey() {
-            return loginKey;
+            return LoginKey;
         }
 
         public void setLoginKey(String loginKey) {
-            this.loginKey = loginKey;
+            LoginKey = loginKey;
         }
     }
 }

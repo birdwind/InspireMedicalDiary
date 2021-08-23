@@ -68,12 +68,14 @@ public class FriendFragment extends AbstractFragment<FriendPresenter, FragmentFr
     public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
         FriendResponse.Response friend = (FriendResponse.Response) adapter.getItem(position);
         Bundle bundle = new Bundle();
-        bundle.putInt("UID", friend.getPid());
+        bundle.putLong("UID", friend.getPID());
+        bundle.putString("name", friend.getName());
+        bundle.putString("avatar", friend.getPhotoUrl());
 
         ChatFragment chatFragment = new ChatFragment();
         chatFragment.setArguments(bundle);
 
-        ((AbstractMainActivity) context).pushFragment(chatFragment, true);
+        ((AbstractMainActivity) context).pushFragment(chatFragment, true, true);
         ((AbstractMainActivity) context).hideTopBar(false);
     }
 }

@@ -52,7 +52,7 @@ public class UserDialog extends AbstractDialog<CommonDialogListener, UserDialogP
         });
 
         binding.btButtonDialogUser.setOnClickListener(v -> {
-            presenter.addUser(user.getUid());
+            presenter.addUser(user.getUID());
             dismiss();
         });
     }

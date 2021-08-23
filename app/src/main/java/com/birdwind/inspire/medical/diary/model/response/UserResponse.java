@@ -6,50 +6,54 @@ import com.birdwind.inspire.medical.diary.base.network.response.BaseResponse;
 public class UserResponse extends AbstractResponse<UserResponse.Response> {
 
     public class Response implements BaseResponse {
-        private int uid;
-        private String name;
-        private String phone;
-        private int identity;
-        private String photoUrl;
+        private int UID;
 
-        public int getUid() {
-            return uid;
+        private String Name;
+
+        private String Phone;
+
+        private int Identity;
+
+        private String PhotoUrl;
+
+        public int getUID() {
+            return UID;
         }
 
-        public void setUid(int uid) {
-            this.uid = uid;
+        public void setUID(int UID) {
+            this.UID = UID;
         }
 
         public String getName() {
-            return name;
+            return Name;
         }
 
         public void setName(String name) {
-            this.name = name;
+            Name = name;
         }
 
         public String getPhone() {
-            return phone;
+            return Phone;
         }
 
         public void setPhone(String phone) {
-            this.phone = phone;
+            Phone = phone;
         }
 
         public int getIdentity() {
-            return identity;
+            return Identity;
         }
 
         public void setIdentity(int identity) {
-            this.identity = identity;
+            Identity = identity;
         }
 
         public String getPhotoUrl() {
-            return photoUrl;
+            return PhotoUrl;
         }
 
         public void setPhotoUrl(String photoUrl) {
-            this.photoUrl = photoUrl;
+            PhotoUrl = photoUrl;
         }
     }
 }

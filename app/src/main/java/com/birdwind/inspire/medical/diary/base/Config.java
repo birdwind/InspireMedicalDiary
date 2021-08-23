@@ -13,7 +13,7 @@ public class Config {
 
     public static final String APP_PACKAGE_NAME = BuildConfig.APPLICATION_ID;
 
-    public static final String APP_DEFINE_NAME = "birdwind_init";
+    public static final String APP_DEFINE_NAME = "inspire_medical_diary";
 
     public static final int LOADING_PROGRESS_TIME_LIMIT = 0;
 

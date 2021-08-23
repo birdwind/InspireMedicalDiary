@@ -65,7 +65,7 @@ public class ScanFragment extends AbstractFragment<ScanPresenter, FragmentScanBi
     @Override
     public void onPause() {
         binding.qrcodeCameraScanFragment.stopCamera();
-        if (userDialog.isShowing()) {
+        if (userDialog != null && userDialog.isShowing()) {
             userDialog.dismiss();
         }
         super.onPause();
@@ -94,6 +94,7 @@ public class ScanFragment extends AbstractFragment<ScanPresenter, FragmentScanBi
     @Override
     public void userDialogAdded() {
         isAdded = true;
+        onBackPressed();
     }
 
     @Override

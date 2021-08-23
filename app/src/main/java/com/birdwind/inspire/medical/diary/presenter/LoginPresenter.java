@@ -26,6 +26,7 @@ public class LoginPresenter extends AbstractPresenter<LoginView> {
                     if (response.getMessage() == null) {
                         UserModel userModel = new UserModel();
                         userModel.setToken(response.getJsonData().getLoginKey());
+                        userModel.setUid(response.getJsonData().getUID());
                         App.userModel = userModel;
                         App.updateUserModel();
                         baseView.onLoginSuccess();

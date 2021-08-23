@@ -1,5 +1,10 @@
 package com.birdwind.inspire.medical.diary.model.response;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+import com.birdwind.inspire.medical.diary.base.model.BaseModel;
 import com.birdwind.inspire.medical.diary.base.network.response.AbstractListResponse;
 import com.birdwind.inspire.medical.diary.base.network.response.BaseResponse;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
@@ -8,90 +13,111 @@ import java.util.Date;
 
 public class ChatResponse extends AbstractListResponse<ChatResponse.Response> {
 
-    public class Response implements BaseResponse, MultiItemEntity {
-        private int id;
+    public final static int SELF_MESSAGE = 0;
 
-        private int pid;
+    public final static int OTHER_MESSAGE = 1;
 
-        private int fromUID;
+    @Entity(tableName = "chat")
+    public static class Response implements BaseResponse, MultiItemEntity, BaseModel {
+        @PrimaryKey
+        @NonNull
+        private long ID;
 
-        private String content;
+        private int PID;
 
-        private int identity;
+        private int FromUID;
 
-        private String fromName;
+        private String Content;
 
-        private String photoUrl;
+        private int Identity;
 
-        private Date timeC;
+        private String FromName;
 
-        public int getId() {
-            return id;
+        private String PhotoUrl;
+
+        private boolean Self;
+
+        private Date TimeC;
+
+        public long getID() {
+            return ID;
         }
 
-        public void setId(int id) {
-            this.id = id;
+        public void setID(long ID) {
+            this.ID = ID;
         }
 
-        public int getPid() {
-            return pid;
+        public int getPID() {
+            return PID;
         }
 
-        public void setPid(int pid) {
-            this.pid = pid;
+        public void setPID(int PID) {
+            this.PID = PID;
         }
 
         public int getFromUID() {
-            return fromUID;
+            return FromUID;
         }
 
         public void setFromUID(int fromUID) {
-            this.fromUID = fromUID;
+            FromUID = fromUID;
         }
 
         public String getContent() {
-            return content;
+            return Content;
         }
 
         public void setContent(String content) {
-            this.content = content;
+            Content = content;
         }
 
         public int getIdentity() {
-            return identity;
+            return Identity;
         }
 
         public void setIdentity(int identity) {
-            this.identity = identity;
+            Identity = identity;
         }
 
         public String getFromName() {
-            return fromName;
+            return FromName;
         }
 
         public void setFromName(String fromName) {
-            this.fromName = fromName;
+            FromName = fromName;
         }
 
         public String getPhotoUrl() {
-            return photoUrl;
+            return PhotoUrl;
         }
 
         public void setPhotoUrl(String photoUrl) {
-            this.photoUrl = photoUrl;
+            PhotoUrl = photoUrl;
+        }
+
+        public boolean isSelf() {
+            return Self;
+        }
+
+        public void setSelf(boolean self) {
+            Self = self;
         }
 
         public Date getTimeC() {
-            return timeC;
+            return TimeC;
         }
 
         public void setTimeC(Date timeC) {
-            this.timeC = timeC;
+            TimeC = timeC;
         }
 
         @Override
         public int getItemType() {
-            return 0;
+            if (Self) {
+                return 0;
+            } else {
+                return 1;
+            }
         }
     }
 }

@@ -1,55 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/colorWhite_FFFFFF">
 
     <include
         android:id="@+id/com_group_friend"
-        layout="@layout/component_group_friend" />
+        layout="@layout/component_chat_group" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_list_chat_fragment"
+        android:id="@+id/rv_message_chat_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/ll_message_chat_fragment"
-        android:layout_below="@id/com_group_friend" />
-
-<!--    <com.scwang.smart.refresh.layout.SmartRefreshLayout-->
-<!--        android:id="@+id/srl_list_chat_fragment"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:layout_above="@id/ll_message_chat_fragment"-->
-<!--        android:layout_below="@id/com_group_friend">-->
-
-<!--        <com.scwang.smart.refresh.header.ClassicsHeader-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            app:srlTextFailed="@string/srl_text_header_failed"-->
-<!--            app:srlTextFinish="@string/srl_text_header_finish"-->
-<!--            app:srlTextLoading="@string/srl_text_header_loading"-->
-<!--            app:srlTextPulling="@string/srl_text_header_pulling"-->
-<!--            app:srlTextRefreshing="@string/srl_text_header_refreshing"-->
-<!--            app:srlTextRelease="@string/srl_text_header_release"-->
-<!--            app:srlTextUpdate="@string/srl_text_header_update" />-->
-
-<!--        <androidx.recyclerview.widget.RecyclerView-->
-<!--            android:id="@+id/rv_list_chat_fragment"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent" />-->
-
-<!--        <com.scwang.smart.refresh.footer.ClassicsFooter-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            app:srlTextFailed="@string/srl_text_footer_failed"-->
-<!--            app:srlTextFinish="@string/srl_text_footer_finish"-->
-<!--            app:srlTextLoading="@string/srl_text_footer_loading"-->
-<!--            app:srlTextNothing="@string/srl_text_footer_nothing"-->
-<!--            app:srlTextPulling="@string/srl_text_footer_pulling"-->
-<!--            app:srlTextRefreshing="@string/srl_text_footer_refreshing"-->
-<!--            app:srlTextRelease="@string/srl_text_footer_release" />-->
-<!--    </com.scwang.smart.refresh.layout.SmartRefreshLayout>-->
+        android:layout_below="@id/com_group_friend"
+        android:paddingHorizontal="13dp"/>
 
     <LinearLayout
         android:id="@+id/ll_message_chat_fragment"

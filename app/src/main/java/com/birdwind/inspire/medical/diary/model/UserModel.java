@@ -16,6 +16,8 @@ public class UserModel implements BaseModel {
 
     private IdentityEnums identityEnums;
 
+    private int uid;
+
     public String getToken() {
         return token;
     }
@@ -38,6 +40,14 @@ public class UserModel implements BaseModel {
 
     public void setIdentityEnums(IdentityEnums identityEnums) {
         this.identityEnums = identityEnums;
+    }
+
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
     }
 
     public @ColorInt int getIdentityMainColor() {

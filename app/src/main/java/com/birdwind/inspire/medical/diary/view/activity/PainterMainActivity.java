@@ -9,10 +9,12 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.birdwind.inspire.medical.diary.R;
+import com.birdwind.inspire.medical.diary.base.utils.LogUtils;
 import com.birdwind.inspire.medical.diary.base.view.AbstractActivity;
 import com.birdwind.inspire.medical.diary.base.view.AbstractMainActivity;
 import com.birdwind.inspire.medical.diary.databinding.ActivityPainterMainBinding;
 import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
+import com.birdwind.inspire.medical.diary.view.fragment.ChatFragment;
 import com.birdwind.inspire.medical.diary.view.fragment.FriendFragment;
 import com.birdwind.inspire.medical.diary.view.fragment.QRCodeFragment;
 import com.birdwind.inspire.medical.diary.view.fragment.ReportFragment;
@@ -97,12 +99,11 @@ public class PainterMainActivity extends AbstractMainActivity<AbstractPresenter,
     @Override
     protected List<Fragment> initFragmentList() {
         List<Fragment> fragmentList = new ArrayList<>();
-        fragmentList.add(new FriendFragment());
+        fragmentList.add(new ChatFragment());
         fragmentList.add(new ScanFragment());
         fragmentList.add(new QRCodeFragment());
         fragmentList.add(new ReportFragment());
         fragmentList.add(new SettingFragment());
         return fragmentList;
     }
-
 }

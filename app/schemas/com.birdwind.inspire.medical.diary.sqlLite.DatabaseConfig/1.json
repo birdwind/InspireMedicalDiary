@@ -2,28 +2,170 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "7d4ab2624c7c25f07c44f02a78a6cdc7",
+    "identityHash": "7efbdbfa11b34f9248ed59a6f026091c",
     "entities": [
       {
-        "tableName": "example",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`SMSToken` TEXT NOT NULL, `LoginToken` TEXT, PRIMARY KEY(`SMSToken`))",
+        "tableName": "friend",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`PID` INTEGER NOT NULL, `Doctor` INTEGER NOT NULL, `Name` TEXT, `Phone` TEXT, `IDCard` TEXT, `PhotoUrl` TEXT, PRIMARY KEY(`PID`))",
         "fields": [
           {
-            "fieldPath": "SMSToken",
-            "columnName": "SMSToken",
-            "affinity": "TEXT",
+            "fieldPath": "PID",
+            "columnName": "PID",
+            "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "LoginToken",
-            "columnName": "LoginToken",
+            "fieldPath": "Doctor",
+            "columnName": "Doctor",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "Name",
+            "columnName": "Name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Phone",
+            "columnName": "Phone",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "IDCard",
+            "columnName": "IDCard",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "PhotoUrl",
+            "columnName": "PhotoUrl",
             "affinity": "TEXT",
             "notNull": false
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "SMSToken"
+            "PID"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "chat",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`ID` INTEGER NOT NULL, `PID` INTEGER NOT NULL, `FromUID` INTEGER NOT NULL, `Content` TEXT, `Identity` INTEGER NOT NULL, `FromName` TEXT, `PhotoUrl` TEXT, `Self` INTEGER NOT NULL, `TimeC` INTEGER, PRIMARY KEY(`ID`))",
+        "fields": [
+          {
+            "fieldPath": "ID",
+            "columnName": "ID",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "PID",
+            "columnName": "PID",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "FromUID",
+            "columnName": "FromUID",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "Content",
+            "columnName": "Content",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Identity",
+            "columnName": "Identity",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "FromName",
+            "columnName": "FromName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "PhotoUrl",
+            "columnName": "PhotoUrl",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Self",
+            "columnName": "Self",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "TimeC",
+            "columnName": "TimeC",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "ID"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "chat_member",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`PID` INTEGER NOT NULL, `UID` INTEGER NOT NULL, `Role` INTEGER NOT NULL, `RoleName` TEXT, `UserName` TEXT, `PhotoUrl` TEXT, PRIMARY KEY(`UID`))",
+        "fields": [
+          {
+            "fieldPath": "PID",
+            "columnName": "PID",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "UID",
+            "columnName": "UID",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "Role",
+            "columnName": "Role",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "RoleName",
+            "columnName": "RoleName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "UserName",
+            "columnName": "UserName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "PhotoUrl",
+            "columnName": "PhotoUrl",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "UID"
           ],
           "autoGenerate": false
         },
@@ -34,7 +176,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7d4ab2624c7c25f07c44f02a78a6cdc7')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7efbdbfa11b34f9248ed59a6f026091c')"
     ]
   }
 }
