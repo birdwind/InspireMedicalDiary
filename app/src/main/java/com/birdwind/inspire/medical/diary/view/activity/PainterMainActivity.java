@@ -17,6 +17,7 @@ import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
 import com.birdwind.inspire.medical.diary.view.fragment.ChatFragment;
 import com.birdwind.inspire.medical.diary.view.fragment.FriendFragment;
 import com.birdwind.inspire.medical.diary.view.fragment.QRCodeFragment;
+import com.birdwind.inspire.medical.diary.view.fragment.QuizContentFragment;
 import com.birdwind.inspire.medical.diary.view.fragment.ReportFragment;
 import com.birdwind.inspire.medical.diary.view.fragment.ScanFragment;
 import com.birdwind.inspire.medical.diary.view.fragment.SettingFragment;
@@ -53,15 +54,15 @@ public class PainterMainActivity extends AbstractMainActivity<AbstractPresenter,
 
         });
         binding.llQuizPainterMainActivity.setOnClickListener(v -> {
-            swipeFragment(PAGE_REPORT);
+            swipeFragment(PAGE_THREE);
 
         });
         binding.llVisitPainterMainActivity.setOnClickListener(v -> {
-            swipeFragment(PAGE_REPORT);
+            swipeFragment(PAGE_FOUR);
 
         });
         binding.llSettingPainterMainActivity.setOnClickListener(v -> {
-            swipeFragment(PAGE_SETTING);
+            swipeFragment(PAGE_FIVE);
 
         });
     }
@@ -78,7 +79,7 @@ public class PainterMainActivity extends AbstractMainActivity<AbstractPresenter,
 
     @Override
     public void doSomething() {
-        swipeFragment(PAGE_FRIEND);
+        swipeFragment(PAGE_DEFAULT);
     }
 
     @Override
@@ -102,7 +103,8 @@ public class PainterMainActivity extends AbstractMainActivity<AbstractPresenter,
         fragmentList.add(new ChatFragment());
         fragmentList.add(new ScanFragment());
         fragmentList.add(new QRCodeFragment());
-        fragmentList.add(new ReportFragment());
+        fragmentList.add(new QuizContentFragment());
+        fragmentList.add(new SettingFragment());
         fragmentList.add(new SettingFragment());
         return fragmentList;
     }

@@ -2,7 +2,6 @@ package com.birdwind.inspire.medical.diary.view.fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -198,10 +197,7 @@ public class ChatFragment extends AbstractFragment<ChatPresenter, FragmentChatBi
                 scrollToChatLatest();
             }
         };
-
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction("com.birdwind.inspire.medical.diary.chat");
-        context.registerReceiver(chatBroadcastReceiver, intentFilter);
+        chatBroadcastReceiver.register(context);
     }
 
     @Override
@@ -224,6 +220,12 @@ public class ChatFragment extends AbstractFragment<ChatPresenter, FragmentChatBi
     @Override
     public void onSendMessage(boolean isSuccess) {
 
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        chatBroadcastReceiver.unregister(context);
     }
 
     private void hideFriendGroup(boolean isHide) {

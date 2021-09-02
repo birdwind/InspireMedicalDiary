@@ -11,6 +11,7 @@ import android.os.Looper;
 import androidx.annotation.Nullable;
 
 import com.birdwind.inspire.medical.diary.App;
+import com.birdwind.inspire.medical.diary.receiver.BroadcastReceiverAction;
 import com.birdwind.inspire.medical.diary.base.Config;
 import com.birdwind.inspire.medical.diary.base.utils.GsonUtils;
 import com.birdwind.inspire.medical.diary.base.utils.LogUtils;
@@ -79,7 +80,7 @@ public class InspireDiaryChatService extends Service {
                     ChatResponse.Response chat = GsonUtils.parseJsonToBean(json, ChatResponse.Response.class);
                     chatService.save(chat);
 
-                    Intent intent = new Intent("com.birdwind.inspire.medical.diary.chat");
+                    Intent intent = new Intent(BroadcastReceiverAction.LISTENER_CHAT_MESSAGE);
                     Bundle bundle = new Bundle();
                     bundle.putLong("chatID", chat.getID());
                     intent.putExtras(bundle);

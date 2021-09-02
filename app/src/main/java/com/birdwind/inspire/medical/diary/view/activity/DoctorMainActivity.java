@@ -49,11 +49,11 @@ public class DoctorMainActivity extends AbstractMainActivity<AbstractPresenter, 
 
         });
         binding.llReportDoctorMainActivity.setOnClickListener(v -> {
-            swipeFragment(PAGE_REPORT);
+            swipeFragment(PAGE_THREE);
 
         });
         binding.llSettingDoctorMainActivity.setOnClickListener(v -> {
-            swipeFragment(PAGE_SETTING);
+            swipeFragment(PAGE_FOUR);
 
         });
     }
@@ -85,7 +85,7 @@ public class DoctorMainActivity extends AbstractMainActivity<AbstractPresenter, 
 
     @Override
     public void doSomething() {
-        swipeFragment(PAGE_FRIEND);
+        swipeFragment(PAGE_DEFAULT);
     }
 
     @Override

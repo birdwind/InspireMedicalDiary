@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginBottom="10dp">
+
+    <TextView
+        android:id="@+id/tv_title_quiz_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorOrange_FAF1E7"
+        android:paddingHorizontal="17dp"
+        android:paddingVertical="10dp" />
+
+    <RadioGroup
+        android:id="@+id/rg_option_quiz_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="17dp"
+        android:paddingVertical="10dp">
+
+        <RadioButton
+            android:id="@+id/rb_option_no_quiz_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No"
+            android:layout_marginEnd="25dp"/>
+
+        <RadioButton
+            android:id="@+id/rb_option_yes_quiz_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Yes" />
+    </RadioGroup>
+
+</LinearLayout>

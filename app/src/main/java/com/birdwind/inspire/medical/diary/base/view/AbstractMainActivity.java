@@ -3,7 +3,6 @@ package com.birdwind.inspire.medical.diary.base.view;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -20,7 +19,6 @@ import com.birdwind.inspire.medical.diary.base.utils.SystemUtils;
 import com.birdwind.inspire.medical.diary.base.utils.Utils;
 import com.birdwind.inspire.medical.diary.base.utils.fragmentNavUtils.FragNavTransactionOptions;
 import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
-import com.birdwind.inspire.medical.diary.receiver.ChatBroadcastReceiver;
 import com.birdwind.inspire.medical.diary.service.InspireDiaryChatService;
 import com.leaf.library.StatusBarUtil;
 import com.tbruyelle.rxpermissions3.Permission;
@@ -30,15 +28,17 @@ import java.util.List;
 public abstract class AbstractMainActivity<P extends AbstractPresenter, VB extends ViewBinding>
     extends AbstractActivity<P, VB> implements AbstractActivity.PermissionRequestListener {
 
-    protected final int PAGE_FRIEND = 0;
+    protected final int PAGE_DEFAULT = 0;
 
     protected final int PAGE_SCAN = 1;
 
     protected final int PAGE_QRCODE = 2;
 
-    protected final int PAGE_REPORT = 3;
+    protected final int PAGE_THREE = 3;
 
-    protected final int PAGE_SETTING = 4;
+    protected final int PAGE_FOUR = 4;
+
+    protected final int PAGE_FIVE = 5;
 
     protected SlideHeightAnimation expandSlideMenuAnimation;
 
@@ -112,8 +112,8 @@ public abstract class AbstractMainActivity<P extends AbstractPresenter, VB exten
     @Override
     public void onBackPressed() {
         int childCount = getSupportFragmentManager().getBackStackEntryCount();
-        if (currentFragmentIndex != PAGE_FRIEND) {
-            swipeFragment(PAGE_FRIEND);
+        if (currentFragmentIndex != PAGE_DEFAULT) {
+            swipeFragment(PAGE_DEFAULT);
         } else {
             if (childCount <= 1) {
                 hideTopBar(true);
@@ -161,7 +161,7 @@ public abstract class AbstractMainActivity<P extends AbstractPresenter, VB exten
         }
 
         if (isCanPush) {
-            if (pageIndex == PAGE_FRIEND) {
+            if (pageIndex == PAGE_DEFAULT) {
                 hideTopBar(true);
             } else {
                 hideTopBar(false);
