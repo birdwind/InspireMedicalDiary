@@ -30,6 +30,7 @@ public class UserDialogPresenter extends AbstractPresenter<UserDialogView> {
 
         initMap();
         paramsMap.put("UID", uid);
+        paramsMap.put("Disease", 1);
 
         addDisposable(apiServer.executePostFormUrlEncode(api, paramsMap, fieldMap, headerMap),
             new AbstractObserver<AbstractResponse>(this, baseView, "AddUser", null, AbstractResponse.class, true) {

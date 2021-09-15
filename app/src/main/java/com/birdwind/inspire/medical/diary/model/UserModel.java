@@ -6,7 +6,9 @@ import androidx.core.content.ContextCompat;
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.base.model.BaseModel;
+import com.birdwind.inspire.medical.diary.enums.DiseaseEnums;
 import com.birdwind.inspire.medical.diary.enums.IdentityEnums;
+import com.birdwind.inspire.medical.diary.model.response.LoginResponse;
 
 public class UserModel implements BaseModel {
 
@@ -15,6 +17,7 @@ public class UserModel implements BaseModel {
     private boolean isUpdateFCM;
 
     private IdentityEnums identityEnums;
+    private DiseaseEnums diseaseEnums;
 
     private int uid;
 
@@ -40,6 +43,14 @@ public class UserModel implements BaseModel {
 
     public void setIdentityEnums(IdentityEnums identityEnums) {
         this.identityEnums = identityEnums;
+    }
+
+    public DiseaseEnums getDiseaseEnums() {
+        return diseaseEnums;
+    }
+
+    public void setDiseaseEnums(DiseaseEnums diseaseEnums) {
+        this.diseaseEnums = diseaseEnums;
     }
 
     public int getUid() {

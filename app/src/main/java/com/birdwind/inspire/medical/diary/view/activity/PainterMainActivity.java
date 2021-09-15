@@ -1,33 +1,34 @@
 package com.birdwind.inspire.medical.diary.view.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import com.birdwind.inspire.medical.diary.R;
-import com.birdwind.inspire.medical.diary.base.utils.LogUtils;
+import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.base.view.AbstractActivity;
 import com.birdwind.inspire.medical.diary.base.view.AbstractMainActivity;
 import com.birdwind.inspire.medical.diary.databinding.ActivityPainterMainBinding;
+import com.birdwind.inspire.medical.diary.enums.DiseaseEnums;
 import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
+import com.birdwind.inspire.medical.diary.receiver.PainterBroadcastReceiver;
 import com.birdwind.inspire.medical.diary.view.fragment.ChatFragment;
-import com.birdwind.inspire.medical.diary.view.fragment.FriendFragment;
 import com.birdwind.inspire.medical.diary.view.fragment.QRCodeFragment;
 import com.birdwind.inspire.medical.diary.view.fragment.QuizContentFragment;
-import com.birdwind.inspire.medical.diary.view.fragment.ReportFragment;
 import com.birdwind.inspire.medical.diary.view.fragment.ScanFragment;
 import com.birdwind.inspire.medical.diary.view.fragment.SettingFragment;
-import com.leaf.library.StatusBarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PainterMainActivity extends AbstractMainActivity<AbstractPresenter, ActivityPainterMainBinding>
     implements AbstractActivity.PermissionRequestListener {
+
+    private PainterBroadcastReceiver painterBroadcastReceiver;
 
     @Override
     public AbstractPresenter createPresenter() {
@@ -69,7 +70,17 @@ public class PainterMainActivity extends AbstractMainActivity<AbstractPresenter,
 
     @Override
     public void initData(Bundle savedInstanceState) {
+
         super.initData(savedInstanceState);
+        painterBroadcastReceiver = new PainterBroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                // TODO:更新病徵並跳轉頁面
+                fragments = initFragmentList();
+            }
+        };
+        painterBroadcastReceiver.register(context);
+
     }
 
     @Override
@@ -79,6 +90,9 @@ public class PainterMainActivity extends AbstractMainActivity<AbstractPresenter,
 
     @Override
     public void doSomething() {
+        if (App.userModel.getDiseaseEnums() == DiseaseEnums.NOT_SET) {
+            binding.llMenuPainterMainActivity.setVisibility(View.GONE);
+        }
         swipeFragment(PAGE_DEFAULT);
     }
 
@@ -99,13 +113,17 @@ public class PainterMainActivity extends AbstractMainActivity<AbstractPresenter,
 
     @Override
     protected List<Fragment> initFragmentList() {
-        List<Fragment> fragmentList = new ArrayList<>();
-        fragmentList.add(new ChatFragment());
-        fragmentList.add(new ScanFragment());
-        fragmentList.add(new QRCodeFragment());
-        fragmentList.add(new QuizContentFragment());
-        fragmentList.add(new SettingFragment());
-        fragmentList.add(new SettingFragment());
-        return fragmentList;
+        List<Fragment> currentFragmentList = new ArrayList<>();
+        if (App.userModel.getDiseaseEnums() == DiseaseEnums.NOT_SET) {
+            currentFragmentList.add(new QRCodeFragment());
+        } else {
+            currentFragmentList.add(new ChatFragment());
+            currentFragmentList.add(new ScanFragment());
+            currentFragmentList.add(new QRCodeFragment());
+            currentFragmentList.add(new QuizContentFragment());
+            currentFragmentList.add(new SettingFragment());
+            currentFragmentList.add(new SettingFragment());
+        }
+        return currentFragmentList;
     }
 }

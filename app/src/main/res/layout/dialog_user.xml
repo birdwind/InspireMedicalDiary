@@ -70,6 +70,25 @@
             android:textColor="@color/colorWhite_FFFFFF"
             android:visibility="gone" />
 
+        <RadioGroup
+            android:id="@+id/rg_option_dialog_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/painter_dialog_headache"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/painter_dialog_alzheimer"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/painter_dialog_perkins"/>
+        </RadioGroup>
+
         <Button
             android:id="@+id/bt_button_dialog_user"
             style="@style/ThemeButton"

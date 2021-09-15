@@ -91,5 +91,9 @@
     <string name="family_main_menu_visit">&visit;</string>
     <string name="family_main_menu_setting">&setting;</string>
 
+    <!--PainterDialog-->
+    <string name="painter_dialog_headache">頭痛</string>
+    <string name="painter_dialog_alzheimer">阿茲海默症</string>
+    <string name="painter_dialog_perkins">巴金森氏症</string>
 
 </resources>

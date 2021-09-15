@@ -3,6 +3,7 @@ package com.birdwind.inspire.medical.diary.presenter;
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.base.basic.AbstractObserver;
 import com.birdwind.inspire.medical.diary.base.network.response.AbstractResponse;
+import com.birdwind.inspire.medical.diary.enums.DiseaseEnums;
 import com.birdwind.inspire.medical.diary.enums.IdentityEnums;
 import com.birdwind.inspire.medical.diary.model.UserModel;
 import com.birdwind.inspire.medical.diary.model.response.LoginResponse;
@@ -58,6 +59,7 @@ public class LoginVerificationPresenter extends AbstractPresenter<LoginVerificat
                     UserModel userModel = new UserModel();
                     userModel.setToken(response.getJsonData().getLoginKey());
                     userModel.setUid(response.getJsonData().getUID());
+                    userModel.setDiseaseEnums(DiseaseEnums.parseEnumsByType(response.getJsonData().getDisease()));
                     App.userModel = userModel;
                     App.updateUserModel();
                     baseView.onVerify(true);

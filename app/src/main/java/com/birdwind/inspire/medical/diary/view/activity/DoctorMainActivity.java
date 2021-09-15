@@ -40,22 +40,6 @@ public class DoctorMainActivity extends AbstractMainActivity<AbstractPresenter, 
         binding.componentTopBarDoctorMainActivity.llBackTopBarComp.setOnClickListener(v -> {
             onBackPressed();
         });
-        binding.llScanDoctorMainActivity.setOnClickListener(v -> {
-            swipeFragment(PAGE_SCAN);
-
-        });
-        binding.llQrcodeDoctorMainActivity.setOnClickListener(v -> {
-            swipeFragment(PAGE_QRCODE);
-
-        });
-        binding.llReportDoctorMainActivity.setOnClickListener(v -> {
-            swipeFragment(PAGE_THREE);
-
-        });
-        binding.llSettingDoctorMainActivity.setOnClickListener(v -> {
-            swipeFragment(PAGE_FOUR);
-
-        });
     }
 
     @Override
@@ -70,7 +54,7 @@ public class DoctorMainActivity extends AbstractMainActivity<AbstractPresenter, 
 
     @Override
     protected View setTopMenu() {
-        return binding.llMenuDoctorMainActivity;
+        return null;
     }
 
     @Override

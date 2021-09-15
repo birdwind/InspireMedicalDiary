@@ -14,6 +14,8 @@ public class LoginResponse extends AbstractResponse<LoginResponse.Response> {
 
         private int Identity;
 
+        private int Disease;
+
         private String PhotoUrl;
 
         private String LoginKey;
@@ -48,6 +50,14 @@ public class LoginResponse extends AbstractResponse<LoginResponse.Response> {
 
         public void setIdentity(int identity) {
             Identity = identity;
+        }
+
+        public int getDisease() {
+            return Disease;
+        }
+
+        public void setDisease(int disease) {
+            Disease = disease;
         }
 
         public String getPhotoUrl() {

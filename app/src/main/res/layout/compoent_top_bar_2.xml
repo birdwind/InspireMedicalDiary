@@ -3,14 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rl_background_top_bar_comp"
     android:layout_width="match_parent"
-    android:layout_height="0dp"
+    android:layout_height="?attr/actionBarSize"
     android:background="@color/colorBlue_009CB2">
 
     <LinearLayout
         android:id="@+id/ll_back_top_bar_comp"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:padding="12dp">
+        android:padding="12dp"
+        android:gravity="center_vertical">
 
         <TextView
             android:layout_width="wrap_content"

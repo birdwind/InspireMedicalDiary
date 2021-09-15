@@ -144,8 +144,10 @@ public abstract class AbstractMainActivity<P extends AbstractPresenter, VB exten
     }
 
     private void slideHeightAnimation(View view, Animation animation) {
-        view.setAnimation(animation);
-        view.startAnimation(animation);
+        if(view != null){
+            view.setAnimation(animation);
+            view.startAnimation(animation);
+        }
     }
 
     public void swipeFragment(int pageIndex) {
