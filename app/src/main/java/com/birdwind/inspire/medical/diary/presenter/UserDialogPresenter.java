@@ -3,6 +3,7 @@ package com.birdwind.inspire.medical.diary.presenter;
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.base.basic.AbstractObserver;
 import com.birdwind.inspire.medical.diary.base.network.response.AbstractResponse;
+import com.birdwind.inspire.medical.diary.enums.DiseaseEnums;
 import com.birdwind.inspire.medical.diary.server.DoctorApiServer;
 import com.birdwind.inspire.medical.diary.server.FamilyApiServer;
 import com.birdwind.inspire.medical.diary.server.PatientApiServer;
@@ -13,7 +14,7 @@ public class UserDialogPresenter extends AbstractPresenter<UserDialogView> {
         super(baseView);
     }
 
-    public void addUser(int uid) {
+    public void addUser(int uid, DiseaseEnums diseaseEnums) {
         String api = "";
 
         switch (App.userModel.getIdentityEnums()) {
@@ -30,7 +31,7 @@ public class UserDialogPresenter extends AbstractPresenter<UserDialogView> {
 
         initMap();
         paramsMap.put("UID", uid);
-        paramsMap.put("Disease", 1);
+        paramsMap.put("Disease", diseaseEnums.getType());
 
         addDisposable(apiServer.executePostFormUrlEncode(api, paramsMap, fieldMap, headerMap),
             new AbstractObserver<AbstractResponse>(this, baseView, "AddUser", null, AbstractResponse.class, true) {

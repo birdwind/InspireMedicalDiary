@@ -14,6 +14,7 @@ import com.birdwind.inspire.medical.diary.base.view.AbstractActivity;
 import com.birdwind.inspire.medical.diary.base.view.AbstractMainActivity;
 import com.birdwind.inspire.medical.diary.databinding.ActivityPainterMainBinding;
 import com.birdwind.inspire.medical.diary.enums.DiseaseEnums;
+import com.birdwind.inspire.medical.diary.model.PainterDiseaseModel;
 import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
 import com.birdwind.inspire.medical.diary.receiver.PainterBroadcastReceiver;
 import com.birdwind.inspire.medical.diary.view.fragment.ChatFragment;
@@ -75,8 +76,13 @@ public class PainterMainActivity extends AbstractMainActivity<AbstractPresenter,
         painterBroadcastReceiver = new PainterBroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                // TODO:更新病徵並跳轉頁面
+                Bundle bundle = intent.getExtras();
+                PainterDiseaseModel painterDiseaseModel = (PainterDiseaseModel) bundle.getSerializable("painterDiseaseModel");
+                App.userModel.setDiseaseEnums(DiseaseEnums.parseEnumsByType(painterDiseaseModel.getDisease()));
+                App.updateUserModel();
                 fragments = initFragmentList();
+                binding.llMenuPainterMainActivity.setVisibility(View.VISIBLE);
+                swipeFragment(PAGE_DEFAULT, true);
             }
         };
         painterBroadcastReceiver.register(context);

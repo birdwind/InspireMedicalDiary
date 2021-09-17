@@ -8,7 +8,6 @@ import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.base.model.BaseModel;
 import com.birdwind.inspire.medical.diary.enums.DiseaseEnums;
 import com.birdwind.inspire.medical.diary.enums.IdentityEnums;
-import com.birdwind.inspire.medical.diary.model.response.LoginResponse;
 
 public class UserModel implements BaseModel {
 
@@ -17,6 +16,7 @@ public class UserModel implements BaseModel {
     private boolean isUpdateFCM;
 
     private IdentityEnums identityEnums;
+
     private DiseaseEnums diseaseEnums;
 
     private int uid;

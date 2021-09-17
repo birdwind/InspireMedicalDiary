@@ -14,6 +14,7 @@ import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.base.Config;
 import com.birdwind.inspire.medical.diary.base.utils.GsonUtils;
 import com.birdwind.inspire.medical.diary.base.utils.LogUtils;
+import com.birdwind.inspire.medical.diary.model.PainterDiseaseModel;
 import com.birdwind.inspire.medical.diary.model.response.ChatResponse;
 import com.birdwind.inspire.medical.diary.receiver.BroadcastReceiverAction;
 import com.birdwind.inspire.medical.diary.sqlLite.service.ChatService;
@@ -91,7 +92,13 @@ public class InspireDiaryChatService extends Service {
                 hubConnection.on("CreatePatientSuccess", (json) -> {
                     LogUtils.d("WebSocket-CreatePatientSuccess", json);
 
+                    PainterDiseaseModel painterDiseaseModel =
+                        GsonUtils.parseJsonToBean(json, PainterDiseaseModel.class);
+
                     Intent intent = new Intent(BroadcastReceiverAction.PAINTER_HAVE_DOCTOR);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("painterDiseaseModel", painterDiseaseModel);
+                    intent.putExtras(bundle);
                     sendBroadcast(intent);
 
                 }, String.class);

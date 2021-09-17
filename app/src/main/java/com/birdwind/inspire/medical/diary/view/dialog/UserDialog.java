@@ -10,8 +10,10 @@ import androidx.core.content.ContextCompat;
 
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
+import com.birdwind.inspire.medical.diary.base.utils.ToastUtils;
 import com.birdwind.inspire.medical.diary.base.view.AbstractDialog;
 import com.birdwind.inspire.medical.diary.databinding.DialogUserBinding;
+import com.birdwind.inspire.medical.diary.enums.DiseaseEnums;
 import com.birdwind.inspire.medical.diary.enums.IdentityEnums;
 import com.birdwind.inspire.medical.diary.enums.ScanUserMessageEnums;
 import com.birdwind.inspire.medical.diary.model.response.UserResponse;
@@ -32,12 +34,15 @@ public class UserDialog extends AbstractDialog<CommonDialogListener, UserDialogP
 
     private UserDialogListener userDialogListener;
 
+    private DiseaseEnums diseaseEnums;
+
     public UserDialog(@NonNull @NotNull Context context, UserResponse userResponse,
         UserDialogListener userDialogListener) {
         super(context, new CommonDialogListener() {});
         this.userResponse = userResponse;
         this.userDialogListener = userDialogListener;
         user = userResponse.getJsonData();
+        diseaseEnums = DiseaseEnums.NOT_SET;
     }
 
     @Override
@@ -51,9 +56,17 @@ public class UserDialog extends AbstractDialog<CommonDialogListener, UserDialogP
             dismiss();
         });
 
+        binding.rgOptionDialogUser.setOnCheckedChangeListener((group, checkedId) -> {
+            diseaseEnums = DiseaseEnums.parseEnumsByType(checkedId);
+        });
+
         binding.btButtonDialogUser.setOnClickListener(v -> {
-            presenter.addUser(user.getUID());
-            dismiss();
+            if (diseaseEnums != DiseaseEnums.NOT_SET) {
+                presenter.addUser(user.getUID(), DiseaseEnums.HEADACHE);
+                dismiss();
+            } else {
+                ToastUtils.show(context, R.string.painter_dialog_not_select);
+            }
         });
     }
 
@@ -134,7 +147,7 @@ public class UserDialog extends AbstractDialog<CommonDialogListener, UserDialogP
 
     @Override
     public void onAddUser(boolean isSuccess) {
-        if(isSuccess){
+        if (isSuccess) {
             userDialogListener.userDialogAdded();
         }
     }

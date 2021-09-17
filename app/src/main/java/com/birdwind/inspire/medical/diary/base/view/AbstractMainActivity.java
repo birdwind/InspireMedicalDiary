@@ -144,15 +144,19 @@ public abstract class AbstractMainActivity<P extends AbstractPresenter, VB exten
     }
 
     private void slideHeightAnimation(View view, Animation animation) {
-        if(view != null){
+        if (view != null) {
             view.setAnimation(animation);
             view.startAnimation(animation);
         }
     }
 
     public void swipeFragment(int pageIndex) {
+        swipeFragment(pageIndex, false);
+    }
+
+    public void swipeFragment(int pageIndex, boolean isIgnore) {
         boolean isCanPush = true;
-        if (currentFragmentIndex == pageIndex)
+        if (currentFragmentIndex == pageIndex && !isIgnore)
             return;
 
         if (pageIndex == PAGE_SCAN) {
@@ -171,6 +175,7 @@ public abstract class AbstractMainActivity<P extends AbstractPresenter, VB exten
             pushFragment(pageIndex, currentFragmentIndex > pageIndex);
             currentFragmentIndex = pageIndex;
         }
+
     }
 
     private void pushFragment(int pageIndex, boolean isRightToLeft) {

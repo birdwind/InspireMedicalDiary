@@ -95,5 +95,6 @@
     <string name="painter_dialog_headache">頭痛</string>
     <string name="painter_dialog_alzheimer">阿茲海默症</string>
     <string name="painter_dialog_perkins">巴金森氏症</string>
+    <string name="painter_dialog_not_select">請選擇病患病徵</string>
 
 </resources>

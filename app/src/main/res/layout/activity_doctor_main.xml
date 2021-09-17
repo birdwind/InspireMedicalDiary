@@ -7,14 +7,110 @@
         android:id="@+id/component_top_bar_doctor_main_activity"
         layout="@layout/compoent_top_bar_2"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="0dp"
         android:layout_alignParentTop="true" />
 
+    <LinearLayout
+        android:id="@+id/ll_menu_doctor_main_activity"
+        android:layout_width="match_parent"
+        android:layout_height="126dp"
+        android:layout_below="@id/component_top_bar_doctor_main_activity"
+        android:background="@color/colorBlue_009CB2">
+
+        <LinearLayout
+            android:id="@+id/ll_scan_doctor_main_activity"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:src="@drawable/ic_scan" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/doctor_main_menu_scan"
+                android:textColor="@color/colorWhite_FFFFFF"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+<!--        <LinearLayout-->
+<!--            android:id="@+id/ll_qrcode_doctor_main_activity"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_weight="1"-->
+<!--            android:gravity="center"-->
+<!--            android:orientation="vertical">-->
+
+<!--            <ImageView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginBottom="12dp"-->
+<!--                android:src="@drawable/ic_qrcode" />-->
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/doctor_main_menu_qrcode"-->
+<!--                android:textColor="@color/colorWhite_FFFFFF"-->
+<!--                android:textSize="12sp" />-->
+<!--        </LinearLayout>-->
+
+<!--        <LinearLayout-->
+<!--            android:id="@+id/ll_report_doctor_main_activity"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_weight="1"-->
+<!--            android:gravity="center"-->
+<!--            android:orientation="vertical">-->
+
+<!--            <ImageView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginBottom="12dp"-->
+<!--                android:src="@drawable/ic_report" />-->
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/doctor_main_menu_report"-->
+<!--                android:textColor="@color/colorWhite_FFFFFF"-->
+<!--                android:textSize="12sp" />-->
+<!--        </LinearLayout>-->
+
+        <LinearLayout
+            android:id="@+id/ll_setting_doctor_main_activity"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:src="@drawable/ic_setting" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/doctor_main_menu_setting"
+                android:textColor="@color/colorWhite_FFFFFF"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/fl_main_doctor_main_activity"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_below="@id/ll_menu_doctor_main_activity"/>
 
 
 </RelativeLayout>
