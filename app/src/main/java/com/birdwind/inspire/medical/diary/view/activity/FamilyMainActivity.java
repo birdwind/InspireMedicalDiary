@@ -40,23 +40,23 @@ public class FamilyMainActivity extends AbstractMainActivity<AbstractPresenter, 
             onBackPressed();
         });
         binding.llScanFamilyMainActivity.setOnClickListener(v -> {
-            swipeFragment(PAGE_SCAN);
+//            swipeFragment(PAGE_SCAN);
 
         });
         binding.llQrcodeFamilyMainActivity.setOnClickListener(v -> {
-            swipeFragment(PAGE_QRCODE);
+//            swipeFragment(PAGE_QRCODE);
 
         });
         binding.llReportFamilyMainActivity.setOnClickListener(v -> {
-            swipeFragment(PAGE_THREE);
+//            swipeFragment(PAGE_THREE);
 
         });
         binding.llVisitFamilyMainActivity.setOnClickListener(v -> {
-            swipeFragment(PAGE_THREE);
+//            swipeFragment(PAGE_THREE);
 
         });
         binding.llSettingFamilyMainActivity.setOnClickListener(v -> {
-            swipeFragment(PAGE_FOUR);
+//            swipeFragment(PAGE_FOUR);
 
         });
     }
@@ -73,23 +73,23 @@ public class FamilyMainActivity extends AbstractMainActivity<AbstractPresenter, 
 
     @Override
     public void doSomething() {
-        swipeFragment(PAGE_DEFAULT);
+//        swipeFragment(PAGE_DEFAULT);
     }
 
-    @Override
-    protected View setTopBar() {
-        return binding.componentTopBarFamilyMainActivity.rlBackgroundTopBarComp;
-    }
-
-    @Override
-    protected View setTopMenu() {
-        return binding.llMenuFamilyMainActivity;
-    }
-
-    @Override
-    protected View setFragmentView() {
-        return binding.flMainFamilyMainActivity;
-    }
+//    @Override
+//    protected View setTopBar() {
+//        return binding.componentTopBarFamilyMainActivity.rlBackgroundTopBarComp;
+//    }
+//
+//    @Override
+//    protected View setTopMenu() {
+//        return binding.llMenuFamilyMainActivity;
+//    }
+//
+//    @Override
+//    protected View setFragmentView() {
+//        return binding.flMainFamilyMainActivity;
+//    }
 
     @Override
     protected List<Fragment> initFragmentList() {

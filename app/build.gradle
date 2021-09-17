@@ -262,6 +262,10 @@ dependencies {
     implementation 'com.microsoft.signalr:signalr:6.0.0-preview.5.21301.17'
     implementation group: 'org.slf4j', name: 'slf4j-android', version: '1.7.7'
 
+    /*Chart*/
+    implementation "com.github.AnyChart:AnyChart-Android:${libs.anyChart}"
+    implementation "com.github.PhilJay:MPAndroidChart:${libs.chart}"
+
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     testImplementation 'junit:junit:4.13.2'

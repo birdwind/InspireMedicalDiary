@@ -1,22 +1,5 @@
 package com.birdwind.inspire.medical.diary.view.fragment;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
-import android.view.inputmethod.EditorInfo;
-
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.animation.SlideHeightAnimation;
@@ -33,6 +16,21 @@ import com.birdwind.inspire.medical.diary.view.adapter.ChatAdapter;
 import com.birdwind.inspire.medical.diary.view.adapter.GroupMemberAdapter;
 import com.birdwind.inspire.medical.diary.view.viewCallback.ChatView;
 import com.bumptech.glide.Glide;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
+import android.view.inputmethod.EditorInfo;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class ChatFragment extends AbstractFragment<ChatPresenter, FragmentChatBinding> implements ChatView {
 
@@ -79,6 +77,19 @@ public class ChatFragment extends AbstractFragment<ChatPresenter, FragmentChatBi
         binding.comGroupFriend.llDownArrowChatGroupComponent.setOnClickListener(v -> {
             hideFriendGroup(!isHideFriendGroup);
             isHideFriendGroup = !isHideFriendGroup;
+        });
+
+        binding.llQrcodeChatFragment.setOnClickListener(v -> {
+            pushFragment(new QRCodeFragment());
+        });
+        binding.llQuizChatFragment.setOnClickListener(v -> {
+            pushFragment(new QuizContentFragment());
+        });
+        binding.llVisitChatFragment.setOnClickListener(v -> {
+            showToast(getString(R.string.function_not_complete));
+        });
+        binding.llSettingChatFragment.setOnClickListener(v -> {
+            showToast(getString(R.string.function_not_complete));
         });
 
         binding.rvMessageChatFragment.setOnTouchListener(new View.OnTouchListener() {
@@ -159,16 +170,23 @@ public class ChatFragment extends AbstractFragment<ChatPresenter, FragmentChatBi
 
     @Override
     public void initView() {
-        if (App.userModel.getIdentityEnums() == IdentityEnums.DOCTOR) {
-            binding.comGroupFriend.rvMemberChatGroupComponent
-                .setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
-            binding.comGroupFriend.rvMemberChatGroupComponent.setHasFixedSize(true);
-            binding.comGroupFriend.rvMemberChatGroupComponent.setAdapter(groupMemberAdapter);
-            binding.comGroupFriend.tvTargetAvatarChatGroupComponent.setText(friendName);
-            Glide.with(context).load(friendAvatar).placeholder(ContextCompat.getDrawable(context, R.drawable.ic_avatar))
-                .into(binding.comGroupFriend.civTargetAvatarChatGroupComponent);
-        } else {
-            binding.comGroupFriend.rlChatGroupComponent.setVisibility(View.GONE);
+        switch (App.userModel.getIdentityEnums()) {
+            case DOCTOR:
+                binding.llMenuChatFragment.setVisibility(View.GONE);
+                binding.comGroupFriend.rvMemberChatGroupComponent
+                    .setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
+                binding.comGroupFriend.rvMemberChatGroupComponent.setHasFixedSize(true);
+                binding.comGroupFriend.rvMemberChatGroupComponent.setAdapter(groupMemberAdapter);
+                binding.comGroupFriend.tvTargetAvatarChatGroupComponent.setText(friendName);
+                Glide.with(context).load(friendAvatar)
+                    .placeholder(ContextCompat.getDrawable(context, R.drawable.ic_avatar))
+                    .into(binding.comGroupFriend.civTargetAvatarChatGroupComponent);
+                break;
+            case FAMILY:
+            case PAINTER:
+                binding.llMenuChatFragment.setBackgroundColor(App.userModel.getIdentityMainColor());
+                binding.comGroupFriend.rlChatGroupComponent.setVisibility(View.GONE);
+                break;
         }
         binding.llMessageChatFragment.setBackgroundColor(App.userModel.getIdentityMainColor());
         binding.rvMessageChatFragment
@@ -179,9 +197,9 @@ public class ChatFragment extends AbstractFragment<ChatPresenter, FragmentChatBi
 
     @Override
     public void doSomething() {
-        if (App.userModel.getIdentityEnums() == IdentityEnums.DOCTOR) {
-            presenter.getChatMember(uid);
-        }
+        // if (App.userModel.getIdentityEnums() == IdentityEnums.DOCTOR) {
+        // presenter.getChatMember(uid);
+        // }
 
         presenter.getChatMessage(uid);
 
@@ -213,7 +231,7 @@ public class ChatFragment extends AbstractFragment<ChatPresenter, FragmentChatBi
     @Override
     public void onGetChatMember(boolean isSuccess) {
         if (isSuccess) {
-            groupMemberAdapter.setList(chatMemberService.getChatMemberByPID(uid));
+            // groupMemberAdapter.setList(chatMemberService.getChatMemberByPID(uid));
         }
     }
 
@@ -263,4 +281,12 @@ public class ChatFragment extends AbstractFragment<ChatPresenter, FragmentChatBi
         binding.rvMessageChatFragment.scrollToPosition(chatAdapter.getItemCount() - 1);
     }
 
+    @Override
+    public boolean isShowTopBar() {
+        if (App.userModel.getIdentityEnums() == IdentityEnums.DOCTOR) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

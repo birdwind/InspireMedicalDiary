@@ -54,17 +54,18 @@ public class SplashActivity extends AbstractActivity<AbstractPresenter, Activity
                 if (App.userModel == null || TextUtils.isEmpty(App.userModel.getToken())) {
                     startActivityWithFinish(AuthActivity.class);
                 } else {
-                    switch (App.userModel.getIdentityEnums()) {
-                        case DOCTOR:
-                            startActivityWithFinish(DoctorMainActivity.class);
-                            break;
-                        case FAMILY:
-                            startActivityWithFinish(FamilyMainActivity.class);
-                            break;
-                        case PAINTER:
-                            startActivityWithFinish(PainterMainActivity.class);
-                            break;
-                    }
+                    startActivityWithFinish(MainActivity.class);
+//                    switch (App.userModel.getIdentityEnums()) {
+//                        case DOCTOR:
+//                            startActivityWithFinish(DoctorMainActivity.class);
+//                            break;
+//                        case FAMILY:
+//                            startActivityWithFinish(FamilyMainActivity.class);
+//                            break;
+//                        case PAINTER:
+//                            startActivityWithFinish(PainterMainActivity.class);
+//                            break;
+//                    }
                 }
             }
         });

@@ -28,47 +28,17 @@ import java.util.List;
 public abstract class AbstractMainActivity<P extends AbstractPresenter, VB extends ViewBinding>
     extends AbstractActivity<P, VB> implements AbstractActivity.PermissionRequestListener {
 
-    protected final int PAGE_DEFAULT = 0;
-
-    protected final int PAGE_SCAN = 1;
-
-    protected final int PAGE_QRCODE = 2;
-
-    protected final int PAGE_THREE = 3;
-
-    protected final int PAGE_FOUR = 4;
-
-    protected final int PAGE_FIVE = 5;
-
-    protected SlideHeightAnimation expandSlideMenuAnimation;
-
-    protected SlideHeightAnimation shrinkSlideMenuAnimation;
-
-    protected SlideHeightAnimation expandSlideTopBarAnimation;
-
-    protected SlideHeightAnimation shrinkSlideTopBarAnimation;
-
     protected FragNavTransactionOptions popFragNavTransactionOptions;
 
     protected FragNavTransactionOptions tabToRightFragNavTransactionOptions;
 
     protected FragNavTransactionOptions tabToLeftFragNavTransactionOptions;
 
-    protected List<Fragment> fragments;
-
-    protected int currentFragmentIndex;
-
     protected View topBarView;
 
     protected View topMenuView;
 
     protected View fragmentView;
-
-    protected abstract View setTopBar();
-
-    protected abstract View setTopMenu();
-
-    protected abstract View setFragmentView();
 
     protected abstract List<Fragment> initFragmentList();
 
@@ -80,23 +50,6 @@ public abstract class AbstractMainActivity<P extends AbstractPresenter, VB exten
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        topBarView = setTopBar();
-        topMenuView = setTopMenu();
-        fragmentView = setFragmentView();
-        expandSlideMenuAnimation =
-            new SlideHeightAnimation(topMenuView, Utils.dp2px(this, 91), Utils.dp2px(this, 126), 300);
-        shrinkSlideMenuAnimation =
-            new SlideHeightAnimation(topMenuView, Utils.dp2px(this, 126), Utils.dp2px(this, 91), 300);
-        expandSlideMenuAnimation.setInterpolator(new AccelerateInterpolator());
-        shrinkSlideMenuAnimation.setInterpolator(new AccelerateInterpolator());
-
-        expandSlideTopBarAnimation =
-            new SlideHeightAnimation(topBarView, Utils.dp2px(this, 0), Utils.dp2px(this, 44), 300);
-        shrinkSlideTopBarAnimation =
-            new SlideHeightAnimation(topBarView, Utils.dp2px(this, 44), Utils.dp2px(this, 0), 300);
-        expandSlideTopBarAnimation.setInterpolator(new AccelerateInterpolator());
-        shrinkSlideTopBarAnimation.setInterpolator(new AccelerateInterpolator());
-
         popFragNavTransactionOptions = FragNavTransactionOptions.newBuilder()
             .customAnimations(R.anim.slide_in_from_left, R.anim.slide_out_to_right).build();
 
@@ -105,41 +58,28 @@ public abstract class AbstractMainActivity<P extends AbstractPresenter, VB exten
 
         tabToLeftFragNavTransactionOptions = FragNavTransactionOptions.newBuilder()
             .customAnimations(R.anim.slide_in_from_left, R.anim.slide_out_to_right).build();
-        fragments = initFragmentList();
-        currentFragmentIndex = -1;
     }
 
     @Override
     public void onBackPressed() {
         int childCount = getSupportFragmentManager().getBackStackEntryCount();
-        if (currentFragmentIndex != PAGE_DEFAULT) {
-            swipeFragment(PAGE_DEFAULT);
-        } else {
-            if (childCount <= 1) {
-                hideTopBar(true);
-            }
-            super.onBackPressed();
-        }
+//        if (currentFragmentIndex != PAGE_DEFAULT) {
+//            swipeFragment(PAGE_DEFAULT);
+//        } else {
+//            if (childCount <= 1) {
+//                hideTopBar(true);
+//            }
+//            super.onBackPressed();
+//        }
     }
 
     @Override
     public void permissionRequest(Context context, Permission permission) {
         if (permission.granted) {
             if (permission.name.equals(Manifest.permission.CAMERA)) {
-                hideTopBar(false);
-                pushFragment(PAGE_SCAN, currentFragmentIndex > PAGE_SCAN);
-                currentFragmentIndex = PAGE_SCAN;
+//                pushFragment(PAGE_SCAN, currentFragmentIndex > PAGE_SCAN);
+//                currentFragmentIndex = PAGE_SCAN;
             }
-        }
-    }
-
-    public void hideTopBar(boolean isHide) {
-        if (isHide) {
-            slideHeightAnimation(topBarView, shrinkSlideTopBarAnimation);
-            slideHeightAnimation(topMenuView, expandSlideMenuAnimation);
-        } else {
-            slideHeightAnimation(topBarView, expandSlideTopBarAnimation);
-            slideHeightAnimation(topMenuView, shrinkSlideMenuAnimation);
         }
     }
 
@@ -155,31 +95,31 @@ public abstract class AbstractMainActivity<P extends AbstractPresenter, VB exten
     }
 
     public void swipeFragment(int pageIndex, boolean isIgnore) {
-        boolean isCanPush = true;
-        if (currentFragmentIndex == pageIndex && !isIgnore)
-            return;
-
-        if (pageIndex == PAGE_SCAN) {
-            if (!hasPermission(Manifest.permission.CAMERA)) {
-                isCanPush = false;
-                getPermission(new String[] {Manifest.permission.CAMERA}, this);
-            }
-        }
-
-        if (isCanPush) {
-            if (pageIndex == PAGE_DEFAULT) {
-                hideTopBar(true);
-            } else {
-                hideTopBar(false);
-            }
-            pushFragment(pageIndex, currentFragmentIndex > pageIndex);
-            currentFragmentIndex = pageIndex;
-        }
+//        boolean isCanPush = true;
+//        if (currentFragmentIndex == pageIndex && !isIgnore)
+//            return;
+//
+//        if (pageIndex == PAGE_SCAN) {
+//            if (!hasPermission(Manifest.permission.CAMERA)) {
+//                isCanPush = false;
+//                getPermission(new String[] {Manifest.permission.CAMERA}, this);
+//            }
+//        }
+//
+//        if (isCanPush) {
+//            if (pageIndex == PAGE_DEFAULT) {
+//                hideTopBar(true);
+//            } else {
+//                hideTopBar(false);
+//            }
+//            pushFragment(pageIndex, currentFragmentIndex > pageIndex);
+//            currentFragmentIndex = pageIndex;
+//        }
 
     }
 
-    private void pushFragment(int pageIndex, boolean isRightToLeft) {
-        pushFragment(fragments.get(pageIndex), isRightToLeft, false);
+    private void pushFragment(Fragment fragment, boolean isRightToLeft) {
+        pushFragment(fragment, isRightToLeft, false);
     }
 
     public void pushFragment(Fragment fragment, boolean isRightToLeft, boolean isAdd) {

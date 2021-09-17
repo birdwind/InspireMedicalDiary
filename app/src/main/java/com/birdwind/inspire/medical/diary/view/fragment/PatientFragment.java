@@ -2,10 +2,10 @@ package com.birdwind.inspire.medical.diary.view.fragment;
 
 import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
-import com.birdwind.inspire.medical.diary.base.view.AbstractMainActivity;
 import com.birdwind.inspire.medical.diary.databinding.FragmentFriendBinding;
 import com.birdwind.inspire.medical.diary.model.response.FriendResponse;
 import com.birdwind.inspire.medical.diary.presenter.FriendPresenter;
+import com.birdwind.inspire.medical.diary.view.activity.MainActivity;
 import com.birdwind.inspire.medical.diary.view.adapter.FriendAdapter;
 import com.birdwind.inspire.medical.diary.view.viewCallback.FriendView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -19,8 +19,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class FriendFragment extends AbstractFragment<FriendPresenter, FragmentFriendBinding>
-        implements FriendView, OnItemClickListener {
+public class PatientFragment extends AbstractFragment<FriendPresenter, FragmentFriendBinding>
+    implements FriendView, OnItemClickListener {
 
     private FriendAdapter friendAdapter;
 
@@ -37,13 +37,21 @@ public class FriendFragment extends AbstractFragment<FriendPresenter, FragmentFr
     @Override
     public void addListener() {
         friendAdapter.setOnItemClickListener(this);
+
+        binding.llScanFriendFragment.setOnClickListener(v -> {
+            ((MainActivity) context).openScanFragment();
+        });
+
+        binding.llDoctorSettingFriendFragment.setOnClickListener(v -> {
+            showToast(getString(R.string.function_not_complete));
+        });
     }
 
     @Override
     public void initView() {
         binding.rvPatientFriendFragment.setHasFixedSize(true);
         binding.rvPatientFriendFragment
-                .setLayoutManager(new GridLayoutManager(getContext(), 3, RecyclerView.VERTICAL, false));
+            .setLayoutManager(new GridLayoutManager(getContext(), 3, RecyclerView.VERTICAL, false));
         // binding.rvPatientDoctorMainActivity.setNestedScrollingEnabled(false);
         binding.rvPatientFriendFragment.setAdapter(friendAdapter);
     }
@@ -72,10 +80,14 @@ public class FriendFragment extends AbstractFragment<FriendPresenter, FragmentFr
         bundle.putString("name", friend.getName());
         bundle.putString("avatar", friend.getPhotoUrl());
 
-        ChatFragment chatFragment = new ChatFragment();
-        chatFragment.setArguments(bundle);
+        ChartFragment chartFragment = new ChartFragment();
+        chartFragment.setArguments(bundle);
 
-        ((AbstractMainActivity) context).pushFragment(chatFragment, true, true);
-        ((AbstractMainActivity) context).hideTopBar(false);
+        pushFragment(chartFragment);
+    }
+
+    @Override
+    public boolean isShowTopBar() {
+        return false;
     }
 }

@@ -33,7 +33,7 @@ public interface BaseFragment<P extends AbstractPresenter, VB extends ViewBindin
      * @return (int)drawable id
      */
     default int setTopBarBackgroundColor() {
-        return R.color.colorBlue_1B2F66;
+        return -1;
     }
 
     /**

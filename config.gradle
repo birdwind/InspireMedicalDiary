@@ -18,6 +18,7 @@ ext {
     libraries = [
             adapter_rxjava2       : "2.9.0",
             androidx_cardview     : "1.0.0",
+            anyChart              : "1.1.2",
             appcompat             : "1.3.1",
             asyncHttp             : "1.4.11",
             base_recycleview      : "3.0.4",
@@ -25,6 +26,7 @@ ext {
             bottomNavigationViewEx: "2.0.4",
             butterknife           : "10.2.3",
             calendar_view         : "1.0.4",
+            chart                 : "v3.1.0",
             circleImageView       : "3.1.0",
             circularImageView     : "4.2.0",
             conscrypt             : "2.5.2",

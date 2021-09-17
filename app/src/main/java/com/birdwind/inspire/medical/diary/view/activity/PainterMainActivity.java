@@ -48,23 +48,23 @@ public class PainterMainActivity extends AbstractMainActivity<AbstractPresenter,
             onBackPressed();
         });
         binding.llScanPainterMainActivity.setOnClickListener(v -> {
-            swipeFragment(PAGE_SCAN);
+//            swipeFragment(PAGE_SCAN);
 
         });
         binding.llQrcodePainterMainActivity.setOnClickListener(v -> {
-            swipeFragment(PAGE_QRCODE);
+//            swipeFragment(PAGE_QRCODE);
 
         });
         binding.llQuizPainterMainActivity.setOnClickListener(v -> {
-            swipeFragment(PAGE_THREE);
+//            swipeFragment(PAGE_THREE);
 
         });
         binding.llVisitPainterMainActivity.setOnClickListener(v -> {
-            swipeFragment(PAGE_FOUR);
+//            swipeFragent(PAGE_FOUR);
 
         });
         binding.llSettingPainterMainActivity.setOnClickListener(v -> {
-            swipeFragment(PAGE_FIVE);
+//            swipeFragment(PAGE_FIVE);
 
         });
     }
@@ -80,9 +80,9 @@ public class PainterMainActivity extends AbstractMainActivity<AbstractPresenter,
                 PainterDiseaseModel painterDiseaseModel = (PainterDiseaseModel) bundle.getSerializable("painterDiseaseModel");
                 App.userModel.setDiseaseEnums(DiseaseEnums.parseEnumsByType(painterDiseaseModel.getDisease()));
                 App.updateUserModel();
-                fragments = initFragmentList();
+//                fragments = initFragmentList();
                 binding.llMenuPainterMainActivity.setVisibility(View.VISIBLE);
-                swipeFragment(PAGE_DEFAULT, true);
+//                swipeFragment(PAGE_DEFAULT, true);
             }
         };
         painterBroadcastReceiver.register(context);
@@ -99,23 +99,23 @@ public class PainterMainActivity extends AbstractMainActivity<AbstractPresenter,
         if (App.userModel.getDiseaseEnums() == DiseaseEnums.NOT_SET) {
             binding.llMenuPainterMainActivity.setVisibility(View.GONE);
         }
-        swipeFragment(PAGE_DEFAULT);
+//        swipeFragment(PAGE_DEFAULT);
     }
 
-    @Override
-    protected View setTopBar() {
-        return binding.componentTopBarPainterMainActivity.rlBackgroundTopBarComp;
-    }
-
-    @Override
-    protected View setTopMenu() {
-        return binding.llMenuPainterMainActivity;
-    }
-
-    @Override
-    protected View setFragmentView() {
-        return binding.flMainPainterMainActivity;
-    }
+//    @Override
+//    protected View setTopBar() {
+//        return binding.componentTopBarPainterMainActivity.rlBackgroundTopBarComp;
+//    }
+//
+//    @Override
+//    protected View setTopMenu() {
+//        return binding.llMenuPainterMainActivity;
+//    }
+//
+//    @Override
+//    protected View setFragmentView() {
+//        return binding.flMainPainterMainActivity;
+//    }
 
     @Override
     protected List<Fragment> initFragmentList() {

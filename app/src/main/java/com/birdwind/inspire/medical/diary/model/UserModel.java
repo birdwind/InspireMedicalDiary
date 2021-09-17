@@ -72,4 +72,15 @@ public class UserModel implements BaseModel {
                 return ContextCompat.getColor(App.getAppContext(), R.color.colorOrange_DC7400);
         }
     }
+    public int getIdentityMainColorId() {
+        switch (identityEnums) {
+            case DOCTOR:
+                return R.color.colorBlue_009CB2;
+            case FAMILY:
+                return R.color.colorRed_B70908;
+            case PAINTER:
+            default:
+                return R.color.colorOrange_DC7400;
+        }
+    }
 }
