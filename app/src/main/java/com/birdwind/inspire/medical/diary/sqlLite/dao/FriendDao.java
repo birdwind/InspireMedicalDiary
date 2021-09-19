@@ -4,10 +4,10 @@ import androidx.room.Dao;
 import androidx.room.Query;
 
 import com.birdwind.inspire.medical.diary.base.utils.sqlLite.BaseDao;
-import com.birdwind.inspire.medical.diary.model.response.FriendResponse;
+import com.birdwind.inspire.medical.diary.model.response.PatientResponse;
 
 @Dao
-public interface FriendDao extends BaseDao<FriendResponse.Response> {
+public interface FriendDao extends BaseDao<PatientResponse.Response> {
 
     @Override
     default String getTableName() {
@@ -16,5 +16,5 @@ public interface FriendDao extends BaseDao<FriendResponse.Response> {
 
     @Override
     @Query(value = "SELECT * FROM friend F WHERE F.pid = :pid")
-    FriendResponse.Response findOne(long pid);
+    PatientResponse.Response findOne(long pid);
 }

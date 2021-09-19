@@ -1,5 +1,18 @@
 package com.birdwind.inspire.medical.diary.view.activity;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.base.utils.SystemUtils;
@@ -8,27 +21,20 @@ import com.birdwind.inspire.medical.diary.base.utils.fragmentNavUtils.FragNavTra
 import com.birdwind.inspire.medical.diary.base.utils.fragmentNavUtils.FragmentHistory;
 import com.birdwind.inspire.medical.diary.base.utils.fragmentNavUtils.FragmentNavigationListener;
 import com.birdwind.inspire.medical.diary.base.view.AbstractActivity;
+import com.birdwind.inspire.medical.diary.base.view.BackHandlerHelper;
 import com.birdwind.inspire.medical.diary.databinding.ActivityMainBinding;
 import com.birdwind.inspire.medical.diary.enums.DiseaseEnums;
+import com.birdwind.inspire.medical.diary.model.PainterDiseaseModel;
 import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
+import com.birdwind.inspire.medical.diary.receiver.PainterBroadcastReceiver;
 import com.birdwind.inspire.medical.diary.service.InspireDiaryChatService;
-import com.birdwind.inspire.medical.diary.view.fragment.ChatFragment;
-import com.birdwind.inspire.medical.diary.view.fragment.PatientFragment;
+import com.birdwind.inspire.medical.diary.view.fragment.DoctorMainFragment;
+import com.birdwind.inspire.medical.diary.view.fragment.PatientMainFragment;
 import com.birdwind.inspire.medical.diary.view.fragment.QRCodeFragment;
 import com.birdwind.inspire.medical.diary.view.fragment.ScanFragment;
-import com.birdwind.inspire.medical.diary.view.viewCallback.BottomNavigationCallback;
+import com.birdwind.inspire.medical.diary.view.viewCallback.ToolbarCallback;
 import com.leaf.library.StatusBarUtil;
 import com.tbruyelle.rxpermissions3.Permission;
-import android.Manifest;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 
 public class MainActivity extends AbstractActivity<AbstractPresenter, ActivityMainBinding>
     implements AbstractActivity.PermissionRequestListener, FragNavController.TransactionListener,
@@ -46,7 +52,9 @@ public class MainActivity extends AbstractActivity<AbstractPresenter, ActivityMa
     //
     // private FragNavTransactionOptions tabToLeftFragNavTransactionOptions;
 
-    private BottomNavigationCallback bottomNavigationCallback;
+    private ToolbarCallback toolbarCallback;
+
+    private PainterBroadcastReceiver painterBroadcastReceiver;
 
     @Override
     public void initView() {
@@ -98,20 +106,35 @@ public class MainActivity extends AbstractActivity<AbstractPresenter, ActivityMa
             FragNavController.newBuilder(savedInstanceState, getSupportFragmentManager(), binding.mainContainer.getId())
                 .transactionListener(this).rootFragmentListener(this, 1)
                 .defaultTransactionOptions(defaultFragNavTransactionOptions).build();
+
+        painterBroadcastReceiver = new PainterBroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Bundle bundle = intent.getExtras();
+                PainterDiseaseModel painterDiseaseModel =
+                    (PainterDiseaseModel) bundle.getSerializable("painterDiseaseModel");
+                App.userModel.setDiseaseEnums(DiseaseEnums.parseEnumsByType(painterDiseaseModel.getDisease()));
+                App.updateUserModel();
+                mNavController.replaceFragment(new PatientMainFragment());
+            }
+        };
+        painterBroadcastReceiver.register(context);
     }
 
     @Override
     public void onBackPressed() {
-        if (!mNavController.isRootFragment()) {
-            mNavController.popFragment(popFragNavTransactionOptions);
-        } else {
-            if (doubleBackToExitPressedOnce) {
-                super.onBackPressed();
-                return;
+        if (!BackHandlerHelper.handleBackPress(this)) {
+            if (!mNavController.isRootFragment()) {
+                mNavController.popFragment(popFragNavTransactionOptions);
+            } else {
+                if (doubleBackToExitPressedOnce) {
+                    super.onBackPressed();
+                    return;
+                }
+                this.doubleBackToExitPressedOnce = true;
+                showToast(getString(R.string.common_double_click_back));
+                new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
             }
-            this.doubleBackToExitPressedOnce = true;
-            showToast(getString(R.string.common_double_click_back));
-            new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
         }
     }
 
@@ -149,14 +172,17 @@ public class MainActivity extends AbstractActivity<AbstractPresenter, ActivityMa
     public Fragment getRootFragment(int index) {
         switch (App.userModel.getIdentityEnums()) {
             case DOCTOR:
-                return new PatientFragment();
+                return new DoctorMainFragment();
             case PAINTER:
-            case FAMILY:
                 if (App.userModel.getDiseaseEnums() == DiseaseEnums.NOT_SET) {
                     return new QRCodeFragment();
                 } else {
-                    return new ChatFragment();
+                    return new PatientMainFragment();
                 }
+            case FAMILY:
+                // TODO:定義加入群組資料格式
+                return new ScanFragment();
+            // return new FamilyMainFragment();
         }
         throw new IllegalStateException("Need to send an index that we know");
     }
@@ -169,14 +195,12 @@ public class MainActivity extends AbstractActivity<AbstractPresenter, ActivityMa
     }
 
     @Override
-    public void popIndexTabFragment(int tab) {
-
-    }
+    public void popIndexTabFragment(int tab) {}
 
     @Override
     public void updateToolbar(String title, int titleColor, int backgroundColor, boolean isStatusLightMode,
         boolean isShowBack, boolean isShowHeader, boolean isShowRightButton, String rightButtonText,
-        int rightImageButton, BottomNavigationCallback bottomNavigationCallback) {
+        int rightImageButton, ToolbarCallback toolbarCallback) {
         if (title != null) {
             binding.compTopBarMainActivity.tvTitleTopBarComp.setText(title);
         }
@@ -209,13 +233,12 @@ public class MainActivity extends AbstractActivity<AbstractPresenter, ActivityMa
             binding.compTopBarMainActivity.rlBackgroundTopBarComp.setVisibility(View.GONE);
         }
 
-        if (isShowRightButton) {
+        if (!TextUtils.isEmpty(rightButtonText)) {
+            binding.compTopBarMainActivity.btRightButtonTopBarComp.setText(rightButtonText);
             binding.compTopBarMainActivity.btRightButtonTopBarComp.setVisibility(View.VISIBLE);
         } else {
             binding.compTopBarMainActivity.btRightButtonTopBarComp.setVisibility(View.GONE);
         }
-
-        binding.compTopBarMainActivity.btRightButtonTopBarComp.setText(rightButtonText);
 
         if (rightImageButton != 0) {
             binding.compTopBarMainActivity.llRightButtonTopBarComp.setVisibility(View.VISIBLE);
@@ -225,7 +248,7 @@ public class MainActivity extends AbstractActivity<AbstractPresenter, ActivityMa
             binding.compTopBarMainActivity.llRightButtonTopBarComp.setVisibility(View.GONE);
         }
 
-        this.bottomNavigationCallback = bottomNavigationCallback;
+        this.toolbarCallback = toolbarCallback;
     }
 
     @Override
@@ -233,12 +256,12 @@ public class MainActivity extends AbstractActivity<AbstractPresenter, ActivityMa
         if (v == binding.compTopBarMainActivity.llBackTopBarComp) {
             onBackPressed();
         } else if (v == binding.compTopBarMainActivity.btRightButtonTopBarComp) {
-            if (bottomNavigationCallback != null) {
-                bottomNavigationCallback.clickTopBarRightButton(v);
+            if (toolbarCallback != null) {
+                toolbarCallback.clickTopBarRightTextButton(v);
             }
         } else if (v == binding.compTopBarMainActivity.llRightButtonTopBarComp) {
-            if (bottomNavigationCallback != null) {
-                bottomNavigationCallback.clickTopBarRightImageButton(v);
+            if (toolbarCallback != null) {
+                toolbarCallback.clickTopBarRightImageButton(v);
             }
         }
     }

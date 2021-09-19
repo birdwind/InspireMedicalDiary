@@ -55,17 +55,6 @@ public class SplashActivity extends AbstractActivity<AbstractPresenter, Activity
                     startActivityWithFinish(AuthActivity.class);
                 } else {
                     startActivityWithFinish(MainActivity.class);
-//                    switch (App.userModel.getIdentityEnums()) {
-//                        case DOCTOR:
-//                            startActivityWithFinish(DoctorMainActivity.class);
-//                            break;
-//                        case FAMILY:
-//                            startActivityWithFinish(FamilyMainActivity.class);
-//                            break;
-//                        case PAINTER:
-//                            startActivityWithFinish(PainterMainActivity.class);
-//                            break;
-//                    }
                 }
             }
         });

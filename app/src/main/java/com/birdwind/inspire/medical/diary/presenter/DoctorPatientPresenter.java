@@ -1,12 +1,12 @@
 package com.birdwind.inspire.medical.diary.presenter;
 
 import com.birdwind.inspire.medical.diary.base.basic.AbstractObserver;
-import com.birdwind.inspire.medical.diary.model.response.FriendResponse;
+import com.birdwind.inspire.medical.diary.model.response.PatientResponse;
 import com.birdwind.inspire.medical.diary.server.DoctorApiServer;
-import com.birdwind.inspire.medical.diary.view.viewCallback.FriendView;
+import com.birdwind.inspire.medical.diary.view.viewCallback.DoctorPatientPresent;
 
-public class FriendPresenter extends AbstractPresenter<FriendView> {
-    public FriendPresenter(FriendView baseView) {
+public class DoctorPatientPresenter extends AbstractPresenter<DoctorPatientPresent> {
+    public DoctorPatientPresenter(DoctorPatientPresent baseView) {
         super(baseView);
     }
 
@@ -15,9 +15,9 @@ public class FriendPresenter extends AbstractPresenter<FriendView> {
         addDisposable(
                 apiServer.executePostFormUrlEncode(DoctorApiServer.GET_MY_PATIENT.valueOfName(), paramsMap, fieldMap,
                         headerMap),
-                new AbstractObserver<FriendResponse>(this, baseView, "GetPatient", null, FriendResponse.class, true) {
+                new AbstractObserver<PatientResponse>(this, baseView, "GetPatient", null, PatientResponse.class, true) {
                     @Override
-                    public void onSuccess(FriendResponse response) {
+                    public void onSuccess(PatientResponse response) {
                         baseView.onGetFriends(response.getJsonData());
                     }
                 });

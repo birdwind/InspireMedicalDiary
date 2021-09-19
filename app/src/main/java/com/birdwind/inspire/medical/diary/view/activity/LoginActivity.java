@@ -89,17 +89,7 @@ public class LoginActivity extends AbstractActivity<LoginPresenter, ActivityLogi
     public void onLoginSuccess() {
         App.userModel.setIdentityEnums(identityEnums);
         App.updateUserModel();
-        switch (identityEnums){
-            case DOCTOR:
-                startActivityWithFinish(DoctorMainActivity.class);
-                break;
-            case FAMILY:
-                startActivityWithFinish(FamilyMainActivity.class);
-                break;
-            case PAINTER:
-                startActivityWithFinish(PainterMainActivity.class);
-                break;
-        }
+        startActivityWithFinish(MainActivity.class);
     }
 
     @Override

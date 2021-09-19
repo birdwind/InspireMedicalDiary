@@ -3,12 +3,16 @@
     android:id="@+id/rl_background_top_bar_comp"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    android:background="@color/colorBlue_1B2F66">
+    android:background="@color/colorBlue_1B2F66"
+    android:elevation="10dp">
 
+<!--    <RelativeLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_above="@id/view_underline_top_bar_comp">-->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/view_underline_top_bar_comp">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/ll_back_top_bar_comp"
@@ -97,9 +101,9 @@
 
     </RelativeLayout>
 
-    <View
-        android:id="@+id/view_underline_top_bar_comp"
-        style="@style/UnderLine"
-        android:layout_alignParentBottom="true"
-        android:background="@color/colorGray_6D6D6D" />
+<!--    <View-->
+<!--        android:id="@+id/view_underline_top_bar_comp"-->
+<!--        style="@style/UnderLine"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:background="@color/colorGray_6D6D6D" />-->
 </RelativeLayout>

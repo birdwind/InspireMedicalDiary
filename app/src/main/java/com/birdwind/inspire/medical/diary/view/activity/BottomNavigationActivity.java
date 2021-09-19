@@ -20,7 +20,7 @@ import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
 import com.birdwind.inspire.medical.diary.service.InspireDiaryChatService;
 import com.birdwind.inspire.medical.diary.view.customer.BadgeView;
 import com.birdwind.inspire.medical.diary.view.fragment.ScanFragment;
-import com.birdwind.inspire.medical.diary.view.viewCallback.BottomNavigationCallback;
+import com.birdwind.inspire.medical.diary.view.viewCallback.ToolbarCallback;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.leaf.library.StatusBarUtil;
 
@@ -80,7 +80,7 @@ public class BottomNavigationActivity extends AbstractActivity<AbstractPresenter
 
     public Badge[] badge;
 
-    private BottomNavigationCallback bottomNavigationCallback;
+    private ToolbarCallback toolbarCallback;
 
     @Override
     public ActivityBottomNavigationBinding getViewBinding(LayoutInflater inflater, ViewGroup container,
@@ -137,7 +137,7 @@ public class BottomNavigationActivity extends AbstractActivity<AbstractPresenter
     @Override
     public void updateToolbar(String title, int titleColor, int backgroundColor, boolean isStatusLightMode,
         boolean isShowBack, boolean isShowHeader, boolean isShowRightButton, String rightButtonText,
-        @DrawableRes int rightImageButton, BottomNavigationCallback bottomNavigationCallback) {
+        @DrawableRes int rightImageButton, ToolbarCallback toolbarCallback) {
         if (title != null) {
             binding.compTopBarBottomNavigationActivity.tvTitleTopBarComp.setText(title);
         }
@@ -181,7 +181,7 @@ public class BottomNavigationActivity extends AbstractActivity<AbstractPresenter
             binding.compTopBarBottomNavigationActivity.llRightButtonTopBarComp.setVisibility(View.GONE);
         }
 
-        this.bottomNavigationCallback = bottomNavigationCallback;
+        this.toolbarCallback = toolbarCallback;
 
     }
 
@@ -411,12 +411,12 @@ public class BottomNavigationActivity extends AbstractActivity<AbstractPresenter
         if (v == binding.compTopBarBottomNavigationActivity.llBackTopBarComp) {
             onBackPressed();
         } else if (v == binding.compTopBarBottomNavigationActivity.btRightButtonTopBarComp) {
-            if (bottomNavigationCallback != null) {
-                bottomNavigationCallback.clickTopBarRightButton(v);
+            if (toolbarCallback != null) {
+                toolbarCallback.clickTopBarRightTextButton(v);
             }
         } else if (v == binding.compTopBarBottomNavigationActivity.llRightButtonTopBarComp) {
-            if (bottomNavigationCallback != null) {
-                bottomNavigationCallback.clickTopBarRightImageButton(v);
+            if (toolbarCallback != null) {
+                toolbarCallback.clickTopBarRightImageButton(v);
             }
         }
     }

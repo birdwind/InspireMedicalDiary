@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/com_group_member_patient_fragment"
+        layout="@layout/component_chat_group"
+        android:layout_width="match_parent"
+        android:layout_height="148dp" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tl_patient_fragment"
+        style="@style/TabLayoutStyle"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorGray_F3F3F3"
+        android:elevation="3dp"
+        app:tabIndicatorColor="@color/colorBlue_009CB2"
+        app:tabIndicatorHeight="4dp"
+        app:tabMode="auto"
+        app:tabSelectedTextColor="@color/colorBlue_009CB2"
+        app:tabTextAppearance="@style/TabLayoutTextSize"
+        app:tabTextColor="@color/colorTextBlack" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vp_patient_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

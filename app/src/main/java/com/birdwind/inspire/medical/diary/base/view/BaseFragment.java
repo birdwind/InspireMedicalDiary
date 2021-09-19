@@ -2,7 +2,7 @@ package com.birdwind.inspire.medical.diary.base.view;
 
 import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
-import com.birdwind.inspire.medical.diary.view.viewCallback.BottomNavigationCallback;
+import com.birdwind.inspire.medical.diary.view.viewCallback.ToolbarCallback;
 
 import androidx.annotation.DrawableRes;
 import androidx.viewbinding.ViewBinding;
@@ -99,7 +99,7 @@ public interface BaseFragment<P extends AbstractPresenter, VB extends ViewBindin
         return 0;
     }
 
-    default BottomNavigationCallback setBottomNavigationCallback() {
+    default ToolbarCallback setToolbarCallback() {
         return null;
     }
 }

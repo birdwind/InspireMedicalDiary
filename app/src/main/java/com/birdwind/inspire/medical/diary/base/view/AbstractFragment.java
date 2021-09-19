@@ -35,7 +35,7 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 
 public abstract class AbstractFragment<P extends AbstractPresenter, VB extends ViewBinding> extends Fragment
-    implements BaseView, BaseFragment<P, VB>, BaseCustomView {
+    implements BaseView, BaseFragment<P, VB>, BaseCustomView, FragmentBackHandler {
     public Context context;
 
     private String className;
@@ -272,7 +272,7 @@ public abstract class AbstractFragment<P extends AbstractPresenter, VB extends V
         if (context instanceof FragmentNavigationListener) {
             fragmentNavigationListener.updateToolbar(setTopBarTitle(), setTopBarTitleColor(),
                 setTopBarBackgroundColor(), isStatusLightMode(), isShowTopBarBack(), isShowTopBar(),
-                isShowRightButton(), setRightButtonText(), setRightImageButton(), setBottomNavigationCallback());
+                isShowRightButton(), setRightButtonText(), setRightImageButton(), setToolbarCallback());
 
 //            ((BottomNavigationActivity) context).getIconBadges();
         }
@@ -346,8 +346,13 @@ public abstract class AbstractFragment<P extends AbstractPresenter, VB extends V
         return ((AbstractActivity) context).hasPermission(permission);
     }
 
-    public void onBackPressed() {
-        ((AbstractActivity) context).onBackPressed();
+    @Override
+    public boolean onBackPressed() {
+        return false;
+    }
+
+    public void onBackPressedByActivity() {
+        ((AbstractActivity)context).onBackPressed();
     }
 
     public void onPopBack(int popTabIndex, int popDeep) {

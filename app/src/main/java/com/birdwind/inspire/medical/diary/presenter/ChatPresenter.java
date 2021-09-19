@@ -51,25 +51,6 @@ public class ChatPresenter extends AbstractPresenter<ChatView> {
             });
     }
 
-    public void getChatMember(long uid) {
-        initMap();
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("UID", uid);
-
-        addDisposable(
-            apiServer.executePostFormUrlEncode(DoctorApiServer.GET_PATIENT_MEMBER.valueOfName(), map, fieldMap,
-                headerMap),
-            new AbstractObserver<ChatMemberResponse>(this, baseView, "GetChatMember", null, ChatMemberResponse.class,
-                true) {
-                @Override
-                public void onSuccess(ChatMemberResponse response) {
-                    ChatMemberService chatMemberService = new ChatMemberService(context);
-                    chatMemberService.save(response.getJsonData());
-                    baseView.onGetChatMember(true);
-                }
-            });
-    }
-
     public void sendChatMessage(long uid, String message) {
         String api = "";
         initMap();

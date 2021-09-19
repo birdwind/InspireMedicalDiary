@@ -12,54 +12,10 @@
         android:text="Family Survey History"
         android:textColor="@color/colorBlack_333333" />
 
-    <RelativeLayout
-        android:id="@+id/rl_chart_fragment"
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/lc_chart_fragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <!--        <com.anychart.AnyChartView-->
-        <!--            android:id="@+id/acv_chart_fragment"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="match_parent"-->
-        <!--            android:layout_above="@id/ll_bottom_chart_fragment" />-->
-
-        <!--        <ProgressBar-->
-        <!--            android:id="@+id/pb_progress_chart_fragment"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_alignBottom="@id/acv_chart_fragment"-->
-        <!--            android:layout_alignTop="@id/acv_chart_fragment"-->
-        <!--            android:layout_centerInParent="true" />-->
-
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/lc_chart_fragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@id/ll_bottom_chart_fragment"
-            android:layout_alignParentTop="true" />
-
-
-        <LinearLayout
-            android:id="@+id/ll_bottom_chart_fragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/bt_message_chart_fragment"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="訊息" />
-
-            <Button
-                android:id="@+id/bt_request_chart_fragment"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="看診" />
-        </LinearLayout>
-    </RelativeLayout>
+        android:layout_height="match_parent"
+        android:layout_marginBottom="12dp"/>
 
 </LinearLayout>

@@ -8,7 +8,7 @@ import com.birdwind.inspire.medical.diary.base.model.BaseModel;
 import com.birdwind.inspire.medical.diary.base.network.response.AbstractListResponse;
 import com.birdwind.inspire.medical.diary.base.network.response.BaseResponse;
 
-public class FriendResponse extends AbstractListResponse<FriendResponse.Response> {
+public class PatientResponse extends AbstractListResponse<PatientResponse.Response> {
 
     @Entity(tableName = "friend")
     public static class Response implements BaseResponse, BaseModel {

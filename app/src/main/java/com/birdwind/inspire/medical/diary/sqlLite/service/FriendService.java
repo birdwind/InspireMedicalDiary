@@ -3,13 +3,13 @@ package com.birdwind.inspire.medical.diary.sqlLite.service;
 import android.content.Context;
 
 import com.birdwind.inspire.medical.diary.base.utils.sqlLite.AbstractService;
-import com.birdwind.inspire.medical.diary.model.response.FriendResponse;
+import com.birdwind.inspire.medical.diary.model.response.PatientResponse;
 import com.birdwind.inspire.medical.diary.sqlLite.DatabaseConfig;
 import com.birdwind.inspire.medical.diary.sqlLite.dao.FriendDao;
 
 import java.util.List;
 
-public class FriendService extends AbstractService<FriendResponse.Response, FriendDao> {
+public class FriendService extends AbstractService<PatientResponse.Response, FriendDao> {
 
     public FriendService(Context context) {
         super(context);
@@ -20,7 +20,7 @@ public class FriendService extends AbstractService<FriendResponse.Response, Frie
         return DatabaseConfig.getInstance(context).friendDao();
     }
 
-    public List<FriendResponse.Response> getFriends() {
+    public List<PatientResponse.Response> getFriends() {
         return dao.findAll();
     }
 }

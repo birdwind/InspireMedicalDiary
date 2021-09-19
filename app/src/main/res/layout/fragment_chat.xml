@@ -6,114 +6,113 @@
     android:orientation="vertical">
 
 
-    <LinearLayout
-        android:id="@+id/ll_menu_chat_fragment"
-        android:layout_width="match_parent"
-        android:layout_height="126dp"
-        android:background="@color/colorOrange_DC7400">
+    <!--    <LinearLayout-->
+    <!--        android:id="@+id/ll_menu_chat_fragment"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="126dp"-->
+    <!--        android:background="@color/colorOrange_DC7400">-->
 
-        <LinearLayout
-            android:id="@+id/ll_qrcode_chat_fragment"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
+    <!--        <LinearLayout-->
+    <!--            android:id="@+id/ll_qrcode_chat_fragment"-->
+    <!--            android:layout_width="0dp"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:layout_weight="1"-->
+    <!--            android:gravity="center"-->
+    <!--            android:orientation="vertical">-->
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:src="@drawable/ic_qrcode" />
+    <!--            <ImageView-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_marginBottom="12dp"-->
+    <!--                android:src="@drawable/ic_qrcode" />-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/painter_main_menu_qrcode"
-                android:textColor="@color/colorWhite_FFFFFF"
-                android:textSize="12sp" />
-        </LinearLayout>
+    <!--            <TextView-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:text="@string/painter_main_menu_qrcode"-->
+    <!--                android:textColor="@color/colorWhite_FFFFFF"-->
+    <!--                android:textSize="12sp" />-->
+    <!--        </LinearLayout>-->
 
-        <LinearLayout
-            android:id="@+id/ll_quiz_chat_fragment"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
+    <!--        <LinearLayout-->
+    <!--            android:id="@+id/ll_quiz_chat_fragment"-->
+    <!--            android:layout_width="0dp"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:layout_weight="1"-->
+    <!--            android:gravity="center"-->
+    <!--            android:orientation="vertical">-->
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:src="@drawable/ic_report" />
+    <!--            <ImageView-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_marginBottom="12dp"-->
+    <!--                android:src="@drawable/ic_report" />-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/painter_main_menu_quiz"
-                android:textColor="@color/colorWhite_FFFFFF"
-                android:textSize="12sp" />
-        </LinearLayout>
+    <!--            <TextView-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:text="@string/painter_main_menu_quiz"-->
+    <!--                android:textColor="@color/colorWhite_FFFFFF"-->
+    <!--                android:textSize="12sp" />-->
+    <!--        </LinearLayout>-->
 
-        <LinearLayout
-            android:id="@+id/ll_visit_chat_fragment"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
+    <!--        <LinearLayout-->
+    <!--            android:id="@+id/ll_visit_chat_fragment"-->
+    <!--            android:layout_width="0dp"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:layout_weight="1"-->
+    <!--            android:gravity="center"-->
+    <!--            android:orientation="vertical">-->
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:src="@drawable/ic_visit" />
+    <!--            <ImageView-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_marginBottom="12dp"-->
+    <!--                android:src="@drawable/ic_visit" />-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/painter_main_menu_visit"
-                android:textColor="@color/colorWhite_FFFFFF"
-                android:textSize="12sp" />
-        </LinearLayout>
+    <!--            <TextView-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:text="@string/painter_main_menu_visit"-->
+    <!--                android:textColor="@color/colorWhite_FFFFFF"-->
+    <!--                android:textSize="12sp" />-->
+    <!--        </LinearLayout>-->
 
-        <LinearLayout
-            android:id="@+id/ll_setting_chat_fragment"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
+    <!--        <LinearLayout-->
+    <!--            android:id="@+id/ll_setting_chat_fragment"-->
+    <!--            android:layout_width="0dp"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:layout_weight="1"-->
+    <!--            android:gravity="center"-->
+    <!--            android:orientation="vertical">-->
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:src="@drawable/ic_setting" />
+    <!--            <ImageView-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_marginBottom="12dp"-->
+    <!--                android:src="@drawable/ic_setting" />-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/painter_main_menu_setting"
-                android:textColor="@color/colorWhite_FFFFFF"
-                android:textSize="12sp" />
-        </LinearLayout>
-    </LinearLayout>
+    <!--            <TextView-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:text="@string/painter_main_menu_setting"-->
+    <!--                android:textColor="@color/colorWhite_FFFFFF"-->
+    <!--                android:textSize="12sp" />-->
+    <!--        </LinearLayout>-->
+    <!--    </LinearLayout>-->
 
-    <include
-        android:id="@+id/com_group_friend"
-        layout="@layout/component_chat_group"
-        android:layout_width="match_parent"
-        android:layout_height="148dp"
-        android:layout_below="@id/ll_menu_chat_fragment" />
-
+    <!--    <androidx.recyclerview.widget.RecyclerView-->
+    <!--        android:id="@+id/rv_message_chat_fragment"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:layout_above="@id/ll_message_chat_fragment"-->
+    <!--        android:layout_below="@id/ll_menu_chat_fragment"-->
+    <!--        android:paddingHorizontal="13dp" />-->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_message_chat_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/ll_message_chat_fragment"
-        android:layout_below="@id/com_group_friend"
         android:paddingHorizontal="13dp" />
 
     <LinearLayout
@@ -126,11 +125,19 @@
         android:paddingHorizontal="21dp"
         android:paddingVertical="22dp">
 
+        <ImageButton
+            android:id="@+id/ib_send_visit_chat_fragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:backgroundTint="@android:color/transparent"
+            android:src="@drawable/ic_visit" />
+
         <EditText
             android:id="@+id/et_message_chat_fragment"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="19dp"
+            android:layout_marginEnd="5dp"
             android:layout_weight="1"
             android:background="@drawable/background_board_radius_5dp"
             android:hint="Aa"

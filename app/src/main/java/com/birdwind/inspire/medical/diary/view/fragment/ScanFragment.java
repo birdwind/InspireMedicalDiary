@@ -1,6 +1,10 @@
 package com.birdwind.inspire.medical.diary.view.fragment;
 
-import com.birdwind.inspire.medical.diary.App;
+import android.graphics.PointF;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+
 import com.birdwind.inspire.medical.diary.base.utils.GsonUtils;
 import com.birdwind.inspire.medical.diary.base.view.AbstractActivity;
 import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
@@ -12,10 +16,6 @@ import com.birdwind.inspire.medical.diary.view.dialog.UserDialog;
 import com.birdwind.inspire.medical.diary.view.dialog.callback.UserDialogListener;
 import com.birdwind.inspire.medical.diary.view.viewCallback.ScanView;
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
-import android.graphics.PointF;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
 
 public class ScanFragment extends AbstractFragment<ScanPresenter, FragmentScanBinding> implements ScanView,
     AbstractActivity.PermissionRequestListener, QRCodeReaderView.OnQRCodeReadListener, UserDialogListener {
@@ -94,7 +94,8 @@ public class ScanFragment extends AbstractFragment<ScanPresenter, FragmentScanBi
     @Override
     public void userDialogAdded() {
         isAdded = true;
-        onBackPressed();
+        // onBackPressed();
+        onBackPressedByActivity();
     }
 
     @Override
@@ -104,7 +105,8 @@ public class ScanFragment extends AbstractFragment<ScanPresenter, FragmentScanBi
             binding.qrcodeCameraScanFragment.startCamera();
             binding.qrcodeCameraScanFragment.forceAutoFocus();
         } else {
-            onBackPressed();
+            // onBackPressed();
+            onBackPressedByActivity();
         }
     }
 }

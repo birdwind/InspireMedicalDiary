@@ -1,41 +1,57 @@
 package com.birdwind.inspire.medical.diary.view.fragment;
 
+import android.graphics.Color;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
+import com.birdwind.inspire.medical.diary.base.utils.DateTimeFormatUtils;
+import com.birdwind.inspire.medical.diary.base.utils.Utils;
 import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
 import com.birdwind.inspire.medical.diary.databinding.FragmentChartBinding;
-import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
-import com.github.mikephil.charting.components.LimitLine;
+import com.birdwind.inspire.medical.diary.model.response.ChartResponse;
+import com.birdwind.inspire.medical.diary.presenter.ChartPresenter;
+import com.birdwind.inspire.medical.diary.view.viewCallback.ChartView;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import android.graphics.Color;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
-import androidx.core.content.ContextCompat;
 
-public class ChartFragment extends AbstractFragment<AbstractPresenter, FragmentChartBinding>
-    implements OnChartValueSelectedListener {
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class ChartFragment extends AbstractFragment<ChartPresenter, FragmentChartBinding>
+    implements OnChartValueSelectedListener, ChartView {
 
     private long uid;
 
-    private String name;
+    private XAxis chart_xAxis;
 
-    private String avater;
+    private YAxis chart_yAxis;
 
-    // private Cartesian cartesian;
-    //
-    // private List<DataEntry> seriesData;
+    private Description chartDescription;
+
+    private Legend chartLegend;
+
+    private final int maxShowChartX = 4;
 
     @Override
-    public AbstractPresenter createPresenter() {
-        return null;
+    public ChartPresenter createPresenter() {
+        return new ChartPresenter(this);
     }
 
     @Override
@@ -45,22 +61,6 @@ public class ChartFragment extends AbstractFragment<AbstractPresenter, FragmentC
 
     @Override
     public void addListener() {
-        binding.btMessageChartFragment.setOnClickListener(v -> {
-            Bundle bundle = new Bundle();
-            bundle.putLong("UID", uid);
-            bundle.putString("name", name);
-            bundle.putString("avatar", avater);
-
-            ChatFragment chatFragment = new ChatFragment();
-            chatFragment.setArguments(bundle);
-
-            pushFragment(chatFragment);
-        });
-
-        binding.btRequestChartFragment.setOnClickListener(v -> {
-            showToast(getString(R.string.function_not_complete));
-        });
-
         binding.lcChartFragment.setOnChartValueSelectedListener(this);
     }
 
@@ -69,130 +69,21 @@ public class ChartFragment extends AbstractFragment<AbstractPresenter, FragmentC
         Bundle bundle = getArguments();
         if (bundle != null) {
             uid = bundle.getLong("UID", App.userModel.getUid());
-            name = bundle.getString("name", "");
-            avater = bundle.getString("avatar", "");
         } else {
             uid = App.userModel.getUid();
-            name = "";
-            avater = "";
         }
-
-        // cartesian = AnyChart.line();
-        // cartesian.animation(true);
-        // cartesian.padding(10d, 20d, 5d, 20d);
-        // cartesian.crosshair().enabled(true);
-        // cartesian.crosshair().yLabel(true).yStroke((Stroke) null, null, null, (String) null, (String) null);
-        //
-        // cartesian.tooltip().positionMode(TooltipPositionMode.POINT);
-        //
-        // cartesian.title("Family Survey History");
-        //
-        //// cartesian.yAxis(0).title("Number of Bottles Sold (thousands)");
-        // cartesian.xAxis(0).labels().padding(5d, 5d, 5d, 5d);
-        //
-        // seriesData = new ArrayList<>();
-        // seriesData.add(new ChartDataModel("1986", 3.6));
-        // seriesData.add(new ChartDataModel("1987", 7.1));
-        // seriesData.add(new ChartDataModel("1988", 8.5));
-        // seriesData.add(new ChartDataModel("1989", 9.2));
-        // seriesData.add(new ChartDataModel("1990", 10.1));
-        //
-        // Set set = Set.instantiate();
-        // set.data(seriesData);
-        // Mapping series1Mapping = set.mapAs("{ x: 'x', value: 'value' }");
-        //
-        // Line series1 = cartesian.line(series1Mapping);
-        // series1.name("Brandy");
-        // series1.hovered().markers().enabled(true);
-        // series1.hovered().markers().type(MarkerType.CIRCLE).size(4d);
-        // series1.tooltip().position("right").anchor(Anchor.LEFT_CENTER).offsetX(5d).offsetY(5d);
-        //
-        // cartesian.legend().enabled(true);
-        // cartesian.legend().fontSize(13d);
-        // cartesian.legend().padding(0d, 0d, 10d, 0d);
-
     }
 
     @Override
     public void initView() {
-        // binding.acvChartFragment.setProgressBar(binding.pbProgressChartFragment);
-        // binding.acvChartFragment.setChart(cartesian);
-
-        binding.lcChartFragment.setTouchEnabled(true);
-        binding.lcChartFragment.setDrawGridBackground(false);
-        binding.lcChartFragment.setDragEnabled(true);
-        binding.lcChartFragment.setScaleEnabled(true);
-        binding.lcChartFragment.setBackgroundColor(ContextCompat.getColor(context, R.color.colorWhite_FFFFFF));
-        // binding.lcChartFragment.setScaleXEnabled(true);
-        // binding.lcChartFragment.setScaleYEnabled(true);
-
-        // force pinch zoom along both axis
-        binding.lcChartFragment.setPinchZoom(true);
-
-        XAxis xAxis;
-        { // // X-Axis Style // //
-            xAxis = binding.lcChartFragment.getXAxis();
-
-            // vertical grid lines
-            xAxis.enableGridDashedLine(10f, 10f, 0f);
-        }
-
-        YAxis yAxis;
-        { // // Y-Axis Style // //
-            yAxis = binding.lcChartFragment.getAxisLeft();
-
-            // disable dual axis (only use LEFT axis)
-            binding.lcChartFragment.getAxisRight().setEnabled(false);
-
-            // horizontal grid lines
-            yAxis.enableGridDashedLine(10f, 10f, 0f);
-
-            // axis range
-            yAxis.setAxisMaximum(10f);
-            yAxis.setAxisMinimum(0f);
-        }
-
-        { // // Create Limit Lines // //
-//            LimitLine llXAxis = new LimitLine(9f, "Index 10");
-//            llXAxis.setLineWidth(4f);
-//            llXAxis.enableDashedLine(10f, 10f, 0f);
-//            llXAxis.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
-//            llXAxis.setTextSize(10f);
-//
-//            LimitLine ll1 = new LimitLine(150f, "Upper Limit");
-//            ll1.setLineWidth(4f);
-//            ll1.enableDashedLine(10f, 10f, 0f);
-//            ll1.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
-//            ll1.setTextSize(10f);
-//
-//            LimitLine ll2 = new LimitLine(-30f, "Lower Limit");
-//            ll2.setLineWidth(4f);
-//            ll2.enableDashedLine(10f, 10f, 0f);
-//            ll2.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
-//            ll2.setTextSize(10f);
-
-            // draw limit lines behind data instead of on top
-            yAxis.setDrawLimitLinesBehindData(true);
-            xAxis.setDrawLimitLinesBehindData(true);
-
-            // add limit lines
-//            yAxis.addLimitLine(ll1);
-//            yAxis.addLimitLine(ll2);
-            // xAxis.addLimitLine(llXAxis);
-        }
-
+        initChartX_Style();
+        initChartY_Style();
+        initChartFormat();
     }
 
     @Override
     public void doSomething() {
-        addDataSet("test", 1);
-        addDataSet("test2", 1);
-        addDataSet("test", 2);
-        addDataSet("test", 1);
-        addDataSet("test2", 2);
-        addDataSet("test", 2);
-        addDataSet("test", 1);
-        addDataSet("test2", 2);
+        presenter.getChartData(uid);
     }
 
     @Override
@@ -213,12 +104,86 @@ public class ChartFragment extends AbstractFragment<AbstractPresenter, FragmentC
         set.setCircleColor(Color.rgb(240, 99, 99));
         set.setHighLightColor(Color.rgb(190, 190, 190));
         set.setAxisDependency(YAxis.AxisDependency.LEFT);
-        set.setValueTextSize(10f);
+        set.setValueTextSize(Utils.dp2px(context, 8));
 
         return set;
     }
 
-    private void addDataSet(String name, Number value) {
+    @Override
+    public void onGetChart(boolean isSuccess, List<ChartResponse.Response> responses) {
+        List<String> dateList = new ArrayList<>();
+        List<Map<Integer, Number>> dataList = new ArrayList<>();
+        for (int i = 0; i < responses.size(); i++) {
+            ChartResponse.Response response = responses.get(i);
+            Map<Integer, Number> dataMap = new HashMap<>();
+            dateList.add(DateTimeFormatUtils.monthDayFormat(response.getTimeC()));
+            dataMap.put(i, response.getScore());
+            dataList.add(dataMap);
+        }
+
+        initChartX(dateList);
+
+        //TODO:更新字串
+        updateChartData("平均分數", dataList);
+    }
+
+    private void initChartX_Style() {
+        chart_xAxis = binding.lcChartFragment.getXAxis();
+        chart_xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        chart_xAxis.setTextSize(Utils.dp2px(context, 8));
+        chart_xAxis.setTextColor(ContextCompat.getColor(context, R.color.colorGray_4D4D4D));
+        chart_xAxis.setSpaceMin(0.5f);// 折線起點距離左側Y軸距離
+        chart_xAxis.setSpaceMax(0.5f);// 折線終點距離右側Y軸距離
+        chart_xAxis.setDrawGridLines(false);// 不顯示每個座標點對應X軸的線 (預設顯示)
+        chart_xAxis.setDrawLabels(true);// 不顯示X軸的對應標籤 (預設顯示)
+        // chart_xAxis.setLabelRotationAngle(-25);// X軸數字旋轉角度
+
+        // xAxis.enableGridDashedLine(10f, 10f, 0f);
+    }
+
+    private void initChartY_Style() {
+        chart_yAxis = binding.lcChartFragment.getAxisLeft();
+        binding.lcChartFragment.getAxisRight().setEnabled(false);
+        chart_yAxis.setAxisMaximum(10f);
+        chart_yAxis.setAxisMinimum(0f);
+        chart_yAxis.setLabelCount(10);// X軸標籤個數
+    }
+
+    private void initChartFormat() {
+        chartDescription = binding.lcChartFragment.getDescription();
+        chartLegend = binding.lcChartFragment.getLegend();
+
+        chartDescription.setEnabled(false);// 不顯示Description Label (預設顯示)
+//        chartLegend.setEnabled(false);// 不顯示圖例 (預設顯示)
+
+        //TODO:更新字串
+        binding.lcChartFragment.setNoDataText("暫時沒有數據");
+        binding.lcChartFragment.setPinchZoom(false); // true->X、Y軸同時按比例縮放、false:X、Y可單獨縮放
+
+        binding.lcChartFragment.setTouchEnabled(true);
+        binding.lcChartFragment.setDragEnabled(true);
+        binding.lcChartFragment.setScaleEnabled(false);
+        binding.lcChartFragment.setBackgroundColor(ContextCompat.getColor(context, R.color.colorWhite_FFFFFF));
+    }
+
+    private void initChartX(List<String> xList) {
+        chart_xAxis.setLabelCount(Math.min(xList.size(), maxShowChartX));// X軸標籤個數
+        chart_xAxis.setValueFormatter(new IndexAxisValueFormatter(xList));
+    }
+
+    private void updateChartData(String name, List<Map<Integer, Number>> valueList) {
+        for (Map<Integer, Number> value : valueList) {
+            for (Map.Entry<Integer, Number> entry : value.entrySet()) {
+                addChartData(name, entry.getValue());
+            }
+        }
+    }
+
+    private void addChartData(String name, Number yValue) {
+        addChartData(name, null, yValue);
+    }
+
+    private void addChartData(String name, @Nullable Number xValue, Number yValue) {
         LineData data = binding.lcChartFragment.getData();
         if (data == null) {
             data = new LineData();
@@ -231,13 +196,11 @@ public class ChartFragment extends AbstractFragment<AbstractPresenter, FragmentC
             data.addDataSet(set);
         }
 
-//        data.addEntry(new Entry(set.getEntryCount(), value.floatValue()), data.getDataSetCount());
-        set.addEntry(new Entry(set.getEntryCount(), value.floatValue()));
+        set.addEntry(new Entry(xValue == null ? set.getEntryCount() : xValue.intValue(), yValue.floatValue()));
         data.notifyDataChanged();
         binding.lcChartFragment.notifyDataSetChanged();
-        binding.lcChartFragment.setVisibleXRangeMaximum(6);
+        binding.lcChartFragment.setVisibleXRangeMaximum(maxShowChartX);
 
-        binding.lcChartFragment.moveViewTo(data.getEntryCount() - 7, 50f, YAxis.AxisDependency.LEFT);
+        binding.lcChartFragment.moveViewTo(data.getEntryCount() - maxShowChartX + 1, 50f, YAxis.AxisDependency.LEFT);
     }
-
 }

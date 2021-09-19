@@ -76,6 +76,8 @@
     <string name="doctor_main_menu_qrcode">&qrcode;</string>
     <string name="doctor_main_menu_report">報告</string>
     <string name="doctor_main_menu_setting">&setting;</string>
+    <string name="doctor_main_tab_message">訊息</string>
+    <string name="doctor_main_tab_chart">圖表</string>
 
     <!--PainterMain-->
     <string name="painter_main_menu_scan">&scan;</string>

@@ -32,6 +32,7 @@ import com.birdwind.inspire.medical.diary.base.utils.ToastUtils;
 import com.birdwind.inspire.medical.diary.base.view.loadingDialog.LoadingBaseDialog;
 import com.birdwind.inspire.medical.diary.base.view.loadingDialog.LoadingConstant;
 import com.birdwind.inspire.medical.diary.base.view.loadingDialog.LoadingFlower;
+import com.birdwind.inspire.medical.diary.model.UserModel;
 import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
 import com.birdwind.inspire.medical.diary.sqlLite.DatabaseConfig;
 import com.birdwind.inspire.medical.diary.view.activity.AuthActivity;
@@ -244,7 +245,7 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
     @Override
     public void logout(Bundle bundle) {
         DatabaseConfig.getInstance(context).clearAllTables();
-        SharedPreferencesUtils.put(Config.USER_MODEL_NAME, null);
+        SharedPreferencesUtils.clear();
         App.userModel = null;
         startActivityWithFinish(AuthActivity.class);
     }
@@ -252,8 +253,7 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
     @Override
     public void onLogoutSuccess() {
         DatabaseConfig.getInstance(context).clearAllTables();
-        SharedPreferencesUtils.put(Config.USER_MODEL_NAME, null);
-        SharedPreferencesUtils.put(Config.UNI_PASS, null);
+        SharedPreferencesUtils.clear();
         App.userModel = null;
         startActivityWithFinish(BottomNavigationView.class);
     }
@@ -524,5 +524,12 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
     @Override
     public void showToast(String s) {
         ToastUtils.show(context, s);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!BackHandlerHelper.handleBackPress(this)) {
+            super.onBackPressed();
+        }
     }
 }

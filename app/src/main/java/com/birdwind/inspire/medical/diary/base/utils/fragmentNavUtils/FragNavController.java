@@ -1,13 +1,5 @@
 package com.birdwind.inspire.medical.diary.base.utils.fragmentNavUtils;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
-
-import org.json.JSONArray;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -22,6 +14,14 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import org.json.JSONArray;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
 
 @SuppressWarnings("RestrictedApi")
 public class FragNavController {
@@ -52,7 +52,7 @@ public class FragNavController {
     private static final String EXTRA_FRAGMENT_STACK = FragNavController.class.getName() + ":EXTRA_FRAGMENT_STACK";
 
     @IdRes
-    private final int mContainerId;
+    private int mContainerId;
 
     @NonNull
     private final List<Stack<Fragment>> mFragmentStacks;
@@ -111,7 +111,6 @@ public class FragNavController {
         int containerId) {
         return new Builder(savedInstanceState, fragmentManager, containerId);
     }
-
     // endregion
 
     // region Transactions

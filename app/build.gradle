@@ -262,7 +262,9 @@ dependencies {
     implementation 'com.microsoft.signalr:signalr:6.0.0-preview.5.21301.17'
     implementation group: 'org.slf4j', name: 'slf4j-android', version: '1.7.7'
 
-    /*Chart*/
+    /**
+     * Chart
+     */
     implementation "com.github.AnyChart:AnyChart-Android:${libs.anyChart}"
     implementation "com.github.PhilJay:MPAndroidChart:${libs.chart}"
 

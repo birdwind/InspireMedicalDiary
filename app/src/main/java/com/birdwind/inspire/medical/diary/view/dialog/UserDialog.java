@@ -62,7 +62,7 @@ public class UserDialog extends AbstractDialog<CommonDialogListener, UserDialogP
 
         binding.btButtonDialogUser.setOnClickListener(v -> {
             if (diseaseEnums != DiseaseEnums.NOT_SET) {
-                presenter.addUser(user.getUID(), DiseaseEnums.HEADACHE);
+                presenter.addUser(user.getUID(), diseaseEnums);
                 dismiss();
             } else {
                 ToastUtils.show(context, R.string.painter_dialog_not_select);
