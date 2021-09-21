@@ -2,9 +2,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/tv_permission_scan_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="尚未授權，點擊授權相機權限"
+        android:textColor="@color/colorBlue_67BCFF"
+        android:layout_centerInParent="true"/>
+
     <com.dlazaro66.qrcodereaderview.QRCodeReaderView
         android:id="@+id/qrcode_camera_scan_fragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
 
 </RelativeLayout>

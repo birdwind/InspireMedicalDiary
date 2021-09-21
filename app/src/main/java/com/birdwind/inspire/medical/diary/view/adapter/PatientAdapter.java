@@ -11,8 +11,8 @@ import com.mikhaellopez.circularimageview.CircularImageView;
 
 import org.jetbrains.annotations.NotNull;
 
-public class FriendAdapter extends BaseQuickAdapter<PatientResponse.Response, BaseViewHolder> {
-    public FriendAdapter(int layoutResId) {
+public class PatientAdapter extends BaseQuickAdapter<PatientResponse.Response, BaseViewHolder> {
+    public PatientAdapter(int layoutResId) {
         super(layoutResId);
     }
 
@@ -23,5 +23,8 @@ public class FriendAdapter extends BaseQuickAdapter<PatientResponse.Response, Ba
         baseViewHolder.setText(R.id.tv_name_patient_item, response.getName());
         Glide.with(getContext()).load(response.getPhotoUrl())
             .placeholder(ContextCompat.getDrawable(getContext(), R.drawable.ic_avatar)).into(circularImageView);
+
+        baseViewHolder.setGone(R.id.iv_unread_patient_item, !response.isHasUnreadMessage());
+        baseViewHolder.setGone(R.id.iv_report_patient_item, !response.isHasUnreadReport());
     }
 }

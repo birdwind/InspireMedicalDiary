@@ -29,6 +29,7 @@ import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
 import com.birdwind.inspire.medical.diary.receiver.PainterBroadcastReceiver;
 import com.birdwind.inspire.medical.diary.service.InspireDiaryChatService;
 import com.birdwind.inspire.medical.diary.view.fragment.DoctorMainFragment;
+import com.birdwind.inspire.medical.diary.view.fragment.FamilyMainFragment;
 import com.birdwind.inspire.medical.diary.view.fragment.PatientMainFragment;
 import com.birdwind.inspire.medical.diary.view.fragment.QRCodeFragment;
 import com.birdwind.inspire.medical.diary.view.fragment.ScanFragment;
@@ -115,7 +116,7 @@ public class MainActivity extends AbstractActivity<AbstractPresenter, ActivityMa
                     (PainterDiseaseModel) bundle.getSerializable("painterDiseaseModel");
                 App.userModel.setDiseaseEnums(DiseaseEnums.parseEnumsByType(painterDiseaseModel.getDisease()));
                 App.updateUserModel();
-                mNavController.replaceFragment(new PatientMainFragment());
+                replaceFragment(new PatientMainFragment());
             }
         };
         painterBroadcastReceiver.register(context);
@@ -181,8 +182,11 @@ public class MainActivity extends AbstractActivity<AbstractPresenter, ActivityMa
                 }
             case FAMILY:
                 // TODO:定義加入群組資料格式
-                return new ScanFragment();
-            // return new FamilyMainFragment();
+                if (App.userModel.isHasFamily()) {
+                    return new FamilyMainFragment();
+                } else {
+                    return new ScanFragment();
+                }
         }
         throw new IllegalStateException("Need to send an index that we know");
     }
@@ -272,5 +276,9 @@ public class MainActivity extends AbstractActivity<AbstractPresenter, ActivityMa
         } else {
             pushFragment(new ScanFragment());
         }
+    }
+
+    public void replaceFragment(Fragment fragment) {
+        mNavController.replaceFragment(fragment);
     }
 }

@@ -14,6 +14,8 @@ public class LoginResponse extends AbstractResponse<LoginResponse.Response> {
 
         private int Identity;
 
+        private boolean HasFamily;
+
         private int Disease;
 
         private String PhotoUrl;
@@ -50,6 +52,14 @@ public class LoginResponse extends AbstractResponse<LoginResponse.Response> {
 
         public void setIdentity(int identity) {
             Identity = identity;
+        }
+
+        public boolean isHasFamily() {
+            return HasFamily;
+        }
+
+        public void setHasFamily(boolean hasFamily) {
+            HasFamily = hasFamily;
         }
 
         public int getDisease() {

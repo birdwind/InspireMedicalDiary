@@ -1,24 +1,35 @@
 package com.birdwind.inspire.medical.diary.view.fragment;
 
+import android.Manifest;
+import android.content.Context;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
+import com.birdwind.inspire.medical.diary.App;
+import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.base.utils.GsonUtils;
 import com.birdwind.inspire.medical.diary.base.view.AbstractActivity;
 import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
 import com.birdwind.inspire.medical.diary.databinding.FragmentScanBinding;
+import com.birdwind.inspire.medical.diary.enums.IdentityEnums;
 import com.birdwind.inspire.medical.diary.model.ScanUserModel;
 import com.birdwind.inspire.medical.diary.model.response.UserResponse;
 import com.birdwind.inspire.medical.diary.presenter.ScanPresenter;
+import com.birdwind.inspire.medical.diary.view.activity.MainActivity;
 import com.birdwind.inspire.medical.diary.view.dialog.UserDialog;
+import com.birdwind.inspire.medical.diary.view.dialog.callback.CommonDialogListener;
 import com.birdwind.inspire.medical.diary.view.dialog.callback.UserDialogListener;
 import com.birdwind.inspire.medical.diary.view.viewCallback.ScanView;
+import com.birdwind.inspire.medical.diary.view.viewCallback.ToolbarCallback;
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
+import com.tbruyelle.rxpermissions3.Permission;
 
-public class ScanFragment extends AbstractFragment<ScanPresenter, FragmentScanBinding> implements ScanView,
-    AbstractActivity.PermissionRequestListener, QRCodeReaderView.OnQRCodeReadListener, UserDialogListener {
+public class ScanFragment extends AbstractFragment<ScanPresenter, FragmentScanBinding>
+    implements ScanView, AbstractActivity.PermissionRequestListener, QRCodeReaderView.OnQRCodeReadListener,
+    UserDialogListener, ToolbarCallback {
 
     private UserDialog userDialog;
 
@@ -39,6 +50,11 @@ public class ScanFragment extends AbstractFragment<ScanPresenter, FragmentScanBi
     @Override
     public void addListener() {
         binding.qrcodeCameraScanFragment.setOnQRCodeReadListener(this);
+        binding.tvPermissionScanFragment.setOnClickListener(v -> {
+            if (!hasPermission(Manifest.permission.CAMERA)) {
+                getPermission(new String[] {Manifest.permission.CAMERA}, this);
+            }
+        });
     }
 
     @Override
@@ -54,11 +70,21 @@ public class ScanFragment extends AbstractFragment<ScanPresenter, FragmentScanBi
     }
 
     @Override
-    public void doSomething() {}
+    public void doSomething() {
+        if (hasPermission(Manifest.permission.CAMERA)) {
+            binding.tvPermissionScanFragment.setVisibility(View.GONE);
+            binding.qrcodeCameraScanFragment.setVisibility(View.VISIBLE);
+        } else {
+            binding.tvPermissionScanFragment.setVisibility(View.VISIBLE);
+            binding.qrcodeCameraScanFragment.setVisibility(View.GONE);
+        }
+    }
 
     @Override
     public void onResume() {
-        binding.qrcodeCameraScanFragment.startCamera();
+        if (hasPermission(Manifest.permission.CAMERA)) {
+            binding.qrcodeCameraScanFragment.startCamera();
+        }
         super.onResume();
     }
 
@@ -94,8 +120,11 @@ public class ScanFragment extends AbstractFragment<ScanPresenter, FragmentScanBi
     @Override
     public void userDialogAdded() {
         isAdded = true;
-        // onBackPressed();
-        onBackPressedByActivity();
+        if (App.userModel.getIdentityEnums() == IdentityEnums.FAMILY) {
+            ((MainActivity) context).replaceFragment(new FamilyMainFragment());
+        } else {
+            onBackPressedByActivity();
+        }
     }
 
     @Override
@@ -105,8 +134,55 @@ public class ScanFragment extends AbstractFragment<ScanPresenter, FragmentScanBi
             binding.qrcodeCameraScanFragment.startCamera();
             binding.qrcodeCameraScanFragment.forceAutoFocus();
         } else {
-            // onBackPressed();
             onBackPressedByActivity();
+        }
+    }
+
+    @Override
+    public String setRightButtonText() {
+        if (App.userModel.getIdentityEnums() == IdentityEnums.FAMILY) {
+            return getString(R.string.common_logout);
+        } else {
+            return "";
+        }
+    }
+
+    @Override
+    public boolean isShowTopBarBack() {
+        if (App.userModel.getIdentityEnums() == IdentityEnums.FAMILY) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    @Override
+    public void clickTopBarRightTextButton(View view) {
+        showDialog(getString(R.string.common_dialog_title), getString(R.string.common_dialog_logout),
+            new CommonDialogListener() {
+                @Override
+                public void clickConfirm() {
+                    ((MainActivity) context).logout();
+                }
+            });
+    }
+
+    @Override
+    public ToolbarCallback setToolbarCallback() {
+        return this;
+    }
+
+    @Override
+    public void permissionRequest(Context context, Permission permission) {
+        if (permission.name.equals(Manifest.permission.CAMERA)) {
+            if (permission.granted) {
+                binding.qrcodeCameraScanFragment.setVisibility(View.VISIBLE);
+                binding.qrcodeCameraScanFragment.startCamera();
+            } else if (permission.shouldShowRequestPermissionRationale) {
+                showToast(getString(R.string.scan_no_permission));
+            } else {
+                showToast(getString(R.string.error_common_permission_never_show));
+            }
         }
     }
 }

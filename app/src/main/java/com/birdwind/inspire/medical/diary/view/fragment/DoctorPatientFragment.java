@@ -14,7 +14,7 @@ import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
 import com.birdwind.inspire.medical.diary.databinding.FragmentDoctorPatientBinding;
 import com.birdwind.inspire.medical.diary.model.response.PatientResponse;
 import com.birdwind.inspire.medical.diary.presenter.DoctorPatientPresenter;
-import com.birdwind.inspire.medical.diary.view.adapter.FriendAdapter;
+import com.birdwind.inspire.medical.diary.view.adapter.PatientAdapter;
 import com.birdwind.inspire.medical.diary.view.viewCallback.DoctorPatientPresent;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
@@ -24,7 +24,7 @@ import java.util.List;
 public class DoctorPatientFragment extends AbstractFragment<DoctorPatientPresenter, FragmentDoctorPatientBinding>
     implements DoctorPatientPresent, OnItemClickListener {
 
-    private FriendAdapter friendAdapter;
+    private PatientAdapter patientAdapter;
 
     @Override
     public DoctorPatientPresenter createPresenter() {
@@ -39,13 +39,13 @@ public class DoctorPatientFragment extends AbstractFragment<DoctorPatientPresent
 
     @Override
     public void addListener() {
-        friendAdapter.setOnItemClickListener(this);
+        patientAdapter.setOnItemClickListener(this);
     }
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        friendAdapter = new FriendAdapter(R.layout.item_patient);
-        friendAdapter.setAnimationEnable(true);
+        patientAdapter = new PatientAdapter(R.layout.item_patient);
+        patientAdapter.setAnimationEnable(true);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class DoctorPatientFragment extends AbstractFragment<DoctorPatientPresent
         binding.rvPatientDoctorPatientMain
             .setLayoutManager(new GridLayoutManager(getContext(), 3, RecyclerView.VERTICAL, false));
         // binding.rvPatientDoctorMainActivity.setNestedScrollingEnabled(false);
-        binding.rvPatientDoctorPatientMain.setAdapter(friendAdapter);
+        binding.rvPatientDoctorPatientMain.setAdapter(patientAdapter);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class DoctorPatientFragment extends AbstractFragment<DoctorPatientPresent
 
     @Override
     public void onGetFriends(List<PatientResponse.Response> friendResponse) {
-        friendAdapter.setList(friendResponse);
+        patientAdapter.setList(friendResponse);
     }
 
     @Override

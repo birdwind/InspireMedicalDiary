@@ -11,7 +11,15 @@ import com.birdwind.inspire.medical.diary.enums.IdentityEnums;
 
 public class UserModel implements BaseModel {
 
+    private int uid;
+
     private String token;
+
+    private String name;
+
+    private String photoUrl;
+
+    private boolean hasFamily;
 
     private boolean isUpdateFCM;
 
@@ -19,7 +27,13 @@ public class UserModel implements BaseModel {
 
     private DiseaseEnums diseaseEnums;
 
-    private int uid;
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
 
     public String getToken() {
         return token;
@@ -27,6 +41,30 @@ public class UserModel implements BaseModel {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
+    }
+
+    public boolean isHasFamily() {
+        return hasFamily;
+    }
+
+    public void setHasFamily(boolean hasFamily) {
+        this.hasFamily = hasFamily;
     }
 
     public boolean isUpdateFCM() {
@@ -53,14 +91,6 @@ public class UserModel implements BaseModel {
         this.diseaseEnums = diseaseEnums;
     }
 
-    public int getUid() {
-        return uid;
-    }
-
-    public void setUid(int uid) {
-        this.uid = uid;
-    }
-
     public @ColorInt int getIdentityMainColor() {
         switch (identityEnums) {
             case DOCTOR:
@@ -72,6 +102,7 @@ public class UserModel implements BaseModel {
                 return ContextCompat.getColor(App.getAppContext(), R.color.colorOrange_DC7400);
         }
     }
+
     public int getIdentityMainColorId() {
         switch (identityEnums) {
             case DOCTOR:

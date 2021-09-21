@@ -1,5 +1,6 @@
 package com.birdwind.inspire.medical.diary.view.activity;
 
+import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
@@ -14,7 +15,8 @@ import com.birdwind.inspire.medical.diary.databinding.ActivitySplashBinding;
 import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
 import com.leaf.library.StatusBarUtil;
 
-public class SplashActivity extends AbstractActivity<AbstractPresenter, ActivitySplashBinding> {
+public class SplashActivity extends AbstractActivity<AbstractPresenter, ActivitySplashBinding>
+    implements AbstractActivity.PermissionRequestListener {
     @Override
     public AbstractPresenter createPresenter() {
         return null;
@@ -42,6 +44,7 @@ public class SplashActivity extends AbstractActivity<AbstractPresenter, Activity
 
     @Override
     public void doSomething() {
+        getPermission(new String[] {Manifest.permission.CAMERA}, this);
         crossFade();
     }
 

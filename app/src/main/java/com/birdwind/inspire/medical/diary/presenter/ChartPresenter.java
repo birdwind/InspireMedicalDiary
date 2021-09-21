@@ -16,7 +16,7 @@ public class ChartPresenter extends AbstractPresenter<ChartView> {
         paramsMap.put("UID", uid);
 
         addDisposable(
-            apiServer.executePostFormUrlEncode(DoctorApiServer.GET_PATIENT_TESTREPORT.valueOfName(), paramsMap,
+            apiServer.executePostFormUrlEncode(DoctorApiServer.GET_PATIENT_TEST_REPORT.valueOfName(), paramsMap,
                 fieldMap, headerMap),
             new AbstractObserver<ChartResponse>(this, baseView, "GetChartData", null, ChartResponse.class, true) {
                 @Override

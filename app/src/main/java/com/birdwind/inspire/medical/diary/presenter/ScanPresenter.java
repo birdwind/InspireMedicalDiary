@@ -27,9 +27,9 @@ public class ScanPresenter extends AbstractPresenter<ScanView> {
             case FAMILY:
                  api = FamilyApiServer.CHECK_QRCODE_UID.valueOfName();
                 break;
-            case PAINTER:
-                api = PatientApiServer.CHECK_QRCODE_UID.valueOfName();
-                break;
+//            case PAINTER:
+//                api = PatientApiServer.CHECK_QRCODE_UID.valueOfName();
+//                break;
         }
 
         addDisposable(apiServer.executePostFormUrlEncode(api, paramsMap, fieldMap, headerMap),

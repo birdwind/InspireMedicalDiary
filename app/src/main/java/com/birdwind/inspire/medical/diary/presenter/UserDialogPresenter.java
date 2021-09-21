@@ -20,18 +20,18 @@ public class UserDialogPresenter extends AbstractPresenter<UserDialogView> {
         switch (App.userModel.getIdentityEnums()) {
             case DOCTOR:
                 api = DoctorApiServer.ADD_PATIENT.valueOfName();
+                paramsMap.put("Disease", diseaseEnums.getType());
                 break;
             case FAMILY:
                 api = FamilyApiServer.BE_FAMILY.valueOfName();
                 break;
-            case PAINTER:
-                api = PatientApiServer.JOIN_MY_GROUP.valueOfName();
-                break;
+//            case PAINTER:
+//                api = PatientApiServer.JOIN_MY_GROUP.valueOfName();
+//                break;
         }
 
         initMap();
         paramsMap.put("UID", uid);
-        paramsMap.put("Disease", diseaseEnums.getType());
 
         addDisposable(apiServer.executePostFormUrlEncode(api, paramsMap, fieldMap, headerMap),
             new AbstractObserver<AbstractResponse>(this, baseView, "AddUser", null, AbstractResponse.class, true) {

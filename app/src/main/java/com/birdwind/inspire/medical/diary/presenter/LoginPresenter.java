@@ -2,7 +2,6 @@ package com.birdwind.inspire.medical.diary.presenter;
 
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.base.basic.AbstractObserver;
-import com.birdwind.inspire.medical.diary.base.utils.SharedPreferencesUtils;
 import com.birdwind.inspire.medical.diary.enums.DiseaseEnums;
 import com.birdwind.inspire.medical.diary.model.UserModel;
 import com.birdwind.inspire.medical.diary.model.request.LoginRequest;
@@ -28,6 +27,9 @@ public class LoginPresenter extends AbstractPresenter<LoginView> {
                         UserModel userModel = new UserModel();
                         userModel.setToken(response.getJsonData().getLoginKey());
                         userModel.setUid(response.getJsonData().getUID());
+                        userModel.setName(response.getJsonData().getName());
+                        userModel.setPhotoUrl(response.getJsonData().getPhotoUrl());
+                        userModel.setHasFamily(response.getJsonData().isHasFamily());
                         userModel.setDiseaseEnums(DiseaseEnums.parseEnumsByType(response.getJsonData().getDisease()));
                         App.userModel = userModel;
                         App.updateUserModel();

@@ -129,6 +129,7 @@
             android:id="@+id/ib_send_visit_chat_fragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_marginEnd="5dp"
             android:backgroundTint="@android:color/transparent"
             android:src="@drawable/ic_visit" />
@@ -141,6 +142,7 @@
             android:layout_weight="1"
             android:background="@drawable/background_board_radius_5dp"
             android:hint="Aa"
+            android:maxLines="3"
             android:paddingHorizontal="17dp"
             android:paddingVertical="12dp" />
 
@@ -148,6 +150,7 @@
             android:id="@+id/ib_send_chat_fragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:backgroundTint="@android:color/transparent"
             android:src="@drawable/ic_send" />
 

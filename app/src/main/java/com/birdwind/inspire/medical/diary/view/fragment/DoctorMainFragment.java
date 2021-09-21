@@ -42,7 +42,8 @@ public class DoctorMainFragment extends AbstractFragment<AbstractPresenter, Frag
         });
 
         binding.llSettingDoctorMain.setOnClickListener(v -> {
-            showToast(getString(R.string.function_not_complete));
+//            ((MainActivity)context).pushFragment(new SettingFragment());
+            pushFragment(new SettingFragment());
         });
     }
 

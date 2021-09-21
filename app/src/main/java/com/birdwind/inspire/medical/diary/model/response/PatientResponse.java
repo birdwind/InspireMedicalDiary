@@ -24,6 +24,10 @@ public class PatientResponse extends AbstractListResponse<PatientResponse.Respon
         @Nullable
         private String IDCard;
 
+        private boolean HasUnreadMessage;
+
+        private boolean HasUnreadReport;
+
         private String PhotoUrl;
 
         public int getPID() {
@@ -72,6 +76,22 @@ public class PatientResponse extends AbstractListResponse<PatientResponse.Respon
 
         public void setPhotoUrl(String photoUrl) {
             PhotoUrl = photoUrl;
+        }
+
+        public boolean isHasUnreadMessage() {
+            return HasUnreadMessage;
+        }
+
+        public void setHasUnreadMessage(boolean hasUnreadMessage) {
+            HasUnreadMessage = hasUnreadMessage;
+        }
+
+        public boolean isHasUnreadReport() {
+            return HasUnreadReport;
+        }
+
+        public void setHasUnreadReport(boolean hasUnreadReport) {
+            HasUnreadReport = hasUnreadReport;
         }
     }
 }

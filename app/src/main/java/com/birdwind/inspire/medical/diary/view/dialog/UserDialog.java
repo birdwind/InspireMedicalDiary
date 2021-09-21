@@ -61,9 +61,8 @@ public class UserDialog extends AbstractDialog<CommonDialogListener, UserDialogP
         });
 
         binding.btButtonDialogUser.setOnClickListener(v -> {
-            if (diseaseEnums != DiseaseEnums.NOT_SET) {
+            if (diseaseEnums != DiseaseEnums.NOT_SET || App.userModel.getIdentityEnums() != IdentityEnums.DOCTOR) {
                 presenter.addUser(user.getUID(), diseaseEnums);
-                dismiss();
             } else {
                 ToastUtils.show(context, R.string.painter_dialog_not_select);
             }
@@ -93,6 +92,17 @@ public class UserDialog extends AbstractDialog<CommonDialogListener, UserDialogP
         Glide.with(context).load(userResponse.getJsonData().getPhotoUrl())
             .placeholder(ContextCompat.getDrawable(context, R.drawable.ic_avatar)).into(binding.civImageDialogUser);
 
+        if (App.userModel != null) {
+            binding.btButtonDialogUser.getBackground().setColorFilter(App.userModel.getIdentityMainColor(),
+                PorterDuff.Mode.SRC_IN);
+
+            if (App.userModel.getIdentityEnums() == IdentityEnums.DOCTOR) {
+                binding.rgOptionDialogUser.setVisibility(View.VISIBLE);
+            } else {
+                binding.rgOptionDialogUser.setVisibility(View.GONE);
+            }
+        }
+
     }
 
     @Override
@@ -110,9 +120,11 @@ public class UserDialog extends AbstractDialog<CommonDialogListener, UserDialogP
                 case DOCTOR_ALREADY_ADD_PAINTER:
                 case HAVE_ANOTHER_DOCTOR:
                 case HAVE_DOCTOR:
+                    binding.rgOptionDialogUser.setVisibility(View.GONE);
                     showError(true, scanUserMessageEnums);
                     break;
                 case ADD_TO_PAINTER:
+                    binding.rgOptionDialogUser.setVisibility(View.VISIBLE);
                 case ADD_TO_FAMILY:
                 case ADD_TO_DOCTOR:
                     showError(false, null);
@@ -148,6 +160,7 @@ public class UserDialog extends AbstractDialog<CommonDialogListener, UserDialogP
     @Override
     public void onAddUser(boolean isSuccess) {
         if (isSuccess) {
+            dismiss();
             userDialogListener.userDialogAdded();
         }
     }

@@ -32,7 +32,6 @@ import com.birdwind.inspire.medical.diary.base.utils.ToastUtils;
 import com.birdwind.inspire.medical.diary.base.view.loadingDialog.LoadingBaseDialog;
 import com.birdwind.inspire.medical.diary.base.view.loadingDialog.LoadingConstant;
 import com.birdwind.inspire.medical.diary.base.view.loadingDialog.LoadingFlower;
-import com.birdwind.inspire.medical.diary.model.UserModel;
 import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
 import com.birdwind.inspire.medical.diary.sqlLite.DatabaseConfig;
 import com.birdwind.inspire.medical.diary.view.activity.AuthActivity;
@@ -244,8 +243,10 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
      */
     @Override
     public void logout(Bundle bundle) {
+        String tempUniPass = SharedPreferencesUtils.get(Config.UNI_PASS, "");
         DatabaseConfig.getInstance(context).clearAllTables();
         SharedPreferencesUtils.clear();
+        SharedPreferencesUtils.put(Config.UNI_PASS, tempUniPass);
         App.userModel = null;
         startActivityWithFinish(AuthActivity.class);
     }

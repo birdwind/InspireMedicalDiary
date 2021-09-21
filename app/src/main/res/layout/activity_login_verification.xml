@@ -65,7 +65,8 @@
                     android:imeOptions="actionNext"
                     android:importantForAutofill="no"
                     android:inputType="text"
-                    android:maxLines="1" />
+                    android:maxLines="1"
+                    android:textColor="@color/colorBlack_333333" />
 
             </LinearLayout>
 
@@ -97,7 +98,8 @@
                     android:imeOptions="actionDone"
                     android:importantForAutofill="no"
                     android:inputType="number"
-                    android:maxLines="1" />
+                    android:maxLines="1"
+                    android:textColor="@color/colorBlack_333333" />
 
             </LinearLayout>
 

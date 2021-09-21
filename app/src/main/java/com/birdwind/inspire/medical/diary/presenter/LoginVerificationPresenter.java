@@ -59,6 +59,9 @@ public class LoginVerificationPresenter extends AbstractPresenter<LoginVerificat
                     UserModel userModel = new UserModel();
                     userModel.setToken(response.getJsonData().getLoginKey());
                     userModel.setUid(response.getJsonData().getUID());
+                    userModel.setName(response.getJsonData().getName());
+                    userModel.setPhotoUrl(response.getJsonData().getPhotoUrl());
+                    userModel.setHasFamily(response.getJsonData().isHasFamily());
                     userModel.setDiseaseEnums(DiseaseEnums.parseEnumsByType(response.getJsonData().getDisease()));
                     App.userModel = userModel;
                     App.updateUserModel();

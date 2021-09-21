@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
+
 
     <!--    <androidx.recyclerview.widget.RecyclerView-->
     <!--        android:id="@+id/rv_quiz_fragment"-->
@@ -11,255 +12,295 @@
     <!--        android:layout_height="match_parent" />-->
 
 
-    <RelativeLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorGray_F3F3F3"
-        android:paddingHorizontal="35dp"
-        android:paddingVertical="15dp"
-        android:layout_marginBottom="25dp">
-
-        <com.mikhaellopez.circularimageview.CircularImageView
-            android:id="@+id/civ_avatar_quiz_content_fragment"
-            android:layout_width="71dp"
-            android:layout_height="71dp"
-            android:layout_marginEnd="15dp"
-            app:srcCompat="@drawable/ic_avatar" />
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/ll_patient_quiz_content_fragment"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@id/civ_avatar_quiz_content_fragment"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_name_quiz_content_fragment"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="患者1"
-                android:textSize="20sp" />
+                android:layout_marginBottom="25dp"
+                android:background="@color/colorGray_F3F3F3"
+                android:paddingHorizontal="35dp"
+                android:paddingVertical="15dp">
 
-            <TextView
-                android:id="@+id/tv_time_quiz_content_fragment"
-                android:layout_width="wrap_content"
+                <com.mikhaellopez.circularimageview.CircularImageView
+                    android:id="@+id/civ_avatar_quiz_content_fragment"
+                    android:layout_width="71dp"
+                    android:layout_height="71dp"
+                    android:layout_marginEnd="15dp"
+                    app:srcCompat="@drawable/ic_avatar" />
+
+                <LinearLayout
+                    android:id="@+id/ll_patient_quiz_content_fragment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/civ_avatar_quiz_content_fragment"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_name_quiz_content_fragment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="患者1"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/tv_time_quiz_content_fragment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2020/11/11 10:05"
+                        android:textSize="20sp" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="2020/11/11 10:05"
-                android:textSize="20sp" />
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorOrange_FAF1E7"
+                    android:paddingHorizontal="17dp"
+                    android:paddingVertical="10dp"
+                    android:text="1. 您是否經常或劇烈頭痛?" />
+
+                <RadioGroup
+                    android:id="@+id/rg_option1_quiz_fragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="17dp"
+                    android:paddingVertical="10dp">
+
+                    <RadioButton
+                        android:id="@+id/rb_option1_no_quiz_fragment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="25dp"
+                        android:text="No" />
+
+                    <RadioButton
+                        android:id="@+id/rb_option1_yes_quiz_fragment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Yes" />
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorOrange_FAF1E7"
+                    android:paddingHorizontal="17dp"
+                    android:paddingVertical="10dp"
+                    android:text="2. 您的頭痛通常會持續超過4小時嗎?" />
+
+                <RadioGroup
+                    android:id="@+id/rg_option2_quiz_fragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="17dp"
+                    android:paddingVertical="10dp">
+
+                    <RadioButton
+                        android:id="@+id/rb_option2_no_quiz_fragment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="25dp"
+                        android:text="No" />
+
+                    <RadioButton
+                        android:id="@+id/rb_option2_yes_quiz_fragment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Yes" />
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorOrange_FAF1E7"
+                    android:paddingHorizontal="17dp"
+                    android:paddingVertical="10dp"
+                    android:text="3. 頭痛時通常會噁心嗎?" />
+
+                <RadioGroup
+                    android:id="@+id/rg_option3_quiz_fragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="17dp"
+                    android:paddingVertical="10dp">
+
+                    <RadioButton
+                        android:id="@+id/rb_option3_no_quiz_fragment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="25dp"
+                        android:text="No" />
+
+                    <RadioButton
+                        android:id="@+id/rb_option3_yes_quiz_fragment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Yes" />
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorOrange_FAF1E7"
+                    android:paddingHorizontal="17dp"
+                    android:paddingVertical="10dp"
+                    android:text="4. 頭痛時光或噪音會困擾您嗎?" />
+
+                <RadioGroup
+                    android:id="@+id/rg_option4_quiz_fragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="17dp"
+                    android:paddingVertical="10dp">
+
+                    <RadioButton
+                        android:id="@+id/rb_option4_no_quiz_fragment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="25dp"
+                        android:text="No" />
+
+                    <RadioButton
+                        android:id="@+id/rb_option4_yes_quiz_fragment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Yes" />
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorOrange_FAF1E7"
+                    android:paddingHorizontal="17dp"
+                    android:paddingVertical="10dp"
+                    android:text="5. 頭痛會限制您的任何身體或智力活動嗎?" />
+
+                <RadioGroup
+                    android:id="@+id/rg_option5_quiz_fragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="17dp"
+                    android:paddingVertical="10dp">
+
+                    <RadioButton
+                        android:id="@+id/rb_option5_no_quiz_fragment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="25dp"
+                        android:text="No" />
+
+                    <RadioButton
+                        android:id="@+id/rb_option5_yes_quiz_fragment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Yes" />
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_headache_position_quiz_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/iv_headache_1_quiz_fragment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.6"
+                    android:src="@drawable/headche1" />
+
+                <ImageView
+                    android:id="@+id/iv_headache_2_quiz_fragment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.6"
+                    android:src="@drawable/headche2" />
+
+                <ImageView
+                    android:id="@+id/iv_headache_3_quiz_fragment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.6"
+                    android:src="@drawable/headche3" />
+
+                <ImageView
+                    android:id="@+id/iv_headache_4_quiz_fragment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.6"
+                    android:src="@drawable/headche4" />
+
+                <ImageView
+                    android:id="@+id/iv_headache_5_quiz_fragment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.6"
+                    android:src="@drawable/headche5" />
+
+                <ImageView
+                    android:id="@+id/iv_headache_6_quiz_fragment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.6"
+                    android:src="@drawable/headche6" />
+            </LinearLayout>
         </LinearLayout>
-    </RelativeLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorOrange_FAF1E7"
-            android:paddingHorizontal="17dp"
-            android:paddingVertical="10dp"
-            android:text="1. 您是否經常或劇烈頭痛?" />
-
-        <RadioGroup
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingHorizontal="17dp"
-            android:paddingVertical="10dp">
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="25dp"
-                android:text="No" />
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Yes" />
-        </RadioGroup>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorOrange_FAF1E7"
-            android:paddingHorizontal="17dp"
-            android:paddingVertical="10dp"
-            android:text="2. 您的頭痛通常會持續超過4小時嗎?" />
-
-        <RadioGroup
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingHorizontal="17dp"
-            android:paddingVertical="10dp">
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="25dp"
-                android:text="No" />
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Yes" />
-        </RadioGroup>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorOrange_FAF1E7"
-            android:paddingHorizontal="17dp"
-            android:paddingVertical="10dp"
-            android:text="3. 頭痛時通常會噁心嗎?" />
-
-        <RadioGroup
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingHorizontal="17dp"
-            android:paddingVertical="10dp">
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="25dp"
-                android:text="No" />
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Yes" />
-        </RadioGroup>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorOrange_FAF1E7"
-            android:paddingHorizontal="17dp"
-            android:paddingVertical="10dp"
-            android:text="4. 頭痛時光或噪音會困擾您嗎?" />
-
-        <RadioGroup
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingHorizontal="17dp"
-            android:paddingVertical="10dp">
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="25dp"
-                android:text="No" />
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Yes" />
-        </RadioGroup>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorOrange_FAF1E7"
-            android:paddingHorizontal="17dp"
-            android:paddingVertical="10dp"
-            android:text="5. 頭痛會限制您的任何身體或智力活動嗎?" />
-
-        <RadioGroup
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingHorizontal="17dp"
-            android:paddingVertical="10dp">
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="25dp"
-                android:text="No" />
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Yes" />
-        </RadioGroup>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/headche1" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/headche2" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/headche3" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/headche4" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/headche5" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/headche6" />
-    </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

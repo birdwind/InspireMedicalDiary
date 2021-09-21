@@ -1,10 +1,12 @@
 package com.birdwind.inspire.medical.diary.presenter;
 
 import com.birdwind.inspire.medical.diary.base.basic.AbstractObserver;
-import com.birdwind.inspire.medical.diary.base.network.response.AbstractResponse;
+import com.birdwind.inspire.medical.diary.model.response.QuizResponse;
 import com.birdwind.inspire.medical.diary.server.PatientApiServer;
 import com.birdwind.inspire.medical.diary.view.viewCallback.QuizContentView;
+
 import java.util.List;
+
 import okhttp3.RequestBody;
 
 public class QuizContentPresenter extends AbstractPresenter<QuizContentView> {
@@ -12,7 +14,7 @@ public class QuizContentPresenter extends AbstractPresenter<QuizContentView> {
         super(baseView);
     }
 
-    public void submit(List<Boolean> answer) {
+    public void submit(List<Integer> answer) {
         initMap();
 
         RequestBody requestBody = packageToRequestBody(answer);
@@ -20,12 +22,11 @@ public class QuizContentPresenter extends AbstractPresenter<QuizContentView> {
         addDisposable(
             apiServer.executePost(PatientApiServer.SUBMIT_HEADACHE_TEST.valueOfName(), paramsMap, requestBody,
                 headerMap),
-            new AbstractObserver<AbstractResponse>(this, baseView, "SubmitQuiz", null, AbstractResponse.class, true) {
+            new AbstractObserver<QuizResponse>(this, baseView, "SubmitQuiz", null, QuizResponse.class, true) {
                 @Override
-                public void onSuccess(AbstractResponse response) {
-
+                public void onSuccess(QuizResponse response) {
+                    baseView.submitSuccess(response.isSuccess());
                 }
             });
     }
-
 }

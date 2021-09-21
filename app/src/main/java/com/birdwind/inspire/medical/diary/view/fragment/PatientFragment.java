@@ -8,6 +8,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,18 +20,22 @@ import com.birdwind.inspire.medical.diary.animation.SlideHeightAnimation;
 import com.birdwind.inspire.medical.diary.base.utils.Utils;
 import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
 import com.birdwind.inspire.medical.diary.databinding.FragmentPatientBinding;
+import com.birdwind.inspire.medical.diary.model.response.ChatMemberResponse;
 import com.birdwind.inspire.medical.diary.presenter.PatientPresent;
 import com.birdwind.inspire.medical.diary.sqlLite.service.ChatMemberService;
 import com.birdwind.inspire.medical.diary.view.adapter.GroupMemberAdapter;
 import com.birdwind.inspire.medical.diary.view.adapter.ViewPage2Adapter;
 import com.birdwind.inspire.medical.diary.view.viewCallback.PatientView;
 import com.bumptech.glide.Glide;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class PatientFragment extends AbstractFragment<PatientPresent, FragmentPatientBinding> implements PatientView {
+public class PatientFragment extends AbstractFragment<PatientPresent, FragmentPatientBinding>
+    implements PatientView, OnItemClickListener {
 
     private long uid;
 
@@ -68,6 +73,7 @@ public class PatientFragment extends AbstractFragment<PatientPresent, FragmentPa
 
     @Override
     public void addListener() {
+        groupMemberAdapter.setOnItemClickListener(this);
         binding.comGroupMemberPatientFragment.llDownArrowChatGroupComponent.setOnClickListener(v -> {
             hideFriendGroup(!isHideFriendGroup);
             isHideFriendGroup = !isHideFriendGroup;
@@ -179,5 +185,17 @@ public class PatientFragment extends AbstractFragment<PatientPresent, FragmentPa
     private void startAnimation(View view, Animation animation) {
         view.setAnimation(animation);
         view.startAnimation(animation);
+    }
+
+    @Override
+    public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
+        ChatMemberResponse.Response chatMemberResponse = (ChatMemberResponse.Response) adapter.getItem(position);
+        Bundle bundle = new Bundle();
+        bundle.putLong("UID", chatMemberResponse.getUID());
+        bundle.putString("name", chatMemberResponse.getUserName());
+        bundle.putString("avatar", chatMemberResponse.getPhotoUrl());
+        ChatFragment chatFragment = new ChatFragment();
+        chatFragment.setArguments(bundle);
+        pushFragment(chatFragment);
     }
 }

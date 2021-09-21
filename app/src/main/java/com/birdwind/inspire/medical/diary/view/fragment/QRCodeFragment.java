@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.birdwind.inspire.medical.diary.App;
+import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.base.Config;
 import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
 import com.birdwind.inspire.medical.diary.databinding.FragmentQrcodeBinding;
@@ -52,7 +53,11 @@ public class QRCodeFragment extends AbstractFragment<AbstractPresenter, Fragment
 
     @Override
     public String setRightButtonText() {
-        return "登出";
+        if(App.userModel.getDiseaseEnums() == DiseaseEnums.NOT_SET){
+            return getString(R.string.common_logout);
+        }else{
+            return "";
+        }
     }
 
     @Override
@@ -71,11 +76,12 @@ public class QRCodeFragment extends AbstractFragment<AbstractPresenter, Fragment
 
     @Override
     public void clickTopBarRightTextButton(View view) {
-        showDialog("系統訊息", "您確定要登出嗎?", new CommonDialogListener() {
-            @Override
-            public void clickConfirm() {
-                ((MainActivity) context).logout();
-            }
-        });
+        showDialog(getString(R.string.common_dialog_title), getString(R.string.common_dialog_logout),
+            new CommonDialogListener() {
+                @Override
+                public void clickConfirm() {
+                    ((MainActivity) context).logout();
+                }
+            });
     }
 }

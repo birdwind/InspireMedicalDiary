@@ -75,6 +75,10 @@ public class ChatFragment extends AbstractFragment<ChatPresenter, FragmentChatBi
             }
             return false;
         });
+
+        binding.ibSendVisitChatFragment.setOnClickListener(v -> {
+            showToast("尚未實作看診通知");
+        });
     }
 
     @Override
@@ -183,9 +187,9 @@ public class ChatFragment extends AbstractFragment<ChatPresenter, FragmentChatBi
 
     @Override
     public boolean onBackPressed() {
-        if(App.userModel.getIdentityEnums() == IdentityEnums.DOCTOR){
+        if (App.userModel.getIdentityEnums() == IdentityEnums.DOCTOR) {
             return false;
-        }else{
+        } else {
 
             return true;
         }

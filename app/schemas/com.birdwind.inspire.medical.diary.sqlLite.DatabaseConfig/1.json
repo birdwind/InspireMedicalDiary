@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "7efbdbfa11b34f9248ed59a6f026091c",
+    "identityHash": "e138ab758a722ce5b4f83a2b030f5fc0",
     "entities": [
       {
         "tableName": "friend",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`PID` INTEGER NOT NULL, `Doctor` INTEGER NOT NULL, `Name` TEXT, `Phone` TEXT, `IDCard` TEXT, `PhotoUrl` TEXT, PRIMARY KEY(`PID`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`PID` INTEGER NOT NULL, `Doctor` INTEGER NOT NULL, `Name` TEXT, `Phone` TEXT, `IDCard` TEXT, `HasUnreadMessage` INTEGER NOT NULL, `HasUnreadReport` INTEGER NOT NULL, `PhotoUrl` TEXT, PRIMARY KEY(`PID`))",
         "fields": [
           {
             "fieldPath": "PID",
@@ -37,6 +37,18 @@
             "columnName": "IDCard",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "HasUnreadMessage",
+            "columnName": "HasUnreadMessage",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "HasUnreadReport",
+            "columnName": "HasUnreadReport",
+            "affinity": "INTEGER",
+            "notNull": true
           },
           {
             "fieldPath": "PhotoUrl",
@@ -176,7 +188,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7efbdbfa11b34f9248ed59a6f026091c')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e138ab758a722ce5b4f83a2b030f5fc0')"
     ]
   }
 }
