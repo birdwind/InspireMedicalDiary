@@ -1,18 +1,5 @@
 package com.birdwind.inspire.medical.diary.view.fragment;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.view.inputmethod.EditorInfo;
-
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.base.utils.LogUtils;
 import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
@@ -23,6 +10,17 @@ import com.birdwind.inspire.medical.diary.receiver.ChatBroadcastReceiver;
 import com.birdwind.inspire.medical.diary.sqlLite.service.ChatService;
 import com.birdwind.inspire.medical.diary.view.adapter.ChatAdapter;
 import com.birdwind.inspire.medical.diary.view.viewCallback.ChatView;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.inputmethod.EditorInfo;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class ChatFragment extends AbstractFragment<ChatPresenter, FragmentChatBinding> implements ChatView {
 
@@ -166,11 +164,7 @@ public class ChatFragment extends AbstractFragment<ChatPresenter, FragmentChatBi
 
     @Override
     public boolean isShowTopBar() {
-        if (App.userModel.getIdentityEnums() == IdentityEnums.DOCTOR) {
-            return true;
-        } else {
-            return false;
-        }
+        return App.userModel.getIdentityEnums() == IdentityEnums.DOCTOR;
     }
 
     private void scrollToChatLatest() {
@@ -187,11 +181,6 @@ public class ChatFragment extends AbstractFragment<ChatPresenter, FragmentChatBi
 
     @Override
     public boolean onBackPressed() {
-        if (App.userModel.getIdentityEnums() == IdentityEnums.DOCTOR) {
-            return false;
-        } else {
-
-            return true;
-        }
+        return App.userModel.getIdentityEnums() != IdentityEnums.DOCTOR;
     }
 }

@@ -1,18 +1,5 @@
 package com.birdwind.inspire.medical.diary.view.activity;
 
-import android.Manifest;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
-import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.base.utils.SystemUtils;
@@ -36,6 +23,16 @@ import com.birdwind.inspire.medical.diary.view.fragment.ScanFragment;
 import com.birdwind.inspire.medical.diary.view.viewCallback.ToolbarCallback;
 import com.leaf.library.StatusBarUtil;
 import com.tbruyelle.rxpermissions3.Permission;
+import android.Manifest;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 
 public class MainActivity extends AbstractActivity<AbstractPresenter, ActivityMainBinding>
     implements AbstractActivity.PermissionRequestListener, FragNavController.TransactionListener,
@@ -128,13 +125,11 @@ public class MainActivity extends AbstractActivity<AbstractPresenter, ActivityMa
             if (!mNavController.isRootFragment()) {
                 mNavController.popFragment(popFragNavTransactionOptions);
             } else {
-                if (doubleBackToExitPressedOnce) {
+                if (App.isDoubleBack()) {
                     super.onBackPressed();
-                    return;
+                } else {
+                    showToast(getString(R.string.common_double_click_back));
                 }
-                this.doubleBackToExitPressedOnce = true;
-                showToast(getString(R.string.common_double_click_back));
-                new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
             }
         }
     }

@@ -1,19 +1,16 @@
 package com.birdwind.inspire.medical.diary.view.fragment;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import androidx.fragment.app.Fragment;
-
 import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.base.utils.fragmentNavUtils.FragNavController;
 import com.birdwind.inspire.medical.diary.base.utils.fragmentNavUtils.FragNavTransactionOptions;
 import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
 import com.birdwind.inspire.medical.diary.databinding.FragmentPatientMainBinding;
 import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
-import com.birdwind.inspire.medical.diary.view.viewCallback.ToolbarCallback;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import androidx.fragment.app.Fragment;
 
 public class PatientMainFragment extends AbstractFragment<AbstractPresenter, FragmentPatientMainBinding>
     implements FragNavController.RootFragmentListener, FragNavController.TransactionListener {
