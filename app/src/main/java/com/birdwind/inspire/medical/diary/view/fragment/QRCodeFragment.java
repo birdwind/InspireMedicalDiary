@@ -1,22 +1,22 @@
 package com.birdwind.inspire.medical.diary.view.fragment;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.base.Config;
 import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
 import com.birdwind.inspire.medical.diary.databinding.FragmentQrcodeBinding;
 import com.birdwind.inspire.medical.diary.enums.DiseaseEnums;
+import com.birdwind.inspire.medical.diary.enums.IdentityEnums;
 import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
 import com.birdwind.inspire.medical.diary.server.FileApiServer;
 import com.birdwind.inspire.medical.diary.view.activity.MainActivity;
 import com.birdwind.inspire.medical.diary.view.dialog.callback.CommonDialogListener;
 import com.birdwind.inspire.medical.diary.view.viewCallback.ToolbarCallback;
 import com.bumptech.glide.Glide;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 public class QRCodeFragment extends AbstractFragment<AbstractPresenter, FragmentQrcodeBinding>
     implements ToolbarCallback {
@@ -53,9 +53,22 @@ public class QRCodeFragment extends AbstractFragment<AbstractPresenter, Fragment
 
     @Override
     public String setRightButtonText() {
-        if(App.userModel.getDiseaseEnums() == DiseaseEnums.NOT_SET){
+        if ((App.userModel.getIdentityEnums() == IdentityEnums.PAINTER
+            && App.userModel.getDiseaseEnums() == DiseaseEnums.NOT_SET)
+            || (App.userModel.getIdentityEnums() == IdentityEnums.FAMILY && !App.userModel.isHasFamily())) {
             return getString(R.string.common_logout);
-        }else{
+        } else if (App.userModel.getIdentityEnums() == IdentityEnums.FAMILY && App.userModel.isHasFamily()) {
+            return getString(R.string.scan_be_family);
+        } else {
+            return "";
+        }
+    }
+
+    @Override
+    public String setLeftButtonText() {
+        if (App.userModel.getIdentityEnums() == IdentityEnums.FAMILY && !App.userModel.isHasFamily()) {
+            return getString(R.string.scan_be_family);
+        } else {
             return "";
         }
     }
@@ -67,7 +80,8 @@ public class QRCodeFragment extends AbstractFragment<AbstractPresenter, Fragment
 
     @Override
     public boolean isShowTopBarBack() {
-        if (App.userModel.getDiseaseEnums() == DiseaseEnums.NOT_SET) {
+        if (App.userModel.getIdentityEnums() == IdentityEnums.PAINTER
+            && App.userModel.getDiseaseEnums() == DiseaseEnums.NOT_SET) {
             return false;
         } else {
             return true;
@@ -76,12 +90,25 @@ public class QRCodeFragment extends AbstractFragment<AbstractPresenter, Fragment
 
     @Override
     public void clickTopBarRightTextButton(View view) {
-        showDialog(getString(R.string.common_dialog_title), getString(R.string.common_dialog_logout),
-            new CommonDialogListener() {
-                @Override
-                public void clickConfirm() {
-                    ((MainActivity) context).logout();
-                }
-            });
+        if ((App.userModel.getIdentityEnums() == IdentityEnums.PAINTER
+            && App.userModel.getDiseaseEnums() == DiseaseEnums.NOT_SET)
+            || (App.userModel.getIdentityEnums() == IdentityEnums.FAMILY && !App.userModel.isHasFamily())) {
+            // 登出
+            showDialog(getString(R.string.common_dialog_title), getString(R.string.common_dialog_logout),
+                new CommonDialogListener() {
+                    @Override
+                    public void clickConfirm() {
+                        ((MainActivity) context).logout();
+                    }
+                });
+        } else if (App.userModel.getIdentityEnums() == IdentityEnums.FAMILY && App.userModel.isHasFamily()) {
+            // 家屬
+            ((MainActivity) context).replaceFragment(new ScanFragment(), true);
+        }
+    }
+
+    @Override
+    public void clickTopBarLeftTextButton(View view) {
+        ((MainActivity) context).replaceFragment(new ScanFragment(), true);
     }
 }

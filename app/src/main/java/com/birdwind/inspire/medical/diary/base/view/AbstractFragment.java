@@ -272,9 +272,10 @@ public abstract class AbstractFragment<P extends AbstractPresenter, VB extends V
         if (context instanceof FragmentNavigationListener) {
             fragmentNavigationListener.updateToolbar(setTopBarTitle(), setTopBarTitleColor(),
                 setTopBarBackgroundColor(), isStatusLightMode(), isShowTopBarBack(), isShowTopBar(),
-                isShowRightButton(), setRightButtonText(), setRightImageButton(), setToolbarCallback());
+                isShowRightButton(), setRightButtonText(), setRightImageButton(), setToolbarCallback(),
+                setLeftButtonText());
 
-//            ((BottomNavigationActivity) context).getIconBadges();
+            // ((BottomNavigationActivity) context).getIconBadges();
         }
 
         LogUtils.eTAG(className, "onResume");
@@ -352,7 +353,7 @@ public abstract class AbstractFragment<P extends AbstractPresenter, VB extends V
     }
 
     public void onBackPressedByActivity() {
-        ((AbstractActivity)context).onBackPressed();
+        ((AbstractActivity) context).onBackPressed();
     }
 
     public void onPopBack(int popTabIndex, int popDeep) {

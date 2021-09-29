@@ -7,4 +7,6 @@ public interface ToolbarCallback {
     default void clickTopBarRightTextButton(View view) {}
 
     default void clickTopBarRightImageButton(View view) {}
+
+    default void clickTopBarLeftTextButton(View view) {}
 }

@@ -13,5 +13,5 @@ public interface FragmentNavigationListener {
 
     void updateToolbar(String title, int titleColor, int backgroundColor, boolean isStatusLightMode, boolean isShowBack,
         boolean isShowHeader, boolean isShowRightButton, String rightButtonText, @DrawableRes int rightImageButton,
-        ToolbarCallback toolbarCallback);
+        ToolbarCallback toolbarCallback, String leftButtonText);
 }

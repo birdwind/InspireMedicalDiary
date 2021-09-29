@@ -18,9 +18,9 @@ import com.birdwind.inspire.medical.diary.view.activity.MainActivity;
 public class FamilyMainFragment extends AbstractFragment<AbstractPresenter, FragmentFamilyMainBinding>
     implements FragNavController.RootFragmentListener, FragNavController.TransactionListener {
 
-    private FragNavController mNavController;
+    private static FragNavController mNavController;
 
-    private FragNavTransactionOptions popFragNavTransactionOptions;
+    private static FragNavTransactionOptions popFragNavTransactionOptions;
 
     @Override
     public AbstractPresenter createPresenter() {
@@ -102,5 +102,13 @@ public class FamilyMainFragment extends AbstractFragment<AbstractPresenter, Frag
             return false;
         }
         return true;
+    }
+
+    public static void replaceFragment(Fragment fragment, boolean isBack) {
+        if (isBack) {
+            mNavController.replaceFragment(fragment, popFragNavTransactionOptions);
+        }else{
+            mNavController.replaceFragment(fragment);
+        }
     }
 }

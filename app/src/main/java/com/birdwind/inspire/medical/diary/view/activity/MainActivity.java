@@ -79,6 +79,7 @@ public class MainActivity extends AbstractActivity<AbstractPresenter, ActivityMa
         binding.compTopBarMainActivity.llBackTopBarComp.setOnClickListener(this);
         binding.compTopBarMainActivity.btRightButtonTopBarComp.setOnClickListener(this);
         binding.compTopBarMainActivity.llRightButtonTopBarComp.setOnClickListener(this);
+        binding.compTopBarMainActivity.btLeftButtonTopBarComp.setOnClickListener(this);
     }
 
     @Override
@@ -113,7 +114,7 @@ public class MainActivity extends AbstractActivity<AbstractPresenter, ActivityMa
                     (PainterDiseaseModel) bundle.getSerializable("painterDiseaseModel");
                 App.userModel.setDiseaseEnums(DiseaseEnums.parseEnumsByType(painterDiseaseModel.getDisease()));
                 App.updateUserModel();
-                replaceFragment(new PatientMainFragment());
+                replaceFragment(new PatientMainFragment(), false);
             }
         };
         painterBroadcastReceiver.register(context);
@@ -199,7 +200,7 @@ public class MainActivity extends AbstractActivity<AbstractPresenter, ActivityMa
     @Override
     public void updateToolbar(String title, int titleColor, int backgroundColor, boolean isStatusLightMode,
         boolean isShowBack, boolean isShowHeader, boolean isShowRightButton, String rightButtonText,
-        int rightImageButton, ToolbarCallback toolbarCallback) {
+        int rightImageButton, ToolbarCallback toolbarCallback, String leftButtonText) {
         if (title != null) {
             binding.compTopBarMainActivity.tvTitleTopBarComp.setText(title);
         }
@@ -223,7 +224,7 @@ public class MainActivity extends AbstractActivity<AbstractPresenter, ActivityMa
         if (isShowBack) {
             binding.compTopBarMainActivity.llBackTopBarComp.setVisibility(View.VISIBLE);
         } else {
-            binding.compTopBarMainActivity.llBackTopBarComp.setVisibility(View.INVISIBLE);
+            binding.compTopBarMainActivity.llBackTopBarComp.setVisibility(View.GONE);
         }
 
         if (isShowHeader) {
@@ -237,6 +238,13 @@ public class MainActivity extends AbstractActivity<AbstractPresenter, ActivityMa
             binding.compTopBarMainActivity.btRightButtonTopBarComp.setVisibility(View.VISIBLE);
         } else {
             binding.compTopBarMainActivity.btRightButtonTopBarComp.setVisibility(View.GONE);
+        }
+
+        if (!TextUtils.isEmpty(leftButtonText)) {
+            binding.compTopBarMainActivity.btLeftButtonTopBarComp.setText(leftButtonText);
+            binding.compTopBarMainActivity.btLeftButtonTopBarComp.setVisibility(View.VISIBLE);
+        } else {
+            binding.compTopBarMainActivity.btLeftButtonTopBarComp.setVisibility(View.GONE);
         }
 
         if (rightImageButton != 0) {
@@ -262,6 +270,10 @@ public class MainActivity extends AbstractActivity<AbstractPresenter, ActivityMa
             if (toolbarCallback != null) {
                 toolbarCallback.clickTopBarRightImageButton(v);
             }
+        } else if (v == binding.compTopBarMainActivity.btLeftButtonTopBarComp) {
+            if (toolbarCallback != null) {
+                toolbarCallback.clickTopBarLeftTextButton(v);
+            }
         }
     }
 
@@ -273,7 +285,11 @@ public class MainActivity extends AbstractActivity<AbstractPresenter, ActivityMa
         }
     }
 
-    public void replaceFragment(Fragment fragment) {
-        mNavController.replaceFragment(fragment);
+    public void replaceFragment(Fragment fragment, boolean isBack) {
+        if (isBack) {
+            mNavController.replaceFragment(fragment, popFragNavTransactionOptions);
+        }else{
+            mNavController.replaceFragment(fragment);
+        }
     }
 }

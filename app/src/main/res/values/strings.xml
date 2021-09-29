@@ -106,5 +106,7 @@
 
     <!--Scan-->
     <string name="scan_no_permission">您未同意授權，無法開啟相機掃描QRCODE</string>
+    <string name="scan_be_agent">代理人</string>
+    <string name="scan_be_family">家屬</string>
 
 </resources>

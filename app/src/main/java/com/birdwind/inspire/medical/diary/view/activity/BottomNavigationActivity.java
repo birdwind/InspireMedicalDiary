@@ -1,8 +1,5 @@
 package com.birdwind.inspire.medical.diary.view.activity;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.base.Config;
@@ -23,7 +20,8 @@ import com.birdwind.inspire.medical.diary.view.fragment.ScanFragment;
 import com.birdwind.inspire.medical.diary.view.viewCallback.ToolbarCallback;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.leaf.library.StatusBarUtil;
-
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -32,12 +30,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-
 import me.leolin.shortcutbadger.ShortcutBadger;
 import okhttp3.Response;
 import okhttp3.WebSocket;
@@ -137,7 +133,7 @@ public class BottomNavigationActivity extends AbstractActivity<AbstractPresenter
     @Override
     public void updateToolbar(String title, int titleColor, int backgroundColor, boolean isStatusLightMode,
         boolean isShowBack, boolean isShowHeader, boolean isShowRightButton, String rightButtonText,
-        @DrawableRes int rightImageButton, ToolbarCallback toolbarCallback) {
+        @DrawableRes int rightImageButton, ToolbarCallback toolbarCallback, String leftButtonText) {
         if (title != null) {
             binding.compTopBarBottomNavigationActivity.tvTitleTopBarComp.setText(title);
         }
@@ -196,6 +192,7 @@ public class BottomNavigationActivity extends AbstractActivity<AbstractPresenter
         binding.compTopBarBottomNavigationActivity.llBackTopBarComp.setOnClickListener(this);
         binding.compTopBarBottomNavigationActivity.btRightButtonTopBarComp.setOnClickListener(this);
         binding.compTopBarBottomNavigationActivity.llRightButtonTopBarComp.setOnClickListener(this);
+        binding.compTopBarBottomNavigationActivity.btLeftButtonTopBarComp.setOnClickListener(this);
     }
 
     @Override
