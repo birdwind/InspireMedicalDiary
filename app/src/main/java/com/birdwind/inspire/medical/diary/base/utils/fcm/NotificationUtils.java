@@ -1,15 +1,5 @@
 package com.birdwind.inspire.medical.diary.base.utils.fcm;
 
-import java.util.Map;
-
-import com.birdwind.inspire.medical.diary.App;
-import com.birdwind.inspire.medical.diary.R;
-import com.birdwind.inspire.medical.diary.base.Config;
-import com.birdwind.inspire.medical.diary.base.utils.GsonUtils;
-import com.birdwind.inspire.medical.diary.base.utils.LogUtils;
-import com.birdwind.inspire.medical.diary.view.activity.BottomNavigationActivity;
-import com.google.firebase.messaging.RemoteMessage;
-
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -19,11 +9,22 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
+
+import com.birdwind.inspire.medical.diary.App;
+import com.birdwind.inspire.medical.diary.R;
+import com.birdwind.inspire.medical.diary.base.Config;
+import com.birdwind.inspire.medical.diary.base.utils.GsonUtils;
+import com.birdwind.inspire.medical.diary.base.utils.LogUtils;
+import com.birdwind.inspire.medical.diary.view.activity.MainActivity;
+import com.google.firebase.messaging.RemoteMessage;
+
+import java.util.Map;
 
 import me.leolin.shortcutbadger.ShortcutBadger;
 
@@ -86,6 +87,7 @@ public class NotificationUtils {
         String timestamp;
         Intent notificationIntent;
 
+        LogUtils.e("FCM Notification", GsonUtils.toJson(remoteMessage.getNotification()));
         LogUtils.e("FCM Body", GsonUtils.toJson(remoteMessage.getData()));
         Map<String, String> notificationBodyMap = remoteMessage.getData();
         title = notificationBodyMap.get("title");
@@ -103,9 +105,9 @@ public class NotificationUtils {
         ShortcutBadger.applyCount(App.getAppContext(), App.getUnreadCount());
         // BadgeNumberManager.from(App.getAppContext()).setBadgeNumber(App.getUnreadCount());
 
-        notificationIntent = new Intent(context, BottomNavigationActivity.class);
-        if (action.equals("Apply") || action.equals("Restore")) {
-//            notificationIntent = new Intent(context, SplashActivity.class);
+        notificationIntent = new Intent(context, MainActivity.class);
+        if (action != null && action.equals("test")) {
+            notificationIntent = new Intent(Intent.ACTION_VIEW).setData(Uri.parse("diary://inspire.medical.diary/quiz?identity=0"));
         }
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
@@ -158,4 +160,5 @@ public class NotificationUtils {
         // if this is less then OREO it means that notifications are disabled
         return false;
     }
+
 }

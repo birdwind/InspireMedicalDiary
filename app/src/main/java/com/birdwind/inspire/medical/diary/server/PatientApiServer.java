@@ -6,7 +6,8 @@ import java.io.Serializable;
 
 public enum PatientApiServer implements BaseEnums {
     CHECK_MY_DISEASE("checkmydisease"), SEND_MESSAGE("sendmessage"), GET_MY_MESSAGES("getmymessages"), GET_MY_MEMBER(
-        "getmymember"), SUBMIT_HEADACHE_TEST("submitheadachetest");
+        "getmymember"), SUBMIT_HEADACHE_TEST("submitheadachetest"), SUBMIT_DEMENTIA_TEST(
+            "submitdementiatest"), SUBMIT_PARKINSON_TEST("SubmitParkinsonTest");
 
     PatientApiServer(String url) {
         this.url = "patient/" + url;

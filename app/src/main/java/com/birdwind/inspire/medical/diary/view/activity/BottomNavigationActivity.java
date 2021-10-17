@@ -14,7 +14,7 @@ import com.birdwind.inspire.medical.diary.base.utils.fragmentNavUtils.FragmentNa
 import com.birdwind.inspire.medical.diary.base.view.AbstractActivity;
 import com.birdwind.inspire.medical.diary.databinding.ActivityBottomNavigationBinding;
 import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
-import com.birdwind.inspire.medical.diary.service.InspireDiaryChatService;
+import com.birdwind.inspire.medical.diary.service.InspireDiaryWebSocketService;
 import com.birdwind.inspire.medical.diary.view.customer.BadgeView;
 import com.birdwind.inspire.medical.diary.view.fragment.ScanFragment;
 import com.birdwind.inspire.medical.diary.view.viewCallback.ToolbarCallback;
@@ -241,8 +241,8 @@ public class BottomNavigationActivity extends AbstractActivity<AbstractPresenter
     }
 
     private void startSignalRService() {
-        if (!SystemUtils.isServiceRunning(InspireDiaryChatService.class, context)) {
-            Intent intent = new Intent(this, InspireDiaryChatService.class);
+        if (!SystemUtils.isServiceRunning(InspireDiaryWebSocketService.class, context)) {
+            Intent intent = new Intent(this, InspireDiaryWebSocketService.class);
             this.startService(intent);
         }
     }

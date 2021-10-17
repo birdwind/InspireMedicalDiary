@@ -1,5 +1,13 @@
 package com.birdwind.inspire.medical.diary.view.fragment;
 
+import android.Manifest;
+import android.content.Context;
+import android.graphics.PointF;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.base.utils.GsonUtils;
@@ -18,13 +26,6 @@ import com.birdwind.inspire.medical.diary.view.viewCallback.ScanView;
 import com.birdwind.inspire.medical.diary.view.viewCallback.ToolbarCallback;
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
 import com.tbruyelle.rxpermissions3.Permission;
-import android.Manifest;
-import android.content.Context;
-import android.graphics.PointF;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 public class ScanFragment extends AbstractFragment<ScanPresenter, FragmentScanBinding>
     implements ScanView, AbstractActivity.PermissionRequestListener, QRCodeReaderView.OnQRCodeReadListener,
@@ -121,6 +122,8 @@ public class ScanFragment extends AbstractFragment<ScanPresenter, FragmentScanBi
         isAdded = true;
         if (App.userModel.getIdentityEnums() == IdentityEnums.FAMILY) {
             ((MainActivity) context).replaceFragment(new FamilyMainFragment(), false);
+            App.userModel.setHasFamily(true);
+            App.updateUserModel();
         } else {
             onBackPressedByActivity();
         }

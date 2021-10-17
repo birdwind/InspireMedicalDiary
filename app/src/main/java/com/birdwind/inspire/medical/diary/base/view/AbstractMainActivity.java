@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 
 import androidx.fragment.app.Fragment;
@@ -14,12 +13,10 @@ import androidx.viewbinding.ViewBinding;
 
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
-import com.birdwind.inspire.medical.diary.animation.SlideHeightAnimation;
 import com.birdwind.inspire.medical.diary.base.utils.SystemUtils;
-import com.birdwind.inspire.medical.diary.base.utils.Utils;
 import com.birdwind.inspire.medical.diary.base.utils.fragmentNavUtils.FragNavTransactionOptions;
 import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
-import com.birdwind.inspire.medical.diary.service.InspireDiaryChatService;
+import com.birdwind.inspire.medical.diary.service.InspireDiaryWebSocketService;
 import com.leaf.library.StatusBarUtil;
 import com.tbruyelle.rxpermissions3.Permission;
 
@@ -144,8 +141,8 @@ public abstract class AbstractMainActivity<P extends AbstractPresenter, VB exten
     }
 
     private void startSignalRService() {
-        if (!SystemUtils.isServiceRunning(InspireDiaryChatService.class, context)) {
-            Intent intent = new Intent(this, InspireDiaryChatService.class);
+        if (!SystemUtils.isServiceRunning(InspireDiaryWebSocketService.class, context)) {
+            Intent intent = new Intent(this, InspireDiaryWebSocketService.class);
             this.startService(intent);
         }
     }

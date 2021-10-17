@@ -1,19 +1,24 @@
 package com.birdwind.inspire.medical.diary.view.fragment;
 
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
+
+import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.base.utils.fragmentNavUtils.FragNavController;
 import com.birdwind.inspire.medical.diary.base.utils.fragmentNavUtils.FragNavTransactionOptions;
 import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
 import com.birdwind.inspire.medical.diary.databinding.FragmentPatientMainBinding;
 import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import androidx.fragment.app.Fragment;
 
 public class PatientMainFragment extends AbstractFragment<AbstractPresenter, FragmentPatientMainBinding>
     implements FragNavController.RootFragmentListener, FragNavController.TransactionListener {
+
+    private String activityAction;
 
     private FragNavController mNavController;
 
@@ -36,7 +41,7 @@ public class PatientMainFragment extends AbstractFragment<AbstractPresenter, Fra
             pushFragment(new QRCodeFragment());
         });
         binding.llQuizPatientMainFragment.setOnClickListener(v -> {
-            pushFragment(new QuizContentFragment());
+            openQuizFragment();
         });
         binding.llSettingPatientMainFragment.setOnClickListener(v -> {
             pushFragment(new SettingFragment());
@@ -45,6 +50,10 @@ public class PatientMainFragment extends AbstractFragment<AbstractPresenter, Fra
 
     @Override
     public void initData(Bundle savedInstanceState) {
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            activityAction = bundle.getString("action");
+        }
         FragNavTransactionOptions defaultFragNavTransactionOptions =
             FragNavTransactionOptions.newBuilder().customAnimations(R.anim.slide_in_from_right,
                 R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right).build();
@@ -62,7 +71,11 @@ public class PatientMainFragment extends AbstractFragment<AbstractPresenter, Fra
     public void initView() {}
 
     @Override
-    public void doSomething() {}
+    public void doSomething() {
+        if (activityAction != null && activityAction.equals("quiz")) {
+            openQuizFragment();
+        }
+    }
 
     @Override
     public Fragment getRootFragment(int index) {
@@ -96,5 +109,17 @@ public class PatientMainFragment extends AbstractFragment<AbstractPresenter, Fra
             return false;
         }
         return true;
+    }
+
+    private void openQuizFragment() {
+        switch (App.userModel.getDiseaseEnums()) {
+            case HEADACHE:
+                pushFragment(new QuizHeadacheFragment());
+                break;
+            case ALZHEIMER:
+            case PERKINS:
+                pushFragment(new QuizAkzhimerFragment());
+                break;
+        }
     }
 }

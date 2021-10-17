@@ -1,7 +1,21 @@
 package com.birdwind.inspire.medical.diary.view.activity;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
+import com.birdwind.inspire.medical.diary.base.utils.LogUtils;
 import com.birdwind.inspire.medical.diary.base.utils.SystemUtils;
 import com.birdwind.inspire.medical.diary.base.utils.fragmentNavUtils.FragNavController;
 import com.birdwind.inspire.medical.diary.base.utils.fragmentNavUtils.FragNavTransactionOptions;
@@ -11,10 +25,11 @@ import com.birdwind.inspire.medical.diary.base.view.AbstractActivity;
 import com.birdwind.inspire.medical.diary.base.view.BackHandlerHelper;
 import com.birdwind.inspire.medical.diary.databinding.ActivityMainBinding;
 import com.birdwind.inspire.medical.diary.enums.DiseaseEnums;
+import com.birdwind.inspire.medical.diary.enums.IdentityEnums;
 import com.birdwind.inspire.medical.diary.model.PainterDiseaseModel;
 import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
 import com.birdwind.inspire.medical.diary.receiver.PainterBroadcastReceiver;
-import com.birdwind.inspire.medical.diary.service.InspireDiaryChatService;
+import com.birdwind.inspire.medical.diary.service.InspireDiaryWebSocketService;
 import com.birdwind.inspire.medical.diary.view.fragment.DoctorMainFragment;
 import com.birdwind.inspire.medical.diary.view.fragment.FamilyMainFragment;
 import com.birdwind.inspire.medical.diary.view.fragment.PatientMainFragment;
@@ -23,16 +38,6 @@ import com.birdwind.inspire.medical.diary.view.fragment.ScanFragment;
 import com.birdwind.inspire.medical.diary.view.viewCallback.ToolbarCallback;
 import com.leaf.library.StatusBarUtil;
 import com.tbruyelle.rxpermissions3.Permission;
-import android.Manifest;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 
 public class MainActivity extends AbstractActivity<AbstractPresenter, ActivityMainBinding>
     implements AbstractActivity.PermissionRequestListener, FragNavController.TransactionListener,
@@ -61,7 +66,22 @@ public class MainActivity extends AbstractActivity<AbstractPresenter, ActivityMa
 
     @Override
     public void doSomething() {
-
+        Intent intent = getIntent();
+        if (intent != null) {
+            Uri data = intent.getData();
+            if (data != null) {
+                String temp = data.getQueryParameter("identity");
+                IdentityEnums identityEnums = IdentityEnums.parseEnumsByType(Integer.parseInt(temp));
+                LogUtils.d("身分", identityEnums.name());
+                if (identityEnums == IdentityEnums.PAINTER) {
+                    PatientMainFragment patientMainFragment = new PatientMainFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("action", "quiz");
+                    patientMainFragment.setArguments(bundle);
+                    replaceFragment(patientMainFragment, false);
+                }
+            }
+        }
     }
 
     @Override
@@ -145,8 +165,8 @@ public class MainActivity extends AbstractActivity<AbstractPresenter, ActivityMa
     }
 
     private void startSignalRService() {
-        if (!SystemUtils.isServiceRunning(InspireDiaryChatService.class, context)) {
-            Intent intent = new Intent(this, InspireDiaryChatService.class);
+        if (!SystemUtils.isServiceRunning(InspireDiaryWebSocketService.class, context)) {
+            Intent intent = new Intent(this, InspireDiaryWebSocketService.class);
             this.startService(intent);
         }
     }
@@ -288,7 +308,7 @@ public class MainActivity extends AbstractActivity<AbstractPresenter, ActivityMa
     public void replaceFragment(Fragment fragment, boolean isBack) {
         if (isBack) {
             mNavController.replaceFragment(fragment, popFragNavTransactionOptions);
-        }else{
+        } else {
             mNavController.replaceFragment(fragment);
         }
     }

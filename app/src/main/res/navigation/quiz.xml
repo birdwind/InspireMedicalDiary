@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/quiz"
+    app:startDestination="@id/patientMainFragment">
+
+    <fragment
+        android:id="@+id/patientMainFragment"
+        android:name="com.birdwind.inspire.medical.diary.view.fragment.PatientMainFragment"
+        android:label="PatientMainFragment">
+        <action
+            android:id="@+id/action_patientMainFragment_to_quizContentFragment"
+            app:destination="@id/quizContentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/quizContentFragment"
+        android:name="com.birdwind.inspire.medical.diary.view.fragment.QuizHeadacheFragment"
+        android:label="QuizContentFragment" />
+</navigation>

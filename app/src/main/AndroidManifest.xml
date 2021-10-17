@@ -64,7 +64,7 @@
         </service>
 
         <service
-            android:name="com.birdwind.inspire.medical.diary.service.InspireDiaryChatService"
+            android:name="com.birdwind.inspire.medical.diary.service.InspireDiaryWebSocketService"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
@@ -128,7 +128,19 @@
             android:name="com.birdwind.inspire.medical.diary.view.activity.MainActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="inspire.medical.diary"
+                    android:path="/quiz"
+                    android:scheme="diary" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

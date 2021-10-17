@@ -13,6 +13,8 @@ import com.birdwind.inspire.medical.diary.view.activity.MainActivity;
 import com.birdwind.inspire.medical.diary.view.dialog.callback.CommonDialogListener;
 import com.birdwind.inspire.medical.diary.view.viewCallback.ToolbarCallback;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.Target;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,7 +50,7 @@ public class QRCodeFragment extends AbstractFragment<AbstractPresenter, Fragment
 
     @Override
     public void doSomething() {
-        Glide.with(this).load(Config.BASE_URL + FileApiServer.MQ_QR_CODE.valueOfName()).into(binding.ivQrcodeFragment);
+        Glide.with(this).load(Config.BASE_URL + FileApiServer.MQ_QR_CODE.valueOfName()).override(Target.SIZE_ORIGINAL).into(binding.ivQrcodeFragment);
     }
 
     @Override
