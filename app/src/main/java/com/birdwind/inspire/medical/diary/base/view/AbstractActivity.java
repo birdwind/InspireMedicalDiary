@@ -206,6 +206,7 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
     @Override
     public void startActivity(Class<?> className, Bundle bundle) {
         Intent intent = new Intent(context, className);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         if (bundle != null) {
             intent.putExtras(bundle);
         }

@@ -56,7 +56,7 @@ public class GlobalGlideConfig extends AppGlideModule {
          * 表示只缓存转换过后的图片。 DiskCacheStrategy.ALL ： 表示既缓存原始图片，也缓存转换过后的图片。 DiskCacheStrategy.AUTOMATIC：
          * 表示让Glide根据图片资源智能地选择使用哪一种缓存策略（默认选项）。
          */
-        builder.setDefaultRequestOptions(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE));
+        builder.setDefaultRequestOptions(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL));
 
         /**
          * 优先外部存储作为磁盘缓存目录，防止内部存储文件过大 外部存储目录默认地址为：/sdcard/Android/data/com.sina.weibolite/cache/image_manager_disk_cache

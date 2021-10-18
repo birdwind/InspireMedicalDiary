@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
@@ -121,8 +122,10 @@ public class MainActivity extends AbstractActivity<AbstractPresenter, ActivityMa
 
         fragmentHistory = new FragmentHistory();
 
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
         mNavController =
-            FragNavController.newBuilder(savedInstanceState, getSupportFragmentManager(), binding.mainContainer.getId())
+            FragNavController.newBuilder(savedInstanceState, fragmentManager, binding.mainContainer.getId())
                 .transactionListener(this).rootFragmentListener(this, 1)
                 .defaultTransactionOptions(defaultFragNavTransactionOptions).build();
 

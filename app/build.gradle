@@ -183,6 +183,12 @@ dependencies {
      */
     implementation "org.jsoup:jsoup:${libs.jsoup}"
 
+
+    /**
+     *  Picasso
+     */
+    implementation "com.squareup.picasso:picasso:${libs.picasso}"
+
     /**
      * Glide
      */

@@ -17,6 +17,8 @@ public class UserDialogPresenter extends AbstractPresenter<UserDialogView> {
     public void addUser(int uid, DiseaseEnums diseaseEnums) {
         String api = "";
 
+        initMap();
+
         switch (App.userModel.getIdentityEnums()) {
             case DOCTOR:
                 api = DoctorApiServer.ADD_PATIENT.valueOfName();
@@ -29,8 +31,6 @@ public class UserDialogPresenter extends AbstractPresenter<UserDialogView> {
 //                api = PatientApiServer.JOIN_MY_GROUP.valueOfName();
 //                break;
         }
-
-        initMap();
         paramsMap.put("UID", uid);
 
         addDisposable(apiServer.executePostFormUrlEncode(api, paramsMap, fieldMap, headerMap),

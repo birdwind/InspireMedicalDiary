@@ -54,6 +54,7 @@ ext {
             phoneNumber           : "8.12.11",
             picasso               : "2.71828",
             powerSpinner          : "1.0.9",
+            picasso               : "2.71828",
             recyclerview          : "1.2.1",
             retrofit              : "2.9.0",
             room                  : "2.3.0",

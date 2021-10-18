@@ -1,13 +1,5 @@
 package com.birdwind.inspire.medical.diary.view.dialog;
 
-import android.content.Context;
-import android.graphics.PorterDuff;
-import android.view.View;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.base.utils.ToastUtils;
@@ -22,8 +14,13 @@ import com.birdwind.inspire.medical.diary.view.dialog.callback.CommonDialogListe
 import com.birdwind.inspire.medical.diary.view.dialog.callback.UserDialogListener;
 import com.birdwind.inspire.medical.diary.view.viewCallback.UserDialogView;
 import com.bumptech.glide.Glide;
-
 import org.jetbrains.annotations.NotNull;
+import android.content.Context;
+import android.graphics.PorterDuff;
+import android.view.View;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 public class UserDialog extends AbstractDialog<CommonDialogListener, UserDialogPresenter, DialogUserBinding>
     implements UserDialogView {
@@ -56,8 +53,14 @@ public class UserDialog extends AbstractDialog<CommonDialogListener, UserDialogP
             dismiss();
         });
 
-        binding.rgOptionDialogUser.setOnCheckedChangeListener((group, checkedId) -> {
-            diseaseEnums = DiseaseEnums.parseEnumsByType(checkedId);
+        binding.rbHeadacheDialogUser.setOnClickListener(v -> {
+            diseaseEnums = DiseaseEnums.HEADACHE;
+        });
+        binding.rbAzDialogUser.setOnClickListener(v -> {
+            diseaseEnums = DiseaseEnums.ALZHEIMER;
+        });
+        binding.rbBgDialogUser.setOnClickListener(v -> {
+            diseaseEnums = DiseaseEnums.PERKINS;
         });
 
         binding.btButtonDialogUser.setOnClickListener(v -> {
@@ -102,6 +105,8 @@ public class UserDialog extends AbstractDialog<CommonDialogListener, UserDialogP
                 binding.rgOptionDialogUser.setVisibility(View.GONE);
             }
         }
+
+        binding.rgOptionDialogUser.clearCheck();
 
     }
 

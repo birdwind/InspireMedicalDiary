@@ -1,11 +1,5 @@
 package com.birdwind.inspire.medical.diary.view.fragment;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-
 import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
 import com.birdwind.inspire.medical.diary.databinding.FragmentQuizHeadacheBinding;
@@ -13,9 +7,13 @@ import com.birdwind.inspire.medical.diary.presenter.QuizContentPresenter;
 import com.birdwind.inspire.medical.diary.view.activity.MainActivity;
 import com.birdwind.inspire.medical.diary.view.viewCallback.QuizContentView;
 import com.birdwind.inspire.medical.diary.view.viewCallback.ToolbarCallback;
-
 import java.util.ArrayList;
 import java.util.List;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 
 public class QuizHeadacheFragment extends AbstractFragment<QuizContentPresenter, FragmentQuizHeadacheBinding>
     implements QuizContentView, ToolbarCallback, View.OnClickListener {
@@ -33,12 +31,12 @@ public class QuizHeadacheFragment extends AbstractFragment<QuizContentPresenter,
 
     @Override
     public void addListener() {
-        binding.ivHeadache1QuizHeadacheFragment.setOnClickListener(this);
-        binding.ivHeadache2QuizHeadacheFragment.setOnClickListener(this);
-        binding.ivHeadache3QuizHeadacheFragment.setOnClickListener(this);
-        binding.ivHeadache4QuizHeadacheFragment.setOnClickListener(this);
-        binding.ivHeadache5QuizHeadacheFragment.setOnClickListener(this);
-        binding.ivHeadache6QuizHeadacheFragment.setOnClickListener(this);
+        binding.comQuizQuizHeadacheFragment.ivHeadache1QuizHeadacheComp.setOnClickListener(this);
+        binding.comQuizQuizHeadacheFragment.ivHeadache2QuizHeadacheComp.setOnClickListener(this);
+        binding.comQuizQuizHeadacheFragment.ivHeadache3QuizHeadacheComp.setOnClickListener(this);
+        binding.comQuizQuizHeadacheFragment.ivHeadache4QuizHeadacheComp.setOnClickListener(this);
+        binding.comQuizQuizHeadacheFragment.ivHeadache5QuizHeadacheComp.setOnClickListener(this);
+        binding.comQuizQuizHeadacheFragment.ivHeadache6QuizHeadacheComp.setOnClickListener(this);
     }
 
     @Override
@@ -68,48 +66,48 @@ public class QuizHeadacheFragment extends AbstractFragment<QuizContentPresenter,
     public void clickTopBarRightTextButton(View view) {
         List<Integer> answers = new ArrayList<>();
         boolean isCanSubmit = true;
-        int option1_Id = binding.rgOption1QuizHeadacheFragment.getCheckedRadioButtonId();
-        int option2_Id = binding.rgOption2QuizHeadacheFragment.getCheckedRadioButtonId();
-        int option3_Id = binding.rgOption3QuizHeadacheFragment.getCheckedRadioButtonId();
-        int option4_Id = binding.rgOption4QuizHeadacheFragment.getCheckedRadioButtonId();
-        int option5_Id = binding.rgOption5QuizHeadacheFragment.getCheckedRadioButtonId();
+        int option1_Id = binding.comQuizQuizHeadacheFragment.rgOption1QuizHeadacheComp.getCheckedRadioButtonId();
+        int option2_Id = binding.comQuizQuizHeadacheFragment.rgOption2QuizHeadacheComp.getCheckedRadioButtonId();
+        int option3_Id = binding.comQuizQuizHeadacheFragment.rgOption3QuizHeadacheComp.getCheckedRadioButtonId();
+        int option4_Id = binding.comQuizQuizHeadacheFragment.rgOption4QuizHeadacheComp.getCheckedRadioButtonId();
+        int option5_Id = binding.comQuizQuizHeadacheFragment.rgOption5QuizHeadacheComp.getCheckedRadioButtonId();
 
         int answer_1 = 0;
         int answer_2 = 0;
         int answer_3 = 0;
         int answer_4 = 0;
         int answer_5 = 0;
-        if (option1_Id == binding.rbOption1NoQuizHeadacheFragment.getId()) {
+        if (option1_Id == binding.comQuizQuizHeadacheFragment.rbOption1NoQuizHeadacheComp.getId()) {
             answer_1 = 0;
-        } else if (option1_Id == binding.rbOption1YesQuizHeadacheFragment.getId()) {
+        } else if (option1_Id == binding.comQuizQuizHeadacheFragment.rbOption1YesQuizHeadacheComp.getId()) {
             answer_1 = 1;
         } else {
             isCanSubmit = false;
         }
-        if (option2_Id == binding.rbOption2NoQuizHeadacheFragment.getId()) {
+        if (option2_Id == binding.comQuizQuizHeadacheFragment.rbOption2NoQuizHeadacheComp.getId()) {
             answer_2 = 0;
-        } else if (option2_Id == binding.rbOption2YesQuizHeadacheFragment.getId()) {
+        } else if (option2_Id == binding.comQuizQuizHeadacheFragment.rbOption2YesQuizHeadacheComp.getId()) {
             answer_2 = 1;
         } else {
             isCanSubmit = false;
         }
-        if (option3_Id == binding.rbOption3NoQuizHeadacheFragment.getId()) {
+        if (option3_Id == binding.comQuizQuizHeadacheFragment.rbOption3NoQuizHeadacheComp.getId()) {
             answer_3 = 0;
-        } else if (option3_Id == binding.rbOption3YesQuizHeadacheFragment.getId()) {
+        } else if (option3_Id == binding.comQuizQuizHeadacheFragment.rbOption3YesQuizHeadacheComp.getId()) {
             answer_3 = 1;
         } else {
             isCanSubmit = false;
         }
-        if (option4_Id == binding.rbOption4NoQuizHeadacheFragment.getId()) {
+        if (option4_Id == binding.comQuizQuizHeadacheFragment.rbOption4NoQuizHeadacheComp.getId()) {
             answer_4 = 0;
-        } else if (option4_Id == binding.rbOption4YesQuizHeadacheFragment.getId()) {
+        } else if (option4_Id == binding.comQuizQuizHeadacheFragment.rbOption4YesQuizHeadacheComp.getId()) {
             answer_4 = 1;
         } else {
             isCanSubmit = false;
         }
-        if (option5_Id == binding.rbOption5NoQuizHeadacheFragment.getId()) {
+        if (option5_Id == binding.comQuizQuizHeadacheFragment.rbOption5NoQuizHeadacheComp.getId()) {
             answer_5 = 0;
-        } else if (option5_Id == binding.rbOption5YesQuizHeadacheFragment.getId()) {
+        } else if (option5_Id == binding.comQuizQuizHeadacheFragment.rbOption5YesQuizHeadacheComp.getId()) {
             answer_5 = 1;
         } else {
             isCanSubmit = false;
@@ -119,8 +117,10 @@ public class QuizHeadacheFragment extends AbstractFragment<QuizContentPresenter,
         answers.add(answer_3);
         answers.add(answer_4);
         answers.add(answer_5);
-        for (int i = 0; i < binding.llHeadachePositionQuizHeadacheFragment.getChildCount(); i++) {
-            View headachePositionView = binding.llHeadachePositionQuizHeadacheFragment.getChildAt(i);
+        for (int i = 0; i < binding.comQuizQuizHeadacheFragment.llHeadachePositionQuizHeadacheComp
+            .getChildCount(); i++) {
+            View headachePositionView =
+                binding.comQuizQuizHeadacheFragment.llHeadachePositionQuizHeadacheComp.getChildAt(i);
             if (headachePositionView instanceof ImageView) {
                 if (headachePositionView.getTag() != null && (Boolean) headachePositionView.getTag()) {
                     answers.add(i);
@@ -143,12 +143,12 @@ public class QuizHeadacheFragment extends AbstractFragment<QuizContentPresenter,
     }
 
     private void selectHeadachePosition(View view) {
-        updateHeadachePictureState(binding.ivHeadache1QuizHeadacheFragment, false);
-        updateHeadachePictureState(binding.ivHeadache2QuizHeadacheFragment, false);
-        updateHeadachePictureState(binding.ivHeadache3QuizHeadacheFragment, false);
-        updateHeadachePictureState(binding.ivHeadache4QuizHeadacheFragment, false);
-        updateHeadachePictureState(binding.ivHeadache5QuizHeadacheFragment, false);
-        updateHeadachePictureState(binding.ivHeadache6QuizHeadacheFragment, false);
+        updateHeadachePictureState(binding.comQuizQuizHeadacheFragment.ivHeadache1QuizHeadacheComp, false);
+        updateHeadachePictureState(binding.comQuizQuizHeadacheFragment.ivHeadache2QuizHeadacheComp, false);
+        updateHeadachePictureState(binding.comQuizQuizHeadacheFragment.ivHeadache3QuizHeadacheComp, false);
+        updateHeadachePictureState(binding.comQuizQuizHeadacheFragment.ivHeadache4QuizHeadacheComp, false);
+        updateHeadachePictureState(binding.comQuizQuizHeadacheFragment.ivHeadache5QuizHeadacheComp, false);
+        updateHeadachePictureState(binding.comQuizQuizHeadacheFragment.ivHeadache6QuizHeadacheComp, false);
         updateHeadachePictureState(view, true);
     }
 

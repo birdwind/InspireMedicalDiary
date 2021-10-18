@@ -1,12 +1,12 @@
 package com.birdwind.inspire.medical.diary.model.response;
 
-import androidx.annotation.Nullable;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
-
 import com.birdwind.inspire.medical.diary.base.model.BaseModel;
 import com.birdwind.inspire.medical.diary.base.network.response.AbstractListResponse;
 import com.birdwind.inspire.medical.diary.base.network.response.BaseResponse;
+import com.birdwind.inspire.medical.diary.enums.DiseaseEnums;
+import androidx.annotation.Nullable;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 public class PatientResponse extends AbstractListResponse<PatientResponse.Response> {
 
@@ -16,6 +16,8 @@ public class PatientResponse extends AbstractListResponse<PatientResponse.Respon
         private int PID;
 
         private int Doctor;
+
+        private int Disease;
 
         private String Name;
 
@@ -44,6 +46,14 @@ public class PatientResponse extends AbstractListResponse<PatientResponse.Respon
 
         public void setDoctor(int doctor) {
             Doctor = doctor;
+        }
+
+        public int getDisease() {
+            return Disease;
+        }
+
+        public void setDisease(int disease) {
+            Disease = disease;
         }
 
         public String getName() {
@@ -92,6 +102,10 @@ public class PatientResponse extends AbstractListResponse<PatientResponse.Respon
 
         public void setHasUnreadReport(boolean hasUnreadReport) {
             HasUnreadReport = hasUnreadReport;
+        }
+
+        public DiseaseEnums getDiseaseEnum(){
+            return DiseaseEnums.parseEnumsByType(this.Disease);
         }
     }
 }

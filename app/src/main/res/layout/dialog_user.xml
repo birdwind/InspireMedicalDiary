@@ -76,14 +76,17 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <RadioButton
+                android:id="@+id/rb_headache_dialog_user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/painter_dialog_headache"/>
             <RadioButton
+                android:id="@+id/rb_az_dialog_user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/painter_dialog_alzheimer"/>
             <RadioButton
+                android:id="@+id/rb_bg_dialog_user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/painter_dialog_perkins"/>
