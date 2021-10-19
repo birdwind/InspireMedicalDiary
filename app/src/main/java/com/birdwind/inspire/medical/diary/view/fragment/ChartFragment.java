@@ -162,6 +162,7 @@ public class ChartFragment extends AbstractFragment<ChartPresenter, FragmentChar
         binding.lcChartFragment.setTouchEnabled(true);
         binding.lcChartFragment.setDragEnabled(true);
         binding.lcChartFragment.setScaleEnabled(false);
+        binding.lcChartFragment.setHighlightPerDragEnabled(false);
         binding.lcChartFragment.setBackgroundColor(ContextCompat.getColor(context, R.color.colorWhite_FFFFFF));
     }
 
