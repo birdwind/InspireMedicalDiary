@@ -30,6 +30,7 @@ public class LoginPresenter extends AbstractPresenter<LoginView> {
                         userModel.setName(response.getJsonData().getName());
                         userModel.setPhotoUrl(response.getJsonData().getPhotoUrl());
                         userModel.setHasFamily(response.getJsonData().isHasFamily());
+                        userModel.setProxy(response.getJsonData().isProxy());
                         userModel.setDiseaseEnums(DiseaseEnums.parseEnumsByType(response.getJsonData().getDisease()));
                         App.userModel = userModel;
                         App.updateUserModel();

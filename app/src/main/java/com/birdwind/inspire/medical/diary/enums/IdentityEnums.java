@@ -1,7 +1,7 @@
 package com.birdwind.inspire.medical.diary.enums;
 
 public enum IdentityEnums {
-    PAINTER(0), FAMILY(1), DOCTOR(2);
+    PAINTER(0), FAMILY(1), DOCTOR(2), SYSTEM(4);
 
     private int type;
 

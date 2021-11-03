@@ -23,6 +23,8 @@ public class UserModel implements BaseModel {
 
     private boolean isUpdateFCM;
 
+    private boolean isProxy;
+
     private IdentityEnums identityEnums;
 
     private DiseaseEnums diseaseEnums;
@@ -73,6 +75,14 @@ public class UserModel implements BaseModel {
 
     public void setUpdateFCM(boolean updateFCM) {
         isUpdateFCM = updateFCM;
+    }
+
+    public boolean isProxy() {
+        return isProxy;
+    }
+
+    public void setProxy(boolean proxy) {
+        isProxy = proxy;
     }
 
     public IdentityEnums getIdentityEnums() {

@@ -2,7 +2,9 @@ package com.birdwind.inspire.medical.diary.presenter;
 
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.base.basic.AbstractObserver;
+import com.birdwind.inspire.medical.diary.enums.IdentityEnums;
 import com.birdwind.inspire.medical.diary.model.response.QuizResponse;
+import com.birdwind.inspire.medical.diary.server.FamilyApiServer;
 import com.birdwind.inspire.medical.diary.server.PatientApiServer;
 import com.birdwind.inspire.medical.diary.view.viewCallback.QuizContentView;
 
@@ -16,19 +18,46 @@ public class QuizContentPresenter extends AbstractPresenter<QuizContentView> {
     }
 
     public void submit(List<Integer> answer) {
+
         initMap();
 
         String api = "";
-        switch (App.userModel.getDiseaseEnums()) {
-            case HEADACHE:
-                api = PatientApiServer.SUBMIT_HEADACHE_TEST.valueOfName();
-                break;
-            case ALZHEIMER:
-                api = PatientApiServer.SUBMIT_DEMENTIA_TEST.valueOfName();
-                break;
-            case PERKINS:
-                api = PatientApiServer.SUBMIT_PARKINSON_TEST.valueOfName();
-                break;
+        if (App.userModel.getIdentityEnums() == IdentityEnums.PAINTER)
+            switch (App.userModel.getDiseaseEnums()) {
+                case HEADACHE:
+                    api = PatientApiServer.SUBMIT_HEADACHE_TEST.valueOfName();
+                    break;
+                case ALZHEIMER:
+                    api = PatientApiServer.SUBMIT_DEMENTIA_TEST.valueOfName();
+                    break;
+                case PERKINS:
+                    api = PatientApiServer.SUBMIT_PARKINSON_TEST.valueOfName();
+                    break;
+            }
+        else if (App.userModel.getIdentityEnums() == IdentityEnums.FAMILY && !App.userModel.isProxy()) {
+            switch (App.userModel.getDiseaseEnums()) {
+                // case HEADACHE:
+                // api = FamilyApiServer.SUBMITHEA.valueOfName();
+                // break;
+                case ALZHEIMER:
+                    api = FamilyApiServer.SUBMIT_DEMENTIA_TEST.valueOfName();
+                    break;
+                case PERKINS:
+                    api = FamilyApiServer.SUBMIT_PARKINSON_TEST.valueOfName();
+                    break;
+            }
+        } else if (App.userModel.getIdentityEnums() == IdentityEnums.FAMILY && App.userModel.isProxy()) {
+            switch (App.userModel.getDiseaseEnums()) {
+                // case HEADACHE:
+                // api = FamilyApiServer.SUBMITCA.valueOfName();
+                // break;
+                case ALZHEIMER:
+                    api = FamilyApiServer.SUBMIT_DEMENTIA_CAREGIVER_TEST.valueOfName();
+                    break;
+                case PERKINS:
+                    api = FamilyApiServer.SUBMIT_PARKINSON_CAREGIVER_TEST.valueOfName();
+                    break;
+            }
         }
 
         RequestBody requestBody = packageToRequestBody(answer);

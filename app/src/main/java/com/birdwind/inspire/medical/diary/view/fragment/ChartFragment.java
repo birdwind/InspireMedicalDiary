@@ -7,6 +7,7 @@ import com.birdwind.inspire.medical.diary.base.utils.Utils;
 import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
 import com.birdwind.inspire.medical.diary.databinding.FragmentChartBinding;
 import com.birdwind.inspire.medical.diary.enums.DiseaseEnums;
+import com.birdwind.inspire.medical.diary.enums.IdentityEnums;
 import com.birdwind.inspire.medical.diary.model.response.ChartResponse;
 import com.birdwind.inspire.medical.diary.presenter.ChartPresenter;
 import com.birdwind.inspire.medical.diary.view.dialog.ScoreDetailDialog;
@@ -23,6 +24,7 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -83,6 +85,12 @@ public class ChartFragment extends AbstractFragment<ChartPresenter, FragmentChar
 
     @Override
     public void doSomething() {
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         presenter.getChartData(uid);
     }
 
@@ -115,6 +123,7 @@ public class ChartFragment extends AbstractFragment<ChartPresenter, FragmentChar
     @Override
     public void onGetChart(boolean isSuccess, List<ChartResponse.Response> responses) {
         List<String> dateList = new ArrayList<>();
+        Collections.reverse(responses);
         for (int i = 0; i < responses.size(); i++) {
             ChartResponse.Response response = responses.get(i);
             dateList.add(DateTimeFormatUtils.monthDayFormat(response.getTimeC()));
@@ -123,6 +132,7 @@ public class ChartFragment extends AbstractFragment<ChartPresenter, FragmentChar
         initChartX(dateList);
 
         // TODO:更新字串
+        binding.lcChartFragment.clear();
         updateChartData("平均分數", responses);
     }
 
@@ -143,7 +153,7 @@ public class ChartFragment extends AbstractFragment<ChartPresenter, FragmentChar
     private void initChartY_Style() {
         chart_yAxis = binding.lcChartFragment.getAxisLeft();
         binding.lcChartFragment.getAxisRight().setEnabled(false);
-        chart_yAxis.setAxisMaximum(10f);
+//        chart_yAxis.setAxisMaximum(10f);
         chart_yAxis.setAxisMinimum(0f);
         chart_yAxis.setLabelCount(10);// X軸標籤個數
     }
@@ -202,5 +212,10 @@ public class ChartFragment extends AbstractFragment<ChartPresenter, FragmentChar
         binding.lcChartFragment.setVisibleXRangeMaximum(maxShowChartX);
 
         binding.lcChartFragment.moveViewTo(data.getEntryCount() - maxShowChartX + 1, 50f, YAxis.AxisDependency.LEFT);
+    }
+
+    @Override
+    public boolean isShowTopBar() {
+        return App.userModel.getIdentityEnums() == IdentityEnums.DOCTOR;
     }
 }

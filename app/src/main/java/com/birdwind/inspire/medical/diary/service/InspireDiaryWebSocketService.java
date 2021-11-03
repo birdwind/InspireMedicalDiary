@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -23,7 +22,6 @@ import com.birdwind.inspire.medical.diary.receiver.BroadcastReceiverAction;
 import com.birdwind.inspire.medical.diary.sqlLite.service.ChatService;
 import com.microsoft.signalr.HubConnection;
 import com.microsoft.signalr.HubConnectionBuilder;
-import com.microsoft.signalr.OnClosedCallback;
 
 public class InspireDiaryWebSocketService extends Service {
 
@@ -77,6 +75,7 @@ public class InspireDiaryWebSocketService extends Service {
                 hubConnection =
                     HubConnectionBuilder.create(Config.BASE_URL + "MessageHub?Token=" + App.userModel.getToken())
                         .withHeader("Token", App.userModel.getToken()).build();
+                hubConnection.setKeepAliveInterval(5 * 1000);
                 hubConnection.on("ReceiveMessage", (json) -> {
                     // {"ID":17,"PID":78,"FromUID":6,"Content":"yyyy","Identity":2,"FromName":"\u8521\u52DD\u8C48","PhotoUrl":"https://toxto.top/Images/F2.png","Self":false,"TimeC":"2021-08-22T01:38:42.6201791+08:00"}
                     LogUtils.d("WebSocket-ReceiveMessage", json);
@@ -106,11 +105,17 @@ public class InspireDiaryWebSocketService extends Service {
                     sendBroadcast(intent);
 
                 }, String.class);
+
                 hubConnection.onClosed(exception -> {
-                    LogUtils.e("WS斷線");
+                    LogUtils.e(exception.getMessage());
+                    reLink();
                 });
 
-                hubConnection.start();
+                try {
+                    hubConnection.start().blockingAwait();
+                } catch (Exception e) {
+                    LogUtils.e(e.getMessage());
+                }
             }
         }
     }
@@ -119,11 +124,14 @@ public class InspireDiaryWebSocketService extends Service {
         if (hubConnection != null && hubConnection.getConnectionState() == DISCONNECTED) {
             hubConnection.start();
         } else {
-            LogUtils.e("無法重新連線 : " + hubConnection.getConnectionState().name());
+            reLink();
         }
     }
 
-    public void send() {
-        hubConnection.send("test", "213");
+    public static boolean isConnected() {
+        if (hubConnection != null) {
+            return hubConnection.getConnectionState() != DISCONNECTED;
+        }
+        return false;
     }
 }

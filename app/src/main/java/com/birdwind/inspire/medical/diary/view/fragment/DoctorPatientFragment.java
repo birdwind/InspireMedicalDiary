@@ -75,10 +75,10 @@ public class DoctorPatientFragment extends AbstractFragment<DoctorPatientPresent
         bundle.putString("name", friend.getName());
         bundle.putString("avatar", friend.getPhotoUrl());
 
-        PatientFragment patientFragment = new PatientFragment();
-        patientFragment.setArguments(bundle);
+        PatientDashboardFragment patientDashboardFragment = new PatientDashboardFragment();
+        patientDashboardFragment.setArguments(bundle);
 
-        pushFragment(patientFragment);
+        pushFragment(patientDashboardFragment);
     }
 
     @Override

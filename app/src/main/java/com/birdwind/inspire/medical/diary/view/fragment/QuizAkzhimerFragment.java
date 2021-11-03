@@ -154,7 +154,7 @@ public class QuizAkzhimerFragment extends AbstractFragment<QuizContentPresenter,
         } else {
             isCanSubmit = false;
         }
-        if (option11_Id == binding.comQuizQuizAkzhimerFragment.rbOption5NoQuizAkzhimerComponent.getId()) {
+        if (option11_Id == binding.comQuizQuizAkzhimerFragment.rbOption11NoQuizAkzhimerComponent.getId()) {
             answer_11 = 0;
         } else if (option11_Id == binding.comQuizQuizAkzhimerFragment.rbOption11YesQuizAkzhimerComponent.getId()) {
             answer_11 = 1;

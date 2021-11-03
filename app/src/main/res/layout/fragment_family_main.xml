@@ -11,27 +11,27 @@
         android:background="@color/colorRed_B70908">
 
 
-        <LinearLayout
-            android:id="@+id/ll_scan_family_main_fragment"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
+<!--        <LinearLayout-->
+<!--            android:id="@+id/ll_scan_family_main_fragment"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_weight="1"-->
+<!--            android:gravity="center"-->
+<!--            android:orientation="vertical">-->
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:src="@drawable/ic_scan" />
+<!--            <ImageView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginBottom="12dp"-->
+<!--                android:src="@drawable/ic_scan" />-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/family_main_menu_scan"
-                android:textColor="@color/colorWhite_FFFFFF"
-                android:textSize="12sp" />
-        </LinearLayout>
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/family_main_menu_scan"-->
+<!--                android:textColor="@color/colorWhite_FFFFFF"-->
+<!--                android:textSize="12sp" />-->
+<!--        </LinearLayout>-->
 
         <LinearLayout
             android:id="@+id/ll_quiz_family_main_fragment"

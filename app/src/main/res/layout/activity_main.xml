@@ -1,21 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
     <include
         android:id="@+id/comp_top_bar_main_activity"
         layout="@layout/component_top_bar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_alignParentTop="true" />
+        android:layout_height="?attr/actionBarSize" />
+
+<!--    <include-->
+<!--        android:id="@+id/comp_doctor_top_bar_main_activity"-->
+<!--        layout="@layout/component_doctor_top_bar"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="126dp"/>-->
+
+<!--    <include-->
+<!--        android:id="@+id/comp_patient_top_bar_main_activity"-->
+<!--        layout="@layout/component_patient_top_bar"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="126dp"/>-->
+
+<!--    <include-->
+<!--        android:id="@+id/comp_family_top_bar_main_activity"-->
+<!--        layout="@layout/component_family_top_bar"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="126dp" />-->
 
     <FrameLayout
         android:id="@+id/main_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/comp_top_bar_main_activity"
-        android:layout_alignParentBottom="true" />
+        android:layout_height="match_parent" />
 
-</RelativeLayout>
+</LinearLayout>

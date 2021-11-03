@@ -20,12 +20,13 @@ import com.birdwind.inspire.medical.diary.animation.SlideHeightAnimation;
 import com.birdwind.inspire.medical.diary.base.utils.Utils;
 import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
 import com.birdwind.inspire.medical.diary.databinding.FragmentPatientBinding;
+import com.birdwind.inspire.medical.diary.enums.IdentityEnums;
 import com.birdwind.inspire.medical.diary.model.response.ChatMemberResponse;
-import com.birdwind.inspire.medical.diary.presenter.PatientPresent;
+import com.birdwind.inspire.medical.diary.presenter.PatientDashboardPresent;
 import com.birdwind.inspire.medical.diary.sqlLite.service.ChatMemberService;
 import com.birdwind.inspire.medical.diary.view.adapter.GroupMemberAdapter;
 import com.birdwind.inspire.medical.diary.view.adapter.ViewPage2Adapter;
-import com.birdwind.inspire.medical.diary.view.viewCallback.PatientView;
+import com.birdwind.inspire.medical.diary.view.viewCallback.PatientDashboardView;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
@@ -34,8 +35,8 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PatientFragment extends AbstractFragment<PatientPresent, FragmentPatientBinding>
-    implements PatientView, OnItemClickListener {
+public class PatientDashboardFragment extends AbstractFragment<PatientDashboardPresent, FragmentPatientBinding>
+    implements PatientDashboardView, OnItemClickListener {
 
     private long uid;
 
@@ -62,8 +63,8 @@ public class PatientFragment extends AbstractFragment<PatientPresent, FragmentPa
     protected RotateAnimation shrinkRotateArrowAnimation;
 
     @Override
-    public PatientPresent createPresenter() {
-        return new PatientPresent(this);
+    public PatientDashboardPresent createPresenter() {
+        return new PatientDashboardPresent(this);
     }
 
     @Override
@@ -138,6 +139,10 @@ public class PatientFragment extends AbstractFragment<PatientPresent, FragmentPa
             tab.setText(fragmentMap.keySet().toArray()[position].toString());
         })).attach();
 
+        if (App.userModel.getIdentityEnums() != IdentityEnums.DOCTOR) {
+            binding.comGroupMemberPatientFragment.rlChatGroupComponent.setVisibility(View.GONE);
+        }
+
         binding.comGroupMemberPatientFragment.rvMemberChatGroupComponent
             .setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
         binding.comGroupMemberPatientFragment.rvMemberChatGroupComponent.setHasFixedSize(true);
@@ -150,7 +155,9 @@ public class PatientFragment extends AbstractFragment<PatientPresent, FragmentPa
 
     @Override
     public void doSomething() {
-
+        if (App.userModel.getIdentityEnums() == IdentityEnums.DOCTOR) {
+            presenter.getChatMember(uid);
+        }
     }
 
     @Override
@@ -192,10 +199,15 @@ public class PatientFragment extends AbstractFragment<PatientPresent, FragmentPa
         ChatMemberResponse.Response chatMemberResponse = (ChatMemberResponse.Response) adapter.getItem(position);
         Bundle bundle = new Bundle();
         bundle.putLong("UID", chatMemberResponse.getUID());
-        bundle.putString("name", chatMemberResponse.getUserName());
-        bundle.putString("avatar", chatMemberResponse.getPhotoUrl());
-        ChatFragment chatFragment = new ChatFragment();
-        chatFragment.setArguments(bundle);
-        pushFragment(chatFragment);
+//        bundle.putString("name", chatMemberResponse.getUserName());
+//        bundle.putString("avatar", chatMemberResponse.getPhotoUrl());
+        ChartFragment chartFragment = new ChartFragment();
+        chartFragment.setArguments(bundle);
+        pushFragment(chartFragment);
+    }
+
+    @Override
+    public boolean isShowTopBar() {
+        return App.userModel.getIdentityEnums() == IdentityEnums.DOCTOR;
     }
 }

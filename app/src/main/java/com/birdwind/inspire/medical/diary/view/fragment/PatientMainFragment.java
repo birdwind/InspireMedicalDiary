@@ -79,7 +79,7 @@ public class PatientMainFragment extends AbstractFragment<AbstractPresenter, Fra
 
     @Override
     public Fragment getRootFragment(int index) {
-        return new ChatFragment();
+        return new PatientDashboardFragment();
     }
 
     @Override
@@ -117,6 +117,8 @@ public class PatientMainFragment extends AbstractFragment<AbstractPresenter, Fra
                 pushFragment(new QuizHeadacheFragment());
                 break;
             case ALZHEIMER:
+                pushFragment(new RecordFragment());
+                break;
             case PERKINS:
                 pushFragment(new QuizAkzhimerFragment());
                 break;

@@ -144,8 +144,8 @@ public class ScanFragment extends AbstractFragment<ScanPresenter, FragmentScanBi
     public String setRightButtonText() {
         if (App.userModel.getIdentityEnums() == IdentityEnums.FAMILY && !App.userModel.isHasFamily()) {
             return getString(R.string.common_logout);
-        } else if (App.userModel.getIdentityEnums() == IdentityEnums.FAMILY && App.userModel.isHasFamily()) {
-            return getString(R.string.scan_be_agent);
+//        } else if (App.userModel.getIdentityEnums() == IdentityEnums.FAMILY && App.userModel.isHasFamily()) {
+//            return getString(R.string.scan_be_agent);
         } else {
             return "";
         }

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
 import com.birdwind.inspire.medical.diary.R;
+import com.birdwind.inspire.medical.diary.enums.IdentityEnums;
 import com.birdwind.inspire.medical.diary.model.response.ChatResponse;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
@@ -25,7 +26,10 @@ public class ChatAdapter extends BaseMultiItemQuickAdapter<ChatResponse.Response
                 break;
             case ChatResponse.OTHER_MESSAGE:
                 CircularImageView civAvatarChatOtherItem = baseViewHolder.getView(R.id.civ_avatar_chat_other_item);
-                baseViewHolder.setText(R.id.tv_name_chat_other_item, response.getFromName());
+                baseViewHolder.setText(R.id.tv_name_chat_other_item,
+                    IdentityEnums.parseEnumsByType(response.getIdentity()) == IdentityEnums.SYSTEM
+                        ? getContext().getString(R.string.chat_system)
+                        : response.getFromName());
                 baseViewHolder.setText(R.id.tv_message_chat_other_item, response.getContent());
                 Glide.with(getContext()).load(response.getPhotoUrl())
                     .placeholder(ContextCompat.getDrawable(getContext(), R.drawable.ic_avatar))

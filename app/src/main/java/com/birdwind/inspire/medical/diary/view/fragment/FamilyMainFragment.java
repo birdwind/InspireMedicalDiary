@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
+import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.base.utils.fragmentNavUtils.FragNavController;
 import com.birdwind.inspire.medical.diary.base.utils.fragmentNavUtils.FragNavTransactionOptions;
@@ -35,14 +36,15 @@ public class FamilyMainFragment extends AbstractFragment<AbstractPresenter, Frag
 
     @Override
     public void addListener() {
-        binding.llScanFamilyMainFragment.setOnClickListener(v->{
-            ((MainActivity) context).openScanFragment();
+//        binding.llScanFamilyMainFragment.setOnClickListener(v -> {
+//            ((MainActivity) context).openScanFragment();
+//        });
+
+        binding.llQuizFamilyMainFragment.setOnClickListener(v -> {
+            openQuizFragment();
         });
 
-        binding.llQuizFamilyMainFragment.setOnClickListener(v->{
-        });
-
-        binding.llSettingFamilyMainFragment.setOnClickListener(v->{
+        binding.llSettingFamilyMainFragment.setOnClickListener(v -> {
             pushFragment(new SettingFragment());
         });
     }
@@ -50,16 +52,16 @@ public class FamilyMainFragment extends AbstractFragment<AbstractPresenter, Frag
     @Override
     public void initData(Bundle savedInstanceState) {
         FragNavTransactionOptions defaultFragNavTransactionOptions =
-                FragNavTransactionOptions.newBuilder().customAnimations(R.anim.slide_in_from_right,
-                        R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right).build();
+            FragNavTransactionOptions.newBuilder().customAnimations(R.anim.slide_in_from_right,
+                R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right).build();
 
         popFragNavTransactionOptions = FragNavTransactionOptions.newBuilder()
-                .customAnimations(R.anim.slide_in_from_left, R.anim.slide_out_to_right).build();
+            .customAnimations(R.anim.slide_in_from_left, R.anim.slide_out_to_right).build();
 
         mNavController = FragNavController
-                .newBuilder(savedInstanceState, getChildFragmentManager(), binding.flFamilyMainFragment.getId())
-                .transactionListener(this).rootFragmentListener(this, 1)
-                .defaultTransactionOptions(defaultFragNavTransactionOptions).build();
+            .newBuilder(savedInstanceState, getChildFragmentManager(), binding.flFamilyMainFragment.getId())
+            .transactionListener(this).rootFragmentListener(this, 1)
+            .defaultTransactionOptions(defaultFragNavTransactionOptions).build();
     }
 
     @Override
@@ -72,7 +74,7 @@ public class FamilyMainFragment extends AbstractFragment<AbstractPresenter, Frag
 
     @Override
     public Fragment getRootFragment(int index) {
-        return new ChatFragment();
+        return new PatientDashboardFragment();
     }
 
     @Override
@@ -107,8 +109,25 @@ public class FamilyMainFragment extends AbstractFragment<AbstractPresenter, Frag
     public static void replaceFragment(Fragment fragment, boolean isBack) {
         if (isBack) {
             mNavController.replaceFragment(fragment, popFragNavTransactionOptions);
-        }else{
+        } else {
             mNavController.replaceFragment(fragment);
+        }
+    }
+
+    private void openQuizFragment() {
+        switch (App.userModel.getDiseaseEnums()) {
+            // case HEADACHE:
+            // pushFragment(new QuizHeadacheFragment());
+            // break;
+            case ALZHEIMER:
+                pushFragment(new RecordFragment());
+                break;
+            case PERKINS:
+                pushFragment(new QuizAkzhimerFragment());
+                break;
+            default:
+                showDialog(getString(R.string.common_dialog_title), "目前沒有問卷", null);
+                break;
         }
     }
 }

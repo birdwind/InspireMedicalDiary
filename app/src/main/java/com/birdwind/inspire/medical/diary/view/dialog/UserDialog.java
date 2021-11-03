@@ -1,5 +1,13 @@
 package com.birdwind.inspire.medical.diary.view.dialog;
 
+import android.content.Context;
+import android.graphics.PorterDuff;
+import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.base.utils.ToastUtils;
@@ -14,13 +22,8 @@ import com.birdwind.inspire.medical.diary.view.dialog.callback.CommonDialogListe
 import com.birdwind.inspire.medical.diary.view.dialog.callback.UserDialogListener;
 import com.birdwind.inspire.medical.diary.view.viewCallback.UserDialogView;
 import com.bumptech.glide.Glide;
+
 import org.jetbrains.annotations.NotNull;
-import android.content.Context;
-import android.graphics.PorterDuff;
-import android.view.View;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 
 public class UserDialog extends AbstractDialog<CommonDialogListener, UserDialogPresenter, DialogUserBinding>
     implements UserDialogView {
@@ -129,11 +132,14 @@ public class UserDialog extends AbstractDialog<CommonDialogListener, UserDialogP
                     showError(true, scanUserMessageEnums);
                     break;
                 case ADD_TO_PAINTER:
+                case ADD_TO_PROXY_PAINTER:
                     binding.rgOptionDialogUser.setVisibility(View.VISIBLE);
                 case ADD_TO_FAMILY:
                 case ADD_TO_DOCTOR:
                     showError(false, null);
                     break;
+                default:
+                    binding.rgOptionDialogUser.setVisibility(View.GONE);
             }
         }
     }

@@ -3,16 +3,12 @@ package com.birdwind.inspire.medical.diary.presenter;
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.base.basic.AbstractObserver;
 import com.birdwind.inspire.medical.diary.base.network.response.AbstractResponse;
-import com.birdwind.inspire.medical.diary.model.response.ChatMemberResponse;
 import com.birdwind.inspire.medical.diary.model.response.ChatResponse;
 import com.birdwind.inspire.medical.diary.server.DoctorApiServer;
 import com.birdwind.inspire.medical.diary.server.FamilyApiServer;
 import com.birdwind.inspire.medical.diary.server.PatientApiServer;
-import com.birdwind.inspire.medical.diary.sqlLite.service.ChatMemberService;
 import com.birdwind.inspire.medical.diary.sqlLite.service.ChatService;
 import com.birdwind.inspire.medical.diary.view.viewCallback.ChatView;
-
-import java.util.HashMap;
 
 public class ChatPresenter extends AbstractPresenter<ChatView> {
     public ChatPresenter(ChatView baseView) {
@@ -75,6 +71,22 @@ public class ChatPresenter extends AbstractPresenter<ChatView> {
                     baseView.onSendMessage(response.isSuccess());
                 }
             });
+    }
 
+    public void sendScheduleMessage(long uid, String message) {
+        initMap();
+        paramsMap.put("Message", message);
+        paramsMap.put("PID", uid);
+
+        addDisposable(
+            apiServer.executePostFormUrlEncode(DoctorApiServer.SEND_SEE_ME_TO_PATIENT.valueOfName(), paramsMap,
+                fieldMap, headerMap),
+            new AbstractObserver<AbstractResponse>(this, baseView, "SendScheduleMessage", null, AbstractResponse.class,
+                false) {
+                @Override
+                public void onSuccess(AbstractResponse response) {
+                    baseView.onSendMessage(response.isSuccess());
+                }
+            });
     }
 }

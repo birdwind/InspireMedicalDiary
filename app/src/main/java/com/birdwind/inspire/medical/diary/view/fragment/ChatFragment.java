@@ -1,5 +1,18 @@
 package com.birdwind.inspire.medical.diary.view.fragment;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.inputmethod.EditorInfo;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.base.utils.LogUtils;
 import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
@@ -10,17 +23,6 @@ import com.birdwind.inspire.medical.diary.receiver.ChatBroadcastReceiver;
 import com.birdwind.inspire.medical.diary.sqlLite.service.ChatService;
 import com.birdwind.inspire.medical.diary.view.adapter.ChatAdapter;
 import com.birdwind.inspire.medical.diary.view.viewCallback.ChatView;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.view.inputmethod.EditorInfo;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class ChatFragment extends AbstractFragment<ChatPresenter, FragmentChatBinding> implements ChatView {
 
@@ -64,18 +66,18 @@ public class ChatFragment extends AbstractFragment<ChatPresenter, FragmentChatBi
         });
 
         binding.ibSendChatFragment.setOnClickListener(v -> {
-            sendMessage();
+            sendMessage(false);
         });
 
         binding.etMessageChatFragment.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                sendMessage();
+                sendMessage(false);
             }
             return false;
         });
 
         binding.ibSendVisitChatFragment.setOnClickListener(v -> {
-            showToast("尚未實作看診通知");
+            sendMessage(true);
         });
     }
 
@@ -119,7 +121,7 @@ public class ChatFragment extends AbstractFragment<ChatPresenter, FragmentChatBi
 
     @Override
     public void doSomething() {
-        presenter.getChatMessage(uid);
+
     }
 
     @Override
@@ -140,6 +142,7 @@ public class ChatFragment extends AbstractFragment<ChatPresenter, FragmentChatBi
     @Override
     public void onResume() {
         super.onResume();
+        presenter.getChatMessage(uid);
 
         chatBroadcastReceiver = new ChatBroadcastReceiver() {
             @Override
@@ -171,11 +174,13 @@ public class ChatFragment extends AbstractFragment<ChatPresenter, FragmentChatBi
         binding.rvMessageChatFragment.scrollToPosition(chatAdapter.getItemCount() - 1);
     }
 
-    private void sendMessage() {
+    private void sendMessage(boolean isSchedule) {
         String message = binding.etMessageChatFragment.getText().toString();
-        if (!message.isEmpty()) {
+        if (!message.isEmpty() && !isSchedule) {
             binding.etMessageChatFragment.setText("");
             presenter.sendChatMessage(uid, message);
+        }else{
+            presenter.sendScheduleMessage(uid, message);
         }
     }
 

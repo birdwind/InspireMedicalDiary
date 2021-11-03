@@ -22,6 +22,8 @@ public class LoginResponse extends AbstractResponse<LoginResponse.Response> {
 
         private String LoginKey;
 
+        private boolean IsProxy;
+
         public int getUID() {
             return UID;
         }
@@ -84,6 +86,14 @@ public class LoginResponse extends AbstractResponse<LoginResponse.Response> {
 
         public void setLoginKey(String loginKey) {
             LoginKey = loginKey;
+        }
+
+        public boolean isProxy() {
+            return IsProxy;
+        }
+
+        public void setProxy(boolean proxy) {
+            IsProxy = proxy;
         }
     }
 }

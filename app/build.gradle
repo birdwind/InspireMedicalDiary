@@ -277,6 +277,12 @@ dependencies {
     implementation "com.github.AnyChart:AnyChart-Android:${libs.anyChart}"
     implementation "com.github.PhilJay:MPAndroidChart:${libs.chart}"
 
+    /**
+     * RxAndroidAudio
+     */
+    implementation "com.github.piasy:rxandroidaudio:${libs.rxAndroidAudio}"
+    implementation "com.github.piasy:AudioProcessor:${libs.rxAndroidAudio}"
+
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     testImplementation 'junit:junit:4.13.2'

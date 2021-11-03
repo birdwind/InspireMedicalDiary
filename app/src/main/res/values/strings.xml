@@ -109,4 +109,7 @@
     <string name="scan_be_agent">代理人</string>
     <string name="scan_be_family">家屬</string>
 
+    <!-- Chat -->
+    <string name="chat_system">系統訊息</string>
+
 </resources>

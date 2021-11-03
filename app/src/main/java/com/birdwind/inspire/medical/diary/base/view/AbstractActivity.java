@@ -254,10 +254,7 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
 
     @Override
     public void onLogoutSuccess() {
-        DatabaseConfig.getInstance(context).clearAllTables();
-        SharedPreferencesUtils.clear();
-        App.userModel = null;
-        startActivityWithFinish(BottomNavigationView.class);
+        logout();
     }
 
     @Override
