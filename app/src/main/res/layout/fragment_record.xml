@@ -2,45 +2,79 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="12dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="12dp">
 
     <TextView
         android:id="@+id/tv_description_record_fragment"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="描述問題文字" />
+        android:layout_centerHorizontal="true" />
 
     <ImageView
         android:id="@+id/iv_image_record_fragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_above="@id/ll_record_record_fragment"
         android:layout_below="@id/tv_description_record_fragment"
         android:layout_gravity="center"
-        android:background="@drawable/background_board_radius_8dp"
-        android:backgroundTint="@color/colorGray_F3F3F3"
-        android:scaleType="centerInside"
-        android:src="@drawable/ic_default_image"
-        android:layout_marginVertical="12dp"/>
+        android:layout_marginVertical="12dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_default_image" />
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/ll_record_record_fragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:gravity="center"
         android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/ib_record_record_fragment"
+        <LinearLayout
+            android:id="@+id/ll_tool_record_fragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/ic_circle"
-            android:padding="12dp"
-            android:src="@drawable/ic_record" />
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal">
 
-    </LinearLayout>
+            <ImageButton
+                android:id="@+id/ib_play_record_fragment"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/ic_circle"
+                android:padding="15dp"
+                android:src="@drawable/ic_play" />
+
+            <ImageButton
+                android:id="@+id/ib_record_record_fragment"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/ic_circle"
+                android:padding="12dp"
+                android:src="@drawable/ic_record" />
+
+
+            <ImageButton
+                android:id="@+id/ib_upload_record_fragment"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/ic_circle"
+                android:src="@drawable/ic_upload" />
+
+        </LinearLayout>
+
+<!--        <TextView-->
+<!--            android:id="@+id/tv_time_record_fragment"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/ll_tool_record_fragment"-->
+<!--            android:layout_centerHorizontal="true"-->
+<!--            android:text="00:00"-->
+<!--            android:visibility="invisible"/>-->
+
+    </RelativeLayout>
 
 
 </RelativeLayout>

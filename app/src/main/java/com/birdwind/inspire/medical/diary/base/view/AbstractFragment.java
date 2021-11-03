@@ -10,13 +10,13 @@ import com.birdwind.inspire.medical.diary.base.utils.fragmentNavUtils.FragmentNa
 import com.birdwind.inspire.medical.diary.base.view.loadingDialog.LoadingBaseDialog;
 import com.birdwind.inspire.medical.diary.base.view.loadingDialog.LoadingConstant;
 import com.birdwind.inspire.medical.diary.base.view.loadingDialog.LoadingFlower;
+import com.birdwind.inspire.medical.diary.base.view.loadingDialog.LoadingPie;
 import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
 import com.birdwind.inspire.medical.diary.view.activity.BottomNavigationActivity;
 import com.birdwind.inspire.medical.diary.view.activity.WebViewActivity;
 import com.birdwind.inspire.medical.diary.view.dialog.CommonDialog;
 import com.birdwind.inspire.medical.diary.view.dialog.callback.CommonDialogListener;
 import com.birdwind.inspire.medical.diary.view.viewCallback.BaseCustomView;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -25,12 +25,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewbinding.ViewBinding;
-
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 
@@ -41,6 +39,8 @@ public abstract class AbstractFragment<P extends AbstractPresenter, VB extends V
     private String className;
 
     private LoadingBaseDialog loadingDialog;
+
+    protected LoadingPie progressLoadingDialog;
 
     protected P presenter;
 
@@ -100,9 +100,9 @@ public abstract class AbstractFragment<P extends AbstractPresenter, VB extends V
     public void showFileDialog() {
         // TODO:Show File Dialog
         if (!((Activity) context).isFinishing()) {
-            loadingDialog = new LoadingFlower.Builder(context).direction(LoadingConstant.DIRECT_CLOCKWISE)
-                .themeColor(Color.WHITE).text("正在下載中,請稍後").fadeColor(Color.DKGRAY).build();
-            loadingDialog.show();
+            progressLoadingDialog = new LoadingPie.Builder(context).ringColor(Color.WHITE).pieColor(Color.WHITE)
+                .updateType(LoadingConstant.PIE_MANUAL_UPDATE).build();
+            progressLoadingDialog.show();
         }
         // dialog = new ProgressDialog(context);
         // dialog.setMessage("正在下载中,请稍後");

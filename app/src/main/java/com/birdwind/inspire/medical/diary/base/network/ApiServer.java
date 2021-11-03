@@ -11,6 +11,7 @@ import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.HeaderMap;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
@@ -51,10 +52,10 @@ public interface ApiServer {
     Observable<RequestBody> executeDeleteFormUrlEncode(@Url String url, @QueryMap HashMap<String, Object> paramMap,
         @FieldMap HashMap<String, Object> fieldMap, @HeaderMap HashMap<String, Object> headerMap);
 
-    // @Multipart
-    // @POST
-    // Observable<ResponseBody> executePostMultipart(@Url String url, @PartMap HashMap<String, Object> partMap,
-    // @HeaderMap HashMap<String, Object> headerMap);
+    @Multipart
+    @POST
+    Observable<ResponseBody> uploadFile(@Url String url, @QueryMap HashMap<String, Object> paramMap,
+        @HeaderMap HashMap<String, Object> headerMap, @Part MultipartBody.Part part);
 
     /**
      * 上傳文件

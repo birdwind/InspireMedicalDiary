@@ -280,8 +280,7 @@ dependencies {
     /**
      * RxAndroidAudio
      */
-    implementation "com.github.piasy:rxandroidaudio:${libs.rxAndroidAudio}"
-    implementation "com.github.piasy:AudioProcessor:${libs.rxAndroidAudio}"
+    implementation 'com.github.AsynctaskCoffee:VoiceRecorder:beta-0.5'
 
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'

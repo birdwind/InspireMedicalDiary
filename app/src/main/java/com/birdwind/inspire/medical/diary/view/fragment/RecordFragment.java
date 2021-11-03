@@ -1,40 +1,46 @@
 package com.birdwind.inspire.medical.diary.view.fragment;
 
-import android.os.Bundle;
-import android.os.Environment;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
-
+import com.asynctaskcoffee.audiorecorder.worker.AudioRecordListener;
+import com.asynctaskcoffee.audiorecorder.worker.MediaPlayListener;
+import com.asynctaskcoffee.audiorecorder.worker.Player;
+import com.asynctaskcoffee.audiorecorder.worker.Recorder;
+import com.birdwind.inspire.medical.diary.App;
+import com.birdwind.inspire.medical.diary.R;
+import com.birdwind.inspire.medical.diary.base.network.request.ProgressRequestBody;
+import com.birdwind.inspire.medical.diary.base.utils.CustomPicasso;
 import com.birdwind.inspire.medical.diary.base.utils.LogUtils;
+import com.birdwind.inspire.medical.diary.base.utils.ToastUtils;
+import com.birdwind.inspire.medical.diary.base.view.AbstractActivity;
 import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
 import com.birdwind.inspire.medical.diary.databinding.FragmentRecordBinding;
+import com.birdwind.inspire.medical.diary.model.response.VoiceQuizResponse;
 import com.birdwind.inspire.medical.diary.presenter.RecordPresenter;
 import com.birdwind.inspire.medical.diary.view.viewCallback.RecordView;
-import com.github.piasy.audioprocessor.AudioProcessor;
-import com.github.piasy.rxandroidaudio.StreamAudioPlayer;
-import com.github.piasy.rxandroidaudio.StreamAudioRecorder;
-
+import com.birdwind.inspire.medical.diary.view.viewCallback.ToolbarCallback;
+import com.tbruyelle.rxpermissions3.Permission;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import android.Manifest;
+import android.content.Context;
+import android.graphics.PorterDuff;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
-public class RecordFragment extends AbstractFragment<RecordPresenter, FragmentRecordBinding> implements RecordView {
+public class RecordFragment extends AbstractFragment<RecordPresenter, FragmentRecordBinding>
+    implements RecordView, AbstractActivity.PermissionRequestListener, ToolbarCallback, AudioRecordListener,
+    MediaPlayListener, ProgressRequestBody.UploadCallbacks {
 
-    private static final int BUFFER_SIZE = 2048;
+    private Recorder recorder;
 
-    private StreamAudioRecorder streamAudioRecorder;
+    private Player player;
 
-    private StreamAudioPlayer streamAudioPlayer;
+    private boolean isRecording;
 
-    private AudioProcessor audioProcessor;
+    private File file;
 
-    private FileOutputStream fileOutputStream;
-
-    private File recordFile;
-
-    private byte[] buffer;
-
-    private boolean isRecording = false;
+    private int id;
 
     @Override
     public RecordPresenter createPresenter() {
@@ -49,83 +55,148 @@ public class RecordFragment extends AbstractFragment<RecordPresenter, FragmentRe
     @Override
     public void addListener() {
         binding.ibRecordRecordFragment.setOnClickListener(v -> {
-            if (isRecording) {
-                stopRecord();
-                isRecording = false;
-            } else {
+            if (!isRecording) {
                 startRecord();
-                isRecording = true;
+            } else {
+                stopRecord();
+            }
+        });
+
+        binding.ibPlayRecordFragment.setOnClickListener(v -> {
+            if (player != null && player.getPlayer() != null) {
+                if (player.getPlayer().isPlaying()) {
+                    player.stopPlaying();
+                } else {
+                    player.startPlaying();
+                }
+            }
+        });
+
+        binding.ibUploadRecordFragment.setOnClickListener(v -> {
+            if (file != null && file.exists()) {
+                presenter.uploadRecord(file, id, this);
             }
         });
     }
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        streamAudioRecorder = StreamAudioRecorder.getInstance();
-        streamAudioPlayer = StreamAudioPlayer.getInstance();
-        audioProcessor = new AudioProcessor(BUFFER_SIZE);
-        buffer = new byte[BUFFER_SIZE];
+        isRecording = false;
     }
 
     @Override
     public void initView() {
-
+        binding.ibPlayRecordFragment.setColorFilter(ContextCompat.getColor(context, R.color.colorGray_C4C4C4),
+            PorterDuff.Mode.SRC_IN);
     }
 
     @Override
     public void doSomething() {
-
+        presenter.getVoiceQuiz();
+        getPermission(new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO},
+            this);
     }
 
     private void startRecord() {
-        try {
-            recordFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator
-                + System.nanoTime() + ".stream.m4a");
-            recordFile.createNewFile();
-            fileOutputStream = new FileOutputStream(recordFile);
-            streamAudioRecorder.start(new StreamAudioRecorder.AudioDataCallback() {
-                @Override
-                public void onAudioData(byte[] data, int size) {
-                    if (fileOutputStream != null) {
-                        try {
-                            LogUtils.d("錄音AMP", String.valueOf(calcAmp(data, size)));
-                            fileOutputStream.write(data, 0, size);
-                        } catch (Exception e) {
-                            LogUtils.exception(e);
-                        }
-                    }
-                }
-
-                @Override
-                public void onError() {
-                    binding.ibRecordRecordFragment.post(() -> {
-                        showToast("錄音失敗");
-                        isRecording = false;
-                    });
-                }
-            });
-        } catch (Exception e) {
-            LogUtils.exception(e);
-        }
-    }
-
-    private int calcAmp(byte[] data, int size) {
-        int amplitude = 0;
-        for (int i = 0; i + 1 < size; i += 2) {
-            short value = (short) (((data[i + 1] & 0x000000FF) << 8) + (data[i + 1] & 0x000000FF));
-            amplitude += Math.abs(value);
-        }
-        amplitude /= size / 2;
-        return amplitude / 2048;
+        recorder = new Recorder(this, context);
+        recorder.setFileName("/" + App.userModel.getUid() + "_" + System.nanoTime() + ".m4a");
+        binding.ibRecordRecordFragment.post(() -> {
+            binding.ibRecordRecordFragment.setColorFilter(ContextCompat.getColor(context, R.color.colorRed_E74245),
+                PorterDuff.Mode.SRC_IN);
+        });
+        recorder.startRecord();
+        isRecording = true;
     }
 
     private void stopRecord() {
-        streamAudioRecorder.stop();
-        try {
-            fileOutputStream.close();
-            fileOutputStream = null;
-        } catch (IOException e) {
-            LogUtils.exception(e);
+        recorder.stopRecording();
+
+        binding.ibRecordRecordFragment.post(() -> {
+            binding.ibRecordRecordFragment.setColorFilter(ContextCompat.getColor(context, R.color.colorBlack_000000),
+                PorterDuff.Mode.SRC_IN);
+        });
+        isRecording = false;
+    }
+
+    @Override
+    public void permissionRequest(Context context, Permission permission) {
+        if (permission.granted) {
+
+        } else if (permission.shouldShowRequestPermissionRationale) {
+            ToastUtils.show(context, context.getString(R.string.error_common_permission_denied_some));
+            onBackPressed();
+        } else {
+            ToastUtils.show(context, context.getString(R.string.error_common_permission_never_show));
+            onBackPressed();
         }
+    }
+
+    @Override
+    public void onAudioReady(@Nullable String audioUri) {
+        LogUtils.d(audioUri);
+        player = new Player(this);
+        player.injectMedia(audioUri);
+        file = new File(audioUri);
+        binding.ibPlayRecordFragment.setColorFilter(ContextCompat.getColor(context, R.color.colorBlack_000000),
+            PorterDuff.Mode.SRC_IN);
+    }
+
+    @Override
+    public void onReadyForRecord() {
+        // READY FOR RECORD DO NOT CALL STOP RECORD BEFORE THIS CALLBACK
+    }
+
+    @Override
+    public void onRecordFailed(@Nullable String errorMessage) {
+        showToast(errorMessage);
+
+        binding.ibRecordRecordFragment.post(() -> {
+            binding.ibRecordRecordFragment.setColorFilter(ContextCompat.getColor(context, R.color.colorBlack_000000),
+                PorterDuff.Mode.SRC_IN);
+        });
+        isRecording = false;
+    }
+
+    @Override
+    public void onStartMedia() {
+        binding.ibPlayRecordFragment.setColorFilter(ContextCompat.getColor(context, R.color.colorRed_E74245),
+            PorterDuff.Mode.SRC_IN);
+    }
+
+    @Override
+    public void onStopMedia() {
+        binding.ibPlayRecordFragment.setColorFilter(ContextCompat.getColor(context, R.color.colorBlack_000000),
+            PorterDuff.Mode.SRC_IN);
+    }
+
+    @Override
+    public void onGetVoiceQuiz(boolean isSuccess, VoiceQuizResponse.Response response) {
+        CustomPicasso.getImageLoader(context).load(response.getPhotoUrl())
+            .placeholder(ContextCompat.getDrawable(context, R.drawable.ic_default_image))
+            .into(binding.ivImageRecordFragment);
+
+        binding.tvDescriptionRecordFragment.setText(response.getContent());
+        id = response.getVTID();
+    }
+
+    @Override
+    public void onProgressUpdate(int percentage) {
+        LogUtils.d("上傳", String.valueOf(percentage));
+        if (progressLoadingDialog == null || !progressLoadingDialog.isShowing()) {
+            showLoadingFileDialog();
+        }
+        progressLoadingDialog.setPiePercentage(percentage);
+    }
+
+    @Override
+    public void onError() {
+        LogUtils.d("上傳", "失敗");
+        hideFileDialog();
+    }
+
+    @Override
+    public void onFinish() {
+        LogUtils.d("上傳", "完成");
+        hideFileDialog();
     }
 }
