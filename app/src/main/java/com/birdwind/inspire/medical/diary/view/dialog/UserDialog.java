@@ -1,13 +1,5 @@
 package com.birdwind.inspire.medical.diary.view.dialog;
 
-import android.content.Context;
-import android.graphics.PorterDuff;
-import android.view.View;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.base.utils.ToastUtils;
@@ -16,14 +8,21 @@ import com.birdwind.inspire.medical.diary.databinding.DialogUserBinding;
 import com.birdwind.inspire.medical.diary.enums.DiseaseEnums;
 import com.birdwind.inspire.medical.diary.enums.IdentityEnums;
 import com.birdwind.inspire.medical.diary.enums.ScanUserMessageEnums;
+import com.birdwind.inspire.medical.diary.model.response.AddUserResponse;
 import com.birdwind.inspire.medical.diary.model.response.UserResponse;
 import com.birdwind.inspire.medical.diary.presenter.UserDialogPresenter;
 import com.birdwind.inspire.medical.diary.view.dialog.callback.CommonDialogListener;
 import com.birdwind.inspire.medical.diary.view.dialog.callback.UserDialogListener;
 import com.birdwind.inspire.medical.diary.view.viewCallback.UserDialogView;
 import com.bumptech.glide.Glide;
-
 import org.jetbrains.annotations.NotNull;
+import android.content.Context;
+import android.graphics.PorterDuff;
+import android.text.TextUtils;
+import android.view.View;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 public class UserDialog extends AbstractDialog<CommonDialogListener, UserDialogPresenter, DialogUserBinding>
     implements UserDialogView {
@@ -120,6 +119,8 @@ public class UserDialog extends AbstractDialog<CommonDialogListener, UserDialogP
 
     private void parseWithIdentity() {
         ScanUserMessageEnums scanUserMessageEnums = ScanUserMessageEnums.parseEnumsByKey(userResponse.getMessage());
+        binding.rbHeadacheDialogUser.setVisibility(View.VISIBLE);
+
         if (scanUserMessageEnums != null) {
             switch (scanUserMessageEnums) {
                 case IS_PAINTER:
@@ -129,22 +130,25 @@ public class UserDialog extends AbstractDialog<CommonDialogListener, UserDialogP
                 case HAVE_ANOTHER_DOCTOR:
                 case HAVE_DOCTOR:
                     binding.rgOptionDialogUser.setVisibility(View.GONE);
-                    showError(true, scanUserMessageEnums);
+                    showError(true, scanUserMessageEnums, null);
                     break;
-                case ADD_TO_PAINTER:
                 case ADD_TO_PROXY_PAINTER:
+                    binding.rbHeadacheDialogUser.setVisibility(View.GONE);
+                case ADD_TO_PAINTER:
                     binding.rgOptionDialogUser.setVisibility(View.VISIBLE);
                 case ADD_TO_FAMILY:
                 case ADD_TO_DOCTOR:
-                    showError(false, null);
+                    showError(false, null, null);
                     break;
                 default:
                     binding.rgOptionDialogUser.setVisibility(View.GONE);
             }
+        } else {
+            showError(false, null, userResponse.getMessage());
         }
     }
 
-    private void showError(boolean isShow, @Nullable ScanUserMessageEnums scanUserMessageEnums) {
+    private void showError(boolean isShow, @Nullable ScanUserMessageEnums scanUserMessageEnums, @Nullable String msg) {
         if (isShow) {
             assert scanUserMessageEnums != null;
             binding.tvReasonDialogUser.setText(scanUserMessageEnums.getKey());
@@ -152,8 +156,14 @@ public class UserDialog extends AbstractDialog<CommonDialogListener, UserDialogP
             binding.btButtonDialogUser.setVisibility(View.GONE);
         } else {
             changeAddButtonColorWithIdentity();
-            binding.tvReasonDialogUser.setVisibility(View.GONE);
-            binding.btButtonDialogUser.setVisibility(View.VISIBLE);
+            if (TextUtils.isEmpty(msg)) {
+                binding.tvReasonDialogUser.setVisibility(View.GONE);
+                binding.btButtonDialogUser.setVisibility(View.VISIBLE);
+            } else {
+                binding.tvReasonDialogUser.setText(msg);
+                binding.tvReasonDialogUser.setVisibility(View.VISIBLE);
+                binding.btButtonDialogUser.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -169,10 +179,10 @@ public class UserDialog extends AbstractDialog<CommonDialogListener, UserDialogP
     }
 
     @Override
-    public void onAddUser(boolean isSuccess) {
+    public void onAddUser(boolean isSuccess, AddUserResponse.Response response) {
         if (isSuccess) {
             dismiss();
-            userDialogListener.userDialogAdded();
+            userDialogListener.userDialogAdded(response);
         }
     }
 }

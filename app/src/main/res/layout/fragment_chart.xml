@@ -10,12 +10,13 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Family Survey History"
-        android:textColor="@color/colorBlack_333333" />
+        android:textColor="@color/colorBlack_333333"
+        android:visibility="gone"/>
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/lc_chart_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="12dp"/>
+        android:layout_marginBottom="12dp" />
 
 </LinearLayout>

@@ -1,21 +1,16 @@
 package com.birdwind.inspire.medical.diary.view.fragment;
 
-import android.Manifest;
-import android.content.Context;
-import android.graphics.PointF;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
+import com.birdwind.inspire.medical.diary.base.network.response.BaseResponse;
 import com.birdwind.inspire.medical.diary.base.utils.GsonUtils;
 import com.birdwind.inspire.medical.diary.base.view.AbstractActivity;
 import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
 import com.birdwind.inspire.medical.diary.databinding.FragmentScanBinding;
+import com.birdwind.inspire.medical.diary.enums.DiseaseEnums;
 import com.birdwind.inspire.medical.diary.enums.IdentityEnums;
 import com.birdwind.inspire.medical.diary.model.ScanUserModel;
+import com.birdwind.inspire.medical.diary.model.response.AddUserResponse;
 import com.birdwind.inspire.medical.diary.model.response.UserResponse;
 import com.birdwind.inspire.medical.diary.presenter.ScanPresenter;
 import com.birdwind.inspire.medical.diary.view.activity.MainActivity;
@@ -26,6 +21,13 @@ import com.birdwind.inspire.medical.diary.view.viewCallback.ScanView;
 import com.birdwind.inspire.medical.diary.view.viewCallback.ToolbarCallback;
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
 import com.tbruyelle.rxpermissions3.Permission;
+import android.Manifest;
+import android.content.Context;
+import android.graphics.PointF;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 public class ScanFragment extends AbstractFragment<ScanPresenter, FragmentScanBinding>
     implements ScanView, AbstractActivity.PermissionRequestListener, QRCodeReaderView.OnQRCodeReadListener,
@@ -118,11 +120,15 @@ public class ScanFragment extends AbstractFragment<ScanPresenter, FragmentScanBi
     }
 
     @Override
-    public void userDialogAdded() {
+    public void userDialogAdded(BaseResponse response) {
         isAdded = true;
         if (App.userModel.getIdentityEnums() == IdentityEnums.FAMILY) {
             ((MainActivity) context).replaceFragment(new FamilyMainFragment(), false);
             App.userModel.setHasFamily(true);
+            if (response instanceof AddUserResponse.Response) {
+                App.userModel
+                    .setDiseaseEnums(DiseaseEnums.parseEnumsByType(((AddUserResponse.Response) response).getDisease()));
+            }
             App.updateUserModel();
         } else {
             onBackPressedByActivity();
@@ -144,8 +150,8 @@ public class ScanFragment extends AbstractFragment<ScanPresenter, FragmentScanBi
     public String setRightButtonText() {
         if (App.userModel.getIdentityEnums() == IdentityEnums.FAMILY && !App.userModel.isHasFamily()) {
             return getString(R.string.common_logout);
-//        } else if (App.userModel.getIdentityEnums() == IdentityEnums.FAMILY && App.userModel.isHasFamily()) {
-//            return getString(R.string.scan_be_agent);
+            // } else if (App.userModel.getIdentityEnums() == IdentityEnums.FAMILY && App.userModel.isHasFamily()) {
+            // return getString(R.string.scan_be_agent);
         } else {
             return "";
         }

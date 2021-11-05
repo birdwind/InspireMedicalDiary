@@ -74,6 +74,7 @@ public class DoctorPatientFragment extends AbstractFragment<DoctorPatientPresent
         bundle.putLong("UID", friend.getPID());
         bundle.putString("name", friend.getName());
         bundle.putString("avatar", friend.getPhotoUrl());
+        bundle.putInt("disease", friend.getDisease());
 
         PatientDashboardFragment patientDashboardFragment = new PatientDashboardFragment();
         patientDashboardFragment.setArguments(bundle);

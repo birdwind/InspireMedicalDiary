@@ -1,12 +1,15 @@
 package com.birdwind.inspire.medical.diary.view.dialog;
 
+import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.base.view.AbstractDialog;
 import com.birdwind.inspire.medical.diary.databinding.DialogScoreDetailBinding;
 import com.birdwind.inspire.medical.diary.enums.DiseaseEnums;
+import com.birdwind.inspire.medical.diary.enums.IdentityEnums;
 import com.birdwind.inspire.medical.diary.model.response.ScoreDetailResponse;
 import com.birdwind.inspire.medical.diary.presenter.ScoreDetailPresenter;
 import com.birdwind.inspire.medical.diary.view.dialog.callback.CommonDialogListener;
 import com.birdwind.inspire.medical.diary.view.viewCallback.ScoreDetailDialogView;
+import com.warkiz.widget.IndicatorSeekBar;
 import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,15 +26,18 @@ public class ScoreDetailDialog
 
     private DiseaseEnums diseaseEnums;
 
-    public ScoreDetailDialog(@NonNull Context context, int quizId, DiseaseEnums diseaseEnums) {
-        this(context, new CommonDialogListener() {}, quizId, diseaseEnums);
+    private boolean isFamily;
+
+    public ScoreDetailDialog(@NonNull Context context, int quizId, DiseaseEnums diseaseEnums, boolean isFamily) {
+        this(context, new CommonDialogListener() {}, quizId, diseaseEnums, isFamily);
     }
 
     public ScoreDetailDialog(@NonNull Context context, CommonDialogListener dialogListener, int quizId,
-        DiseaseEnums diseaseEnums) {
+        DiseaseEnums diseaseEnums, boolean isFamily) {
         super(context, dialogListener);
         this.quizId = quizId;
         this.diseaseEnums = diseaseEnums;
+        this.isFamily = isFamily;
     }
 
     @Override
@@ -47,16 +53,32 @@ public class ScoreDetailDialog
     @Override
     public void doSomething() {
         presenter.GetScoreDetail(quizId);
-        switch (diseaseEnums) {
-            case HEADACHE:
-                binding.compHeadacheScoreDetailDialog.getRoot().setVisibility(View.VISIBLE);
-                binding.compAkzhimerScoreDetailDialog.getRoot().setVisibility(View.GONE);
-                break;
-            case ALZHEIMER:
-            case PERKINS:
-                binding.compHeadacheScoreDetailDialog.getRoot().setVisibility(View.GONE);
-                binding.compAkzhimerScoreDetailDialog.getRoot().setVisibility(View.VISIBLE);
-                break;
+        initQuestionView();
+        if (App.userModel.getIdentityEnums() == IdentityEnums.FAMILY) {
+            if (isFamily) {
+                switch (diseaseEnums) {
+                    case ALZHEIMER:
+                        binding.compAlzheimerScoreDetailDialog.getRoot().setVisibility(View.VISIBLE);
+                        break;
+                    case PERKINS:
+                        binding.compPerkinsFamilyScoreDetailDialog.getRoot().setVisibility(View.VISIBLE);
+                        break;
+                }
+            } else {
+                binding.compPerkinsPatientScoreDetailDialog.getRoot().setVisibility(View.VISIBLE);
+            }
+        } else {
+            switch (diseaseEnums) {
+                case HEADACHE:
+                    binding.compHeadacheScoreDetailDialog.getRoot().setVisibility(View.VISIBLE);
+                    break;
+                case ALZHEIMER:
+                    binding.compAlzheimerScoreDetailDialog.getRoot().setVisibility(View.VISIBLE);
+                    break;
+                case PERKINS:
+                    binding.compPerkinsPatientScoreDetailDialog.getRoot().setVisibility(View.VISIBLE);
+                    break;
+            }
         }
     }
 
@@ -72,15 +94,40 @@ public class ScoreDetailDialog
 
     @Override
     public void onGetDetailSuccess(ScoreDetailResponse.Response response) {
-        switch (diseaseEnums) {
-            case HEADACHE:
-                parseToHeadacheQuiz(response);
-                break;
-            case ALZHEIMER:
-            case PERKINS:
-                parseToAlzheimerQuiz(response);
-                break;
+        if (App.userModel.getIdentityEnums() == IdentityEnums.FAMILY) {
+            initQuestionView();
+            if (isFamily) {
+                switch (diseaseEnums) {
+                    case ALZHEIMER:
+                        parseToAlzheimerQuiz(response);
+                        break;
+                    case PERKINS:
+                        parseToPerkinsFamilyQuiz(response);
+                        break;
+                }
+            } else {
+                parseToPerkinsPatientQuiz(response);
+            }
+        } else {
+            switch (diseaseEnums) {
+                case HEADACHE:
+                    parseToHeadacheQuiz(response);
+                    break;
+                case ALZHEIMER:
+                    parseToAlzheimerQuiz(response);
+                    break;
+                case PERKINS:
+                    parseToPerkinsPatientQuiz(response);
+                    break;
+            }
         }
+    }
+
+    private void initQuestionView() {
+        binding.compHeadacheScoreDetailDialog.getRoot().setVisibility(View.GONE);
+        binding.compAlzheimerScoreDetailDialog.getRoot().setVisibility(View.GONE);
+        binding.compPerkinsFamilyScoreDetailDialog.getRoot().setVisibility(View.GONE);
+        binding.compPerkinsPatientScoreDetailDialog.getRoot().setVisibility(View.GONE);
     }
 
     private void parseToHeadacheQuiz(ScoreDetailResponse.Response response) {
@@ -141,58 +188,94 @@ public class ScoreDetailDialog
     }
 
     private void parseToAlzheimerQuiz(ScoreDetailResponse.Response response) {
-        LinearLayout llAlzheimer = binding.compAkzhimerScoreDetailDialog.getRoot();
+        LinearLayout llAlzheimer = binding.compAlzheimerScoreDetailDialog.getRoot();
         initRadioButton(llAlzheimer);
         for (ScoreDetailResponse.Score scoreItem : response.getItems()) {
             switch (scoreItem.getNo()) {
                 case 1:
-                    setRadioButtonByInteger(binding.compAkzhimerScoreDetailDialog.rbOption1YesQuizAkzhimerComponent,
-                        binding.compAkzhimerScoreDetailDialog.rbOption1NoQuizAkzhimerComponent, scoreItem.getScore());
+                    setRadioButtonByInteger(binding.compAlzheimerScoreDetailDialog.rbOption1YesQuizAkzhimerComponent,
+                        binding.compAlzheimerScoreDetailDialog.rbOption1NoQuizAkzhimerComponent, scoreItem.getScore());
                     break;
                 case 2:
-                    setRadioButtonByInteger(binding.compAkzhimerScoreDetailDialog.rbOption2YesQuizAkzhimerComponent,
-                        binding.compAkzhimerScoreDetailDialog.rbOption2NoQuizAkzhimerComponent, scoreItem.getScore());
+                    setRadioButtonByInteger(binding.compAlzheimerScoreDetailDialog.rbOption2YesQuizAkzhimerComponent,
+                        binding.compAlzheimerScoreDetailDialog.rbOption2NoQuizAkzhimerComponent, scoreItem.getScore());
                     break;
                 case 3:
-                    setRadioButtonByInteger(binding.compAkzhimerScoreDetailDialog.rbOption3YesQuizAkzhimerComponent,
-                        binding.compAkzhimerScoreDetailDialog.rbOption3NoQuizAkzhimerComponent, scoreItem.getScore());
+                    setRadioButtonByInteger(binding.compAlzheimerScoreDetailDialog.rbOption3YesQuizAkzhimerComponent,
+                        binding.compAlzheimerScoreDetailDialog.rbOption3NoQuizAkzhimerComponent, scoreItem.getScore());
                     break;
                 case 4:
-                    setRadioButtonByInteger(binding.compAkzhimerScoreDetailDialog.rbOption4YesQuizAkzhimerComponent,
-                        binding.compAkzhimerScoreDetailDialog.rbOption4NoQuizAkzhimerComponent, scoreItem.getScore());
+                    setRadioButtonByInteger(binding.compAlzheimerScoreDetailDialog.rbOption4YesQuizAkzhimerComponent,
+                        binding.compAlzheimerScoreDetailDialog.rbOption4NoQuizAkzhimerComponent, scoreItem.getScore());
                     break;
                 case 5:
-                    setRadioButtonByInteger(binding.compAkzhimerScoreDetailDialog.rbOption5YesQuizAkzhimerComponent,
-                        binding.compAkzhimerScoreDetailDialog.rbOption5NoQuizAkzhimerComponent, scoreItem.getScore());
+                    setRadioButtonByInteger(binding.compAlzheimerScoreDetailDialog.rbOption5YesQuizAkzhimerComponent,
+                        binding.compAlzheimerScoreDetailDialog.rbOption5NoQuizAkzhimerComponent, scoreItem.getScore());
                     break;
                 case 6:
-                    setRadioButtonByInteger(binding.compAkzhimerScoreDetailDialog.rbOption6YesQuizAkzhimerComponent,
-                        binding.compAkzhimerScoreDetailDialog.rbOption6NoQuizAkzhimerComponent, scoreItem.getScore());
+                    setRadioButtonByInteger(binding.compAlzheimerScoreDetailDialog.rbOption6YesQuizAkzhimerComponent,
+                        binding.compAlzheimerScoreDetailDialog.rbOption6NoQuizAkzhimerComponent, scoreItem.getScore());
                     break;
                 case 7:
-                    setRadioButtonByInteger(binding.compAkzhimerScoreDetailDialog.rbOption7YesQuizAkzhimerComponent,
-                        binding.compAkzhimerScoreDetailDialog.rbOption7NoQuizAkzhimerComponent, scoreItem.getScore());
+                    setRadioButtonByInteger(binding.compAlzheimerScoreDetailDialog.rbOption7YesQuizAkzhimerComponent,
+                        binding.compAlzheimerScoreDetailDialog.rbOption7NoQuizAkzhimerComponent, scoreItem.getScore());
                     break;
                 case 8:
-                    setRadioButtonByInteger(binding.compAkzhimerScoreDetailDialog.rbOption8YesQuizAkzhimerComponent,
-                        binding.compAkzhimerScoreDetailDialog.rbOption8NoQuizAkzhimerComponent, scoreItem.getScore());
+                    setRadioButtonByInteger(binding.compAlzheimerScoreDetailDialog.rbOption8YesQuizAkzhimerComponent,
+                        binding.compAlzheimerScoreDetailDialog.rbOption8NoQuizAkzhimerComponent, scoreItem.getScore());
                     break;
                 case 9:
-                    setRadioButtonByInteger(binding.compAkzhimerScoreDetailDialog.rbOption9YesQuizAkzhimerComponent,
-                        binding.compAkzhimerScoreDetailDialog.rbOption9NoQuizAkzhimerComponent, scoreItem.getScore());
+                    setRadioButtonByInteger(binding.compAlzheimerScoreDetailDialog.rbOption9YesQuizAkzhimerComponent,
+                        binding.compAlzheimerScoreDetailDialog.rbOption9NoQuizAkzhimerComponent, scoreItem.getScore());
                     break;
                 case 10:
-                    setRadioButtonByInteger(binding.compAkzhimerScoreDetailDialog.rbOption10YesQuizAkzhimerComponent,
-                        binding.compAkzhimerScoreDetailDialog.rbOption10NoQuizAkzhimerComponent, scoreItem.getScore());
+                    setRadioButtonByInteger(binding.compAlzheimerScoreDetailDialog.rbOption10YesQuizAkzhimerComponent,
+                        binding.compAlzheimerScoreDetailDialog.rbOption10NoQuizAkzhimerComponent, scoreItem.getScore());
                     break;
                 case 11:
-                    setRadioButtonByInteger(binding.compAkzhimerScoreDetailDialog.rbOption11YesQuizAkzhimerComponent,
-                        binding.compAkzhimerScoreDetailDialog.rbOption11NoQuizAkzhimerComponent, scoreItem.getScore());
+                    setRadioButtonByInteger(binding.compAlzheimerScoreDetailDialog.rbOption11YesQuizAkzhimerComponent,
+                        binding.compAlzheimerScoreDetailDialog.rbOption11NoQuizAkzhimerComponent, scoreItem.getScore());
                     break;
                 case 12:
-                    setRadioButtonByInteger(binding.compAkzhimerScoreDetailDialog.rbOption12YesQuizAkzhimerComponent,
-                        binding.compAkzhimerScoreDetailDialog.rbOption12NoQuizAkzhimerComponent, scoreItem.getScore());
+                    setRadioButtonByInteger(binding.compAlzheimerScoreDetailDialog.rbOption12YesQuizAkzhimerComponent,
+                        binding.compAlzheimerScoreDetailDialog.rbOption12NoQuizAkzhimerComponent, scoreItem.getScore());
                     break;
+            }
+        }
+    }
+
+    private void parseToPerkinsPatientQuiz(ScoreDetailResponse.Response response) {
+        LinearLayout quizLinearLayout = binding.compPerkinsFamilyScoreDetailDialog.getRoot();
+        for (int i = 0; i < quizLinearLayout.getChildCount(); i++) {
+            View quizView = quizLinearLayout.getChildAt(i);
+            if (quizView instanceof LinearLayout) {
+                LinearLayout questionLinearLayout = (LinearLayout) quizView;
+                for (int j = 0; j < questionLinearLayout.getChildCount(); j++) {
+                    View answerView = questionLinearLayout.getChildAt(j);
+                    if (answerView instanceof IndicatorSeekBar) {
+                        IndicatorSeekBar answerIndicatorSeekBar = (IndicatorSeekBar) answerView;
+                        answerIndicatorSeekBar.setProgress(response.getScore());
+                        answerIndicatorSeekBar.setEnabled(false);
+                    }
+                }
+            }
+        }
+    }
+
+    private void parseToPerkinsFamilyQuiz(ScoreDetailResponse.Response response) {
+        LinearLayout quizLinearLayout = binding.compPerkinsFamilyScoreDetailDialog.getRoot();
+        for (int i = 0; i < quizLinearLayout.getChildCount(); i++) {
+            View quizView = quizLinearLayout.getChildAt(i);
+            if (quizView instanceof LinearLayout) {
+                LinearLayout questionLinearLayout = (LinearLayout) quizView;
+                for (int j = 0; j < questionLinearLayout.getChildCount(); j++) {
+                    View answerView = questionLinearLayout.getChildAt(j);
+                    if (answerView instanceof IndicatorSeekBar) {
+                        IndicatorSeekBar answerIndicatorSeekBar = (IndicatorSeekBar) answerView;
+                        answerIndicatorSeekBar.setProgress(response.getScore());
+                        answerIndicatorSeekBar.setEnabled(false);
+                    }
+                }
             }
         }
     }

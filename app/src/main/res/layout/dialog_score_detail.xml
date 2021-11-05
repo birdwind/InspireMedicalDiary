@@ -18,11 +18,23 @@
 
             <include
                 android:id="@+id/comp_headache_score_detail_dialog"
-                layout="@layout/comp_quiz_headache"/>
+                layout="@layout/component_quiz_headache"
+                android:visibility="gone" />
 
             <include
-                android:id="@+id/comp_akzhimer_score_detail_dialog"
-                layout="@layout/comp_quiz_akzhimer"/>
+                android:id="@+id/comp_alzheimer_score_detail_dialog"
+                layout="@layout/component_quiz_akzhimer"
+                android:visibility="gone" />
+
+            <include
+                android:id="@+id/comp_perkins_family_score_detail_dialog"
+                layout="@layout/component_quiz_perkins_family"
+                android:visibility="gone"/>
+
+            <include
+                android:id="@+id/comp_perkins_patient_score_detail_dialog"
+                layout="@layout/component_quiz_perkins_patient"
+                android:visibility="gone"/>
 
         </LinearLayout>
 

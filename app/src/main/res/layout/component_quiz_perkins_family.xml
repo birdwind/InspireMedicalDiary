@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorOrange_FAF1E7"
+            android:paddingHorizontal="17dp"
+            android:paddingVertical="10dp"
+            android:text="1.	在過去一週內，病患是否在記憶、交談、專注、思考、認路等方面遇到困難呢？ " />
+
+        <com.warkiz.widget.IndicatorSeekBar
+            android:id="@+id/isb_option1_quiz_perkins_family_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginVertical="24dp"
+            app:isb_indicator_color="@color/colorOrange_E89210"
+            app:isb_indicator_text_color="@color/colorWhite_FFFFFF"
+            app:isb_indicator_text_size="18sp"
+            app:isb_max="3"
+            app:isb_min="0"
+            app:isb_only_thumb_draggable="false"
+            app:isb_progress="0"
+            app:isb_seek_smoothly="false"
+            app:isb_show_indicator="circular_bubble"
+            app:isb_show_tick_marks_type="oval"
+            app:isb_show_tick_texts="true"
+            app:isb_thumb_color="@color/colorOrange_E89210"
+            app:isb_thumb_size="20dp"
+            app:isb_tick_marks_color="@color/colorGray_6D6D6D"
+            app:isb_tick_marks_size="10dp"
+            app:isb_tick_marks_swept_hide="true"
+            app:isb_tick_texts_color="@color/colorBlack_000000"
+            app:isb_tick_texts_size="15sp"
+            app:isb_ticks_count="4"
+            app:isb_track_background_color="@color/colorGray_6D6D6D"
+            app:isb_track_background_size="2dp"
+            app:isb_track_progress_color="@color/colorOrange_E89210"
+            app:isb_track_progress_size="4dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorOrange_FAF1E7"
+            android:paddingHorizontal="17dp"
+            android:paddingVertical="10dp"
+            android:text="2.	在過去一週內，病患是否有看見、聽到、聞到還是感覺到某些不存在的事物？ ?" />
+
+        <com.warkiz.widget.IndicatorSeekBar
+            android:id="@+id/isb_option2_quiz_perkins_family_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginVertical="24dp"
+            app:isb_indicator_color="@color/colorOrange_E89210"
+            app:isb_indicator_text_color="@color/colorWhite_FFFFFF"
+            app:isb_indicator_text_size="18sp"
+            app:isb_max="3"
+            app:isb_min="0"
+            app:isb_only_thumb_draggable="false"
+            app:isb_progress="0"
+            app:isb_seek_smoothly="false"
+            app:isb_show_indicator="circular_bubble"
+            app:isb_show_tick_marks_type="oval"
+            app:isb_show_tick_texts="true"
+            app:isb_thumb_color="@color/colorOrange_E89210"
+            app:isb_thumb_size="20dp"
+            app:isb_tick_marks_color="@color/colorGray_6D6D6D"
+            app:isb_tick_marks_size="10dp"
+            app:isb_tick_marks_swept_hide="true"
+            app:isb_tick_texts_color="@color/colorBlack_000000"
+            app:isb_tick_texts_size="15sp"
+            app:isb_ticks_count="4"
+            app:isb_track_background_color="@color/colorGray_6D6D6D"
+            app:isb_track_background_size="2dp"
+            app:isb_track_progress_color="@color/colorOrange_E89210"
+            app:isb_track_progress_size="4dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorOrange_FAF1E7"
+            android:paddingHorizontal="17dp"
+            android:paddingVertical="10dp"
+            android:text="3.	在過去一週內，病患是否感到情緒低落、悲傷、沒希望或是對原本喜歡做的事情感到沒興趣？" />
+
+        <com.warkiz.widget.IndicatorSeekBar
+            android:id="@+id/isb_option3_quiz_perkins_family_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginVertical="24dp"
+            app:isb_indicator_color="@color/colorOrange_E89210"
+            app:isb_indicator_text_color="@color/colorWhite_FFFFFF"
+            app:isb_indicator_text_size="18sp"
+            app:isb_max="3"
+            app:isb_min="0"
+            app:isb_only_thumb_draggable="false"
+            app:isb_progress="0"
+            app:isb_seek_smoothly="false"
+            app:isb_show_indicator="circular_bubble"
+            app:isb_show_tick_marks_type="oval"
+            app:isb_show_tick_texts="true"
+            app:isb_thumb_color="@color/colorOrange_E89210"
+            app:isb_thumb_size="20dp"
+            app:isb_tick_marks_color="@color/colorGray_6D6D6D"
+            app:isb_tick_marks_size="10dp"
+            app:isb_tick_marks_swept_hide="true"
+            app:isb_tick_texts_color="@color/colorBlack_000000"
+            app:isb_tick_texts_size="15sp"
+            app:isb_ticks_count="4"
+            app:isb_track_background_color="@color/colorGray_6D6D6D"
+            app:isb_track_background_size="2dp"
+            app:isb_track_progress_color="@color/colorOrange_E89210"
+            app:isb_track_progress_size="4dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorOrange_FAF1E7"
+            android:paddingHorizontal="17dp"
+            android:paddingVertical="10dp"
+            android:text="4.	在過去一週內，病患是否曾感到緊張、憂慮或情緒緊繃？" />
+
+        <com.warkiz.widget.IndicatorSeekBar
+            android:id="@+id/isb_option4_quiz_perkins_family_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginVertical="24dp"
+            app:isb_indicator_color="@color/colorOrange_E89210"
+            app:isb_indicator_text_color="@color/colorWhite_FFFFFF"
+            app:isb_indicator_text_size="18sp"
+            app:isb_max="3"
+            app:isb_min="0"
+            app:isb_only_thumb_draggable="false"
+            app:isb_progress="0"
+            app:isb_seek_smoothly="false"
+            app:isb_show_indicator="circular_bubble"
+            app:isb_show_tick_marks_type="oval"
+            app:isb_show_tick_texts="true"
+            app:isb_thumb_color="@color/colorOrange_E89210"
+            app:isb_thumb_size="20dp"
+            app:isb_tick_marks_color="@color/colorGray_6D6D6D"
+            app:isb_tick_marks_size="10dp"
+            app:isb_tick_marks_swept_hide="true"
+            app:isb_tick_texts_color="@color/colorBlack_000000"
+            app:isb_tick_texts_size="15sp"
+            app:isb_ticks_count="4"
+            app:isb_track_background_color="@color/colorGray_6D6D6D"
+            app:isb_track_background_size="2dp"
+            app:isb_track_progress_color="@color/colorOrange_E89210"
+            app:isb_track_progress_size="4dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorOrange_FAF1E7"
+            android:paddingHorizontal="17dp"
+            android:paddingVertical="10dp"
+            android:text="5.	在過去一週內，病患是否對於從事活動或是與人相處不感興趣？ " />
+
+        <com.warkiz.widget.IndicatorSeekBar
+            android:id="@+id/isb_option5_quiz_perkins_family_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginVertical="24dp"
+            app:isb_indicator_color="@color/colorOrange_E89210"
+            app:isb_indicator_text_color="@color/colorWhite_FFFFFF"
+            app:isb_indicator_text_size="18sp"
+            app:isb_max="3"
+            app:isb_min="0"
+            app:isb_only_thumb_draggable="false"
+            app:isb_progress="0"
+            app:isb_seek_smoothly="false"
+            app:isb_show_indicator="circular_bubble"
+            app:isb_show_tick_marks_type="oval"
+            app:isb_show_tick_texts="true"
+            app:isb_thumb_color="@color/colorOrange_E89210"
+            app:isb_thumb_size="20dp"
+            app:isb_tick_marks_color="@color/colorGray_6D6D6D"
+            app:isb_tick_marks_size="10dp"
+            app:isb_tick_marks_swept_hide="true"
+            app:isb_tick_texts_color="@color/colorBlack_000000"
+            app:isb_tick_texts_size="15sp"
+            app:isb_ticks_count="4"
+            app:isb_track_background_color="@color/colorGray_6D6D6D"
+            app:isb_track_background_size="2dp"
+            app:isb_track_progress_color="@color/colorOrange_E89210"
+            app:isb_track_progress_size="4dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorOrange_FAF1E7"
+            android:paddingHorizontal="17dp"
+            android:paddingVertical="10dp"
+            android:text="6.	在過去一週內，病患是否會有強烈慾望想做某些事並且覺得這慾望難以停止？例如：賭博、打掃、使用電腦、想多吃藥、食慾或性慾增加。 " />
+
+        <com.warkiz.widget.IndicatorSeekBar
+            android:id="@+id/isb_option6_quiz_perkins_family_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginVertical="24dp"
+            app:isb_indicator_color="@color/colorOrange_E89210"
+            app:isb_indicator_text_color="@color/colorWhite_FFFFFF"
+            app:isb_indicator_text_size="18sp"
+            app:isb_max="3"
+            app:isb_min="0"
+            app:isb_only_thumb_draggable="false"
+            app:isb_progress="0"
+            app:isb_seek_smoothly="false"
+            app:isb_show_indicator="circular_bubble"
+            app:isb_show_tick_marks_type="oval"
+            app:isb_show_tick_texts="true"
+            app:isb_thumb_color="@color/colorOrange_E89210"
+            app:isb_thumb_size="20dp"
+            app:isb_tick_marks_color="@color/colorGray_6D6D6D"
+            app:isb_tick_marks_size="10dp"
+            app:isb_tick_marks_swept_hide="true"
+            app:isb_tick_texts_color="@color/colorBlack_000000"
+            app:isb_tick_texts_size="15sp"
+            app:isb_ticks_count="4"
+            app:isb_track_background_color="@color/colorGray_6D6D6D"
+            app:isb_track_background_size="2dp"
+            app:isb_track_progress_color="@color/colorOrange_E89210"
+            app:isb_track_progress_size="4dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorOrange_FAF1E7"
+            android:paddingHorizontal="17dp"
+            android:paddingVertical="10dp"
+            android:text="7.	在過去一週內，病患是否會在白天不該睡覺的時間覺得想睡覺，不管是自己一個人或是有旁人的時候? " />
+
+        <com.warkiz.widget.IndicatorSeekBar
+            android:id="@+id/isb_option7_quiz_perkins_family_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginVertical="24dp"
+            app:isb_indicator_color="@color/colorOrange_E89210"
+            app:isb_indicator_text_color="@color/colorWhite_FFFFFF"
+            app:isb_indicator_text_size="18sp"
+            app:isb_max="3"
+            app:isb_min="0"
+            app:isb_only_thumb_draggable="false"
+            app:isb_progress="0"
+            app:isb_seek_smoothly="false"
+            app:isb_show_indicator="circular_bubble"
+            app:isb_show_tick_marks_type="oval"
+            app:isb_show_tick_texts="true"
+            app:isb_thumb_color="@color/colorOrange_E89210"
+            app:isb_thumb_size="20dp"
+            app:isb_tick_marks_color="@color/colorGray_6D6D6D"
+            app:isb_tick_marks_size="10dp"
+            app:isb_tick_marks_swept_hide="true"
+            app:isb_tick_texts_color="@color/colorBlack_000000"
+            app:isb_tick_texts_size="15sp"
+            app:isb_ticks_count="4"
+            app:isb_track_background_color="@color/colorGray_6D6D6D"
+            app:isb_track_background_size="2dp"
+            app:isb_track_progress_color="@color/colorOrange_E89210"
+            app:isb_track_progress_size="4dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorOrange_FAF1E7"
+            android:paddingHorizontal="17dp"
+            android:paddingVertical="10dp"
+            android:text="8.	過去一週內，病患是否經常顫抖或搖擺？  " />
+
+        <com.warkiz.widget.IndicatorSeekBar
+            android:id="@+id/isb_option8_quiz_perkins_family_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginVertical="24dp"
+            app:isb_indicator_color="@color/colorOrange_E89210"
+            app:isb_indicator_text_color="@color/colorWhite_FFFFFF"
+            app:isb_indicator_text_size="18sp"
+            app:isb_max="3"
+            app:isb_min="0"
+            app:isb_only_thumb_draggable="false"
+            app:isb_progress="0"
+            app:isb_seek_smoothly="false"
+            app:isb_show_indicator="circular_bubble"
+            app:isb_show_tick_marks_type="oval"
+            app:isb_show_tick_texts="true"
+            app:isb_thumb_color="@color/colorOrange_E89210"
+            app:isb_thumb_size="20dp"
+            app:isb_tick_marks_color="@color/colorGray_6D6D6D"
+            app:isb_tick_marks_size="10dp"
+            app:isb_tick_marks_swept_hide="true"
+            app:isb_tick_texts_color="@color/colorBlack_000000"
+            app:isb_tick_texts_size="15sp"
+            app:isb_ticks_count="4"
+            app:isb_track_background_color="@color/colorGray_6D6D6D"
+            app:isb_track_background_size="2dp"
+            app:isb_track_progress_color="@color/colorOrange_E89210"
+            app:isb_track_progress_size="4dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorOrange_FAF1E7"
+            android:paddingHorizontal="17dp"
+            android:paddingVertical="10dp"
+            android:text="9.	過去一週內，病患在走路或維持平衡時經常有困難嗎？ " />
+
+        <com.warkiz.widget.IndicatorSeekBar
+            android:id="@+id/isb_option9_quiz_perkins_family_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginVertical="24dp"
+            app:isb_indicator_color="@color/colorOrange_E89210"
+            app:isb_indicator_text_color="@color/colorWhite_FFFFFF"
+            app:isb_indicator_text_size="18sp"
+            app:isb_max="3"
+            app:isb_min="0"
+            app:isb_only_thumb_draggable="false"
+            app:isb_progress="0"
+            app:isb_seek_smoothly="false"
+            app:isb_show_indicator="circular_bubble"
+            app:isb_show_tick_marks_type="oval"
+            app:isb_show_tick_texts="true"
+            app:isb_thumb_color="@color/colorOrange_E89210"
+            app:isb_thumb_size="20dp"
+            app:isb_tick_marks_color="@color/colorGray_6D6D6D"
+            app:isb_tick_marks_size="10dp"
+            app:isb_tick_marks_swept_hide="true"
+            app:isb_tick_texts_color="@color/colorBlack_000000"
+            app:isb_tick_texts_size="15sp"
+            app:isb_ticks_count="4"
+            app:isb_track_background_color="@color/colorGray_6D6D6D"
+            app:isb_track_background_size="2dp"
+            app:isb_track_progress_color="@color/colorOrange_E89210"
+            app:isb_track_progress_size="4dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorOrange_FAF1E7"
+            android:paddingHorizontal="17dp"
+            android:paddingVertical="10dp"
+            android:text="10.	過去一週內，病患在洗澡、吃飯或穿衣等日常生活事務上，是否會因為動作緩慢需要幫忙？ " />
+
+        <com.warkiz.widget.IndicatorSeekBar
+            android:id="@+id/isb_option10_quiz_perkins_family_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginVertical="24dp"
+            app:isb_indicator_color="@color/colorOrange_E89210"
+            app:isb_indicator_text_color="@color/colorWhite_FFFFFF"
+            app:isb_indicator_text_size="18sp"
+            app:isb_max="3"
+            app:isb_min="0"
+            app:isb_only_thumb_draggable="false"
+            app:isb_progress="0"
+            app:isb_seek_smoothly="false"
+            app:isb_show_indicator="circular_bubble"
+            app:isb_show_tick_marks_type="oval"
+            app:isb_show_tick_texts="true"
+            app:isb_thumb_color="@color/colorOrange_E89210"
+            app:isb_thumb_size="20dp"
+            app:isb_tick_marks_color="@color/colorGray_6D6D6D"
+            app:isb_tick_marks_size="10dp"
+            app:isb_tick_marks_swept_hide="true"
+            app:isb_tick_texts_color="@color/colorBlack_000000"
+            app:isb_tick_texts_size="15sp"
+            app:isb_ticks_count="4"
+            app:isb_track_background_color="@color/colorGray_6D6D6D"
+            app:isb_track_background_size="2dp"
+            app:isb_track_progress_color="@color/colorOrange_E89210"
+            app:isb_track_progress_size="4dp" />
+    </LinearLayout>
+
+</LinearLayout>

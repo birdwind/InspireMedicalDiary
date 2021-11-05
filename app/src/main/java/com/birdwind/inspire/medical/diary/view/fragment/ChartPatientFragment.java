@@ -31,10 +31,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-public class ChartFragment extends AbstractFragment<ChartPresenter, FragmentChartBinding>
+public class ChartPatientFragment extends AbstractFragment<ChartPresenter, FragmentChartBinding>
     implements OnChartValueSelectedListener, ChartView {
 
     private long uid;
@@ -91,14 +90,14 @@ public class ChartFragment extends AbstractFragment<ChartPresenter, FragmentChar
     @Override
     public void onResume() {
         super.onResume();
-        presenter.getChartData(uid);
+        presenter.getChartData(uid, false);
     }
 
     @Override
     public void onValueSelected(Entry e, Highlight h) {
         ChartResponse.Response response = (ChartResponse.Response) e.getData();
         scoreDetailDialog = new ScoreDetailDialog(context, (int) response.getTID(),
-            DiseaseEnums.parseEnumsByType(response.getDisease()));
+            DiseaseEnums.parseEnumsByType(response.getDisease()), false);
         scoreDetailDialog.show();
     }
 
@@ -153,7 +152,7 @@ public class ChartFragment extends AbstractFragment<ChartPresenter, FragmentChar
     private void initChartY_Style() {
         chart_yAxis = binding.lcChartFragment.getAxisLeft();
         binding.lcChartFragment.getAxisRight().setEnabled(false);
-//        chart_yAxis.setAxisMaximum(10f);
+        // chart_yAxis.setAxisMaximum(10f);
         chart_yAxis.setAxisMinimum(0f);
         chart_yAxis.setLabelCount(10);// X軸標籤個數
     }

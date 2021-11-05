@@ -1,12 +1,5 @@
 package com.birdwind.inspire.medical.diary.view.fragment;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import androidx.fragment.app.Fragment;
-
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.base.utils.fragmentNavUtils.FragNavController;
@@ -14,6 +7,12 @@ import com.birdwind.inspire.medical.diary.base.utils.fragmentNavUtils.FragNavTra
 import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
 import com.birdwind.inspire.medical.diary.databinding.FragmentPatientMainBinding;
 import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
+import java.util.Stack;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import androidx.fragment.app.Fragment;
 
 public class PatientMainFragment extends AbstractFragment<AbstractPresenter, FragmentPatientMainBinding>
     implements FragNavController.RootFragmentListener, FragNavController.TransactionListener {
@@ -102,7 +101,8 @@ public class PatientMainFragment extends AbstractFragment<AbstractPresenter, Fra
     public boolean onBackPressed() {
         if (!mNavController.isRootFragment()) {
             mNavController.popFragment(popFragNavTransactionOptions);
-            if (mNavController.getSize() > 0) {
+            Stack<Fragment> fragmentStack = mNavController.getStack(FragNavController.TAB1);
+            if (fragmentStack.size() <= 1) {
                 binding.llMenuPatientMainFragment.setVisibility(View.VISIBLE);
             }
         } else {
@@ -120,7 +120,7 @@ public class PatientMainFragment extends AbstractFragment<AbstractPresenter, Fra
                 pushFragment(new RecordFragment());
                 break;
             case PERKINS:
-                pushFragment(new QuizAkzhimerFragment());
+                pushFragment(new QuizPerkinsPatientFragment());
                 break;
         }
     }

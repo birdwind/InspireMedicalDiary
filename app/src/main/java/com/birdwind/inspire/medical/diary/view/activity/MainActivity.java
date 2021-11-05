@@ -37,7 +37,7 @@ import com.birdwind.inspire.medical.diary.view.fragment.DoctorPatientFragment;
 import com.birdwind.inspire.medical.diary.view.fragment.FamilyMainFragment;
 import com.birdwind.inspire.medical.diary.view.fragment.PatientMainFragment;
 import com.birdwind.inspire.medical.diary.view.fragment.QRCodeFragment;
-import com.birdwind.inspire.medical.diary.view.fragment.QuizAkzhimerFragment;
+import com.birdwind.inspire.medical.diary.view.fragment.QuizAkzhimerFamilyFragment;
 import com.birdwind.inspire.medical.diary.view.fragment.QuizHeadacheFragment;
 import com.birdwind.inspire.medical.diary.view.fragment.ScanFragment;
 import com.birdwind.inspire.medical.diary.view.fragment.SettingFragment;
@@ -402,7 +402,7 @@ public class MainActivity extends AbstractActivity<AbstractPresenter, ActivityMa
                         break;
                     case ALZHEIMER:
                     case PERKINS:
-                        pushFragment(new QuizAkzhimerFragment());
+                        pushFragment(new QuizAkzhimerFamilyFragment());
                         break;
                 }
                 break;

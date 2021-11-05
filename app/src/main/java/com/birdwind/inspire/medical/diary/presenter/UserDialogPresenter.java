@@ -2,11 +2,10 @@ package com.birdwind.inspire.medical.diary.presenter;
 
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.base.basic.AbstractObserver;
-import com.birdwind.inspire.medical.diary.base.network.response.AbstractResponse;
 import com.birdwind.inspire.medical.diary.enums.DiseaseEnums;
+import com.birdwind.inspire.medical.diary.model.response.AddUserResponse;
 import com.birdwind.inspire.medical.diary.server.DoctorApiServer;
 import com.birdwind.inspire.medical.diary.server.FamilyApiServer;
-import com.birdwind.inspire.medical.diary.server.PatientApiServer;
 import com.birdwind.inspire.medical.diary.view.viewCallback.UserDialogView;
 
 public class UserDialogPresenter extends AbstractPresenter<UserDialogView> {
@@ -27,17 +26,17 @@ public class UserDialogPresenter extends AbstractPresenter<UserDialogView> {
             case FAMILY:
                 api = FamilyApiServer.BE_FAMILY.valueOfName();
                 break;
-//            case PAINTER:
-//                api = PatientApiServer.JOIN_MY_GROUP.valueOfName();
-//                break;
+            // case PAINTER:
+            // api = PatientApiServer.JOIN_MY_GROUP.valueOfName();
+            // break;
         }
         paramsMap.put("UID", uid);
 
         addDisposable(apiServer.executePostFormUrlEncode(api, paramsMap, fieldMap, headerMap),
-            new AbstractObserver<AbstractResponse>(this, baseView, "AddUser", null, AbstractResponse.class, true) {
+            new AbstractObserver<AddUserResponse>(this, baseView, "AddUser", null, AddUserResponse.class, true) {
                 @Override
-                public void onSuccess(AbstractResponse response) {
-                    baseView.onAddUser(true);
+                public void onSuccess(AddUserResponse response) {
+                    baseView.onAddUser(true, response.getJsonData());
                 }
             });
     }

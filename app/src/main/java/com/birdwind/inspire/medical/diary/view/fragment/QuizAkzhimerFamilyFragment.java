@@ -14,7 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class QuizAkzhimerFragment extends AbstractFragment<QuizContentPresenter, FragmentQuizAkzhimerBinding>
+public class QuizAkzhimerFamilyFragment extends AbstractFragment<QuizContentPresenter, FragmentQuizAkzhimerBinding>
     implements QuizContentView, ToolbarCallback, View.OnClickListener {
 
     @Override
@@ -181,7 +181,7 @@ public class QuizAkzhimerFragment extends AbstractFragment<QuizContentPresenter,
         answers.add(answer_11);
         answers.add(answer_12);
         if (isCanSubmit) {
-            presenter.submit(answers);
+            presenter.submit(answers, false);
         } else {
             showToast("尚有題目還沒填寫");
         }
@@ -191,9 +191,11 @@ public class QuizAkzhimerFragment extends AbstractFragment<QuizContentPresenter,
     public void onClick(View v) {}
 
     @Override
-    public void submitSuccess(boolean isSuccess) {
+    public void submitSuccess(boolean isSuccess, String msg) {
         if (isSuccess) {
             ((MainActivity) context).onBackPressed();
+        } else {
+            showDialog(getString(R.string.common_dialog_title), msg, null);
         }
     }
 }

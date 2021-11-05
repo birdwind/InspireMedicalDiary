@@ -13,7 +13,7 @@ public class ChartPresenter extends AbstractPresenter<ChartView> {
         super(baseView);
     }
 
-    public void getChartData(long uid) {
+    public void getChartData(long uid, boolean isFamily) {
         String api = "";
         initMap();
         switch (App.userModel.getIdentityEnums()){
@@ -21,7 +21,11 @@ public class ChartPresenter extends AbstractPresenter<ChartView> {
                 api = DoctorApiServer.GET_PATIENT_TEST_REPORT.valueOfName();
                 break;
             case FAMILY:
-                api = FamilyApiServer.GET_TEST_REPORT.valueOfName();
+                if(isFamily){
+                    api = FamilyApiServer.GET_TEST_REPORT.valueOfName();
+                }else{
+                    api = PatientApiServer.GET_TEST_REPORT.valueOfName();
+                }
                 break;
             case PAINTER:
                 api = PatientApiServer.GET_TEST_REPORT.valueOfName();

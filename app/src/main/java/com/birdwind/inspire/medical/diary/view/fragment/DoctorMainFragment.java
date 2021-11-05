@@ -15,6 +15,7 @@ import com.birdwind.inspire.medical.diary.databinding.FragmentDoctorMainBinding;
 import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
 import com.birdwind.inspire.medical.diary.view.activity.MainActivity;
 import com.birdwind.inspire.medical.diary.view.viewCallback.ToolbarCallback;
+import java.util.Stack;
 
 public class DoctorMainFragment extends AbstractFragment<AbstractPresenter, FragmentDoctorMainBinding>
     implements FragNavController.RootFragmentListener, FragNavController.TransactionListener, ToolbarCallback {
@@ -97,7 +98,8 @@ public class DoctorMainFragment extends AbstractFragment<AbstractPresenter, Frag
     public boolean onBackPressed() {
         if (!mNavController.isRootFragment()) {
             mNavController.popFragment(popFragNavTransactionOptions);
-            if (mNavController.getSize() > 0) {
+            Stack<Fragment> fragmentStack = mNavController.getStack(FragNavController.TAB1);
+            if (fragmentStack.size() <= 1) {
                 binding.llMenuDoctorMain.setVisibility(View.VISIBLE);
             }
         } else {

@@ -1,20 +1,19 @@
 package com.birdwind.inspire.medical.diary.view.fragment;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import androidx.fragment.app.Fragment;
-
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.base.utils.fragmentNavUtils.FragNavController;
 import com.birdwind.inspire.medical.diary.base.utils.fragmentNavUtils.FragNavTransactionOptions;
 import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
 import com.birdwind.inspire.medical.diary.databinding.FragmentFamilyMainBinding;
+import com.birdwind.inspire.medical.diary.enums.DiseaseEnums;
 import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
-import com.birdwind.inspire.medical.diary.view.activity.MainActivity;
+import java.util.Stack;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import androidx.fragment.app.Fragment;
 
 public class FamilyMainFragment extends AbstractFragment<AbstractPresenter, FragmentFamilyMainBinding>
     implements FragNavController.RootFragmentListener, FragNavController.TransactionListener {
@@ -36,9 +35,9 @@ public class FamilyMainFragment extends AbstractFragment<AbstractPresenter, Frag
 
     @Override
     public void addListener() {
-//        binding.llScanFamilyMainFragment.setOnClickListener(v -> {
-//            ((MainActivity) context).openScanFragment();
-//        });
+        // binding.llScanFamilyMainFragment.setOnClickListener(v -> {
+        // ((MainActivity) context).openScanFragment();
+        // });
 
         binding.llQuizFamilyMainFragment.setOnClickListener(v -> {
             openQuizFragment();
@@ -97,7 +96,8 @@ public class FamilyMainFragment extends AbstractFragment<AbstractPresenter, Frag
     public boolean onBackPressed() {
         if (!mNavController.isRootFragment()) {
             mNavController.popFragment(popFragNavTransactionOptions);
-            if (mNavController.getSize() > 0) {
+            Stack<Fragment> fragmentStack = mNavController.getStack(FragNavController.TAB1);
+            if (fragmentStack.size() <= 1) {
                 binding.llMenuFamilyMainFragment.setVisibility(View.VISIBLE);
             }
         } else {
@@ -115,19 +115,23 @@ public class FamilyMainFragment extends AbstractFragment<AbstractPresenter, Frag
     }
 
     private void openQuizFragment() {
-        switch (App.userModel.getDiseaseEnums()) {
-            // case HEADACHE:
-            // pushFragment(new QuizHeadacheFragment());
-            // break;
-            case ALZHEIMER:
-                pushFragment(new RecordFragment());
-                break;
-            case PERKINS:
-                pushFragment(new QuizAkzhimerFragment());
-                break;
-            default:
-                showDialog(getString(R.string.common_dialog_title), "目前沒有問卷", null);
-                break;
+        if (App.userModel.getDiseaseEnums() == DiseaseEnums.NOT_SET) {
+            showDialog(getString(R.string.common_dialog_title), "您的照護對象尚無醫生照料", null);
+        } else if (App.userModel.getDiseaseEnums() != DiseaseEnums.HEADACHE) {
+            if (App.userModel.isProxy()) {
+                pushFragment(new QuizFamilyIdentityFragment());
+            } else {
+                switch (App.userModel.getDiseaseEnums()) {
+                    case ALZHEIMER:
+                        pushFragment(new QuizAkzhimerFamilyFragment());
+                        break;
+                    case PERKINS:
+                        pushFragment(new QuizPerkinsFamilyFragment());
+                        break;
+                }
+            }
+        } else {
+            showDialog(getString(R.string.common_dialog_title), "目前沒有問卷", null);
         }
     }
 }

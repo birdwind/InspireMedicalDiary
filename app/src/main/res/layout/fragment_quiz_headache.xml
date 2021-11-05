@@ -23,7 +23,7 @@
 
             <include
                 android:id="@+id/com_quiz_quiz_headache_fragment"
-                layout="@layout/comp_quiz_headache" />
+                layout="@layout/component_quiz_headache" />
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

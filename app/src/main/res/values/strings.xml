@@ -79,7 +79,9 @@
     <string name="doctor_main_menu_report">報告</string>
     <string name="doctor_main_menu_setting">&setting;</string>
     <string name="doctor_main_tab_message">訊息</string>
-    <string name="doctor_main_tab_chart">圖表</string>
+    <string name="doctor_main_tab_chart">測驗</string>
+    <string name="doctor_main_tab_chart_family">家屬</string>
+    <string name="doctor_main_tab_chart_patient">病患</string>
 
     <!--PainterMain-->
     <string name="painter_main_menu_scan">&scan;</string>

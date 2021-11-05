@@ -129,7 +129,7 @@ public class QuizHeadacheFragment extends AbstractFragment<QuizContentPresenter,
             }
         }
         if (isCanSubmit) {
-            presenter.submit(answers);
+            presenter.submit(answers, false);
         } else {
             showToast("輸出");
         }
@@ -158,9 +158,11 @@ public class QuizHeadacheFragment extends AbstractFragment<QuizContentPresenter,
     }
 
     @Override
-    public void submitSuccess(boolean isSuccess) {
+    public void submitSuccess(boolean isSuccess, String msg) {
         if (isSuccess) {
             ((MainActivity) context).onBackPressed();
+        } else {
+            showDialog(getString(R.string.common_dialog_title), msg, null);
         }
     }
 }

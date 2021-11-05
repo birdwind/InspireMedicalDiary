@@ -8,22 +8,24 @@ import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
 import com.birdwind.inspire.medical.diary.databinding.FragmentQrcodeBinding;
 import com.birdwind.inspire.medical.diary.enums.DiseaseEnums;
 import com.birdwind.inspire.medical.diary.enums.IdentityEnums;
-import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
+import com.birdwind.inspire.medical.diary.model.response.CheckDiseaseResponse;
+import com.birdwind.inspire.medical.diary.presenter.QRCordPresenter;
 import com.birdwind.inspire.medical.diary.server.FileApiServer;
 import com.birdwind.inspire.medical.diary.view.activity.MainActivity;
 import com.birdwind.inspire.medical.diary.view.dialog.callback.CommonDialogListener;
+import com.birdwind.inspire.medical.diary.view.viewCallback.QRCodeView;
 import com.birdwind.inspire.medical.diary.view.viewCallback.ToolbarCallback;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class QRCodeFragment extends AbstractFragment<AbstractPresenter, FragmentQrcodeBinding>
-    implements ToolbarCallback {
+public class QRCodeFragment extends AbstractFragment<QRCordPresenter, FragmentQrcodeBinding>
+    implements QRCodeView, ToolbarCallback {
 
     @Override
-    public AbstractPresenter createPresenter() {
-        return null;
+    public QRCordPresenter createPresenter() {
+        return new QRCordPresenter(this);
     }
 
     @Override
@@ -35,6 +37,9 @@ public class QRCodeFragment extends AbstractFragment<AbstractPresenter, Fragment
     public void addListener() {
         binding.ivReloadQrcodeFragment.setOnClickListener(v -> {
             loadQRCode();
+        });
+        binding.rlMainQrcodeFragment.setOnClickListener(v -> {
+            presenter.checkDisease();
         });
     }
 
@@ -121,5 +126,20 @@ public class QRCodeFragment extends AbstractFragment<AbstractPresenter, Fragment
 
         CustomPicasso.getImageLoader(context).load(Config.BASE_URL + FileApiServer.MQ_QR_CODE.valueOfName())
             .into(binding.ivQrcodeFragment);
+    }
+
+    @Override
+    public void checkDisease(boolean isSuccess, CheckDiseaseResponse.Response response) {
+        if (isSuccess) {
+            App.userModel.setDiseaseEnums(DiseaseEnums.parseEnumsByType(response.getDisease()));
+            App.updateUserModel();
+            if (App.userModel.getIdentityEnums() == IdentityEnums.FAMILY) {
+                App.userModel.setProxy(true);
+                App.updateUserModel();
+                ((MainActivity) context).replaceFragment(new FamilyMainFragment(), false);
+            } else {
+                ((MainActivity) context).replaceFragment(new PatientMainFragment(), false);
+            }
+        }
     }
 }
