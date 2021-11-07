@@ -16,14 +16,18 @@ public class ChartPresenter extends AbstractPresenter<ChartView> {
     public void getChartData(long uid, boolean isFamily) {
         String api = "";
         initMap();
-        switch (App.userModel.getIdentityEnums()){
+        switch (App.userModel.getIdentityEnums()) {
             case DOCTOR:
-                api = DoctorApiServer.GET_PATIENT_TEST_REPORT.valueOfName();
+                if (isFamily) {
+                    api = DoctorApiServer.GET_FAMILY_TEST_REPORT.valueOfName();
+                } else {
+                    api = DoctorApiServer.GET_PATIENT_TEST_REPORT.valueOfName();
+                }
                 break;
             case FAMILY:
-                if(isFamily){
+                if (isFamily) {
                     api = FamilyApiServer.GET_TEST_REPORT.valueOfName();
-                }else{
+                } else {
                     api = PatientApiServer.GET_TEST_REPORT.valueOfName();
                 }
                 break;
@@ -33,9 +37,7 @@ public class ChartPresenter extends AbstractPresenter<ChartView> {
         }
         paramsMap.put("UID", uid);
 
-        addDisposable(
-            apiServer.executePostFormUrlEncode(api, paramsMap,
-                fieldMap, headerMap),
+        addDisposable(apiServer.executePostFormUrlEncode(api, paramsMap, fieldMap, headerMap),
             new AbstractObserver<ChartResponse>(this, baseView, "GetChartData", null, ChartResponse.class, true) {
                 @Override
                 public void onSuccess(ChartResponse response) {

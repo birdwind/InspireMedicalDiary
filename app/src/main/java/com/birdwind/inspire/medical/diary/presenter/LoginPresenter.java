@@ -2,6 +2,7 @@ package com.birdwind.inspire.medical.diary.presenter;
 
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.base.basic.AbstractObserver;
+import com.birdwind.inspire.medical.diary.base.network.response.AbstractResponse;
 import com.birdwind.inspire.medical.diary.enums.DiseaseEnums;
 import com.birdwind.inspire.medical.diary.model.UserModel;
 import com.birdwind.inspire.medical.diary.model.request.LoginRequest;
@@ -23,26 +24,30 @@ public class LoginPresenter extends AbstractPresenter<LoginView> {
             new AbstractObserver<LoginResponse>(this, baseView, "Login", null, LoginResponse.class, true) {
                 @Override
                 public void onSuccess(LoginResponse response) {
-                    if (response.getMessage() == null) {
-                        UserModel userModel = new UserModel();
-                        userModel.setToken(response.getJsonData().getLoginKey());
-                        userModel.setUid(response.getJsonData().getUID());
-                        userModel.setName(response.getJsonData().getName());
-                        userModel.setPhotoUrl(response.getJsonData().getPhotoUrl());
-                        userModel.setHasFamily(response.getJsonData().isHasFamily());
-                        userModel.setProxy(response.getJsonData().isProxy());
-                        userModel.setDiseaseEnums(DiseaseEnums.parseEnumsByType(response.getJsonData().getDisease()));
-                        App.userModel = userModel;
-                        App.updateUserModel();
-                        baseView.onLoginSuccess();
-                    } else {
-                        switch (response.getMessage()) {
-                            case "帳號為空":
-                            case "密碼錯誤":
-                                baseView.onLoginNeedVerify();
-                                break;
-                        }
+                    UserModel userModel = new UserModel();
+                    userModel.setToken(response.getJsonData().getLoginKey());
+                    userModel.setUid(response.getJsonData().getUID());
+                    userModel.setName(response.getJsonData().getName());
+                    userModel.setPhotoUrl(response.getJsonData().getPhotoUrl());
+                    userModel.setHasFamily(response.getJsonData().isHasFamily());
+                    userModel.setProxy(response.getJsonData().isProxy());
+                    userModel.setDiseaseEnums(DiseaseEnums.parseEnumsByType(response.getJsonData().getDisease()));
+                    userModel.setNeedPatineName(response.getJsonData().isNeedSetPatientName());
+                    App.userModel = userModel;
+                    App.updateUserModel();
+                    baseView.onLoginSuccess();
+                }
+
+                @Override
+                public boolean onErrorHandler(String title, String code, String msg, boolean isDialog,
+                    LoginResponse response) {
+                    switch (response.getMessage()) {
+                        case "帳號為空":
+                        case "密碼錯誤":
+                            baseView.onLoginNeedVerify();
+                            return true;
                     }
+                    return false;
                 }
             });
     }

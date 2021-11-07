@@ -21,6 +21,8 @@ public class CheckDiseaseResponse extends AbstractResponse<CheckDiseaseResponse.
 
         private boolean HasUnreadReport;
 
+        private boolean NeedSetPatientName;
+
         private String PhotoUrl;
 
         public int getPID() {
@@ -85,6 +87,14 @@ public class CheckDiseaseResponse extends AbstractResponse<CheckDiseaseResponse.
 
         public void setHasUnreadReport(boolean hasUnreadReport) {
             HasUnreadReport = hasUnreadReport;
+        }
+
+        public boolean isNeedSetPatientName() {
+            return NeedSetPatientName;
+        }
+
+        public void setNeedSetPatientName(boolean needSetPatientName) {
+            NeedSetPatientName = needSetPatientName;
         }
 
         public String getPhotoUrl() {

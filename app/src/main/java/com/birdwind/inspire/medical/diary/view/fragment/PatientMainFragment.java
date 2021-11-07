@@ -19,6 +19,8 @@ public class PatientMainFragment extends AbstractFragment<AbstractPresenter, Fra
 
     private String activityAction;
 
+    private PatientDashboardFragment patientDashboardFragment;
+
     private FragNavController mNavController;
 
     private FragNavTransactionOptions popFragNavTransactionOptions;
@@ -78,7 +80,8 @@ public class PatientMainFragment extends AbstractFragment<AbstractPresenter, Fra
 
     @Override
     public Fragment getRootFragment(int index) {
-        return new PatientDashboardFragment();
+        patientDashboardFragment = new PatientDashboardFragment();
+        return patientDashboardFragment;
     }
 
     @Override
@@ -109,6 +112,12 @@ public class PatientMainFragment extends AbstractFragment<AbstractPresenter, Fra
             return false;
         }
         return true;
+    }
+
+    public void popFragmentToRoot(int patientDashboardTabIndex){
+        mNavController.clearStack();
+        patientDashboardFragment.switchTab(patientDashboardTabIndex);
+        binding.llMenuPatientMainFragment.setVisibility(View.VISIBLE);
     }
 
     private void openQuizFragment() {

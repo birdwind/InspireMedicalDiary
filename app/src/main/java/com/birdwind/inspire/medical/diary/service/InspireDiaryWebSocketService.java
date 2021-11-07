@@ -1,5 +1,7 @@
 package com.birdwind.inspire.medical.diary.service;
 
+import static com.microsoft.signalr.HubConnectionState.CONNECTED;
+import static com.microsoft.signalr.HubConnectionState.CONNECTING;
 import static com.microsoft.signalr.HubConnectionState.DISCONNECTED;
 
 import android.app.Service;
@@ -52,6 +54,7 @@ public class InspireDiaryWebSocketService extends Service {
             if (hubConnection.getConnectionState() != DISCONNECTED) {
                 hubConnection.stop();
             }
+            hubConnection = null;
         }
         super.onDestroy();
     }
@@ -101,13 +104,17 @@ public class InspireDiaryWebSocketService extends Service {
                     Intent intent = new Intent(BroadcastReceiverAction.PAINTER_HAVE_DOCTOR);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("painterDiseaseModel", painterDiseaseModel);
+
                     intent.putExtras(bundle);
                     sendBroadcast(intent);
 
                 }, String.class);
 
                 hubConnection.onClosed(exception -> {
-                    LogUtils.e(exception.getMessage());
+                    if (exception != null) {
+                        LogUtils.e(exception.getMessage());
+                        LogUtils.exception(exception);
+                    }
                     reLink();
                 });
 
@@ -115,16 +122,26 @@ public class InspireDiaryWebSocketService extends Service {
                     hubConnection.start().blockingAwait();
                 } catch (Exception e) {
                     LogUtils.e(e.getMessage());
+                    reLink();
                 }
             }
         }
     }
 
     private void reLink() {
-        if (hubConnection != null && hubConnection.getConnectionState() == DISCONNECTED) {
-            hubConnection.start();
-        } else {
-            reLink();
+        if (hubConnection != null) {
+            if (hubConnection.getConnectionState() == DISCONNECTED) {
+                while (hubConnection.getConnectionState() == DISCONNECTED) {
+                    if (hubConnection.getConnectionState() == CONNECTING) {
+                        continue;
+                    }
+                    try {
+                        hubConnection.start().blockingAwait();
+                    } catch (Exception e) {
+                        LogUtils.e(e.getMessage());
+                    }
+                }
+            }
         }
     }
 

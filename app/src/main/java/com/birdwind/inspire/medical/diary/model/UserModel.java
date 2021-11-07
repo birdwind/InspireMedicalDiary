@@ -29,6 +29,8 @@ public class UserModel implements BaseModel {
 
     private DiseaseEnums diseaseEnums;
 
+    private boolean isNeedPatineName;
+
     public int getUid() {
         return uid;
     }
@@ -123,5 +125,13 @@ public class UserModel implements BaseModel {
             default:
                 return R.color.colorOrange_DC7400;
         }
+    }
+
+    public boolean isNeedPatineName() {
+        return isNeedPatineName;
+    }
+
+    public void setNeedPatineName(boolean needPatineName) {
+        isNeedPatineName = needPatineName;
     }
 }

@@ -27,6 +27,8 @@ public class ChatMemberResponse extends AbstractListResponse<ChatMemberResponse.
 
         private String PhotoUrl;
 
+        private boolean HasUnreadReport;
+
         public int getPID() {
             return PID;
         }
@@ -73,6 +75,14 @@ public class ChatMemberResponse extends AbstractListResponse<ChatMemberResponse.
 
         public void setPhotoUrl(String photoUrl) {
             PhotoUrl = photoUrl;
+        }
+
+        public boolean isHasUnreadReport() {
+            return HasUnreadReport;
+        }
+
+        public void setHasUnreadReport(boolean hasUnreadReport) {
+            HasUnreadReport = hasUnreadReport;
         }
 
         @Override

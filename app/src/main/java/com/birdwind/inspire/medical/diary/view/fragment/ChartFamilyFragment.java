@@ -38,6 +38,8 @@ public class ChartFamilyFragment extends AbstractFragment<ChartPresenter, Fragme
 
     private long uid;
 
+    private String name;
+
     private XAxis chart_xAxis;
 
     private YAxis chart_yAxis;
@@ -70,8 +72,10 @@ public class ChartFamilyFragment extends AbstractFragment<ChartPresenter, Fragme
         Bundle bundle = getArguments();
         if (bundle != null) {
             uid = bundle.getLong("UID", App.userModel.getUid());
+            name = bundle.getString("name", null);
         } else {
             uid = App.userModel.getUid();
+            name = null;
         }
     }
 
@@ -216,5 +220,10 @@ public class ChartFamilyFragment extends AbstractFragment<ChartPresenter, Fragme
     @Override
     public boolean isShowTopBar() {
         return App.userModel.getIdentityEnums() == IdentityEnums.DOCTOR;
+    }
+
+    @Override
+    public String setTopBarTitle() {
+        return name;
     }
 }

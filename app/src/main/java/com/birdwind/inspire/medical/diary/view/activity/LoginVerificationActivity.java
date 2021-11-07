@@ -17,6 +17,8 @@ import com.birdwind.inspire.medical.diary.databinding.ActivityLoginVerificationB
 import com.birdwind.inspire.medical.diary.enums.IdentityEnums;
 import com.birdwind.inspire.medical.diary.presenter.LoginVerificationPresenter;
 import com.birdwind.inspire.medical.diary.utils.CountDownUtils;
+import com.birdwind.inspire.medical.diary.view.dialog.PatineNameDialog;
+import com.birdwind.inspire.medical.diary.view.dialog.callback.PatineNameDialogListener;
 import com.birdwind.inspire.medical.diary.view.viewCallback.LoginVerificationView;
 import com.leaf.library.StatusBarUtil;
 
@@ -89,7 +91,6 @@ public class LoginVerificationActivity
     public void initView() {
         StatusBarUtil.setDarkMode(this);
         binding.etNameLoginVerificationActivity.setText(name);
-
     }
 
     @Override
@@ -123,8 +124,8 @@ public class LoginVerificationActivity
     @Override
     public void onVerify(boolean isSuccess) {
         App.userModel.setIdentityEnums(identityEnums);
-        App.updateUserModel();
         startActivityWithFinish(MainActivity.class);
+        App.updateUserModel();
     }
 
     private void initVerifyButtonBackground() {

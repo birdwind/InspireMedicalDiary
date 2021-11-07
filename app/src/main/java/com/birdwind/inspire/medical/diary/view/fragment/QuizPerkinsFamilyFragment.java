@@ -1,5 +1,6 @@
 package com.birdwind.inspire.medical.diary.view.fragment;
 
+import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
 import com.birdwind.inspire.medical.diary.databinding.FragmentQuizPerkinsFamilyBinding;
@@ -55,7 +56,7 @@ public class QuizPerkinsFamilyFragment extends AbstractFragment<QuizContentPrese
 
     @Override
     public void clickTopBarRightTextButton(View view) {
-        presenter.submit(QuizUtils.parseAnswerList(binding.comQuizQuizPerkinsFamilyFragment.getRoot()), false);
+        presenter.submit(QuizUtils.parseAnswerList(binding.comQuizQuizPerkinsFamilyFragment.getRoot()), true);
 
     }
 
@@ -65,7 +66,11 @@ public class QuizPerkinsFamilyFragment extends AbstractFragment<QuizContentPrese
     @Override
     public void submitSuccess(boolean isSuccess, String msg) {
         if (isSuccess) {
-            ((MainActivity) context).onBackPressed();
+            if(App.userModel.isProxy()){
+                ((FamilyMainFragment) getParentFragment()).popFragmentToRoot(PatientDashboardFragment.TAB_3);
+            }else{
+                ((FamilyMainFragment) getParentFragment()).popFragmentToRoot(PatientDashboardFragment.TAB_2);
+            }
         } else {
             showDialog(getString(R.string.common_dialog_title), msg, null);
         }

@@ -1,5 +1,20 @@
 package com.birdwind.inspire.medical.diary.view.fragment;
 
+import android.os.Bundle;
+import android.os.Handler;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.animation.SlideHeightAnimation;
@@ -18,23 +33,18 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.google.android.material.tabs.TabLayoutMediator;
-import java.util.HashMap;
+
+import java.util.LinkedHashMap;
 import java.util.Map;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class PatientDashboardFragment extends AbstractFragment<PatientDashboardPresent, FragmentPatientBinding>
     implements PatientDashboardView, OnItemClickListener {
+
+    public static int TAB_1 = 0;
+
+    public static int TAB_2 = 1;
+
+    public static int TAB_3 = 2;
 
     private long uid;
 
@@ -110,7 +120,8 @@ public class PatientDashboardFragment extends AbstractFragment<PatientDashboardP
         chartFamilyFragment.setArguments(patientBundle);
         recordOrderFragment.setArguments(patientBundle);
 
-        fragmentMap = new HashMap<>();
+        fragmentMap = new LinkedHashMap<>();
+        fragmentMap.put(getString(R.string.doctor_main_tab_message), chatFragment);
         if (App.userModel.getIdentityEnums() == IdentityEnums.FAMILY) {
             if (App.userModel.isProxy()) {
                 if (diseaseEnums == DiseaseEnums.ALZHEIMER) {
@@ -120,7 +131,7 @@ public class PatientDashboardFragment extends AbstractFragment<PatientDashboardP
                 }
                 fragmentMap.put(getString(R.string.doctor_main_tab_chart_family), chartFamilyFragment);
             } else {
-                fragmentMap.put(getString(R.string.doctor_main_tab_chart_patient), chartFamilyFragment);
+                fragmentMap.put(getString(R.string.doctor_main_tab_chart), chartFamilyFragment);
             }
         } else {
             if (diseaseEnums == DiseaseEnums.ALZHEIMER) {
@@ -129,7 +140,6 @@ public class PatientDashboardFragment extends AbstractFragment<PatientDashboardP
                 fragmentMap.put(getString(R.string.doctor_main_tab_chart), chartPatientFragment);
             }
         }
-        fragmentMap.put(getString(R.string.doctor_main_tab_message), chatFragment);
 
         viewPage2Adapter = new ViewPage2Adapter(this, fragmentMap);
         chatMemberService = new ChatMemberService(context);
@@ -184,6 +194,11 @@ public class PatientDashboardFragment extends AbstractFragment<PatientDashboardP
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
     public void onGetChatMember(boolean isSuccess) {
         if (isSuccess) {
             groupMemberAdapter.setList(chatMemberService.getChatMemberByPID(uid));
@@ -222,9 +237,8 @@ public class PatientDashboardFragment extends AbstractFragment<PatientDashboardP
         ChatMemberResponse.Response chatMemberResponse = (ChatMemberResponse.Response) adapter.getItem(position);
         Bundle bundle = new Bundle();
         bundle.putLong("UID", chatMemberResponse.getUID());
-        // bundle.putString("name", chatMemberResponse.getUserName());
-        // bundle.putString("avatar", chatMemberResponse.getPhotoUrl());
-        ChartPatientFragment chartFragment = new ChartPatientFragment();
+        bundle.putString("name", chatMemberResponse.getUserName());
+        ChartFamilyFragment chartFragment = new ChartFamilyFragment();
         chartFragment.setArguments(bundle);
         pushFragment(chartFragment);
     }
@@ -232,5 +246,12 @@ public class PatientDashboardFragment extends AbstractFragment<PatientDashboardP
     @Override
     public boolean isShowTopBar() {
         return App.userModel.getIdentityEnums() == IdentityEnums.DOCTOR;
+    }
+
+    public void switchTab(int patientDashboardTabIndex) {
+        if (binding.tlPatientFragment.getTabCount() > patientDashboardTabIndex) {
+            new Handler().postDelayed(() -> binding.vpPatientFragment.setCurrentItem(patientDashboardTabIndex, true),
+                100);
+        }
     }
 }

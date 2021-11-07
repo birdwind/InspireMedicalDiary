@@ -1,12 +1,12 @@
 package com.birdwind.inspire.medical.diary.model.response;
 
-import com.birdwind.inspire.medical.diary.base.model.BaseModel;
-import com.birdwind.inspire.medical.diary.base.network.response.AbstractListResponse;
-import com.birdwind.inspire.medical.diary.base.network.response.BaseResponse;
-import com.birdwind.inspire.medical.diary.enums.DiseaseEnums;
 import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+
+import com.birdwind.inspire.medical.diary.base.model.BaseModel;
+import com.birdwind.inspire.medical.diary.base.network.response.AbstractListResponse;
+import com.birdwind.inspire.medical.diary.base.network.response.BaseResponse;
 
 public class PatientResponse extends AbstractListResponse<PatientResponse.Response> {
 
@@ -29,6 +29,10 @@ public class PatientResponse extends AbstractListResponse<PatientResponse.Respon
         private boolean HasUnreadMessage;
 
         private boolean HasUnreadReport;
+
+        private boolean HasSelfUnreadMessage;
+
+        private boolean HasSelfUnreadReport;
 
         private String PhotoUrl;
 
@@ -72,20 +76,13 @@ public class PatientResponse extends AbstractListResponse<PatientResponse.Respon
             Phone = phone;
         }
 
+        @Nullable
         public String getIDCard() {
             return IDCard;
         }
 
-        public void setIDCard(String IDCard) {
+        public void setIDCard(@Nullable String IDCard) {
             this.IDCard = IDCard;
-        }
-
-        public String getPhotoUrl() {
-            return PhotoUrl;
-        }
-
-        public void setPhotoUrl(String photoUrl) {
-            PhotoUrl = photoUrl;
         }
 
         public boolean isHasUnreadMessage() {
@@ -104,8 +101,28 @@ public class PatientResponse extends AbstractListResponse<PatientResponse.Respon
             HasUnreadReport = hasUnreadReport;
         }
 
-        public DiseaseEnums getDiseaseEnum(){
-            return DiseaseEnums.parseEnumsByType(this.Disease);
+        public boolean isHasSelfUnreadMessage() {
+            return HasSelfUnreadMessage;
+        }
+
+        public void setHasSelfUnreadMessage(boolean hasSelfUnreadMessage) {
+            HasSelfUnreadMessage = hasSelfUnreadMessage;
+        }
+
+        public boolean isHasSelfUnreadReport() {
+            return HasSelfUnreadReport;
+        }
+
+        public void setHasSelfUnreadReport(boolean hasSelfUnreadReport) {
+            HasSelfUnreadReport = hasSelfUnreadReport;
+        }
+
+        public String getPhotoUrl() {
+            return PhotoUrl;
+        }
+
+        public void setPhotoUrl(String photoUrl) {
+            PhotoUrl = photoUrl;
         }
     }
 }

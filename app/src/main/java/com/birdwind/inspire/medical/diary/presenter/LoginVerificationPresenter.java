@@ -64,6 +64,7 @@ public class LoginVerificationPresenter extends AbstractPresenter<LoginVerificat
                     userModel.setHasFamily(response.getJsonData().isHasFamily());
                     userModel.setProxy(response.getJsonData().isProxy());
                     userModel.setDiseaseEnums(DiseaseEnums.parseEnumsByType(response.getJsonData().getDisease()));
+                    userModel.setNeedPatineName(response.getJsonData().isNeedSetPatientName());
                     App.userModel = userModel;
                     App.updateUserModel();
                     baseView.onVerify(true);
@@ -73,6 +74,17 @@ public class LoginVerificationPresenter extends AbstractPresenter<LoginVerificat
                 public boolean onErrorHandler(String title, String code, String msg, boolean isDialog,
                     LoginResponse response) {
                     if (msg.equals("已驗證")) {
+                        UserModel userModel = new UserModel();
+                        userModel.setToken(response.getJsonData().getLoginKey());
+                        userModel.setUid(response.getJsonData().getUID());
+                        userModel.setName(response.getJsonData().getName());
+                        userModel.setPhotoUrl(response.getJsonData().getPhotoUrl());
+                        userModel.setHasFamily(response.getJsonData().isHasFamily());
+                        userModel.setProxy(response.getJsonData().isProxy());
+                        userModel.setDiseaseEnums(DiseaseEnums.parseEnumsByType(response.getJsonData().getDisease()));
+                        userModel.setNeedPatineName(response.getJsonData().isNeedSetPatientName());
+                        App.userModel = userModel;
+                        App.updateUserModel();
                         baseView.onVerify(false);
                     }
                     return false;

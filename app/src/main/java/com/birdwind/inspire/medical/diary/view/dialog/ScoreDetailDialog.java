@@ -95,7 +95,6 @@ public class ScoreDetailDialog
     @Override
     public void onGetDetailSuccess(ScoreDetailResponse.Response response) {
         if (App.userModel.getIdentityEnums() == IdentityEnums.FAMILY) {
-            initQuestionView();
             if (isFamily) {
                 switch (diseaseEnums) {
                     case ALZHEIMER:
@@ -245,7 +244,7 @@ public class ScoreDetailDialog
     }
 
     private void parseToPerkinsPatientQuiz(ScoreDetailResponse.Response response) {
-        LinearLayout quizLinearLayout = binding.compPerkinsFamilyScoreDetailDialog.getRoot();
+        LinearLayout quizLinearLayout = binding.compPerkinsPatientScoreDetailDialog.getRoot();
         for (int i = 0; i < quizLinearLayout.getChildCount(); i++) {
             View quizView = quizLinearLayout.getChildAt(i);
             if (quizView instanceof LinearLayout) {
@@ -254,7 +253,7 @@ public class ScoreDetailDialog
                     View answerView = questionLinearLayout.getChildAt(j);
                     if (answerView instanceof IndicatorSeekBar) {
                         IndicatorSeekBar answerIndicatorSeekBar = (IndicatorSeekBar) answerView;
-                        answerIndicatorSeekBar.setProgress(response.getScore());
+                        answerIndicatorSeekBar.setProgress(response.getItems().get(i).getScore());
                         answerIndicatorSeekBar.setEnabled(false);
                     }
                 }
@@ -272,7 +271,7 @@ public class ScoreDetailDialog
                     View answerView = questionLinearLayout.getChildAt(j);
                     if (answerView instanceof IndicatorSeekBar) {
                         IndicatorSeekBar answerIndicatorSeekBar = (IndicatorSeekBar) answerView;
-                        answerIndicatorSeekBar.setProgress(response.getScore());
+                        answerIndicatorSeekBar.setProgress(response.getItems().get(i).getScore());
                         answerIndicatorSeekBar.setEnabled(false);
                     }
                 }

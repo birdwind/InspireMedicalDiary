@@ -160,7 +160,7 @@ public class QuizHeadacheFragment extends AbstractFragment<QuizContentPresenter,
     @Override
     public void submitSuccess(boolean isSuccess, String msg) {
         if (isSuccess) {
-            ((MainActivity) context).onBackPressed();
+            ((PatientMainFragment) getParentFragment()).popFragmentToRoot(PatientDashboardFragment.TAB_2);
         } else {
             showDialog(getString(R.string.common_dialog_title), msg, null);
         }

@@ -3,6 +3,7 @@ package com.birdwind.inspire.medical.diary.view.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -176,12 +177,13 @@ public class ChatFragment extends AbstractFragment<ChatPresenter, FragmentChatBi
 
     private void sendMessage(boolean isSchedule) {
         String message = binding.etMessageChatFragment.getText().toString();
-        if (!message.isEmpty() && !isSchedule) {
-            binding.etMessageChatFragment.setText("");
-            presenter.sendChatMessage(uid, message);
-        }else{
+
+        if (isSchedule) {
             presenter.sendScheduleMessage(uid, message);
+        } else if (!TextUtils.isEmpty(message)) {
+            presenter.sendChatMessage(uid, message);
         }
+        binding.etMessageChatFragment.setText("");
     }
 
     @Override

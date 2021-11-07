@@ -1,5 +1,12 @@
 package com.birdwind.inspire.medical.diary.view.fragment;
 
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
+
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.base.utils.fragmentNavUtils.FragNavController;
@@ -8,15 +15,14 @@ import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
 import com.birdwind.inspire.medical.diary.databinding.FragmentFamilyMainBinding;
 import com.birdwind.inspire.medical.diary.enums.DiseaseEnums;
 import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
+import com.birdwind.inspire.medical.diary.view.activity.MainActivity;
+
 import java.util.Stack;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import androidx.fragment.app.Fragment;
 
 public class FamilyMainFragment extends AbstractFragment<AbstractPresenter, FragmentFamilyMainBinding>
     implements FragNavController.RootFragmentListener, FragNavController.TransactionListener {
+
+    private PatientDashboardFragment patientDashboardFragment;
 
     private static FragNavController mNavController;
 
@@ -73,7 +79,8 @@ public class FamilyMainFragment extends AbstractFragment<AbstractPresenter, Frag
 
     @Override
     public Fragment getRootFragment(int index) {
-        return new PatientDashboardFragment();
+        patientDashboardFragment = new PatientDashboardFragment();
+        return patientDashboardFragment;
     }
 
     @Override
@@ -106,12 +113,26 @@ public class FamilyMainFragment extends AbstractFragment<AbstractPresenter, Frag
         return true;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (App.userModel.isNeedPatineName()) {
+            ((MainActivity) context).showPatientNameDialog();
+        }
+    }
+
     public static void replaceFragment(Fragment fragment, boolean isBack) {
         if (isBack) {
             mNavController.replaceFragment(fragment, popFragNavTransactionOptions);
         } else {
             mNavController.replaceFragment(fragment);
         }
+    }
+
+    public void popFragmentToRoot(int patientDashboardTabIndex) {
+        mNavController.clearStack();
+        patientDashboardFragment.switchTab(patientDashboardTabIndex);
+        binding.llMenuFamilyMainFragment.setVisibility(View.VISIBLE);
     }
 
     private void openQuizFragment() {

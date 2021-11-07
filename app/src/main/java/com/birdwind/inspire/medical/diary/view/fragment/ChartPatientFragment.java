@@ -1,5 +1,13 @@
 package com.birdwind.inspire.medical.diary.view.fragment;
 
+import android.graphics.Color;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.base.utils.DateTimeFormatUtils;
@@ -23,20 +31,17 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import android.graphics.Color;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 
 public class ChartPatientFragment extends AbstractFragment<ChartPresenter, FragmentChartBinding>
     implements OnChartValueSelectedListener, ChartView {
 
     private long uid;
+
+    private String name;
 
     private XAxis chart_xAxis;
 
@@ -70,8 +75,10 @@ public class ChartPatientFragment extends AbstractFragment<ChartPresenter, Fragm
         Bundle bundle = getArguments();
         if (bundle != null) {
             uid = bundle.getLong("UID", App.userModel.getUid());
+            name = bundle.getString("name", null);
         } else {
             uid = App.userModel.getUid();
+            name = null;
         }
     }
 
@@ -216,5 +223,10 @@ public class ChartPatientFragment extends AbstractFragment<ChartPresenter, Fragm
     @Override
     public boolean isShowTopBar() {
         return App.userModel.getIdentityEnums() == IdentityEnums.DOCTOR;
+    }
+
+    @Override
+    public String setTopBarTitle() {
+        return name;
     }
 }

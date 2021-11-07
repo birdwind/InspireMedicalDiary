@@ -12,6 +12,7 @@ import androidx.appcompat.content.res.AppCompatResources;
 
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
+import com.birdwind.inspire.medical.diary.base.utils.ValidatorUtils;
 import com.birdwind.inspire.medical.diary.base.view.AbstractActivity;
 import com.birdwind.inspire.medical.diary.databinding.ActivityLoginBinding;
 import com.birdwind.inspire.medical.diary.enums.IdentityEnums;
@@ -88,8 +89,8 @@ public class LoginActivity extends AbstractActivity<LoginPresenter, ActivityLogi
     @Override
     public void onLoginSuccess() {
         App.userModel.setIdentityEnums(identityEnums);
-        App.updateUserModel();
         startActivityWithFinish(MainActivity.class);
+        App.updateUserModel();
     }
 
     @Override
@@ -103,9 +104,11 @@ public class LoginActivity extends AbstractActivity<LoginPresenter, ActivityLogi
 
     private void login() {
         phone = binding.etPhoneLoginActivity.getText().toString();
-        if (TextUtils.isEmpty(phone)) {
+        if (TextUtils.isEmpty(phone) || !ValidatorUtils.isPhone(phone, "TW")) {
             showToast("請輸入正確的手機");
             return;
+        } else {
+            phone = ValidatorUtils.formatPhoneNational(phone, "TW");
         }
         LoginRequest loginRequest = new LoginRequest(phone, identityEnums);
         presenter.login(loginRequest);

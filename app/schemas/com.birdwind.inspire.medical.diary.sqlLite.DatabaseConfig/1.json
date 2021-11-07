@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "e42d33daffe582b0d4761159e6295767",
+    "identityHash": "b92025d4d0166e1080728bd513e76b55",
     "entities": [
       {
         "tableName": "friend",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`PID` INTEGER NOT NULL, `Doctor` INTEGER NOT NULL, `Disease` INTEGER NOT NULL, `Name` TEXT, `Phone` TEXT, `IDCard` TEXT, `HasUnreadMessage` INTEGER NOT NULL, `HasUnreadReport` INTEGER NOT NULL, `PhotoUrl` TEXT, PRIMARY KEY(`PID`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`PID` INTEGER NOT NULL, `Doctor` INTEGER NOT NULL, `Disease` INTEGER NOT NULL, `Name` TEXT, `Phone` TEXT, `IDCard` TEXT, `HasUnreadMessage` INTEGER NOT NULL, `HasUnreadReport` INTEGER NOT NULL, `HasSelfUnreadMessage` INTEGER NOT NULL, `HasSelfUnreadReport` INTEGER NOT NULL, `PhotoUrl` TEXT, PRIMARY KEY(`PID`))",
         "fields": [
           {
             "fieldPath": "PID",
@@ -53,6 +53,18 @@
           {
             "fieldPath": "HasUnreadReport",
             "columnName": "HasUnreadReport",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "HasSelfUnreadMessage",
+            "columnName": "HasSelfUnreadMessage",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "HasSelfUnreadReport",
+            "columnName": "HasSelfUnreadReport",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -142,7 +154,7 @@
       },
       {
         "tableName": "chat_member",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`PID` INTEGER NOT NULL, `UID` INTEGER NOT NULL, `Role` INTEGER NOT NULL, `RoleName` TEXT, `UserName` TEXT, `PhotoUrl` TEXT, PRIMARY KEY(`UID`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`PID` INTEGER NOT NULL, `UID` INTEGER NOT NULL, `Role` INTEGER NOT NULL, `RoleName` TEXT, `UserName` TEXT, `PhotoUrl` TEXT, `HasUnreadReport` INTEGER NOT NULL, PRIMARY KEY(`UID`))",
         "fields": [
           {
             "fieldPath": "PID",
@@ -179,6 +191,12 @@
             "columnName": "PhotoUrl",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "HasUnreadReport",
+            "columnName": "HasUnreadReport",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -194,7 +212,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e42d33daffe582b0d4761159e6295767')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b92025d4d0166e1080728bd513e76b55')"
     ]
   }
 }

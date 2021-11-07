@@ -7,6 +7,8 @@ public class PainterDiseaseModel implements Serializable {
 
     private int Disease;
 
+    private boolean NeedSetPatientName;
+
     public int getDisease() {
         return Disease;
     }
@@ -21,5 +23,13 @@ public class PainterDiseaseModel implements Serializable {
 
     public void setDoctor(int doctor) {
         Doctor = doctor;
+    }
+
+    public boolean isNeedSetPatientName() {
+        return NeedSetPatientName;
+    }
+
+    public void setNeedSetPatientName(boolean needSetPatientName) {
+        NeedSetPatientName = needSetPatientName;
     }
 }

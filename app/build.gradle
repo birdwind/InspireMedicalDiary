@@ -280,12 +280,18 @@ dependencies {
     /**
      * VoiceRecorder
      */
-    implementation 'com.github.AsynctaskCoffee:VoiceRecorder:beta-0.5'
+    implementation "com.github.AsynctaskCoffee:VoiceRecorder:beta-0.5"
 
     /**
      * Seekbar
      */
-    implementation 'com.github.warkiz.widget:indicatorseekbar:2.1.2'
+    implementation "com.github.warkiz.widget:indicatorseekbar:2.1.2"
+
+
+    /**
+     *  PhoneNumber
+     */
+    implementation "com.googlecode.libphonenumber:libphonenumber:${libs.phoneNumber}"
 
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'

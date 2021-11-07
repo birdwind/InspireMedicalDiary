@@ -16,6 +16,8 @@ public class LoginResponse extends AbstractResponse<LoginResponse.Response> {
 
         private boolean HasFamily;
 
+        private boolean NeedSetPatientName;
+
         private int Disease;
 
         private String PhotoUrl;
@@ -62,6 +64,14 @@ public class LoginResponse extends AbstractResponse<LoginResponse.Response> {
 
         public void setHasFamily(boolean hasFamily) {
             HasFamily = hasFamily;
+        }
+
+        public boolean isNeedSetPatientName() {
+            return NeedSetPatientName;
+        }
+
+        public void setNeedSetPatientName(boolean needSetPatientName) {
+            NeedSetPatientName = needSetPatientName;
         }
 
         public int getDisease() {

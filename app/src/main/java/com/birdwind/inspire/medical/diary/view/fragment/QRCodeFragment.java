@@ -1,5 +1,10 @@
 package com.birdwind.inspire.medical.diary.view.fragment;
 
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.base.Config;
@@ -15,10 +20,6 @@ import com.birdwind.inspire.medical.diary.view.activity.MainActivity;
 import com.birdwind.inspire.medical.diary.view.dialog.callback.CommonDialogListener;
 import com.birdwind.inspire.medical.diary.view.viewCallback.QRCodeView;
 import com.birdwind.inspire.medical.diary.view.viewCallback.ToolbarCallback;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 public class QRCodeFragment extends AbstractFragment<QRCordPresenter, FragmentQrcodeBinding>
     implements QRCodeView, ToolbarCallback {
@@ -132,6 +133,7 @@ public class QRCodeFragment extends AbstractFragment<QRCordPresenter, FragmentQr
     public void checkDisease(boolean isSuccess, CheckDiseaseResponse.Response response) {
         if (isSuccess) {
             App.userModel.setDiseaseEnums(DiseaseEnums.parseEnumsByType(response.getDisease()));
+            App.userModel.setNeedPatineName(response.isNeedSetPatientName());
             App.updateUserModel();
             if (App.userModel.getIdentityEnums() == IdentityEnums.FAMILY) {
                 App.userModel.setProxy(true);

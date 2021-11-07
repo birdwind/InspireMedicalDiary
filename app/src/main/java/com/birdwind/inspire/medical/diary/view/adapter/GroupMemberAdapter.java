@@ -21,5 +21,7 @@ public class GroupMemberAdapter extends BaseQuickAdapter<ChatMemberResponse.Resp
         baseViewHolder.setText(R.id.tv_name_chat_member_item, response.getUserName());
         Glide.with(getContext()).load(response.getPhotoUrl())
             .placeholder(ContextCompat.getDrawable(getContext(), R.drawable.ic_avatar)).into(civAvatar);
+
+        baseViewHolder.setGone(R.id.iv_report_chat_member_item, !response.isHasUnreadReport());
     }
 }

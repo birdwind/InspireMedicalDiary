@@ -1,5 +1,16 @@
 package com.birdwind.inspire.medical.diary.view.fragment;
 
+import android.Manifest;
+import android.content.Context;
+import android.graphics.PorterDuff;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+
 import com.asynctaskcoffee.audiorecorder.worker.AudioRecordListener;
 import com.asynctaskcoffee.audiorecorder.worker.MediaPlayListener;
 import com.asynctaskcoffee.audiorecorder.worker.Player;
@@ -13,20 +24,14 @@ import com.birdwind.inspire.medical.diary.base.utils.ToastUtils;
 import com.birdwind.inspire.medical.diary.base.view.AbstractActivity;
 import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
 import com.birdwind.inspire.medical.diary.databinding.FragmentRecordBinding;
+import com.birdwind.inspire.medical.diary.enums.IdentityEnums;
 import com.birdwind.inspire.medical.diary.model.response.VoiceQuizResponse;
 import com.birdwind.inspire.medical.diary.presenter.RecordPresenter;
 import com.birdwind.inspire.medical.diary.view.viewCallback.RecordView;
 import com.birdwind.inspire.medical.diary.view.viewCallback.ToolbarCallback;
 import com.tbruyelle.rxpermissions3.Permission;
+
 import java.io.File;
-import android.Manifest;
-import android.content.Context;
-import android.graphics.PorterDuff;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 
 public class RecordFragment extends AbstractFragment<RecordPresenter, FragmentRecordBinding>
     implements RecordView, AbstractActivity.PermissionRequestListener, ToolbarCallback, AudioRecordListener,
@@ -57,17 +62,27 @@ public class RecordFragment extends AbstractFragment<RecordPresenter, FragmentRe
         binding.ibRecordRecordFragment.setOnClickListener(v -> {
             if (!isRecording) {
                 startRecord();
-            } else {
+            }
+        });
+
+        binding.ibStopRecordRecordFragment.setOnClickListener(v -> {
+            if (isRecording) {
                 stopRecord();
             }
         });
 
         binding.ibPlayRecordFragment.setOnClickListener(v -> {
             if (player != null && player.getPlayer() != null) {
+                if (player.getPlayer() != null) {
+                    player.startPlaying();
+                }
+            }
+        });
+
+        binding.ibStopPlayRecordFragment.setOnClickListener(v -> {
+            if (player != null && player.getPlayer() != null) {
                 if (player.getPlayer().isPlaying()) {
                     player.stopPlaying();
-                } else {
-                    player.startPlaying();
                 }
             }
         });
@@ -101,8 +116,8 @@ public class RecordFragment extends AbstractFragment<RecordPresenter, FragmentRe
         recorder = new Recorder(this, context);
         recorder.setFileName("/" + App.userModel.getUid() + "_" + System.nanoTime() + ".m4a");
         binding.ibRecordRecordFragment.post(() -> {
-            binding.ibRecordRecordFragment.setColorFilter(ContextCompat.getColor(context, R.color.colorRed_E74245),
-                PorterDuff.Mode.SRC_IN);
+            binding.ibRecordRecordFragment.setVisibility(View.GONE);
+            binding.ibStopRecordRecordFragment.setVisibility(View.VISIBLE);
         });
         recorder.startRecord();
         isRecording = true;
@@ -112,8 +127,8 @@ public class RecordFragment extends AbstractFragment<RecordPresenter, FragmentRe
         recorder.stopRecording();
 
         binding.ibRecordRecordFragment.post(() -> {
-            binding.ibRecordRecordFragment.setColorFilter(ContextCompat.getColor(context, R.color.colorBlack_000000),
-                PorterDuff.Mode.SRC_IN);
+            binding.ibRecordRecordFragment.setVisibility(View.VISIBLE);
+            binding.ibStopRecordRecordFragment.setVisibility(View.GONE);
         });
         isRecording = false;
     }
@@ -159,14 +174,14 @@ public class RecordFragment extends AbstractFragment<RecordPresenter, FragmentRe
 
     @Override
     public void onStartMedia() {
-        binding.ibPlayRecordFragment.setColorFilter(ContextCompat.getColor(context, R.color.colorRed_E74245),
-            PorterDuff.Mode.SRC_IN);
+        binding.ibPlayRecordFragment.setVisibility(View.GONE);
+        binding.ibStopPlayRecordFragment.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onStopMedia() {
-        binding.ibPlayRecordFragment.setColorFilter(ContextCompat.getColor(context, R.color.colorBlack_000000),
-            PorterDuff.Mode.SRC_IN);
+        binding.ibPlayRecordFragment.setVisibility(View.VISIBLE);
+        binding.ibStopPlayRecordFragment.setVisibility(View.GONE);
     }
 
     @Override
@@ -180,12 +195,27 @@ public class RecordFragment extends AbstractFragment<RecordPresenter, FragmentRe
     }
 
     @Override
+    public void onUploadRecord(boolean isSuccess) {
+
+        if(getParentFragment() instanceof PatientMainFragment){
+            ((PatientMainFragment) getParentFragment()).popFragmentToRoot(PatientDashboardFragment.TAB_2);
+        }else{
+            ((FamilyMainFragment) getParentFragment()).popFragmentToRoot(PatientDashboardFragment.TAB_2);
+        }
+//        if (App.userModel.getIdentityEnums() == IdentityEnums.PAINTER) {
+//            ((PatientMainFragment) getParentFragment()).popFragmentToRoot(PatientDashboardFragment.TAB_2);
+//        } else if (App.userModel.getIdentityEnums() == IdentityEnums.FAMILY) {
+//            ((FamilyMainFragment) getParentFragment()).popFragmentToRoot(PatientDashboardFragment.TAB_2);
+//        }
+    }
+
+    @Override
     public void onProgressUpdate(int percentage) {
         LogUtils.d("上傳", String.valueOf(percentage));
-        if (progressLoadingDialog == null || !progressLoadingDialog.isShowing()) {
-            showLoadingFileDialog();
-        }
-        progressLoadingDialog.setPiePercentage(percentage);
+//        if (progressLoadingDialog == null || !progressLoadingDialog.isShowing()) {
+//            showLoadingFileDialog();
+//        }
+//        progressLoadingDialog.setPiePercentage(percentage);
     }
 
     @Override

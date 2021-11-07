@@ -34,45 +34,76 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:gravity="center"
             android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/ib_play_record_fragment"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_margin="5dp"
-                android:background="@drawable/ic_circle"
-                android:padding="15dp"
-                android:src="@drawable/ic_play" />
+            <RelativeLayout
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_margin="5dp">
 
-            <ImageButton
-                android:id="@+id/ib_record_record_fragment"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_margin="5dp"
-                android:background="@drawable/ic_circle"
-                android:padding="12dp"
-                android:src="@drawable/ic_record" />
+                <ImageButton
+                    android:id="@+id/ib_play_record_fragment"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/ic_circle"
+                    android:padding="15dp"
+                    android:src="@drawable/ic_play" />
+
+                <ImageButton
+                    android:id="@+id/ib_stop_play_record_fragment"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/ic_circle"
+                    android:padding="15dp"
+                    android:src="@drawable/ic_square"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_margin="5dp">
+
+                <ImageButton
+                    android:id="@+id/ib_record_record_fragment"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:background="@drawable/ic_circle"
+                    android:padding="12dp"
+                    android:src="@drawable/ic_record" />
+
+                <ImageButton
+                    android:id="@+id/ib_stop_record_record_fragment"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:background="@drawable/ic_circle"
+                    android:padding="15dp"
+                    android:src="@drawable/ic_square"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
 
 
             <ImageButton
                 android:id="@+id/ib_upload_record_fragment"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:layout_margin="5dp"
                 android:background="@drawable/ic_circle"
                 android:src="@drawable/ic_upload" />
 
         </LinearLayout>
 
-<!--        <TextView-->
-<!--            android:id="@+id/tv_time_record_fragment"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_below="@id/ll_tool_record_fragment"-->
-<!--            android:layout_centerHorizontal="true"-->
-<!--            android:text="00:00"-->
-<!--            android:visibility="invisible"/>-->
+        <!--        <TextView-->
+        <!--            android:id="@+id/tv_time_record_fragment"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_below="@id/ll_tool_record_fragment"-->
+        <!--            android:layout_centerHorizontal="true"-->
+        <!--            android:text="00:00"-->
+        <!--            android:visibility="invisible"/>-->
 
     </RelativeLayout>
 

@@ -65,7 +65,11 @@ public class QuizPerkinsPatientFragment
     @Override
     public void submitSuccess(boolean isSuccess, String msg) {
         if (isSuccess) {
-            ((MainActivity) context).onBackPressed();
+            if(getParentFragment() instanceof PatientMainFragment){
+                ((PatientMainFragment) getParentFragment()).popFragmentToRoot(PatientDashboardFragment.TAB_2);
+            }else{
+                ((FamilyMainFragment) getParentFragment()).popFragmentToRoot(PatientDashboardFragment.TAB_2);
+            }
         } else {
             showDialog(getString(R.string.common_dialog_title), msg, null);
         }

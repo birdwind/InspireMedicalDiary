@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginStart="22dp"
+    android:layout_marginEnd="22dp"
+    android:background="@drawable/background_dialog_radius"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_main_patient_name_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="51dp"
+        android:paddingVertical="25dp">
+
+        <EditText
+            android:id="@+id/et_name_patient_name_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_border_radius_3dp_a6a6a6"
+            android:hint="請輸入病患名稱"
+            android:inputType="text"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="5dp" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_main_patient_name_dialog"
+        android:orientation="horizontal"
+        android:paddingVertical="35dp"
+        android:weightSum="1">
+
+        <Button
+            android:id="@+id/bt_confirm_patient_name_dialog"
+            style="@style/ThemeButton"
+            android:layout_width="151dp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/common_confirm"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+</RelativeLayout>

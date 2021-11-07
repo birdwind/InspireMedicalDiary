@@ -2,13 +2,13 @@ package com.birdwind.inspire.medical.diary.presenter;
 
 import com.birdwind.inspire.medical.diary.base.basic.AbstractObserver;
 import com.birdwind.inspire.medical.diary.base.network.request.ProgressRequestBody;
-import com.birdwind.inspire.medical.diary.base.network.response.AbstractResponse;
-import com.birdwind.inspire.medical.diary.base.network.response.BaseResponse;
+import com.birdwind.inspire.medical.diary.model.response.UploadRecordResponse;
 import com.birdwind.inspire.medical.diary.model.response.VoiceQuizResponse;
 import com.birdwind.inspire.medical.diary.server.PatientApiServer;
 import com.birdwind.inspire.medical.diary.view.viewCallback.RecordView;
+
 import java.io.File;
-import androidx.annotation.NonNull;
+
 import okhttp3.MultipartBody;
 
 public class RecordPresenter extends AbstractPresenter<RecordView> {
@@ -35,14 +35,14 @@ public class RecordPresenter extends AbstractPresenter<RecordView> {
         initMap();
         paramsMap.put("VTID", id);
         ProgressRequestBody progressRequestBody = new ProgressRequestBody(file, "audio/m4a", uploadCallbacks);
-        MultipartBody.Part filePart = MultipartBody.Part.createFormData("m4a", file.getName(), progressRequestBody);
+        MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", file.getName(), progressRequestBody);
         addDisposable(
             apiServer.uploadFile(PatientApiServer.UPLOAD_VOICE_FILE.valueOfName(), paramsMap, headerMap, filePart),
-            new AbstractObserver<AbstractResponse>(this, baseView, "UploadRecord", null, AbstractResponse.class,
-                false) {
+            new AbstractObserver<UploadRecordResponse>(this, baseView, "UploadRecord", null, UploadRecordResponse.class,
+                true) {
                 @Override
-                public void onSuccess(AbstractResponse response) {
-
+                public void onSuccess(UploadRecordResponse response) {
+                    baseView.onUploadRecord(true);
                 }
             });
     }

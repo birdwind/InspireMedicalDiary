@@ -1,8 +1,10 @@
 package com.birdwind.inspire.medical.diary.view.fragment;
 
+import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
 import com.birdwind.inspire.medical.diary.databinding.FragmentQuizAkzhimerBinding;
+import com.birdwind.inspire.medical.diary.enums.IdentityEnums;
 import com.birdwind.inspire.medical.diary.presenter.QuizContentPresenter;
 import com.birdwind.inspire.medical.diary.view.activity.MainActivity;
 import com.birdwind.inspire.medical.diary.view.viewCallback.QuizContentView;
@@ -181,7 +183,7 @@ public class QuizAkzhimerFamilyFragment extends AbstractFragment<QuizContentPres
         answers.add(answer_11);
         answers.add(answer_12);
         if (isCanSubmit) {
-            presenter.submit(answers, false);
+            presenter.submit(answers, true);
         } else {
             showToast("尚有題目還沒填寫");
         }
@@ -193,7 +195,11 @@ public class QuizAkzhimerFamilyFragment extends AbstractFragment<QuizContentPres
     @Override
     public void submitSuccess(boolean isSuccess, String msg) {
         if (isSuccess) {
-            ((MainActivity) context).onBackPressed();
+            if(App.userModel.isProxy()){
+                ((FamilyMainFragment) getParentFragment()).popFragmentToRoot(PatientDashboardFragment.TAB_3);
+            }else{
+                ((FamilyMainFragment) getParentFragment()).popFragmentToRoot(PatientDashboardFragment.TAB_2);
+            }
         } else {
             showDialog(getString(R.string.common_dialog_title), msg, null);
         }

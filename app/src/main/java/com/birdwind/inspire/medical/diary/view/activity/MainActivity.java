@@ -28,9 +28,11 @@ import com.birdwind.inspire.medical.diary.databinding.ActivityMainBinding;
 import com.birdwind.inspire.medical.diary.enums.DiseaseEnums;
 import com.birdwind.inspire.medical.diary.enums.IdentityEnums;
 import com.birdwind.inspire.medical.diary.model.PainterDiseaseModel;
-import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
+import com.birdwind.inspire.medical.diary.presenter.MainPresenter;
 import com.birdwind.inspire.medical.diary.receiver.PainterBroadcastReceiver;
 import com.birdwind.inspire.medical.diary.service.InspireDiaryWebSocketService;
+import com.birdwind.inspire.medical.diary.view.dialog.PatineNameDialog;
+import com.birdwind.inspire.medical.diary.view.dialog.callback.PatineNameDialogListener;
 import com.birdwind.inspire.medical.diary.view.fragment.ChatFragment;
 import com.birdwind.inspire.medical.diary.view.fragment.DoctorMainFragment;
 import com.birdwind.inspire.medical.diary.view.fragment.DoctorPatientFragment;
@@ -41,13 +43,15 @@ import com.birdwind.inspire.medical.diary.view.fragment.QuizAkzhimerFamilyFragme
 import com.birdwind.inspire.medical.diary.view.fragment.QuizHeadacheFragment;
 import com.birdwind.inspire.medical.diary.view.fragment.ScanFragment;
 import com.birdwind.inspire.medical.diary.view.fragment.SettingFragment;
+import com.birdwind.inspire.medical.diary.view.viewCallback.MainView;
 import com.birdwind.inspire.medical.diary.view.viewCallback.ToolbarCallback;
 import com.leaf.library.StatusBarUtil;
 import com.tbruyelle.rxpermissions3.Permission;
 
-public class MainActivity extends AbstractActivity<AbstractPresenter, ActivityMainBinding>
+public class MainActivity extends AbstractActivity<MainPresenter, ActivityMainBinding>
     implements AbstractActivity.PermissionRequestListener, FragNavController.TransactionListener,
-    FragNavController.RootFragmentListener, FragmentNavigationListener, View.OnClickListener {
+    FragNavController.RootFragmentListener, FragmentNavigationListener, View.OnClickListener, PatineNameDialogListener,
+    MainView {
 
     private final String PAGE_SCAN = "SCAN";
 
@@ -75,6 +79,10 @@ public class MainActivity extends AbstractActivity<AbstractPresenter, ActivityMa
 
     private PainterBroadcastReceiver painterBroadcastReceiver;
 
+    private PatineNameDialog patineNameDialog;
+
+    private Intent inspireDiaryWebSocketServiceIntent;
+
     @Override
     public void initView() {
         StatusBarUtil.setColor(this, App.userModel.getIdentityMainColor());
@@ -100,11 +108,15 @@ public class MainActivity extends AbstractActivity<AbstractPresenter, ActivityMa
                 }
             }
         }
+
+        if (App.userModel.isNeedPatineName()) {
+            showPatientNameDialog();
+        }
     }
 
     @Override
-    public AbstractPresenter createPresenter() {
-        return null;
+    public MainPresenter createPresenter() {
+        return new MainPresenter(this);
     }
 
     @Override
@@ -156,6 +168,7 @@ public class MainActivity extends AbstractActivity<AbstractPresenter, ActivityMa
             .newBuilder(savedInstanceState, fragmentManager, binding.mainContainer.getId()).transactionListener(this)
             .rootFragmentListener(this, 1).defaultTransactionOptions(defaultFragNavTransactionOptions).build();
 
+        patineNameDialog = new PatineNameDialog(context, this);
     }
 
     @Override
@@ -184,9 +197,8 @@ public class MainActivity extends AbstractActivity<AbstractPresenter, ActivityMa
 
     private void startSignalRService() {
         if (!SystemUtils.isServiceRunning(InspireDiaryWebSocketService.class, context)) {
-            Intent intent = new Intent(this, InspireDiaryWebSocketService.class);
-            this.stopService(intent);
-            this.startService(intent);
+            inspireDiaryWebSocketServiceIntent = new Intent(this, InspireDiaryWebSocketService.class);
+            this.startService(inspireDiaryWebSocketServiceIntent);
         }
     }
 
@@ -201,6 +213,7 @@ public class MainActivity extends AbstractActivity<AbstractPresenter, ActivityMa
                 PainterDiseaseModel painterDiseaseModel =
                     (PainterDiseaseModel) bundle.getSerializable("painterDiseaseModel");
                 App.userModel.setDiseaseEnums(DiseaseEnums.parseEnumsByType(painterDiseaseModel.getDisease()));
+                App.userModel.setNeedPatineName(painterDiseaseModel.isNeedSetPatientName());
 
                 App.updateUserModel();
                 if (App.userModel.getIdentityEnums() == IdentityEnums.FAMILY) {
@@ -210,6 +223,10 @@ public class MainActivity extends AbstractActivity<AbstractPresenter, ActivityMa
                 } else {
                     replaceFragment(new PatientMainFragment(), false);
                 }
+
+                if (App.userModel.isNeedPatineName()) {
+                    showPatientNameDialog();
+                }
             }
         };
         painterBroadcastReceiver.register(context);
@@ -218,6 +235,7 @@ public class MainActivity extends AbstractActivity<AbstractPresenter, ActivityMa
     @Override
     public void onPause() {
         super.onPause();
+        this.stopService(inspireDiaryWebSocketServiceIntent);
         unregisterReceiver(painterBroadcastReceiver);
     }
 
@@ -251,7 +269,6 @@ public class MainActivity extends AbstractActivity<AbstractPresenter, ActivityMa
                     return new PatientMainFragment();
                 }
             case FAMILY:
-                // TODO:定義加入群組資料格式
                 if (App.userModel.isHasFamily() || App.userModel.isProxy()) {
                     return new FamilyMainFragment();
                 } else {
@@ -277,6 +294,8 @@ public class MainActivity extends AbstractActivity<AbstractPresenter, ActivityMa
         int rightImageButton, ToolbarCallback toolbarCallback, String leftButtonText) {
         if (title != null) {
             binding.compTopBarMainActivity.tvTitleTopBarComp.setText(title);
+        } else {
+            binding.compTopBarMainActivity.tvTitleTopBarComp.setText(getString(R.string.app_name));
         }
         if (isStatusLightMode) {
             StatusBarUtil.setLightMode(this);
@@ -409,6 +428,23 @@ public class MainActivity extends AbstractActivity<AbstractPresenter, ActivityMa
             case PAGE_SETTING:
                 pushFragment(new SettingFragment());
                 break;
+        }
+    }
+
+    @Override
+    public void clickConfirm(String name) {
+        presenter.setPatientName(name);
+    }
+
+    @Override
+    public void onSetPatientName(boolean isSuccess) {
+        App.userModel.setNeedPatineName(false);
+        App.updateUserModel();
+    }
+
+    public void showPatientNameDialog(){
+        if(!patineNameDialog.isShowing()){
+            patineNameDialog.show();
         }
     }
 }
