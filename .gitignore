@@ -92,6 +92,7 @@ app/google-services.json
 .idea/eclipseCodeFormatter.xml
 
 keystore.properties
+base.gradle
 
 app/debug/output-metadata.json
 
