@@ -241,6 +241,11 @@ dependencies {
     implementation "com.github.bingoogolapple:BGASwipeBackLayout-Android:${libs.swipeBackLayout}"
 
     /**
+     *  PowerSpinner
+     */
+    implementation "com.github.skydoves:powerspinner:${libs.powerSpinner}"
+
+    /**
      *  CircleImageView
      */
     implementation "com.mikhaellopez:circularimageview:${libs.circularImageView}"

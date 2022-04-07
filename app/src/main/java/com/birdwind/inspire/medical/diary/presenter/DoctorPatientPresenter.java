@@ -12,14 +12,12 @@ public class DoctorPatientPresenter extends AbstractPresenter<DoctorPatientPrese
 
     public void getPatient() {
         initMap();
-        addDisposable(
-                apiServer.executePostFormUrlEncode(DoctorApiServer.GET_MY_PATIENT.valueOfName(), paramsMap, fieldMap,
-                        headerMap),
-                new AbstractObserver<PatientResponse>(this, baseView, "GetPatient", null, PatientResponse.class, true) {
-                    @Override
-                    public void onSuccess(PatientResponse response) {
-                        baseView.onGetFriends(response.getJsonData());
-                    }
-                });
+        addDisposable(apiServer.executeGet(DoctorApiServer.GET_MY_PATIENT.valueOfName(), paramsMap, headerMap),
+            new AbstractObserver<PatientResponse>(this, baseView, "GetPatient", null, PatientResponse.class, true) {
+                @Override
+                public void onSuccess(PatientResponse response) {
+                    baseView.onGetFriends(response.getJsonData());
+                }
+            });
     }
 }

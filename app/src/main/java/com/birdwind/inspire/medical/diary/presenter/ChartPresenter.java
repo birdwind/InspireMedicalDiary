@@ -37,7 +37,7 @@ public class ChartPresenter extends AbstractPresenter<ChartView> {
         }
         paramsMap.put("UID", uid);
 
-        addDisposable(apiServer.executePostFormUrlEncode(api, paramsMap, fieldMap, headerMap),
+        addDisposable(apiServer.executeGet(api, paramsMap, headerMap),
             new AbstractObserver<ChartResponse>(this, baseView, "GetChartData", null, ChartResponse.class, true) {
                 @Override
                 public void onSuccess(ChartResponse response) {

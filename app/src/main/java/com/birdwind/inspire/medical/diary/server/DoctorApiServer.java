@@ -17,7 +17,9 @@ public enum DoctorApiServer implements BaseEnums {
     SEND_PRIVATE_MESSAGE("sendprivatemessage"),
     GET_PRIVATE_MESSAGE("getprivatemessage"),
     CHECK_QRCODE_UID("checkqrcodeuid"),
-    ADD_PATIENT("addpatient");
+    ADD_PATIENT("addpatient"),
+    GET_SURVEY("GetSurvey"),
+    SET_SURVEY_FOR_PATIENT("SetSurveyForPatient");
 
     DoctorApiServer(String url) {
         this.url = "doctor/" + url;

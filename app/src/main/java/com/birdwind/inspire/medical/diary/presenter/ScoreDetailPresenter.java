@@ -16,7 +16,7 @@ public class ScoreDetailPresenter extends AbstractPresenter<ScoreDetailDialogVie
         paramsMap.put("TID", quizId);
 
         addDisposable(
-            apiServer.executePostFormUrlEncode(DoctorApiServer.GET_TEST_DETAIL.valueOfName(), paramsMap, fieldMap,
+            apiServer.executeGet(DoctorApiServer.GET_TEST_DETAIL.valueOfName(), paramsMap,
                 headerMap),
             new AbstractObserver<ScoreDetailResponse>(this, baseView, "GetScoreDetail", null, ScoreDetailResponse.class,
                 true) {

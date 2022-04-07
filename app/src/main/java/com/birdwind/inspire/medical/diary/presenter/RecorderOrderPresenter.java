@@ -22,7 +22,7 @@ public class RecorderOrderPresenter extends AbstractPresenter<RecorderOrderView>
             paramsMap.put("UID", uid);
         }
 
-        addDisposable(apiServer.executePostFormUrlEncode(api, paramsMap, fieldMap, headerMap),
+        addDisposable(apiServer.executeGet(api, paramsMap, headerMap),
             new AbstractObserver<RecordOrderResponse>(this, baseView, "OnGetRecordOrder", null,
                 RecordOrderResponse.class, true) {
                 @Override

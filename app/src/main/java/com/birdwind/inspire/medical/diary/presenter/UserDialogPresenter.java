@@ -2,8 +2,10 @@ package com.birdwind.inspire.medical.diary.presenter;
 
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.base.basic.AbstractObserver;
+import com.birdwind.inspire.medical.diary.base.network.response.AbstractResponse;
 import com.birdwind.inspire.medical.diary.enums.DiseaseEnums;
 import com.birdwind.inspire.medical.diary.model.response.AddUserResponse;
+import com.birdwind.inspire.medical.diary.model.response.SurveyListResponse;
 import com.birdwind.inspire.medical.diary.server.DoctorApiServer;
 import com.birdwind.inspire.medical.diary.server.FamilyApiServer;
 import com.birdwind.inspire.medical.diary.view.viewCallback.UserDialogView;
@@ -39,5 +41,32 @@ public class UserDialogPresenter extends AbstractPresenter<UserDialogView> {
                     baseView.onAddUser(true, response.getJsonData());
                 }
             });
+    }
+
+    public void getSurvey(int uid){
+        initMap();
+        paramsMap.put("PID", uid);
+
+        addDisposable(apiServer.executeGet(DoctorApiServer.GET_SURVEY.valueOfName(), paramsMap, headerMap),
+                new AbstractObserver<SurveyListResponse>(this, baseView, "GetSurvey", null, SurveyListResponse.class, true) {
+                    @Override
+                    public void onSuccess(SurveyListResponse response) {
+                        baseView.onGetSurvey(true, response.getJsonData());
+                    }
+                });
+    }
+
+    public void setSurvey(int uid, int surveyID){
+        initMap();
+        paramsMap.put("PID", uid);
+        paramsMap.put("SurveyID", surveyID);
+
+        addDisposable(apiServer.executeGet(DoctorApiServer.GET_SURVEY.valueOfName(), paramsMap, headerMap),
+                new AbstractObserver<AbstractResponse>(this, baseView, "GetSurvey", null, AbstractResponse.class, true) {
+                    @Override
+                    public void onSuccess(AbstractResponse response) {
+                        baseView.onSetSurvey(true, response.getMessage());
+                    }
+                });
     }
 }

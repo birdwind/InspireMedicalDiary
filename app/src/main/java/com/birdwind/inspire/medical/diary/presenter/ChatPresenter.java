@@ -32,7 +32,7 @@ public class ChatPresenter extends AbstractPresenter<ChatView> {
                 break;
         }
 
-        addDisposable(apiServer.executePostFormUrlEncode(api, paramsMap, fieldMap, headerMap),
+        addDisposable(apiServer.executeGet(api, paramsMap, headerMap),
             new AbstractObserver<ChatResponse>(this, baseView, "GetChatMessages", null, ChatResponse.class, false) {
                 @Override
                 public void onSuccess(ChatResponse response) {

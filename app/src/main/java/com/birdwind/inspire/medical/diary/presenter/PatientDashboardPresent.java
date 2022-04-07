@@ -30,7 +30,7 @@ public class PatientDashboardPresent extends AbstractPresenter<PatientDashboardV
         }
         map.put("UID", uid);
 
-        addDisposable(apiServer.executePostFormUrlEncode(api, map, fieldMap, headerMap),
+        addDisposable(apiServer.executeGet(api, map, headerMap),
             new AbstractObserver<ChatMemberResponse>(this, baseView, "GetChatMember", null, ChatMemberResponse.class,
                 true) {
                 @Override

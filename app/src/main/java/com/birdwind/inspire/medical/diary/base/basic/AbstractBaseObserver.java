@@ -13,6 +13,7 @@ import org.json.JSONObject;
 
 import io.reactivex.observers.DisposableObserver;
 import okhttp3.ResponseBody;
+import retrofit2.HttpException;
 
 public abstract class AbstractBaseObserver<T extends ResponseBody, BR extends BaseSystemResponse>
     extends DisposableObserver<T> implements BaseObserver<BR> {
@@ -95,13 +96,22 @@ public abstract class AbstractBaseObserver<T extends ResponseBody, BR extends Ba
 
     @Override
     public void onError(Throwable e) {
-        LogUtils.exceptionTAG(functionName + "Error", e);
-        if (view != null && isShowLoading) {
-            view.hideLoading();
+        if(e instanceof HttpException){
+            HttpException httpException = (HttpException)e;
+            switch (httpException.code()){
+                case 401:
+                    view.onLoginError(context.getString(R.string.error_common_logout));
+                    break;
+            }
+        }else{
+            LogUtils.exceptionTAG(functionName + "Error", e);
+            if (view != null && isShowLoading) {
+                view.hideLoading();
+            }
+            RxException rxException = RxException.handleException(e);
+            onError(errorTitle, String.valueOf(rxException.getCode()),
+                    "(" + rxException.getCode() + ")" + rxException.getMessage(), false);
         }
-        RxException rxException = RxException.handleException(e);
-        onError(errorTitle, String.valueOf(rxException.getCode()),
-            "(" + rxException.getCode() + ")" + rxException.getMessage(), false);
 
         if (view != null) {
             view.onApiComplete(functionName);

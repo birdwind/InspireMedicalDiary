@@ -32,7 +32,7 @@ public class ScanPresenter extends AbstractPresenter<ScanView> {
 //                break;
         }
 
-        addDisposable(apiServer.executePostFormUrlEncode(api, paramsMap, fieldMap, headerMap),
+        addDisposable(apiServer.executeGet(api, paramsMap, headerMap),
             new AbstractObserver<UserResponse>(this, baseView, "CheckQRCodeUid", null, UserResponse.class,
                 true) {
                 @Override

@@ -102,6 +102,8 @@
     <string name="painter_dialog_alzheimer">阿茲海默症</string>
     <string name="painter_dialog_perkins">巴金森氏症</string>
     <string name="painter_dialog_not_select">請選擇病患病徵</string>
+    <string name="painter_dialog_not_select_survey">請選擇病患預設問卷</string>
+    <string name="painter_dialog_select_survey_failed">病患預設問卷新增失敗，請稍後自行設定</string>
 
     <!--Quiz-->
     <string name="quiz_submit">送出</string>
