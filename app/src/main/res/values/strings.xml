@@ -82,6 +82,7 @@
     <string name="doctor_main_tab_chart">測驗</string>
     <string name="doctor_main_tab_chart_family">家屬</string>
     <string name="doctor_main_tab_chart_patient">病患</string>
+    <string name="doctor_main_patient_none_data">您尚無任何病患</string>
 
     <!--PainterMain-->
     <string name="painter_main_menu_scan">&scan;</string>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -7,6 +7,14 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_patient_doctor_patient_main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/tv_none_data_doctor_patient_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/doctor_main_patient_none_data"
+        android:layout_centerInParent="true" />
+
+</RelativeLayout>

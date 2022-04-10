@@ -65,6 +65,10 @@ public class DoctorPatientFragment extends AbstractFragment<DoctorPatientPresent
     @Override
     public void onGetFriends(List<PatientResponse.Response> friendResponse) {
         patientAdapter.setList(friendResponse);
+        if (friendResponse.size() > 0) {
+            binding.rvPatientDoctorPatientMain.setVisibility(View.VISIBLE);
+            binding.tvNoneDataDoctorPatientMain.setVisibility(View.GONE);
+        }
     }
 
     @Override

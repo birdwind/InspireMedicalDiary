@@ -1,14 +1,17 @@
 package com.birdwind.inspire.medical.diary.base.network;
 
+import android.content.Context;
+
+import com.birdwind.inspire.medical.diary.base.network.interceptor.CacheNoNetInterceptor;
 import com.birdwind.inspire.medical.diary.base.network.interceptor.CacheOnNetInterceptor;
 import com.birdwind.inspire.medical.diary.base.network.interceptor.ConnectRetryInterceptor;
 import com.birdwind.inspire.medical.diary.base.network.interceptor.HeaderInterceptor;
 import com.birdwind.inspire.medical.diary.base.utils.LogUtils;
+
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import android.content.Context;
-import okhttp3.Cache;
+
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -70,12 +73,13 @@ public class AppOkHttpClient {
         }
 
         OkHttpClient.Builder builder = new OkHttpClient.Builder().addInterceptor(new ConnectRetryInterceptor())
-                .cache(new Cache(context.getCacheDir(), CACHE_SIZE)).cookieJar(new CookieManger(context))
-                .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS).readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
-                .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS).retryOnConnectionFailure(true);
+            // .cache(new Cache(context.getCacheDir(), CACHE_SIZE))
+            .cookieJar(new CookieManger(context)).connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+            .readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS).writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+            .retryOnConnectionFailure(true);
         if (isCache) {
             builder.addNetworkInterceptor(new CacheOnNetInterceptor(CACHE_TIMEOUT));
-            // builder.addInterceptor(new CacheNoNetInterceptor(CACHE_TIMEOUT, context));
+            builder.addInterceptor(new CacheNoNetInterceptor(CACHE_TIMEOUT, context));
         }
 
         if (isShowLog) {
