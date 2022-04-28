@@ -5,10 +5,10 @@ import com.birdwind.inspire.medical.diary.base.enums.BaseEnums;
 import java.io.Serializable;
 
 public enum FileApiServer implements BaseEnums {
-    MQ_QR_CODE("myqrcode");
+    MY_QRCODE("MyQRCode");
 
     FileApiServer(String url) {
-        this.url = "file/" + url;
+        this.url = "/File/" + url;
     }
 
     private String url;

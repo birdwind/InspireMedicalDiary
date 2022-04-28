@@ -64,8 +64,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="@string/app_name"
+                android:maxEms="10"
+                android:singleLine="true"
+                android:ellipsize="marquee"
                 android:textColor="@color/colorWhite_FFFFFF"
-                android:textSize="20sp" />
+                android:textSize="20sp"/>
 
         </LinearLayout>
 

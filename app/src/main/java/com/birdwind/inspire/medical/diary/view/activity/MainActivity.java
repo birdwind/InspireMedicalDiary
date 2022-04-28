@@ -39,8 +39,6 @@ import com.birdwind.inspire.medical.diary.view.fragment.DoctorPatientFragment;
 import com.birdwind.inspire.medical.diary.view.fragment.FamilyMainFragment;
 import com.birdwind.inspire.medical.diary.view.fragment.PatientMainFragment;
 import com.birdwind.inspire.medical.diary.view.fragment.QRCodeFragment;
-import com.birdwind.inspire.medical.diary.view.fragment.QuizAkzhimerFamilyFragment;
-import com.birdwind.inspire.medical.diary.view.fragment.QuizHeadacheFragment;
 import com.birdwind.inspire.medical.diary.view.fragment.ScanFragment;
 import com.birdwind.inspire.medical.diary.view.fragment.SettingFragment;
 import com.birdwind.inspire.medical.diary.view.viewCallback.MainView;
@@ -352,6 +350,11 @@ public class MainActivity extends AbstractActivity<MainPresenter, ActivityMainBi
     }
 
     @Override
+    public void updateTitle(String title) {
+        binding.compTopBarMainActivity.tvTitleTopBarComp.setText(title != null ? title : getString(R.string.app_name));
+    }
+
+    @Override
     public void onClick(View v) {
         if (v == binding.compTopBarMainActivity.llBackTopBarComp) {
             onBackPressed();
@@ -415,15 +418,15 @@ public class MainActivity extends AbstractActivity<MainPresenter, ActivityMainBi
                 pushFragment(new QRCodeFragment());
                 break;
             case PAGE_QUIZ:
-                switch (App.userModel.getDiseaseEnums()) {
-                    case HEADACHE:
-                        pushFragment(new QuizHeadacheFragment());
-                        break;
-                    case ALZHEIMER:
-                    case PERKINS:
-                        pushFragment(new QuizAkzhimerFamilyFragment());
-                        break;
-                }
+                // switch (App.userModel.getDiseaseEnums()) {
+                // case HEADACHE:
+                // pushFragment(new QuizHeadacheFragment());
+                // break;
+                // case ALZHEIMER:
+                // case PERKINS:
+                // pushFragment(new QuizAkzhimerFamilyFragment());
+                // break;
+                // }
                 break;
             case PAGE_SETTING:
                 pushFragment(new SettingFragment());
@@ -442,8 +445,8 @@ public class MainActivity extends AbstractActivity<MainPresenter, ActivityMainBi
         App.updateUserModel();
     }
 
-    public void showPatientNameDialog(){
-        if(!patineNameDialog.isShowing()){
+    public void showPatientNameDialog() {
+        if (!patineNameDialog.isShowing()) {
             patineNameDialog.show();
         }
     }

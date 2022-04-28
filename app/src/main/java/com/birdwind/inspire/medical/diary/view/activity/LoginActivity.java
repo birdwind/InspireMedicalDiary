@@ -51,6 +51,10 @@ public class LoginActivity extends AbstractActivity<LoginPresenter, ActivityLogi
             }
             return false;
         });
+
+        binding.llBackLoginActivity.setOnClickListener(v -> {
+            onBackPressed();
+        });
     }
 
     @Override

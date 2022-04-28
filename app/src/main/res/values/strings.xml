@@ -42,11 +42,14 @@
 
     <!--Common-->
     <string name="common_confirm">確認</string>
+    <string name="common_prev">上一步</string>
+    <string name="common_next">下一步</string>
     <string name="common_add">新增</string>
     <string name="common_dialog_title">系統提醒</string>
     <string name="common_dialog_logout">您確定要登出嗎?</string>
     <string name="common_double_click_back">再次點擊上一步，將結束&appname;</string>
     <string name="common_logout">登出</string>
+    <string name="common_none_data">目前沒有資料</string>
 
     <!--Identity-->
     <string name="identity_patient">患者</string>
@@ -108,13 +111,39 @@
 
     <!--Quiz-->
     <string name="quiz_submit">送出</string>
+    <string name="quiz_boolean_yes">是</string>
+    <string name="quiz_boolean_no">否</string>
+    <string name="quiz_number_hint">請輸入數字</string>
+    <string name="quiz_text_hint">請輸入回答</string>
 
     <!--Scan-->
     <string name="scan_no_permission">您未同意授權，無法開啟相機掃描QRCODE</string>
     <string name="scan_be_agent">代理人</string>
     <string name="scan_be_family">家屬</string>
 
+    <!--UserDialog-->
+    <string name="user_dialog_survey">病患問卷</string>
+    <string name="user_dialog_family_survey">家屬問卷</string>
+    <string name="user_dialog_survey_hint">請選擇病患問卷</string>
+    <string name="user_dialog_family_survey_hint">請選擇家屬問卷</string>
+
     <!-- Chat -->
     <string name="chat_system">系統訊息</string>
+
+    <!--Setting-->
+    <string name="setting_basic_info">個人資訊</string>
+    <string name="setting_basic_upload_avatar">上傳頭像</string>
+
+    <!--Survey-->
+    <string name="survey_empty">目前沒有任何問卷</string>
+
+    <!--Information-->
+    <string name="information_name">姓名</string>
+    <string name="information_name_hint">請輸入姓名</string>
+    <string name="information_id">身分證</string>
+    <string name="information_id_hint">請輸入身分證</string>
+    <string name="information_sex">性別</string>
+    <string name="information_sex_male">男</string>
+    <string name="information_sex_female">女</string>
 
 </resources>

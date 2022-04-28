@@ -5,14 +5,16 @@ import com.birdwind.inspire.medical.diary.base.enums.BaseEnums;
 import java.io.Serializable;
 
 public enum PatientApiServer implements BaseEnums {
-    CHECK_MY_DISEASE("checkmydisease"), SEND_MESSAGE("sendmessage"), GET_MY_MESSAGES("getmymessages"), GET_MY_MEMBER(
-        "getmymember"), SUBMIT_HEADACHE_TEST("submitheadachetest"), SUBMIT_DEMENTIA_TEST(
-            "submitdementiatest"), SUBMIT_PARKINSON_TEST("SubmitParkinsonTest"), GET_TEST_REPORT(
-                "GetTestReport"), GET_TEST_DETAIL("GetTestDetail"), GET_VOICE_TEST(
-                    "GetVoiceTest"), UPLOAD_VOICE_FILE("UploadVoiceFile"), GET_VOICE_TEST_LIST("GetVoiceTestList");
+    CHECK_DISEASE("CheckDisease"),
+    GET_MY_PATIENT("GetMyPatient"),
+    GET_MEMBER("GetMember"),
+    CHECK_QRCODE_UID("CheckQRCodeUid"),
+    ADD_PATIENT("AddPatient"),
+    BE_FAMILY("BeFamily"),
+    CHANGE_PATIENT_NAME("ChangePatientName");
 
     PatientApiServer(String url) {
-        this.url = "patient/" + url;
+        this.url = "/Patient/" + url;
     }
 
     private String url;

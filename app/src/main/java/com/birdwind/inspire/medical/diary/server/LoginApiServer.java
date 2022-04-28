@@ -11,7 +11,7 @@ public enum LoginApiServer implements BaseEnums {
     UPDATE_FCM_TOKEN("UpdateFCMToken");
 
     LoginApiServer(String url) {
-        this.url = "Login/" + url;
+        this.url = "/Login/" + url;
     }
 
     private String url;

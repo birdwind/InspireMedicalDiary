@@ -4,21 +4,23 @@ import android.content.Context;
 
 import com.birdwind.inspire.medical.diary.base.network.interceptor.CacheNoNetInterceptor;
 import com.birdwind.inspire.medical.diary.base.network.interceptor.CacheOnNetInterceptor;
-import com.birdwind.inspire.medical.diary.base.network.interceptor.ConnectRetryInterceptor;
 import com.birdwind.inspire.medical.diary.base.network.interceptor.HeaderInterceptor;
 import com.birdwind.inspire.medical.diary.base.utils.LogUtils;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
+import okio.Buffer;
 
 public class AppOkHttpClient {
 
@@ -72,7 +74,8 @@ public class AppOkHttpClient {
             cookieManger = new CookieManger(context);
         }
 
-        OkHttpClient.Builder builder = new OkHttpClient.Builder().addInterceptor(new ConnectRetryInterceptor())
+        OkHttpClient.Builder builder = new OkHttpClient.Builder()
+            // .addInterceptor(new ConnectRetryInterceptor())
             // .cache(new Cache(context.getCacheDir(), CACHE_SIZE))
             .cookieJar(new CookieManger(context)).connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
             .readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS).writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
@@ -106,6 +109,18 @@ public class AppOkHttpClient {
             long duration = endTime - startTime;
             MediaType mediaType = response.body().contentType();
             String responseBody = response.body().string();
+            RequestBody requestBody = request.body();
+            String requestBodyString = "";
+            if (requestBody != null) {
+                final Buffer buffer = new Buffer();
+                try {
+                    Objects.requireNonNull(requestBody).writeTo(buffer);
+                    requestBodyString = buffer.readUtf8();
+                } catch (IOException e) {
+                    LogUtils.exceptionTAG("AppOkHttpClient", e);
+                }
+            }
+
             String responseHeader = response.headers().toString();
             String cookies = cookieManger.getCookies().toString();
 
@@ -115,6 +130,7 @@ public class AppOkHttpClient {
             LogUtils.d("| RequestUrl: " + request.url());
             LogUtils.d("| RequestMethod: " + request.method());
             LogUtils.d("| RequestHeader: " + request.headers().toString());
+            LogUtils.d("| RequestBody: " + requestBodyString);
             LogUtils.d("| ResponseHeader: " + responseHeader);
             LogUtils.d("| ResponseBody: " + responseBody);
             LogUtils.d("----------Request End:" + duration + "毫秒----------");

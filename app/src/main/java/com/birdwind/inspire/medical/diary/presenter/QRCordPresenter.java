@@ -14,7 +14,7 @@ public class QRCordPresenter extends AbstractPresenter<QRCodeView> {
         initMap();
 
         addDisposable(
-            apiServer.executePostFormUrlEncode(PatientApiServer.CHECK_MY_DISEASE.valueOfName(), paramsMap, fieldMap,
+            apiServer.executePostFormUrlEncode(PatientApiServer.CHECK_DISEASE.valueOfName(), paramsMap, fieldMap,
                 headerMap),
             new AbstractObserver<CheckDiseaseResponse>(this, baseView, "CheckDisease", null, CheckDiseaseResponse.class,
                 true) {

@@ -4,12 +4,16 @@ import android.content.Context;
 
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
+import com.birdwind.inspire.medical.diary.base.enums.ErrorCodeEnums;
 import com.birdwind.inspire.medical.diary.base.network.response.BaseSystemResponse;
 import com.birdwind.inspire.medical.diary.base.utils.GsonUtils;
 import com.birdwind.inspire.medical.diary.base.utils.LogUtils;
 import com.birdwind.inspire.medical.diary.base.utils.rxHelper.RxException;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
 
 import io.reactivex.observers.DisposableObserver;
 import okhttp3.ResponseBody;
@@ -96,23 +100,43 @@ public abstract class AbstractBaseObserver<T extends ResponseBody, BR extends Ba
 
     @Override
     public void onError(Throwable e) {
-        if(e instanceof HttpException){
-            HttpException httpException = (HttpException)e;
-            switch (httpException.code()){
+        if (e instanceof HttpException) {
+            HttpException httpException = (HttpException) e;
+            JSONObject errorJsonObject = null;
+            String errorMsg = "";
+            try {
+                errorJsonObject = new JSONObject(((HttpException) e).response().errorBody().string());
+                errorMsg = errorJsonObject.getString("Message");
+
+            } catch (JSONException | IOException jsonException) {
+                LogUtils.exceptionTAG(functionName + "Error", jsonException);
+            }
+
+            switch (httpException.code()) {
                 case 401:
                     view.onLoginError(context.getString(R.string.error_common_logout));
                     break;
+                case 406:
+                    onError(errorTitle, String.valueOf(ErrorCodeEnums.ILLEGAL_STATE_ERROR.getCode()),
+                        "(" + ErrorCodeEnums.SERVER_ERROR.getCode() + ")" + errorMsg, false);
+                    break;
+                case 500:
+                    onError(errorTitle, String.valueOf(ErrorCodeEnums.SERVER_ERROR.getCode()),
+                        "(" + ErrorCodeEnums.SERVER_ERROR.getCode() + ")" + ErrorCodeEnums.SERVER_ERROR.getMessage(),
+                        false);
+                    break;
             }
-        }else{
+            view.hideLoading();
+        } else {
             LogUtils.exceptionTAG(functionName + "Error", e);
-            if (view != null && isShowLoading) {
-                view.hideLoading();
-            }
+
             RxException rxException = RxException.handleException(e);
             onError(errorTitle, String.valueOf(rxException.getCode()),
-                    "(" + rxException.getCode() + ")" + rxException.getMessage(), false);
+                "(" + rxException.getCode() + ")" + rxException.getMessage(), false);
         }
-
+        if (view != null && isShowLoading) {
+            view.hideLoading();
+        }
         if (view != null) {
             view.onApiComplete(functionName);
         }

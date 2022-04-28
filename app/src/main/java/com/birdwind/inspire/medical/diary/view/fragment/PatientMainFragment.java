@@ -1,6 +1,5 @@
 package com.birdwind.inspire.medical.diary.view.fragment;
 
-import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.base.utils.fragmentNavUtils.FragNavController;
 import com.birdwind.inspire.medical.diary.base.utils.fragmentNavUtils.FragNavTransactionOptions;
@@ -121,16 +120,17 @@ public class PatientMainFragment extends AbstractFragment<AbstractPresenter, Fra
     }
 
     private void openQuizFragment() {
-        switch (App.userModel.getDiseaseEnums()) {
-            case HEADACHE:
-                pushFragment(new QuizHeadacheFragment());
-                break;
-            case ALZHEIMER:
-                pushFragment(new RecordFragment());
-                break;
-            case PERKINS:
-                pushFragment(new QuizPerkinsPatientFragment());
-                break;
-        }
+//        switch (App.userModel.getDiseaseEnums()) {
+//            case HEADACHE:
+//                pushFragment(new QuizHeadacheFragment());
+//                break;
+//            case ALZHEIMER:
+//                pushFragment(new RecordFragment());
+//                break;
+//            case PERKINS:
+//                pushFragment(new QuizPerkinsPatientFragment());
+//                break;
+//        }
+        pushFragment(new SurveyFragment());
     }
 }

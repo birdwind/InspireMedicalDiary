@@ -24,17 +24,16 @@ import com.birdwind.inspire.medical.diary.base.utils.ToastUtils;
 import com.birdwind.inspire.medical.diary.base.view.AbstractActivity;
 import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
 import com.birdwind.inspire.medical.diary.databinding.FragmentRecordBinding;
-import com.birdwind.inspire.medical.diary.enums.IdentityEnums;
 import com.birdwind.inspire.medical.diary.model.response.VoiceQuizResponse;
-import com.birdwind.inspire.medical.diary.presenter.RecordPresenter;
-import com.birdwind.inspire.medical.diary.view.viewCallback.RecordView;
+import com.birdwind.inspire.medical.diary.presenter.RecordVoiceDialogPresenter;
+import com.birdwind.inspire.medical.diary.view.viewCallback.RecordVoiceDialogView;
 import com.birdwind.inspire.medical.diary.view.viewCallback.ToolbarCallback;
 import com.tbruyelle.rxpermissions3.Permission;
 
 import java.io.File;
 
-public class RecordFragment extends AbstractFragment<RecordPresenter, FragmentRecordBinding>
-    implements RecordView, AbstractActivity.PermissionRequestListener, ToolbarCallback, AudioRecordListener,
+public class RecordVoiceDialogFragment extends AbstractFragment<RecordVoiceDialogPresenter, FragmentRecordBinding>
+    implements RecordVoiceDialogView, AbstractActivity.PermissionRequestListener, ToolbarCallback, AudioRecordListener,
     MediaPlayListener, ProgressRequestBody.UploadCallbacks {
 
     private Recorder recorder;
@@ -48,8 +47,8 @@ public class RecordFragment extends AbstractFragment<RecordPresenter, FragmentRe
     private int id;
 
     @Override
-    public RecordPresenter createPresenter() {
-        return new RecordPresenter(this);
+    public RecordVoiceDialogPresenter createPresenter() {
+        return new RecordVoiceDialogPresenter(this);
     }
 
     @Override
@@ -89,7 +88,7 @@ public class RecordFragment extends AbstractFragment<RecordPresenter, FragmentRe
 
         binding.ibUploadRecordFragment.setOnClickListener(v -> {
             if (file != null && file.exists()) {
-                presenter.uploadRecord(file, id, this);
+                presenter.uploadRecord(file, this);
             }
         });
     }
@@ -195,7 +194,7 @@ public class RecordFragment extends AbstractFragment<RecordPresenter, FragmentRe
     }
 
     @Override
-    public void onUploadRecord(boolean isSuccess) {
+    public void onUploadRecord(boolean isSuccess, String url) {
 
         if(getParentFragment() instanceof PatientMainFragment){
             ((PatientMainFragment) getParentFragment()).popFragmentToRoot(PatientDashboardFragment.TAB_2);

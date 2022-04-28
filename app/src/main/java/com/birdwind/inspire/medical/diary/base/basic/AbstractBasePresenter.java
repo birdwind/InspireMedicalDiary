@@ -100,15 +100,10 @@ public abstract class AbstractBasePresenter<V extends BaseView> implements BaseP
     }
 
     protected RequestBody packageToRequestBody(Object obj) {
-        String json = GsonUtils.toJson(obj);
-        // ObjectMapper oMapper = new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        // String json = "";
-        // try {
-        // json = oMapper.writeValueAsString(obj);
-        // } catch (IOException e) {
-        // LogUtils.exception(e);
-        // // e.printStackTrace();
-        // }
+        return packageToRequestBody(GsonUtils.toJson(obj));
+    }
+
+    protected RequestBody packageToRequestBody(String json){
         return RequestBody.create(json, MediaType.parse("application/json; charset=utf-8"));
     }
 

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_main_question_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_title_question_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorOrange_FAF1E7"
+        android:padding="12dp" />
+
+    <ImageView
+        android:id="@+id/iv_picture_question_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_title_question_item"/>
+
+    <EditText
+        android:id="@+id/et_value_question_number_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_picture_question_item"
+        android:layout_margin="12dp"
+        android:background="@drawable/bg_edittext_solid_c4c4c4"
+        android:hint="@string/quiz_number_hint"
+        android:inputType="number"
+        android:padding="12dp"
+        android:textSize="18sp" />
+
+</RelativeLayout>

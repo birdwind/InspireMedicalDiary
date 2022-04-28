@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginStart="22dp"
+    android:layout_marginEnd="22dp"
+    android:background="@drawable/background_dialog_radius"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_info_patient_manager_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/tv_name_patient_manager_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/tv_idcard_patient_manager_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/tv_phone_patient_manager_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_main_dialog_patient_manager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="20dp"
+        android:layout_below="@id/ll_info_patient_manager_dialog"
+        android:paddingVertical="25dp">
+
+        <LinearLayout
+            android:id="@+id/ll_survey_user_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/user_dialog_survey" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginBottom="6dp"
+                android:background="@drawable/bg_border_radius_3dp_a6a6a6"
+                android:backgroundTint="@color/colorGray_F3F3F3"
+                android:orientation="vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_patient_survey_user_dialog"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tv_empty_patient_survey_user_dialog"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="目前沒有問卷" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/user_dialog_family_survey" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginBottom="6dp"
+                android:background="@drawable/bg_border_radius_3dp_a6a6a6"
+                android:backgroundTint="@color/colorGray_F3F3F3"
+                android:orientation="vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_family_survey_user_dialog"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tv_empty_family_survey_user_dialog"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="目前沒有問卷" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_main_dialog_patient_manager"
+        android:orientation="horizontal"
+        android:paddingVertical="35dp"
+        android:weightSum="1">
+
+        <Button
+            android:id="@+id/bt_confirm_dialog_patient_manager"
+            style="@style/ThemeButton"
+            android:layout_width="151dp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/common_confirm"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+</RelativeLayout>

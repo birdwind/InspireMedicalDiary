@@ -1,13 +1,18 @@
 package com.birdwind.inspire.medical.diary.view.dialog;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
@@ -21,18 +26,15 @@ import com.birdwind.inspire.medical.diary.model.response.AddUserResponse;
 import com.birdwind.inspire.medical.diary.model.response.SurveyListResponse;
 import com.birdwind.inspire.medical.diary.model.response.UserResponse;
 import com.birdwind.inspire.medical.diary.presenter.UserDialogPresenter;
+import com.birdwind.inspire.medical.diary.view.adapter.SurveyAdapter;
 import com.birdwind.inspire.medical.diary.view.dialog.callback.CommonDialogListener;
 import com.birdwind.inspire.medical.diary.view.dialog.callback.UserDialogListener;
 import com.birdwind.inspire.medical.diary.view.viewCallback.UserDialogView;
 import com.bumptech.glide.Glide;
-import com.skydoves.powerspinner.OnSpinnerItemSelectedListener;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class UserDialog extends AbstractDialog<CommonDialogListener, UserDialogPresenter, DialogUserBinding>
     implements UserDialogView {
@@ -51,11 +53,15 @@ public class UserDialog extends AbstractDialog<CommonDialogListener, UserDialogP
 
     private int progressState;
 
-    private Map<String, SurveyListResponse.Response> surveyMap;
+    private SurveyAdapter patientSurveyAdapter;
+
+    private SurveyAdapter familySurveyAdapter;
+
+    private SurveyListResponse.Response selectPatientSurvey;
+
+    private SurveyListResponse.Response selectFamilySurvey;
 
     private AddUserResponse.Response addUserResponse;
-
-    private SurveyListResponse.Response selectedSurvey;
 
     public UserDialog(@NonNull @NotNull Context context, UserResponse userResponse,
         UserDialogListener userDialogListener) {
@@ -64,7 +70,11 @@ public class UserDialog extends AbstractDialog<CommonDialogListener, UserDialogP
         this.userDialogListener = userDialogListener;
         user = userResponse.getJsonData();
         diseaseEnums = DiseaseEnums.NOT_SET;
-        surveyMap = new HashMap<>();
+
+        patientSurveyAdapter = new SurveyAdapter(R.layout.item_survey);
+        patientSurveyAdapter.setAnimationEnable(true);
+        familySurveyAdapter = new SurveyAdapter(R.layout.item_survey);
+        familySurveyAdapter.setAnimationEnable(true);
     }
 
     @Override
@@ -88,19 +98,67 @@ public class UserDialog extends AbstractDialog<CommonDialogListener, UserDialogP
             diseaseEnums = DiseaseEnums.PERKINS;
         });
 
-        binding.psvSurveyDialogUser
-            .setSpinnerOutsideTouchListener((view, motionEvent) -> binding.psvSurveyDialogUser.dismiss());
-
-        binding.psvSurveyDialogUser
-            .setOnSpinnerItemSelectedListener((OnSpinnerItemSelectedListener<String>) (index, value) -> {
-                selectedSurvey = surveyMap.get(value);
-            });
-
-        binding.btButtonDialogUser.setOnClickListener(v -> {
+        binding.btConfirmDialogUser.setOnClickListener(v -> {
             if (progressState == STATE_ADD) {
-                addPatient();
-            } else if (progressState == STATE_SURVEY) {
-                updatePatientSurvey();
+                progressState = STATE_SURVEY;
+                if (App.userModel.getIdentityEnums() == IdentityEnums.DOCTOR) {
+                    updateView();
+                    getSurvey(diseaseEnums.getType(), IdentityEnums.PAINTER.getType());
+                } else {
+                    addPatient();
+                }
+            } else {
+                boolean isContinue = selectPatientSurvey != null;
+                if (diseaseEnums != DiseaseEnums.HEADACHE) {
+                    isContinue = selectFamilySurvey != null;
+                }
+                if (isContinue) {
+                    addPatient();
+                }
+
+            }
+        });
+
+        binding.btPrevButtonDialogUser.setOnClickListener(v -> {
+            progressState = STATE_ADD;
+            updateView();
+        });
+
+        patientSurveyAdapter.setOnItemClickListener((adapter, view, position) -> {
+            selectPatientSurvey = (SurveyListResponse.Response) adapter.getData().get(position);
+            for (int i = 0; i < adapter.getData().size(); i++) {
+                ImageView imageView = (ImageView) adapter.getViewByPosition(i, R.id.iv_check_survey_item);
+                TextView textView = (TextView) adapter.getViewByPosition(i, R.id.tv_name_survey_item);
+                if (imageView != null && textView != null) {
+                    if (i == position) {
+                        imageView.setImageTintList(ColorStateList
+                            .valueOf(getContext().getResources().getColor(App.userModel.getIdentityMainColorId())));
+                        textView.setTextColor(App.userModel.getIdentityMainColorId());
+                    } else {
+                        imageView.setImageTintList(
+                            ColorStateList.valueOf(getContext().getResources().getColor(R.color.colorBlack_000000)));
+                        textView.setTextColor(getContext().getResources().getColor(R.color.colorBlack_000000));
+                    }
+                }
+            }
+        });
+
+        familySurveyAdapter.setOnItemClickListener((adapter, view, position) -> {
+            selectFamilySurvey = (SurveyListResponse.Response) adapter.getData().get(position);
+            for (int i = 0; i < adapter.getData().size(); i++) {
+                ImageView imageView = (ImageView) adapter.getViewByPosition(i, R.id.iv_check_survey_item);
+                TextView textView = (TextView) adapter.getViewByPosition(i, R.id.tv_name_survey_item);
+                if (imageView != null && textView != null) {
+                    if (i == position) {
+                        imageView.setImageTintList(ColorStateList
+                            .valueOf(getContext().getResources().getColor(App.userModel.getIdentityMainColorId())));
+                        textView.setTextColor(App.userModel.getIdentityMainColorId());
+                    } else {
+                        imageView.setImageTintList(
+                            ColorStateList.valueOf(getContext().getResources().getColor(R.color.colorBlack_000000)));
+                        textView.setTextColor(getContext().getResources().getColor(R.color.colorBlack_000000));
+                    }
+                }
             }
         });
     }
@@ -130,7 +188,7 @@ public class UserDialog extends AbstractDialog<CommonDialogListener, UserDialogP
             .placeholder(ContextCompat.getDrawable(context, R.drawable.ic_avatar)).into(binding.civImageDialogUser);
 
         if (App.userModel != null) {
-            binding.btButtonDialogUser.getBackground().setColorFilter(App.userModel.getIdentityMainColor(),
+            binding.btConfirmDialogUser.getBackground().setColorFilter(App.userModel.getIdentityMainColor(),
                 PorterDuff.Mode.SRC_IN);
 
             if (App.userModel.getIdentityEnums() == IdentityEnums.DOCTOR) {
@@ -140,8 +198,22 @@ public class UserDialog extends AbstractDialog<CommonDialogListener, UserDialogP
             }
         }
 
-        binding.rgOptionDialogUser.clearCheck();
+        patientSurveyAdapter.setRecyclerView(binding.rvPatientSurveyUserDialog);
+        familySurveyAdapter.setRecyclerView(binding.rvFamilySurveyUserDialog);
 
+        binding.rvPatientSurveyUserDialog
+            .setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+        binding.rvPatientSurveyUserDialog.setHasFixedSize(true);
+        binding.rvPatientSurveyUserDialog.setAdapter(patientSurveyAdapter);
+
+        binding.rvFamilySurveyUserDialog
+            .setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+        binding.rvFamilySurveyUserDialog.setHasFixedSize(true);
+        binding.rvFamilySurveyUserDialog.setAdapter(familySurveyAdapter);
+
+        updateView();
+
+        binding.rgOptionDialogUser.clearCheck();
     }
 
     @Override
@@ -185,22 +257,22 @@ public class UserDialog extends AbstractDialog<CommonDialogListener, UserDialogP
             assert scanUserMessageEnums != null;
             binding.tvReasonDialogUser.setText(scanUserMessageEnums.getKey());
             binding.tvReasonDialogUser.setVisibility(View.VISIBLE);
-            binding.btButtonDialogUser.setVisibility(View.GONE);
+            binding.btConfirmDialogUser.setVisibility(View.GONE);
         } else {
             changeAddButtonColorWithIdentity();
             if (TextUtils.isEmpty(msg)) {
                 binding.tvReasonDialogUser.setVisibility(View.GONE);
-                binding.btButtonDialogUser.setVisibility(View.VISIBLE);
+                binding.btConfirmDialogUser.setVisibility(View.VISIBLE);
             } else {
                 binding.tvReasonDialogUser.setText(msg);
                 binding.tvReasonDialogUser.setVisibility(View.VISIBLE);
-                binding.btButtonDialogUser.setVisibility(View.GONE);
+                binding.btConfirmDialogUser.setVisibility(View.GONE);
             }
         }
     }
 
     private void changeAddButtonColorWithIdentity() {
-        binding.btButtonDialogUser.getBackground().setColorFilter(App.userModel.getIdentityMainColor(),
+        binding.btConfirmDialogUser.getBackground().setColorFilter(App.userModel.getIdentityMainColor(),
             PorterDuff.Mode.SRC_ATOP);
     }
 
@@ -212,12 +284,12 @@ public class UserDialog extends AbstractDialog<CommonDialogListener, UserDialogP
         }
     }
 
+    private void getSurvey(int disease, int identity) {
+        presenter.getSurvey(disease, identity);
+    }
+
     private void updatePatientSurvey() {
-        if (selectedSurvey != null) {
-            presenter.setSurvey(user.getUID(), selectedSurvey.getSurveyID());
-        } else {
-            ToastUtils.show(context, R.string.painter_dialog_not_select_survey);
-        }
+        presenter.setSurvey(user.getUID(), selectPatientSurvey.getSurveyID(), IdentityEnums.PAINTER.getType());
     }
 
     @Override
@@ -229,38 +301,86 @@ public class UserDialog extends AbstractDialog<CommonDialogListener, UserDialogP
     @Override
     public void onAddUser(boolean isSuccess, AddUserResponse.Response response) {
         if (isSuccess) {
-            binding.rgOptionDialogUser.setVisibility(View.GONE);
-            binding.psvSurveyDialogUser.setVisibility(View.VISIBLE);
-            progressState = STATE_SURVEY;
             addUserResponse = response;
-            presenter.getSurvey(user.getUID());
-        }
-    }
-
-    @Override
-    public void onGetSurvey(boolean isSuccess, List<SurveyListResponse.Response> response) {
-        if (isSuccess) {
-            dismiss();
-            List<String> surveyListString = new ArrayList<>();
-            String surveyName = "";
-            surveyMap.clear();
-            for (int i = 0; i < response.size(); i++) {
-                surveyName = response.get(i).getSurveyName();
-                surveyListString.add(surveyName);
-                surveyMap.put(surveyName, response.get(i));
+            if (App.userModel.getIdentityEnums() == IdentityEnums.DOCTOR) {
+                updatePatientSurvey();
+            } else {
+                dismiss();
+                userDialogListener.userDialogAdded(addUserResponse);
             }
-
-            binding.psvSurveyDialogUser.setItems(surveyListString);
-
         }
     }
 
     @Override
-    public void onSetSurvey(boolean isSuccess, String response) {
+    public void onGetSurvey(boolean isSuccess, List<SurveyListResponse.Response> response, int identity) {
         if (isSuccess) {
-            userDialogListener.userDialogAdded(addUserResponse);
+            switch (identity) {
+                case 0:
+                    // Patient
+                    if (response.size() > 0) {
+                        binding.rvPatientSurveyUserDialog.setVisibility(View.VISIBLE);
+                        binding.tvEmptyPatientSurveyUserDialog.setVisibility(View.GONE);
+                    } else {
+                        binding.rvPatientSurveyUserDialog.setVisibility(View.GONE);
+                        binding.tvEmptyPatientSurveyUserDialog.setVisibility(View.VISIBLE);
+                    }
+                    patientSurveyAdapter.setList(response);
+                    getSurvey(diseaseEnums.getType(), IdentityEnums.FAMILY.getType());
+                    break;
+                case 1:
+                    // Family
+                    if (response.size() > 0) {
+                        binding.rvFamilySurveyUserDialog.setVisibility(View.VISIBLE);
+                        binding.tvEmptyFamilySurveyUserDialog.setVisibility(View.GONE);
+                    } else {
+                        binding.rvFamilySurveyUserDialog.setVisibility(View.GONE);
+                        binding.tvEmptyFamilySurveyUserDialog.setVisibility(View.VISIBLE);
+                    }
+                    familySurveyAdapter.setList(response);
+                    break;
+            }
+        }
+    }
+
+    @Override
+    public void onSetSurvey(boolean isSuccess, String response, int identity) {
+        if (isSuccess) {
+            switch (identity) {
+                case 0:
+                    // Patient
+                    if (diseaseEnums == DiseaseEnums.HEADACHE) {
+                        dismiss();
+                        userDialogListener.userDialogAdded(addUserResponse);
+                    } else {
+                        presenter.setSurvey(user.getUID(), selectFamilySurvey.getSurveyID(),
+                            IdentityEnums.FAMILY.getType());
+                    }
+                    break;
+                case 1:
+                    // Family
+                    dismiss();
+                    userDialogListener.userDialogAdded(addUserResponse);
+                    break;
+            }
         } else {
             ToastUtils.show(context, R.string.painter_dialog_select_survey_failed);
+        }
+    }
+
+    private void updateView() {
+        switch (progressState) {
+            case STATE_ADD:
+                binding.btConfirmDialogUser.setText(R.string.common_next);
+                binding.btPrevButtonDialogUser.setVisibility(View.GONE);
+                binding.llSurveyUserDialog.setVisibility(View.GONE);
+                binding.llMainUserDialog.setVisibility(View.VISIBLE);
+                break;
+            case STATE_SURVEY:
+                binding.btConfirmDialogUser.setText(R.string.common_confirm);
+                binding.btPrevButtonDialogUser.setVisibility(View.VISIBLE);
+                binding.llSurveyUserDialog.setVisibility(View.VISIBLE);
+                binding.llMainUserDialog.setVisibility(View.GONE);
+                break;
         }
     }
 }

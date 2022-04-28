@@ -182,6 +182,11 @@ public class BottomNavigationActivity extends AbstractActivity<AbstractPresenter
     }
 
     @Override
+    public void updateTitle(@NonNull String title) {
+        binding.compTopBarBottomNavigationActivity.tvTitleTopBarComp.setText(title);
+    }
+
+    @Override
     public AbstractPresenter createPresenter() {
         return null;
     }

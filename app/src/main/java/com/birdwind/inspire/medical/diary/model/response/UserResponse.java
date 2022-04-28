@@ -14,7 +14,17 @@ public class UserResponse extends AbstractResponse<UserResponse.Response> {
 
         private int Identity;
 
+        private boolean HasFamily;
+
+        private boolean NeedSetPatientName;
+
+        private boolean IsProxy;
+
+        private int Disease;
+
         private String PhotoUrl;
+
+        private String LoginKey;
 
         public int getUID() {
             return UID;
@@ -48,12 +58,52 @@ public class UserResponse extends AbstractResponse<UserResponse.Response> {
             Identity = identity;
         }
 
+        public boolean isHasFamily() {
+            return HasFamily;
+        }
+
+        public void setHasFamily(boolean hasFamily) {
+            HasFamily = hasFamily;
+        }
+
+        public boolean isNeedSetPatientName() {
+            return NeedSetPatientName;
+        }
+
+        public void setNeedSetPatientName(boolean needSetPatientName) {
+            NeedSetPatientName = needSetPatientName;
+        }
+
+        public boolean isProxy() {
+            return IsProxy;
+        }
+
+        public void setProxy(boolean proxy) {
+            IsProxy = proxy;
+        }
+
+        public int getDisease() {
+            return Disease;
+        }
+
+        public void setDisease(int disease) {
+            Disease = disease;
+        }
+
         public String getPhotoUrl() {
             return PhotoUrl;
         }
 
         public void setPhotoUrl(String photoUrl) {
             PhotoUrl = photoUrl;
+        }
+
+        public String getLoginKey() {
+            return LoginKey;
+        }
+
+        public void setLoginKey(String loginKey) {
+            LoginKey = loginKey;
         }
     }
 }

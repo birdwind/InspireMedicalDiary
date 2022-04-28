@@ -1,16 +1,22 @@
 package com.birdwind.inspire.medical.diary.view.fragment;
 
-import com.birdwind.inspire.medical.diary.App;
-import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
-import com.birdwind.inspire.medical.diary.databinding.FragmentFamilyQuizIdentitySelectorBinding;
-import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+
 import androidx.fragment.app.Fragment;
+
+import com.birdwind.inspire.medical.diary.App;
+import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
+import com.birdwind.inspire.medical.diary.databinding.FragmentFamilyQuizIdentitySelectorBinding;
+import com.birdwind.inspire.medical.diary.enums.IdentityEnums;
+import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
 
 public class QuizFamilyIdentityFragment
     extends AbstractFragment<AbstractPresenter, FragmentFamilyQuizIdentitySelectorBinding> {
+
+    private SurveyFragment surveyFragment;
+
     @Override
     public AbstractPresenter createPresenter() {
         return null;
@@ -25,36 +31,27 @@ public class QuizFamilyIdentityFragment
     @Override
     public void addListener() {
         binding.btPatientFamilyQuizIdentitySelectorFragment.setOnClickListener(v -> {
-            switch (App.userModel.getDiseaseEnums()) {
-                case ALZHEIMER:
-                    pushFragment(new RecordFragment());
-                    break;
-                case PERKINS:
-                    pushFragment(new QuizPerkinsPatientFragment());
-                    break;
-            }
+            Bundle bundle = new Bundle();
+            bundle.putInt("identity", IdentityEnums.PAINTER.getType());
+            surveyFragment.setArguments(bundle);
+            pushFragment(surveyFragment);
         });
 
         binding.btFamilyFamilyQuizIdentitySelectorFragment.setOnClickListener(v -> {
-            switch (App.userModel.getDiseaseEnums()) {
-                case ALZHEIMER:
-                    pushFragment(new QuizAkzhimerFamilyFragment());
-                    break;
-                case PERKINS:
-                    pushFragment(new QuizPerkinsFamilyFragment());
-                    break;
-            }
+            Bundle bundle = new Bundle();
+            bundle.putInt("identity", IdentityEnums.FAMILY.getType());
+            surveyFragment.setArguments(bundle);
+            pushFragment(surveyFragment);
         });
     }
 
     @Override
     public void initData(Bundle savedInstanceState) {
-
+        surveyFragment = new SurveyFragment();
     }
 
     @Override
     public void initView() {
-
     }
 
     @Override

@@ -18,6 +18,7 @@ import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.base.Config;
 import com.birdwind.inspire.medical.diary.base.utils.GsonUtils;
 import com.birdwind.inspire.medical.diary.base.utils.LogUtils;
+import com.birdwind.inspire.medical.diary.base.utils.NetworkUtils;
 import com.birdwind.inspire.medical.diary.model.PainterDiseaseModel;
 import com.birdwind.inspire.medical.diary.model.response.ChatResponse;
 import com.birdwind.inspire.medical.diary.receiver.BroadcastReceiverAction;
@@ -73,10 +74,10 @@ public class InspireDiaryWebSocketService extends Service {
     }
 
     private void initSignalR() {
-        if (hubConnection == null) {
+        if (hubConnection == null && NetworkUtils.isConnected(getApplicationContext())) {
             if (App.userModel != null && !App.userModel.getToken().isEmpty()) {
                 hubConnection =
-                    HubConnectionBuilder.create(Config.BASE_URL + "MessageHub?Token=" + App.userModel.getToken())
+                    HubConnectionBuilder.create(Config.BASE_URL + "/MessageHub?Token=" + App.userModel.getToken())
                         .withHeader("Token", App.userModel.getToken()).build();
                 hubConnection.setKeepAliveInterval(5 * 1000);
                 hubConnection.on("ReceiveMessage", (json) -> {

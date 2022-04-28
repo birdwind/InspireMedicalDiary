@@ -46,12 +46,7 @@ public class HttpsGlideOkHttpClient {
 
             OkHttpClient.Builder builder = new OkHttpClient.Builder();
             builder.sslSocketFactory(sslSocketFactory, (X509TrustManager) trustAllCerts[0]);
-            builder.hostnameVerifier(new HostnameVerifier() {
-                @Override
-                public boolean verify(String hostname, SSLSession session) {
-                    return true;
-                }
-            });
+            builder.hostnameVerifier((hostname, session) -> true);
 
             builder.connectTimeout(20, TimeUnit.SECONDS);
             builder.readTimeout(20, TimeUnit.SECONDS);

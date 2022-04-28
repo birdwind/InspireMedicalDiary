@@ -1,7 +1,7 @@
 package com.birdwind.inspire.medical.diary.enums;
 
 public enum DiseaseEnums {
-    NOT_SET(0), HEADACHE(1), ALZHEIMER(2), PERKINS(3);
+    NOT_SET(0), HEADACHE(3), ALZHEIMER(1), PERKINS(2);
 
     private int type;
 

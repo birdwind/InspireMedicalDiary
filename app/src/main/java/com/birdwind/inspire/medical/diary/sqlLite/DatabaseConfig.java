@@ -12,6 +12,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.birdwind.inspire.medical.diary.base.Config;
 import com.birdwind.inspire.medical.diary.base.utils.sqlLite.DataConverter;
+import com.birdwind.inspire.medical.diary.model.ChatMemberModel;
 import com.birdwind.inspire.medical.diary.model.response.ChatMemberResponse;
 import com.birdwind.inspire.medical.diary.model.response.ChatResponse;
 import com.birdwind.inspire.medical.diary.model.response.PatientResponse;
@@ -21,7 +22,7 @@ import com.birdwind.inspire.medical.diary.sqlLite.dao.FriendDao;
 
 import org.jetbrains.annotations.NotNull;
 
-@Database(entities = {PatientResponse.Response.class, ChatResponse.Response.class, ChatMemberResponse.Response.class},
+@Database(entities = {PatientResponse.Response.class, ChatResponse.Response.class, ChatMemberModel.class},
     version = 1)
 @TypeConverters(DataConverter.class)
 public abstract class DatabaseConfig extends RoomDatabase {

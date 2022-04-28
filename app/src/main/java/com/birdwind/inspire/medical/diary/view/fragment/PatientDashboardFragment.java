@@ -23,11 +23,12 @@ import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
 import com.birdwind.inspire.medical.diary.databinding.FragmentPatientBinding;
 import com.birdwind.inspire.medical.diary.enums.DiseaseEnums;
 import com.birdwind.inspire.medical.diary.enums.IdentityEnums;
-import com.birdwind.inspire.medical.diary.model.response.ChatMemberResponse;
+import com.birdwind.inspire.medical.diary.model.ChatMemberModel;
 import com.birdwind.inspire.medical.diary.presenter.PatientDashboardPresent;
 import com.birdwind.inspire.medical.diary.sqlLite.service.ChatMemberService;
 import com.birdwind.inspire.medical.diary.view.adapter.GroupMemberAdapter;
 import com.birdwind.inspire.medical.diary.view.adapter.ViewPage2Adapter;
+import com.birdwind.inspire.medical.diary.view.dialog.PatientManagerDialog;
 import com.birdwind.inspire.medical.diary.view.viewCallback.PatientDashboardView;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -72,6 +73,10 @@ public class PatientDashboardFragment extends AbstractFragment<PatientDashboardP
 
     protected RotateAnimation shrinkRotateArrowAnimation;
 
+    private SurveyListFragment surveyPatientListFragment;
+
+    private SurveyListFragment surveyFamilyListFragment;
+
     @Override
     public PatientDashboardPresent createPresenter() {
         return new PatientDashboardPresent(this);
@@ -88,6 +93,20 @@ public class PatientDashboardFragment extends AbstractFragment<PatientDashboardP
         binding.comGroupMemberPatientFragment.llDownArrowChatGroupComponent.setOnClickListener(v -> {
             hideFriendGroup(!isHideFriendGroup);
             isHideFriendGroup = !isHideFriendGroup;
+        });
+
+        binding.comGroupMemberPatientFragment.llPatientChatGroupComponent.setOnClickListener(v -> {
+            // TODO:取得病患問卷
+            if (binding.vpPatientFragment.getCurrentItem() == 1) {
+                surveyPatientListFragment.updateSurveyList(uid, patientName, true);
+            }
+        });
+
+        binding.comGroupMemberPatientFragment.llPatientChatGroupComponent.setOnLongClickListener(view -> {
+            // TODO:彈窗
+            PatientManagerDialog patientManagerDialog = new PatientManagerDialog(context, uid, diseaseEnums);
+            patientManagerDialog.show();
+            return false;
         });
 
     }
@@ -111,34 +130,31 @@ public class PatientDashboardFragment extends AbstractFragment<PatientDashboardP
 
         Bundle patientBundle = new Bundle();
         patientBundle.putLong("UID", uid);
+        patientBundle.putString("patientName", patientName);
+        patientBundle.putInt("identity",
+            (App.userModel.getIdentityEnums() == IdentityEnums.DOCTOR
+                || App.userModel.getIdentityEnums() == IdentityEnums.PAINTER) ? IdentityEnums.PAINTER.getType()
+                    : App.userModel.isProxy() ? IdentityEnums.PAINTER.getType() : IdentityEnums.FAMILY.getType());
+
+        Bundle familyBundle = new Bundle();
+        familyBundle.putLong("UID", uid);
+        familyBundle.putString("patientName", patientName);
+        familyBundle.putInt("identity", IdentityEnums.FAMILY.getType());
+
         ChatFragment chatFragment = new ChatFragment();
-        ChartPatientFragment chartPatientFragment = new ChartPatientFragment();
-        ChartFamilyFragment chartFamilyFragment = new ChartFamilyFragment();
-        RecordOrderFragment recordOrderFragment = new RecordOrderFragment();
         chatFragment.setArguments(patientBundle);
-        chartPatientFragment.setArguments(patientBundle);
-        chartFamilyFragment.setArguments(patientBundle);
-        recordOrderFragment.setArguments(patientBundle);
+
+        surveyPatientListFragment = new SurveyListFragment();
+        surveyPatientListFragment.setArguments(patientBundle);
+
+        surveyFamilyListFragment = new SurveyListFragment();
+        surveyFamilyListFragment.setArguments(familyBundle);
 
         fragmentMap = new LinkedHashMap<>();
         fragmentMap.put(getString(R.string.doctor_main_tab_message), chatFragment);
-        if (App.userModel.getIdentityEnums() == IdentityEnums.FAMILY) {
-            if (App.userModel.isProxy()) {
-                if (diseaseEnums == DiseaseEnums.ALZHEIMER) {
-                    fragmentMap.put(getString(R.string.doctor_main_tab_chart_patient), recordOrderFragment);
-                } else {
-                    fragmentMap.put(getString(R.string.doctor_main_tab_chart_patient), chartPatientFragment);
-                }
-                fragmentMap.put(getString(R.string.doctor_main_tab_chart_family), chartFamilyFragment);
-            } else {
-                fragmentMap.put(getString(R.string.doctor_main_tab_chart), chartFamilyFragment);
-            }
-        } else {
-            if (diseaseEnums == DiseaseEnums.ALZHEIMER) {
-                fragmentMap.put(getString(R.string.doctor_main_tab_chart), recordOrderFragment);
-            } else {
-                fragmentMap.put(getString(R.string.doctor_main_tab_chart), chartPatientFragment);
-            }
+        fragmentMap.put(getString(R.string.doctor_main_tab_chart), surveyPatientListFragment);
+        if (App.userModel.isProxy()) {
+            fragmentMap.put(getString(R.string.doctor_main_tab_chart_family), surveyFamilyListFragment);
         }
 
         viewPage2Adapter = new ViewPage2Adapter(this, fragmentMap);
@@ -234,13 +250,13 @@ public class PatientDashboardFragment extends AbstractFragment<PatientDashboardP
 
     @Override
     public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-        ChatMemberResponse.Response chatMemberResponse = (ChatMemberResponse.Response) adapter.getItem(position);
-        Bundle bundle = new Bundle();
-        bundle.putLong("UID", chatMemberResponse.getUID());
-        bundle.putString("name", chatMemberResponse.getUserName());
-        ChartFamilyFragment chartFragment = new ChartFamilyFragment();
-        chartFragment.setArguments(bundle);
-        pushFragment(chartFragment);
+        ChatMemberModel chatMemberResponse = (ChatMemberModel) adapter.getItem(position);
+
+        if (binding.vpPatientFragment.getCurrentItem() == 1) {
+            surveyPatientListFragment.updateSurveyList(chatMemberResponse.getUID(), patientName,
+                chatMemberResponse.getUserName(), IdentityEnums.FAMILY, true);
+        }
+
     }
 
     @Override

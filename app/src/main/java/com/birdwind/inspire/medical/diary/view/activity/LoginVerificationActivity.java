@@ -17,8 +17,6 @@ import com.birdwind.inspire.medical.diary.databinding.ActivityLoginVerificationB
 import com.birdwind.inspire.medical.diary.enums.IdentityEnums;
 import com.birdwind.inspire.medical.diary.presenter.LoginVerificationPresenter;
 import com.birdwind.inspire.medical.diary.utils.CountDownUtils;
-import com.birdwind.inspire.medical.diary.view.dialog.PatineNameDialog;
-import com.birdwind.inspire.medical.diary.view.dialog.callback.PatineNameDialogListener;
 import com.birdwind.inspire.medical.diary.view.viewCallback.LoginVerificationView;
 import com.leaf.library.StatusBarUtil;
 
@@ -66,6 +64,10 @@ public class LoginVerificationActivity
                 verify();
             }
             return false;
+        });
+
+        binding.llBackLoginVerificationActivity.setOnClickListener(v -> {
+            onBackPressed();
         });
     }
 

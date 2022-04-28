@@ -40,16 +40,37 @@
 
     </RelativeLayout>
 
-
     <View
         style="@style/UnderLine"
         android:layout_below="@id/rl_personal_setting_fragment"
         android:background="@color/colorGray_E7E9EC" />
 
     <LinearLayout
+        android:id="@+id/ll_basic_info_setting_fragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/rl_personal_setting_fragment"
+        android:orientation="vertical"
+        android:paddingHorizontal="12dp">
+
+        <TextView
+            android:id="@+id/tv_basic_info_setting_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="12dp"
+            android:text="@string/setting_basic_info" />
+
+        <View
+            style="@style/UnderLine"
+            android:background="@color/colorGray_E7E9EC" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_logout_setting_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_basic_info_setting_fragment"
         android:orientation="vertical"
         android:paddingHorizontal="12dp">
 

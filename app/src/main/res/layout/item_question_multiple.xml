@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_main_question_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_title_question_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorOrange_FAF1E7"
+        android:padding="12dp" />
+
+    <ImageView
+        android:id="@+id/iv_picture_question_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_title_question_item"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_answer_question_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_picture_question_item"
+        android:padding="12dp"/>
+
+
+</RelativeLayout>

@@ -27,4 +27,5 @@ public class ViewPage2Adapter extends FragmentStateAdapter {
     public int getItemCount() {
         return fragmentMap.size();
     }
+
 }

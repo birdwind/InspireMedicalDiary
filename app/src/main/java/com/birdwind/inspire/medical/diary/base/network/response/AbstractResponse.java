@@ -2,7 +2,7 @@ package com.birdwind.inspire.medical.diary.base.network.response;
 
 import java.io.Serializable;
 
-public class AbstractResponse<BR extends BaseResponse> implements Serializable, BaseSystemResponse {
+public abstract class AbstractResponse<BR extends BaseResponse> implements Serializable, BaseSystemResponse {
 
     private boolean IsSuccess;
 
