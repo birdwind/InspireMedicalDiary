@@ -97,3 +97,5 @@ base.gradle
 app/debug/output-metadata.json
 
 .idea/
+
+.DS_Store

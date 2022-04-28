@@ -142,6 +142,7 @@ public class SettingFragment extends AbstractFragment<SettingPresenter, Fragment
 
     @Override
     public void permissionRequest(Context context, Permission permission) {
+
         if (permission.granted) {
             easyImageUtils.showEasyImage(this);
         } else if (permission.shouldShowRequestPermissionRationale) {

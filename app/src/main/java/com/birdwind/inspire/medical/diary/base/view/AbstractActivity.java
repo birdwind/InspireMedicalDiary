@@ -46,7 +46,7 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 
 public abstract class AbstractActivity<P extends AbstractPresenter, VB extends ViewBinding> extends AppCompatActivity
-    implements BaseView, BaseCustomView, BaseActivity<P, VB> {
+        implements BaseView, BaseCustomView, BaseActivity<P, VB> {
 
     public Context context;
 
@@ -112,7 +112,7 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
         // TODO:Show File Dialog
         if (!isFinishing()) {
             loadingDialog = new LoadingFlower.Builder(this).direction(LoadingConstant.DIRECT_CLOCKWISE)
-                .themeColor(Color.WHITE).text("正在下載中,請稍後").fadeColor(Color.DKGRAY).build();
+                    .themeColor(Color.WHITE).text("正在下載中,請稍後").fadeColor(Color.DKGRAY).build();
             loadingDialog.show();
         }
     }
@@ -138,7 +138,7 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
         if (!isFinishing()) {
             if (loadingDialog == null) {
                 loadingDialog = new LoadingFlower.Builder(context).direction(LoadingConstant.DIRECT_CLOCKWISE)
-                    .themeColor(Color.WHITE).fadeColor(Color.DKGRAY).build();
+                        .themeColor(Color.WHITE).fadeColor(Color.DKGRAY).build();
             }
             loadingDialog.show();
         }
@@ -201,7 +201,7 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
      * activity跳轉（有代參數）
      *
      * @param className class名稱
-     * @param bundle bundle
+     * @param bundle    bundle
      */
     @Override
     public void startActivity(Class<?> className, Bundle bundle) {
@@ -227,7 +227,7 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
      * activity跳轉（有代參數）並結束（）
      *
      * @param className class名稱
-     * @param bundle bundle
+     * @param bundle    bundle
      */
     @Override
     public void startActivityWithFinish(Class<?> className, Bundle bundle) {
@@ -289,27 +289,27 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
     @Override
     public void onServerShutDown() {
         showDialog(context.getString(R.string.common_dialog_title), getString(R.string.error_common_server_shutdown),
-            new CommonDialogListener() {
-                @Override
-                public void clickConfirm() {
-                    finish();
-                }
+                new CommonDialogListener() {
+                    @Override
+                    public void clickConfirm() {
+                        finish();
+                    }
 
-                @Override
-                public void clickCancel() {
+                    @Override
+                    public void clickCancel() {
 
-                }
+                    }
 
-                @Override
-                public void onLoginError(String msg) {
+                    @Override
+                    public void onLoginError(String msg) {
 
-                }
+                    }
 
-                @Override
-                public void onServerShutDown() {
+                    @Override
+                    public void onServerShutDown() {
 
-                }
-            });
+                    }
+                });
     }
 
     public void switchFragment(int containerViewId, Fragment fragment, FragmentTransaction fragmentTransaction) {
@@ -317,7 +317,7 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
     }
 
     public void switchFragmentWithBack(int containerViewId, Fragment fragment,
-        FragmentTransaction fragmentTransaction) {
+                                       FragmentTransaction fragmentTransaction) {
         String backStateName = fragment.getClass().getSimpleName();
         fragmentTransaction.addToBackStack(backStateName);
         switchFrag(containerViewId, fragment, fragmentTransaction);
@@ -399,8 +399,13 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
     }
 
     public void getPermission(String[] permissionArray, PermissionRequestListener permissionRequestListener) {
-        addDisposable(rxPermissions.requestEach(permissionArray)
-            .subscribe(permission -> permissionRequestListener.permissionRequest(context, permission)));
+//        if (group) {
+        addDisposable(rxPermissions.requestEachCombined(permissionArray)
+                .subscribe(permission -> permissionRequestListener.permissionRequest(context, permission)));
+//        } else {
+//            addDisposable(rxPermissions.requestEach(permissionArray)
+//                    .subscribe(permission -> permissionRequestListener.permissionRequest(context, permission)));
+//        }
     }
 
     public boolean hasPermission(@NonNull String permission) {
@@ -463,22 +468,22 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
     @Override
     public void showFunctionNotComplete(boolean isNeedBake) {
         showDialog(getString(R.string.common_dialog_title), getString(R.string.function_not_complete),
-            new CommonDialogListener() {
-                @Override
-                public void clickConfirm() {
-                    if (isNeedBake) {
-                        onBackPressed();
+                new CommonDialogListener() {
+                    @Override
+                    public void clickConfirm() {
+                        if (isNeedBake) {
+                            onBackPressed();
+                        }
                     }
-                }
 
-                @Override
-                public void clickClose() {
+                    @Override
+                    public void clickClose() {
 
-                    if (isNeedBake) {
-                        onBackPressed();
+                        if (isNeedBake) {
+                            onBackPressed();
+                        }
                     }
-                }
-            });
+                });
     }
 
     @Override
