@@ -173,6 +173,10 @@ public class MainActivity extends AbstractActivity<MainPresenter, ActivityMainBi
             if (permission.name.equals(Manifest.permission.CAMERA)) {
                 pushFragment(new ScanFragment());
             }
+        } else if (permission.shouldShowRequestPermissionRationale) {
+            showToast(getString(R.string.scan_no_permission));
+        } else {
+            showToast(getString(R.string.error_common_permission_never_show));
         }
     }
 
