@@ -1,5 +1,6 @@
 package com.birdwind.inspire.medical.diary.view.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,10 +16,13 @@ import com.birdwind.inspire.medical.diary.databinding.FragmentDoctorMainBinding;
 import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
 import com.birdwind.inspire.medical.diary.view.activity.MainActivity;
 import com.birdwind.inspire.medical.diary.view.viewCallback.ToolbarCallback;
+
 import java.util.Stack;
 
-public class DoctorMainFragment extends AbstractFragment<AbstractPresenter, FragmentDoctorMainBinding>
-    implements FragNavController.RootFragmentListener, FragNavController.TransactionListener, ToolbarCallback {
+public class DoctorMainFragment
+        extends AbstractFragment<AbstractPresenter, FragmentDoctorMainBinding>
+        implements FragNavController.RootFragmentListener, FragNavController.TransactionListener,
+        ToolbarCallback {
 
     private FragNavController mNavController;
 
@@ -31,7 +35,7 @@ public class DoctorMainFragment extends AbstractFragment<AbstractPresenter, Frag
 
     @Override
     public FragmentDoctorMainBinding getViewBinding(LayoutInflater inflater, ViewGroup container,
-        boolean attachToParent) {
+            boolean attachToParent) {
         return FragmentDoctorMainBinding.inflate(getLayoutInflater());
     }
 
@@ -43,9 +47,14 @@ public class DoctorMainFragment extends AbstractFragment<AbstractPresenter, Frag
         });
 
         binding.llSettingDoctorMain.setOnClickListener(v -> {
-//            ((MainActivity)context).pushFragment(new SettingFragment());
+            // ((MainActivity)context).pushFragment(new SettingFragment());
             pushFragment(new SettingFragment());
         });
+    }
+
+    @Override
+    public void onActivityResult(Intent intent) {
+        Bundle bundle = intent.getBundleExtra("bundle");
     }
 
     @Override
@@ -55,17 +64,19 @@ public class DoctorMainFragment extends AbstractFragment<AbstractPresenter, Frag
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        FragNavTransactionOptions defaultFragNavTransactionOptions =
-            FragNavTransactionOptions.newBuilder().customAnimations(R.anim.slide_in_from_right,
-                R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right).build();
+        FragNavTransactionOptions defaultFragNavTransactionOptions = FragNavTransactionOptions
+                .newBuilder().customAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left,
+                        R.anim.slide_in_from_left, R.anim.slide_out_to_right)
+                .build();
 
         popFragNavTransactionOptions = FragNavTransactionOptions.newBuilder()
-            .customAnimations(R.anim.slide_in_from_left, R.anim.slide_out_to_right).build();
+                .customAnimations(R.anim.slide_in_from_left, R.anim.slide_out_to_right).build();
 
         mNavController = FragNavController
-            .newBuilder(savedInstanceState, getChildFragmentManager(), binding.flDoctorMainActivity.getId())
-            .transactionListener(this).rootFragmentListener(this, 1)
-            .defaultTransactionOptions(defaultFragNavTransactionOptions).build();
+                .newBuilder(savedInstanceState, getChildFragmentManager(),
+                        binding.flDoctorMainActivity.getId())
+                .transactionListener(this).rootFragmentListener(this, 1)
+                .defaultTransactionOptions(defaultFragNavTransactionOptions).build();
     }
 
     @Override
@@ -84,7 +95,8 @@ public class DoctorMainFragment extends AbstractFragment<AbstractPresenter, Frag
     }
 
     @Override
-    public void onFragmentTransaction(Fragment fragment, FragNavController.TransactionType transactionType) {
+    public void onFragmentTransaction(Fragment fragment,
+            FragNavController.TransactionType transactionType) {
 
     }
 

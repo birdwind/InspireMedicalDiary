@@ -6,7 +6,7 @@
 
 ext {
     config = [
-            compileVersion   : 30,
+            compileVersion   : 31,
             buildToolsVersion: "30.0.1",
             minSDK           : 21,
             targetSDK        : 30,
@@ -37,7 +37,7 @@ ext {
             firebase_core         : "19.0.0",
             firebase_crashlytice  : "17.2.2",
             firebase_message      : "20.3.0",
-            flexbox               : "2.0.1",
+            flexbox               : "3.0.0",
             frag_nav              : "3.2.0",
             fresco                : "2.4.0",
             gifDrawable           : "1.2.23",

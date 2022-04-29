@@ -23,5 +23,7 @@ public class Config {
 
     public static final String UNI_PASS = "UniPass";
 
+    public static final String PERMISSION = "permission";
+
     public static final int MAX_LIST_DATA = 10;
 }

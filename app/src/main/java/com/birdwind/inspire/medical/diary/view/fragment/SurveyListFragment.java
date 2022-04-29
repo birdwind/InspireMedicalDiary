@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,8 +22,6 @@ import com.birdwind.inspire.medical.diary.presenter.SurveyListPresenter;
 import com.birdwind.inspire.medical.diary.view.activity.SurveyActivity;
 import com.birdwind.inspire.medical.diary.view.adapter.QuestionnaireAdapter;
 import com.birdwind.inspire.medical.diary.view.viewCallback.SurveyListView;
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.tbruyelle.rxpermissions3.Permission;
 
 import java.util.List;

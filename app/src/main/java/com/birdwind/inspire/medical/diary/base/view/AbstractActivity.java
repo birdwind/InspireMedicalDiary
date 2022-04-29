@@ -1,6 +1,7 @@
 package com.birdwind.inspire.medical.diary.base.view;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,10 +12,11 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -29,7 +31,6 @@ import com.birdwind.inspire.medical.diary.base.Config;
 import com.birdwind.inspire.medical.diary.base.basic.BaseView;
 import com.birdwind.inspire.medical.diary.base.basic.Callback;
 import com.birdwind.inspire.medical.diary.base.utils.LogUtils;
-import com.birdwind.inspire.medical.diary.base.utils.SharedPreferencesUtils;
 import com.birdwind.inspire.medical.diary.base.utils.SystemUtils;
 import com.birdwind.inspire.medical.diary.base.utils.ToastUtils;
 import com.birdwind.inspire.medical.diary.base.view.loadingDialog.LoadingBaseDialog;
@@ -41,7 +42,7 @@ import com.birdwind.inspire.medical.diary.view.activity.AuthActivity;
 import com.birdwind.inspire.medical.diary.view.dialog.CommonDialog;
 import com.birdwind.inspire.medical.diary.view.dialog.callback.CommonDialogListener;
 import com.birdwind.inspire.medical.diary.view.viewCallback.BaseCustomView;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.fxn.stash.Stash;
 import com.tbruyelle.rxpermissions3.Permission;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 
@@ -65,6 +66,8 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
 
     protected RxPermissions rxPermissions;
 
+    protected ActivityResultLauncher<Intent> activityResultLauncher;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +83,14 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
 
         initData(savedInstanceState);
         initView();
+        activityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(), result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        // There are no request codes
+                        Intent intent = result.getData();
+                        onActivityResult(intent);
+                    }
+                });
         addListener();
         doSomething();
     }
@@ -241,6 +252,13 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
         finish();
     }
 
+    /**
+     * Activity回傳
+     */
+    public void onActivityResult(Intent intent) {
+        LogUtils.d("回傳成功, 請實作回傳內容");
+    }
+
     public void logout() {
         logout(null);
     }
@@ -250,10 +268,10 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
      */
     @Override
     public void logout(Bundle bundle) {
-        String tempUniPass = SharedPreferencesUtils.get(Config.UNI_PASS, "");
+        String tempUniPass = Stash.getString(Config.UNI_PASS, "");
         DatabaseConfig.getInstance(context).clearAllTables();
-        SharedPreferencesUtils.clear();
-        SharedPreferencesUtils.put(Config.UNI_PASS, tempUniPass);
+        Stash.clearAll();
+        Stash.put(Config.UNI_PASS, tempUniPass);
         App.userModel = null;
         startActivityWithFinish(AuthActivity.class);
     }
@@ -559,21 +577,33 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
     }
 
     public void getCurrentAppPermission(Callback callback) {
-        getPermission(new PermissionRequestListener() {
-            @Override
-            public void permissionRequest(Context context, Permission permission) {
-                if (permission.granted) {
-                    if (callback != null) {
-                        callback.call();
+        boolean isAsked = Stash.getBoolean(Config.PERMISSION, false);
+        if (!isAsked) {
+            getPermission(new PermissionRequestListener() {
+                @Override
+                public void permissionRequest(Context context, Permission permission) {
+                    if (permission.granted) {
+                        if (callback != null) {
+                            callback.call();
+                        }
+                    } else if (permission.shouldShowRequestPermissionRationale) {
+                        showToast(getString(R.string.error_common_permission_denied_some));
+                    } else {
+                        showToast(getString(R.string.error_common_permission_never_show));
                     }
-                } else if (permission.shouldShowRequestPermissionRationale) {
-                    showToast(getString(R.string.error_common_permission_denied_some));
-                } else {
-                    showToast(getString(R.string.error_common_permission_never_show));
                 }
-            }
-        }, Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE);
+            }, Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_PHONE_STATE);
+
+            Stash.put(Config.PERMISSION, true);
+        }
+    }
+
+    @Override
+    public int checkScreenOrientation() {
+        Configuration configuration = getResources().getConfiguration();
+        return configuration.orientation;
     }
 }

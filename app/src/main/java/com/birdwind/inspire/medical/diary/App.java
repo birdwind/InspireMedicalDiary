@@ -1,17 +1,15 @@
 package com.birdwind.inspire.medical.diary;
 
-import com.birdwind.inspire.medical.diary.base.Config;
-import com.birdwind.inspire.medical.diary.base.utils.GsonUtils;
-import com.birdwind.inspire.medical.diary.base.utils.LogUtils;
-import com.birdwind.inspire.medical.diary.base.utils.SharedPreferencesUtils;
-import com.birdwind.inspire.medical.diary.base.utils.fcm.MyFirebaseMessagingService;
-import com.birdwind.inspire.medical.diary.model.UserModel;
-import com.fxn.stash.Stash;
-
 import android.app.Application;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Handler;
+
+import com.birdwind.inspire.medical.diary.base.Config;
+import com.birdwind.inspire.medical.diary.base.utils.LogUtils;
+import com.birdwind.inspire.medical.diary.base.utils.fcm.MyFirebaseMessagingService;
+import com.birdwind.inspire.medical.diary.model.UserModel;
+import com.fxn.stash.Stash;
 
 public class App extends Application {
 
@@ -31,7 +29,7 @@ public class App extends Application {
         if (BuildConfig.DEBUG) {
             // Stetho.initializeWithDefaults(this);
         }
-        userModel = GsonUtils.parseJsonToBean(SharedPreferencesUtils.get(Config.USER_MODEL_NAME, ""), UserModel.class);
+        userModel = (UserModel) Stash.getObject(Config.USER_MODEL_NAME, UserModel.class);
         doubleBackToExitPressedOnce = false;
     }
 
@@ -63,7 +61,7 @@ public class App extends Application {
     }
 
     public static void updateUserModel() {
-        SharedPreferencesUtils.put(Config.USER_MODEL_NAME, userModel);
+        Stash.put(Config.USER_MODEL_NAME, userModel);
     }
 
     public static boolean isDoubleBack() {

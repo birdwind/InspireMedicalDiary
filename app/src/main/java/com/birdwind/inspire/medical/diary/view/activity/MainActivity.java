@@ -69,8 +69,6 @@ public class MainActivity extends AbstractActivity<MainPresenter, ActivityMainBi
 
     private Intent inspireDiaryWebSocketServiceIntent;
 
-    private String[] permissions;
-
     @Override
     public void initView() {
         StatusBarUtil.setColor(this, App.userModel.getIdentityMainColor());

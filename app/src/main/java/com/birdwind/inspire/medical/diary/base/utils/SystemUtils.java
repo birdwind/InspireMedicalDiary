@@ -31,6 +31,7 @@ import com.birdwind.inspire.medical.diary.base.Config;
 import com.birdwind.inspire.medical.diary.base.utils.fcm.MyFirebaseMessagingService;
 import com.birdwind.inspire.medical.diary.base.view.AbstractDialog;
 import com.birdwind.inspire.medical.diary.view.dialog.CommonDialog;
+import com.fxn.stash.Stash;
 
 import org.jsoup.Jsoup;
 
@@ -111,11 +112,11 @@ public class SystemUtils {
             LogUtils.exception(e);
         }
 
-        IMEI = IMEI == null ? SharedPreferencesUtils.get("IMEI", "") : IMEI;
+        IMEI = IMEI == null ? Stash.getString("IMEI", "") : IMEI;
         if (IMEI.equals("")) {
             IMEI = UUID.randomUUID().toString();
         }
-        SharedPreferencesUtils.put("IMEI", IMEI);
+        Stash.put("IMEI", IMEI);
         return IMEI;
     }
 
@@ -319,13 +320,13 @@ public class SystemUtils {
     }
 
     public static String initUniquePass() {
-        String pass = SharedPreferencesUtils.get(Config.UNI_PASS, "");
+        String pass = Stash.getString(Config.UNI_PASS, "");
         if (TextUtils.isEmpty(pass)) {
             pass = MyFirebaseMessagingService.getFCMToken();
             if (TextUtils.isEmpty(pass)) {
                 pass = getUniquePsuedoID();
             }
-            SharedPreferencesUtils.put(Config.UNI_PASS, pass);
+            Stash.put(Config.UNI_PASS, pass);
         }
         return pass;
     }

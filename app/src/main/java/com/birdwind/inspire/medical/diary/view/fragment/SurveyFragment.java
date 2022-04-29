@@ -1,19 +1,21 @@
 package com.birdwind.inspire.medical.diary.view.fragment;
 
 import android.Manifest;
-import android.content.Context;
+import android.app.Activity;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
-import com.birdwind.inspire.medical.diary.base.basic.Callback;
 import com.birdwind.inspire.medical.diary.base.network.request.ProgressRequestBody;
 import com.birdwind.inspire.medical.diary.base.utils.LogUtils;
 import com.birdwind.inspire.medical.diary.base.view.AbstractActivity;
@@ -24,14 +26,14 @@ import com.birdwind.inspire.medical.diary.model.response.QuestionnaireResponse;
 import com.birdwind.inspire.medical.diary.model.response.SurveyResponse;
 import com.birdwind.inspire.medical.diary.model.response.UploadMediaResponse;
 import com.birdwind.inspire.medical.diary.presenter.SurveyPresenter;
+import com.birdwind.inspire.medical.diary.view.activity.DrawingActivity;
 import com.birdwind.inspire.medical.diary.view.adapter.QuestionAdapter;
 import com.birdwind.inspire.medical.diary.view.viewCallback.SurveyView;
 import com.birdwind.inspire.medical.diary.view.viewCallback.ToolbarCallback;
-import com.tbruyelle.rxpermissions3.Permission;
 
 public class SurveyFragment extends AbstractFragment<SurveyPresenter, FragmentSurveyBinding>
         implements SurveyView, ToolbarCallback, QuestionAdapter.AnswerCompleteListener,
-        ProgressRequestBody.UploadCallbacks {
+        QuestionAdapter.SpecialAnswerListener, ProgressRequestBody.UploadCallbacks {
 
     private QuestionAdapter questionAdapter;
 
@@ -40,6 +42,7 @@ public class SurveyFragment extends AbstractFragment<SurveyPresenter, FragmentSu
     private IdentityEnums identityEnums;
 
     private QuestionnaireResponse.Response questionnaireResponse;
+
 
     @Override
     public SurveyPresenter createPresenter() {
@@ -80,6 +83,14 @@ public class SurveyFragment extends AbstractFragment<SurveyPresenter, FragmentSu
         questionAdapter = new QuestionAdapter(this);
         questionAdapter.setAnimationEnable(true);
         questionAdapter.setRecyclerView(binding.rvQuizFragment);
+
+        activityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(), result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        // There are no request codes
+                        Intent data = result.getData();
+                    }
+                });
     }
 
     @Override
@@ -102,6 +113,7 @@ public class SurveyFragment extends AbstractFragment<SurveyPresenter, FragmentSu
         } else {
             ((AbstractActivity) context).getCurrentAppPermission(this::init);
         }
+
     }
 
     private void init() {
@@ -173,5 +185,16 @@ public class SurveyFragment extends AbstractFragment<SurveyPresenter, FragmentSu
     @Override
     public void onFinish() {
 
+    }
+
+    @Override
+    public void drawing() {
+        Intent intent = new Intent(context, DrawingActivity.class);
+        activityResultLauncher.launch(intent);
+    }
+
+    @Override
+    public void onActivityResult(Intent intent) {
+        Bundle bundle = intent.getBundleExtra("bundle");
     }
 }

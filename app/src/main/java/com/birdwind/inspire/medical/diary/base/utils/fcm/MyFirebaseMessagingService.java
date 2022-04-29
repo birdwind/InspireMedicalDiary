@@ -1,18 +1,18 @@
 package com.birdwind.inspire.medical.diary.base.utils.fcm;
 
-import org.jetbrains.annotations.NotNull;
+import android.text.TextUtils;
+
+import androidx.annotation.NonNull;
 
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.base.Config;
 import com.birdwind.inspire.medical.diary.base.utils.LogUtils;
-import com.birdwind.inspire.medical.diary.base.utils.SharedPreferencesUtils;
+import com.fxn.stash.Stash;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-import android.text.TextUtils;
-
-import androidx.annotation.NonNull;
+import org.jetbrains.annotations.NotNull;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
@@ -21,7 +21,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static String FCM;
 
     public static String getFCMToken() {
-        FCM = SharedPreferencesUtils.get(Config.FCM_NAME, "");
+        FCM = Stash.getString(Config.FCM_NAME, "");
         if (TextUtils.isEmpty(FCM)) {
             FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
                 if (!task.isSuccessful()) {
@@ -39,7 +39,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onNewToken(@NonNull String token) {
         super.onNewToken(token);
         LogUtils.e("更新FirebaseToken :" + token);
-        SharedPreferencesUtils.put(Config.FCM_NAME, token);
+        Stash.put(Config.FCM_NAME, token);
         if (App.userModel != null) {
             App.userModel.setUpdateFCM(true);
             App.updateUserModel();

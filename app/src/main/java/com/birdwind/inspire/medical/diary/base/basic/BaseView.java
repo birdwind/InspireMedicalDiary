@@ -25,4 +25,6 @@ public interface BaseView {
     void onServerShutDown();
 
     void onApiComplete(String requestFunction);
+
+    int checkScreenOrientation();
 }

@@ -1,5 +1,22 @@
 package com.birdwind.inspire.medical.diary.base.view;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.res.Configuration;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.viewbinding.ViewBinding;
+
 import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.base.basic.BaseView;
 import com.birdwind.inspire.medical.diary.base.enums.ErrorCodeEnums;
@@ -17,23 +34,12 @@ import com.birdwind.inspire.medical.diary.view.activity.WebViewActivity;
 import com.birdwind.inspire.medical.diary.view.dialog.CommonDialog;
 import com.birdwind.inspire.medical.diary.view.dialog.callback.CommonDialogListener;
 import com.birdwind.inspire.medical.diary.view.viewCallback.BaseCustomView;
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.viewbinding.ViewBinding;
+
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 
-public abstract class AbstractFragment<P extends AbstractPresenter, VB extends ViewBinding> extends Fragment
-    implements BaseView, BaseFragment<P, VB>, BaseCustomView, FragmentBackHandler {
+public abstract class AbstractFragment<P extends AbstractPresenter, VB extends ViewBinding> extends
+        Fragment implements BaseView, BaseFragment<P, VB>, BaseCustomView, FragmentBackHandler {
     public Context context;
 
     private String className;
@@ -52,6 +58,8 @@ public abstract class AbstractFragment<P extends AbstractPresenter, VB extends V
 
     protected CommonDialog commonDialog;
 
+    protected ActivityResultLauncher<Intent> activityResultLauncher;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +69,7 @@ public abstract class AbstractFragment<P extends AbstractPresenter, VB extends V
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-        @Nullable Bundle savedInstanceState) {
+            @Nullable Bundle savedInstanceState) {
         LogUtils.eTAG(className, "onCreateView");
         // binding = getViewBinding(inflater, container, false);
         binding = getViewBinding(inflater, container, false);
@@ -70,6 +78,16 @@ public abstract class AbstractFragment<P extends AbstractPresenter, VB extends V
         className = setClassName();
         initData(savedInstanceState);
         initView();
+
+        activityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(), result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        // There are no request codes
+                        Intent intent = result.getData();
+                        onActivityResult(intent);
+                    }
+                });
+
         addListener();
         doSomething();
         return binding.getRoot();
@@ -100,8 +118,8 @@ public abstract class AbstractFragment<P extends AbstractPresenter, VB extends V
     public void showFileDialog() {
         // TODO:Show File Dialog
         if (!((Activity) context).isFinishing()) {
-            progressLoadingDialog = new LoadingPie.Builder(context).ringColor(Color.WHITE).pieColor(Color.WHITE)
-                .updateType(LoadingConstant.PIE_MANUAL_UPDATE).build();
+            progressLoadingDialog = new LoadingPie.Builder(context).ringColor(Color.WHITE)
+                    .pieColor(Color.WHITE).updateType(LoadingConstant.PIE_MANUAL_UPDATE).build();
             progressLoadingDialog.show();
         }
         // dialog = new ProgressDialog(context);
@@ -130,8 +148,9 @@ public abstract class AbstractFragment<P extends AbstractPresenter, VB extends V
     public void showLoadingDialog() {
         if (!((Activity) context).isFinishing()) {
             if (loadingDialog == null) {
-                loadingDialog = new LoadingFlower.Builder(context).direction(LoadingConstant.DIRECT_CLOCKWISE)
-                    .themeColor(Color.WHITE).fadeColor(Color.DKGRAY).build();
+                loadingDialog = new LoadingFlower.Builder(context)
+                        .direction(LoadingConstant.DIRECT_CLOCKWISE).themeColor(Color.WHITE)
+                        .fadeColor(Color.DKGRAY).build();
             }
             loadingDialog.show();
         }
@@ -148,7 +167,8 @@ public abstract class AbstractFragment<P extends AbstractPresenter, VB extends V
     }
 
     @Override
-    public void showMessage(String title, String msg, boolean isDialog, CommonDialogListener commonDialogListener) {
+    public void showMessage(String title, String msg, boolean isDialog,
+            CommonDialogListener commonDialogListener) {
         if (msg == null)
             msg = "";
         if (title == null) {
@@ -267,13 +287,14 @@ public abstract class AbstractFragment<P extends AbstractPresenter, VB extends V
     public void onResume() {
         super.onResume();
         if (isNeedFirebaseAnalyticViewTracker()) {
-            FirebaseAnalyticUtils.setCurrentScreen((Activity) context, getClass().getSimpleName(), null);
+            FirebaseAnalyticUtils.setCurrentScreen((Activity) context, getClass().getSimpleName(),
+                    null);
         }
         if (context instanceof FragmentNavigationListener) {
             fragmentNavigationListener.updateToolbar(setTopBarTitle(), setTopBarTitleColor(),
-                setTopBarBackgroundColor(), isStatusLightMode(), isShowTopBarBack(), isShowTopBar(),
-                isShowRightButton(), setRightButtonText(), setRightImageButton(), setToolbarCallback(),
-                setLeftButtonText());
+                    setTopBarBackgroundColor(), isStatusLightMode(), isShowTopBarBack(),
+                    isShowTopBar(), isShowRightButton(), setRightButtonText(),
+                    setRightImageButton(), setToolbarCallback(), setLeftButtonText());
 
             // ((BottomNavigationActivity) context).getIconBadges();
         }
@@ -316,29 +337,30 @@ public abstract class AbstractFragment<P extends AbstractPresenter, VB extends V
 
     @Override
     public void onServerShutDown() {
-        showDialog(context.getString(R.string.common_dialog_title), getString(R.string.error_common_server_shutdown),
-            new CommonDialogListener() {
-                @Override
-                public void clickConfirm() {
-                    getActivity().finish();
-                }
+        showDialog(context.getString(R.string.common_dialog_title),
+                getString(R.string.error_common_server_shutdown), new CommonDialogListener() {
+                    @Override
+                    public void clickConfirm() {
+                        getActivity().finish();
+                    }
 
-                @Override
-                public void clickCancel() {
+                    @Override
+                    public void clickCancel() {
 
-                }
+                    }
 
-                @Override
-                public void onLoginError(String msg) {}
+                    @Override
+                    public void onLoginError(String msg) {}
 
-                @Override
-                public void onServerShutDown() {
+                    @Override
+                    public void onServerShutDown() {
 
-                }
-            });
+                    }
+                });
     }
 
-    public void getPermission(AbstractActivity.PermissionRequestListener permissionRequestListener, String... permissionArray) {
+    public void getPermission(AbstractActivity.PermissionRequestListener permissionRequestListener,
+            String... permissionArray) {
         ((AbstractActivity) context).getPermission(permissionRequestListener, permissionArray);
     }
 
@@ -365,7 +387,7 @@ public abstract class AbstractFragment<P extends AbstractPresenter, VB extends V
             return bundle;
         } else {
             showMessage(null, "(" + ErrorCodeEnums.NULL_POINT_EXCEPTION.getCode() + ")"
-                + ErrorCodeEnums.NULL_POINT_EXCEPTION.getMessage(), false, null);
+                    + ErrorCodeEnums.NULL_POINT_EXCEPTION.getMessage(), false, null);
             return new Bundle();
         }
     }
@@ -374,8 +396,8 @@ public abstract class AbstractFragment<P extends AbstractPresenter, VB extends V
         openWebView(bundle, link, false, false, null, progressWebViewPageStatus, null);
     }
 
-    public void openWebView(Bundle bundle, String link, boolean isPost, boolean isMoney, String title,
-        int progressWebViewPageStatus, String dialogContent) {
+    public void openWebView(Bundle bundle, String link, boolean isPost, boolean isMoney,
+            String title, int progressWebViewPageStatus, String dialogContent) {
         bundle.putString("link", link);
         bundle.putString("title", title);
         bundle.putBoolean("isPost", isPost);
@@ -430,22 +452,22 @@ public abstract class AbstractFragment<P extends AbstractPresenter, VB extends V
 
     @Override
     public void showFunctionNotComplete(boolean isNeedBake) {
-        showDialog(getString(R.string.common_dialog_title), getString(R.string.function_not_complete),
-            new CommonDialogListener() {
-                @Override
-                public void clickConfirm() {
-                    if (isNeedBake) {
-                        onBackPressed();
+        showDialog(getString(R.string.common_dialog_title),
+                getString(R.string.function_not_complete), new CommonDialogListener() {
+                    @Override
+                    public void clickConfirm() {
+                        if (isNeedBake) {
+                            onBackPressed();
+                        }
                     }
-                }
 
-                @Override
-                public void clickClose() {
-                    if (isNeedBake) {
-                        onBackPressed();
+                    @Override
+                    public void clickClose() {
+                        if (isNeedBake) {
+                            onBackPressed();
+                        }
                     }
-                }
-            });
+                });
     }
 
     @Override
@@ -461,5 +483,18 @@ public abstract class AbstractFragment<P extends AbstractPresenter, VB extends V
     @Override
     public void showToast(String s) {
         ToastUtils.show(context, s);
+    }
+
+    /**
+     * Activity回傳
+     */
+    public void onActivityResult(Intent intent) {
+        LogUtils.d("回傳成功, 請實作回傳內容");
+    }
+
+    @Override
+    public int checkScreenOrientation() {
+        Configuration configuration = getResources().getConfiguration();
+        return configuration.orientation;
     }
 }
