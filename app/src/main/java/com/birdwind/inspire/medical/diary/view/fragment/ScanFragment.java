@@ -30,8 +30,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public class ScanFragment extends AbstractFragment<ScanPresenter, FragmentScanBinding>
-    implements ScanView, AbstractActivity.PermissionRequestListener, QRCodeReaderView.OnQRCodeReadListener,
-    UserDialogListener, ToolbarCallback {
+        implements ScanView, AbstractActivity.PermissionRequestListener,
+        QRCodeReaderView.OnQRCodeReadListener, UserDialogListener, ToolbarCallback {
 
     private UserDialog userDialog;
 
@@ -45,7 +45,8 @@ public class ScanFragment extends AbstractFragment<ScanPresenter, FragmentScanBi
     }
 
     @Override
-    public FragmentScanBinding getViewBinding(LayoutInflater inflater, ViewGroup container, boolean attachToParent) {
+    public FragmentScanBinding getViewBinding(LayoutInflater inflater, ViewGroup container,
+            boolean attachToParent) {
         return FragmentScanBinding.inflate(getLayoutInflater());
     }
 
@@ -54,7 +55,7 @@ public class ScanFragment extends AbstractFragment<ScanPresenter, FragmentScanBi
         binding.qrcodeCameraScanFragment.setOnQRCodeReadListener(this);
         binding.tvPermissionScanFragment.setOnClickListener(v -> {
             if (!hasPermission(Manifest.permission.CAMERA)) {
-                getPermission(new String[] {Manifest.permission.CAMERA}, this);
+                getPermission(this, Manifest.permission.CAMERA);
             }
         });
     }
@@ -126,8 +127,8 @@ public class ScanFragment extends AbstractFragment<ScanPresenter, FragmentScanBi
             ((MainActivity) context).replaceFragment(new FamilyMainFragment(), false);
             App.userModel.setHasFamily(true);
             if (response instanceof AddUserResponse.Response) {
-                App.userModel
-                    .setDiseaseEnums(DiseaseEnums.parseEnumsByType(((AddUserResponse.Response) response).getDisease()));
+                App.userModel.setDiseaseEnums(DiseaseEnums
+                        .parseEnumsByType(((AddUserResponse.Response) response).getDisease()));
             }
             App.updateUserModel();
         } else {
@@ -148,9 +149,11 @@ public class ScanFragment extends AbstractFragment<ScanPresenter, FragmentScanBi
 
     @Override
     public String setRightButtonText() {
-        if (App.userModel.getIdentityEnums() == IdentityEnums.FAMILY && !App.userModel.isHasFamily()) {
+        if (App.userModel.getIdentityEnums() == IdentityEnums.FAMILY
+                && !App.userModel.isHasFamily()) {
             return getString(R.string.common_logout);
-            // } else if (App.userModel.getIdentityEnums() == IdentityEnums.FAMILY && App.userModel.isHasFamily()) {
+            // } else if (App.userModel.getIdentityEnums() == IdentityEnums.FAMILY &&
+            // App.userModel.isHasFamily()) {
             // return getString(R.string.scan_be_agent);
         } else {
             return "";
@@ -159,7 +162,8 @@ public class ScanFragment extends AbstractFragment<ScanPresenter, FragmentScanBi
 
     @Override
     public String setLeftButtonText() {
-        if (App.userModel.getIdentityEnums() == IdentityEnums.FAMILY && !App.userModel.isHasFamily()) {
+        if (App.userModel.getIdentityEnums() == IdentityEnums.FAMILY
+                && !App.userModel.isHasFamily()) {
             return getString(R.string.scan_be_agent);
         } else {
             return "";
@@ -168,7 +172,8 @@ public class ScanFragment extends AbstractFragment<ScanPresenter, FragmentScanBi
 
     @Override
     public boolean isShowTopBarBack() {
-        if (App.userModel.getIdentityEnums() == IdentityEnums.FAMILY && !App.userModel.isHasFamily()) {
+        if (App.userModel.getIdentityEnums() == IdentityEnums.FAMILY
+                && !App.userModel.isHasFamily()) {
             return false;
         } else {
             return true;
@@ -177,18 +182,19 @@ public class ScanFragment extends AbstractFragment<ScanPresenter, FragmentScanBi
 
     @Override
     public void clickTopBarRightTextButton(View view) {
-        if (App.userModel.getIdentityEnums() == IdentityEnums.FAMILY && App.userModel.isHasFamily()) {
+        if (App.userModel.getIdentityEnums() == IdentityEnums.FAMILY
+                && App.userModel.isHasFamily()) {
             // 代理人
             ((MainActivity) context).replaceFragment(new QRCodeFragment(), false);
         } else {
             // 登出
-            showDialog(getString(R.string.common_dialog_title), getString(R.string.common_dialog_logout),
-                new CommonDialogListener() {
-                    @Override
-                    public void clickConfirm() {
-                        ((MainActivity) context).logout();
-                    }
-                });
+            showDialog(getString(R.string.common_dialog_title),
+                    getString(R.string.common_dialog_logout), new CommonDialogListener() {
+                        @Override
+                        public void clickConfirm() {
+                            ((MainActivity) context).logout();
+                        }
+                    });
         }
     }
 

@@ -338,12 +338,11 @@ public abstract class AbstractFragment<P extends AbstractPresenter, VB extends V
             });
     }
 
-    public void getPermission(String[] permissionArray,
-        AbstractActivity.PermissionRequestListener permissionRequestListener) {
-        ((AbstractActivity) context).getPermission(permissionArray, permissionRequestListener);
+    public void getPermission(AbstractActivity.PermissionRequestListener permissionRequestListener, String... permissionArray) {
+        ((AbstractActivity) context).getPermission(permissionRequestListener, permissionArray);
     }
 
-    public boolean hasPermission(String permission) {
+    public boolean hasPermission(@NonNull String... permission) {
         return ((AbstractActivity) context).hasPermission(permission);
     }
 

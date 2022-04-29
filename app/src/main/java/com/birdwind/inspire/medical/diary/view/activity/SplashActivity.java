@@ -44,7 +44,6 @@ public class SplashActivity extends AbstractActivity<AbstractPresenter, Activity
 
     @Override
     public void doSomething() {
-        getPermission(new String[] {Manifest.permission.CAMERA}, this);
         crossFade();
     }
 

@@ -38,13 +38,12 @@ import pl.aprilapps.easyphotopicker.MediaFile;
 import pl.aprilapps.easyphotopicker.MediaSource;
 
 public class SettingFragment extends AbstractFragment<SettingPresenter, FragmentSettingBinding>
-    implements SettingView, ProgressRequestBody.UploadCallbacks, AbstractActivity.PermissionRequestListener {
+        implements SettingView, ProgressRequestBody.UploadCallbacks,
+        AbstractActivity.PermissionRequestListener {
 
     private EasyImageUtils easyImageUtils;
 
     private EasyImage easyImage;
-
-    private ActivityResultLauncher activityResultLauncher;
 
     @Override
     public SettingPresenter createPresenter() {
@@ -52,19 +51,22 @@ public class SettingFragment extends AbstractFragment<SettingPresenter, Fragment
     }
 
     @Override
-    public FragmentSettingBinding getViewBinding(LayoutInflater inflater, ViewGroup container, boolean attachToParent) {
+    public FragmentSettingBinding getViewBinding(LayoutInflater inflater, ViewGroup container,
+            boolean attachToParent) {
         return FragmentSettingBinding.inflate(getLayoutInflater());
     }
 
     @Override
     public void addListener() {
         binding.ibEditAvatarSettingFragment.setOnClickListener(v -> {
-            if (hasPermission(Manifest.permission.CAMERA)
-                && hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) && hasPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            if (hasPermission(Manifest.permission.CAMERA,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
                 easyImageUtils.showEasyImage(this);
             } else {
-                getPermission(new String[] {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
-                    this);
+                getPermission(this, Manifest.permission.CAMERA,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE);
             }
         });
 
@@ -86,30 +88,17 @@ public class SettingFragment extends AbstractFragment<SettingPresenter, Fragment
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        easyImageUtils = new EasyImageUtils(context, getString(R.string.setting_basic_upload_avatar));
+        easyImageUtils =
+                new EasyImageUtils(context, getString(R.string.setting_basic_upload_avatar));
         easyImage = easyImageUtils.getEasyImage();
     }
 
     @Override
     public void doSomething() {}
 
-    // @Override
-    // public void takeSuccess(List<Uri> uriList) {
-    // presenter.uploadAvatar(new File(uriList.get(0).getPath()), this);
-    // }
-    //
-    // @Override
-    // public void takeFailure(TakeException ex) {
-    //
-    // }
-    //
-    // @Override
-    // public void takeCancel() {
-    //
-    // }
-
     @Override
-    public void onUpdateAvatar(boolean isSuccess, UploadMediaResponse.Response uploadMediaResponse) {
+    public void onUpdateAvatar(boolean isSuccess,
+            UploadMediaResponse.Response uploadMediaResponse) {
         if (isSuccess) {
             App.userModel.setPhotoUrl(uploadMediaResponse.getMediaLink());
             App.updateUserModel();
@@ -136,13 +125,12 @@ public class SettingFragment extends AbstractFragment<SettingPresenter, Fragment
 
     private void loadAvatar() {
         Glide.with(context).load(App.userModel.getPhotoUrl())
-            .placeholder(ContextCompat.getDrawable(getContext(), R.drawable.ic_avatar))
-            .into(binding.civAvatarSettingFragment);
+                .placeholder(ContextCompat.getDrawable(getContext(), R.drawable.ic_avatar))
+                .into(binding.civAvatarSettingFragment);
     }
 
     @Override
     public void permissionRequest(Context context, Permission permission) {
-
         if (permission.granted) {
             easyImageUtils.showEasyImage(this);
         } else if (permission.shouldShowRequestPermissionRationale) {
@@ -167,24 +155,26 @@ public class SettingFragment extends AbstractFragment<SettingPresenter, Fragment
         }
 
         if (resultCode == RESULT_OK) {
-            easyImage.handleActivityResult(requestCode, resultCode, data, (AbstractActivity) context,
-                new EasyImage.Callbacks() {
-                    @Override
-                    public void onImagePickerError(@NonNull Throwable throwable, @NonNull MediaSource mediaSource) {
-                        showToast(getString(R.string.error_common_unknow));
-                        LogUtils.exception(throwable);
-                    }
+            easyImage.handleActivityResult(requestCode, resultCode, data,
+                    (AbstractActivity) context, new EasyImage.Callbacks() {
+                        @Override
+                        public void onImagePickerError(@NonNull Throwable throwable,
+                                @NonNull MediaSource mediaSource) {
+                            showToast(getString(R.string.error_common_unknow));
+                            LogUtils.exception(throwable);
+                        }
 
-                    @Override
-                    public void onMediaFilesPicked(@NonNull MediaFile[] mediaFiles, @NonNull MediaSource mediaSource) {
-                        cropImage(mediaFiles[0].getFile());
-                    }
+                        @Override
+                        public void onMediaFilesPicked(@NonNull MediaFile[] mediaFiles,
+                                @NonNull MediaSource mediaSource) {
+                            cropImage(mediaFiles[0].getFile());
+                        }
 
-                    @Override
-                    public void onCanceled(@NonNull MediaSource mediaSource) {
+                        @Override
+                        public void onCanceled(@NonNull MediaSource mediaSource) {
 
-                    }
-                });
+                        }
+                    });
         }
     }
 
@@ -193,7 +183,6 @@ public class SettingFragment extends AbstractFragment<SettingPresenter, Fragment
     }
 
     private void uploadAvatar(File file) {
-        // showToast(file.getPath());
         presenter.uploadAvatar(file, this);
     }
 }

@@ -81,6 +81,7 @@ public class QuestionAdapter extends BaseMultiItemQuickAdapter<QuestionModel, Ba
         addChildClickViewIds(R.id.rb_true_question_boolean_item, R.id.rb_false_question_boolean_item);
         addChildClickViewIds(R.id.ibtn_record_question_item, R.id.ibtn_play_question_item,
             R.id.awv_record_question_item);
+        addChildClickViewIds(R.id.ibtn_drawing_question_item);
         setOnItemChildClickListener((adapter, view, position) -> {
         });
         this.answerCompleteListener = answerCompleteListener;
@@ -171,6 +172,12 @@ public class QuestionAdapter extends BaseMultiItemQuickAdapter<QuestionModel, Ba
                 } else if (v.getId() == R.id.ibtn_play_question_item || v.getId() == R.id.awv_record_question_item) {
                     playAudio(position);
                 }
+                break;
+            case AnswerTypeEnum.IMAGE:
+                if(v.getId() == R.id.ibtn_drawing_question_item){
+
+                }
+                break;
         }
     }
 

@@ -29,8 +29,9 @@ import com.tbruyelle.rxpermissions3.Permission;
 
 import java.util.List;
 
-public class SurveyListFragment extends AbstractFragment<SurveyListPresenter, FragmentSurveyListBinding>
-    implements SurveyListView, AbstractActivity.PermissionRequestListener {
+public class SurveyListFragment
+        extends AbstractFragment<SurveyListPresenter, FragmentSurveyListBinding>
+        implements SurveyListView, AbstractActivity.PermissionRequestListener {
 
     private int uid;
 
@@ -51,18 +52,20 @@ public class SurveyListFragment extends AbstractFragment<SurveyListPresenter, Fr
 
     @Override
     public FragmentSurveyListBinding getViewBinding(LayoutInflater inflater, ViewGroup container,
-        boolean attachToParent) {
+            boolean attachToParent) {
         return FragmentSurveyListBinding.inflate(inflater);
     }
 
     @Override
     public void addListener() {
         questionnaireAdapter.setOnItemClickListener((adapter, view, position) -> {
-            if (hasPermission(Manifest.permission.RECORD_AUDIO) && hasPermission(Manifest.permission.RECORD_AUDIO)) {
-                surveyQuestionnaireListResponse = (SurveyQuestionnaireListResponse.Response) adapter.getItem(position);
+            surveyQuestionnaireListResponse =
+                    (SurveyQuestionnaireListResponse.Response) adapter.getItem(position);
+            if (hasPermission(Manifest.permission.RECORD_AUDIO, Manifest.permission.RECORD_AUDIO)) {
                 pushFragment();
             } else {
-                getPermission(new String[] {Manifest.permission.RECORD_AUDIO, Manifest.permission.RECORD_AUDIO}, this);
+                getPermission(this, Manifest.permission.RECORD_AUDIO,
+                        Manifest.permission.RECORD_AUDIO);
             }
         });
     }
@@ -74,7 +77,8 @@ public class SurveyListFragment extends AbstractFragment<SurveyListPresenter, Fr
             uid = (int) bundle.getLong("UID", App.userModel.getUid());
             patientName = bundle.getString("patientName", "");
             familyName = bundle.getString("familyName", "");
-            identityEnums = IdentityEnums.parseEnumsByType(bundle.getInt("identity", App.userModel.getIdentityEnums().getType()));
+            identityEnums = IdentityEnums.parseEnumsByType(
+                    bundle.getInt("identity", App.userModel.getIdentityEnums().getType()));
         } else {
             uid = App.userModel.getUid();
             patientName = "";
@@ -89,8 +93,8 @@ public class SurveyListFragment extends AbstractFragment<SurveyListPresenter, Fr
 
     @Override
     public void initView() {
-        binding.rvSurveyListFragment
-            .setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+        binding.rvSurveyListFragment.setLayoutManager(
+                new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         binding.rvSurveyListFragment.setHasFixedSize(true);
         binding.rvSurveyListFragment.setAdapter(questionnaireAdapter);
     }
@@ -115,7 +119,8 @@ public class SurveyListFragment extends AbstractFragment<SurveyListPresenter, Fr
     }
 
     @Override
-    public void getSurveyQuestionnaire(List<SurveyQuestionnaireListResponse.Response> surveyQuestionnaireListResponse) {
+    public void getSurveyQuestionnaire(
+            List<SurveyQuestionnaireListResponse.Response> surveyQuestionnaireListResponse) {
         questionnaireAdapter.setList(surveyQuestionnaireListResponse);
         if (surveyQuestionnaireListResponse.size() > 0) {
             binding.rvSurveyListFragment.setVisibility(View.VISIBLE);
@@ -139,8 +144,8 @@ public class SurveyListFragment extends AbstractFragment<SurveyListPresenter, Fr
         updateSurveyList(uid, patientName, "", IdentityEnums.PAINTER, isLoad);
     }
 
-    public void updateSurveyList(long uid, String patientName, String familyName, IdentityEnums identityEnums,
-        boolean isLoad) {
+    public void updateSurveyList(long uid, String patientName, String familyName,
+            IdentityEnums identityEnums, boolean isLoad) {
         this.uid = (int) uid;
         this.identityEnums = identityEnums;
         if (isLoad) {
@@ -151,15 +156,15 @@ public class SurveyListFragment extends AbstractFragment<SurveyListPresenter, Fr
     @Override
     public void permissionRequest(Context context, Permission permission) {
         if (permission.granted) {
+            pushFragment();
         } else if (permission.shouldShowRequestPermissionRationale) {
-
             showToast(getString(R.string.scan_no_permission));
         } else {
             showToast(getString(R.string.error_common_permission_never_show));
         }
     }
 
-    private void pushFragment(){
+    private void pushFragment() {
         Bundle bundle = new Bundle();
         bundle.putInt("questionnaireID", surveyQuestionnaireListResponse.getQuestionnaireID());
         bundle.putInt("identity", identityEnums.getType());

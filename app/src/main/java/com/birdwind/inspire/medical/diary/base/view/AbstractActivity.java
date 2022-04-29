@@ -1,5 +1,6 @@
 package com.birdwind.inspire.medical.diary.base.view;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
@@ -25,6 +27,7 @@ import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.base.Config;
 import com.birdwind.inspire.medical.diary.base.basic.BaseView;
+import com.birdwind.inspire.medical.diary.base.basic.Callback;
 import com.birdwind.inspire.medical.diary.base.utils.LogUtils;
 import com.birdwind.inspire.medical.diary.base.utils.SharedPreferencesUtils;
 import com.birdwind.inspire.medical.diary.base.utils.SystemUtils;
@@ -45,8 +48,8 @@ import com.tbruyelle.rxpermissions3.RxPermissions;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 
-public abstract class AbstractActivity<P extends AbstractPresenter, VB extends ViewBinding> extends AppCompatActivity
-        implements BaseView, BaseCustomView, BaseActivity<P, VB> {
+public abstract class AbstractActivity<P extends AbstractPresenter, VB extends ViewBinding>
+        extends AppCompatActivity implements BaseView, BaseCustomView, BaseActivity<P, VB> {
 
     public Context context;
 
@@ -111,8 +114,9 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
     public void showFileDialog() {
         // TODO:Show File Dialog
         if (!isFinishing()) {
-            loadingDialog = new LoadingFlower.Builder(this).direction(LoadingConstant.DIRECT_CLOCKWISE)
-                    .themeColor(Color.WHITE).text("正在下載中,請稍後").fadeColor(Color.DKGRAY).build();
+            loadingDialog = new LoadingFlower.Builder(this)
+                    .direction(LoadingConstant.DIRECT_CLOCKWISE).themeColor(Color.WHITE)
+                    .text("正在下載中,請稍後").fadeColor(Color.DKGRAY).build();
             loadingDialog.show();
         }
     }
@@ -137,8 +141,9 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
     public void showLoadingDialog() {
         if (!isFinishing()) {
             if (loadingDialog == null) {
-                loadingDialog = new LoadingFlower.Builder(context).direction(LoadingConstant.DIRECT_CLOCKWISE)
-                        .themeColor(Color.WHITE).fadeColor(Color.DKGRAY).build();
+                loadingDialog = new LoadingFlower.Builder(context)
+                        .direction(LoadingConstant.DIRECT_CLOCKWISE).themeColor(Color.WHITE)
+                        .fadeColor(Color.DKGRAY).build();
             }
             loadingDialog.show();
         }
@@ -158,7 +163,8 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
     }
 
     @Override
-    public void showMessage(String title, String msg, boolean isDialog, CommonDialogListener commonDialogListener) {
+    public void showMessage(String title, String msg, boolean isDialog,
+            CommonDialogListener commonDialogListener) {
         if (msg == null)
             msg = "";
         if (!isDialog) {
@@ -201,7 +207,7 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
      * activity跳轉（有代參數）
      *
      * @param className class名稱
-     * @param bundle    bundle
+     * @param bundle bundle
      */
     @Override
     public void startActivity(Class<?> className, Bundle bundle) {
@@ -227,7 +233,7 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
      * activity跳轉（有代參數）並結束（）
      *
      * @param className class名稱
-     * @param bundle    bundle
+     * @param bundle bundle
      */
     @Override
     public void startActivityWithFinish(Class<?> className, Bundle bundle) {
@@ -288,8 +294,8 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
 
     @Override
     public void onServerShutDown() {
-        showDialog(context.getString(R.string.common_dialog_title), getString(R.string.error_common_server_shutdown),
-                new CommonDialogListener() {
+        showDialog(context.getString(R.string.common_dialog_title),
+                getString(R.string.error_common_server_shutdown), new CommonDialogListener() {
                     @Override
                     public void clickConfirm() {
                         finish();
@@ -312,18 +318,20 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
                 });
     }
 
-    public void switchFragment(int containerViewId, Fragment fragment, FragmentTransaction fragmentTransaction) {
+    public void switchFragment(int containerViewId, Fragment fragment,
+            FragmentTransaction fragmentTransaction) {
         switchFrag(containerViewId, fragment, fragmentTransaction);
     }
 
     public void switchFragmentWithBack(int containerViewId, Fragment fragment,
-                                       FragmentTransaction fragmentTransaction) {
+            FragmentTransaction fragmentTransaction) {
         String backStateName = fragment.getClass().getSimpleName();
         fragmentTransaction.addToBackStack(backStateName);
         switchFrag(containerViewId, fragment, fragmentTransaction);
     }
 
-    private void switchFrag(int containerViewId, Fragment fragment, FragmentTransaction fragmentTransaction) {
+    private void switchFrag(int containerViewId, Fragment fragment,
+            FragmentTransaction fragmentTransaction) {
         fragmentTransaction.replace(containerViewId, fragment);
         fragmentTransaction.commit();
     }
@@ -375,7 +383,8 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
     }
 
     public void hideSoftKeyboard(View view) {
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm =
+                (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null) {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
@@ -398,18 +407,28 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
         return false;
     }
 
-    public void getPermission(String[] permissionArray, PermissionRequestListener permissionRequestListener) {
-//        if (group) {
-        addDisposable(rxPermissions.requestEachCombined(permissionArray)
-                .subscribe(permission -> permissionRequestListener.permissionRequest(context, permission)));
-//        } else {
-//            addDisposable(rxPermissions.requestEach(permissionArray)
-//                    .subscribe(permission -> permissionRequestListener.permissionRequest(context, permission)));
-//        }
+    public void getPermission(PermissionRequestListener permissionRequestListener,
+            String... permissionArray) {
+        // if (group) {
+        addDisposable(rxPermissions.requestEachCombined(permissionArray).subscribe(
+                permission -> permissionRequestListener.permissionRequest(context, permission)));
+        // } else {
+        // addDisposable(rxPermissions.requestEach(permissionArray)
+        // .subscribe(permission -> permissionRequestListener.permissionRequest(context,
+        // permission)));
+        // }
     }
 
-    public boolean hasPermission(@NonNull String permission) {
-        return ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED;
+    public boolean hasPermission(@NonNull String... permission) {
+        boolean isHasPermissions = true;
+        for (String target : permission) {
+            isHasPermissions = ContextCompat.checkSelfPermission(this,
+                    target) == PackageManager.PERMISSION_GRANTED;
+            if (!isHasPermissions) {
+                break;
+            }
+        }
+        return isHasPermissions;
     }
 
     public interface PermissionRequestListener {
@@ -417,9 +436,11 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
             if (permission.granted) {
 
             } else if (permission.shouldShowRequestPermissionRationale) {
-                ToastUtils.show(context, context.getString(R.string.error_common_permission_denied_some));
+                ToastUtils.show(context,
+                        context.getString(R.string.error_common_permission_denied_some));
             } else {
-                ToastUtils.show(context, context.getString(R.string.error_common_permission_never_show));
+                ToastUtils.show(context,
+                        context.getString(R.string.error_common_permission_never_show));
             }
         }
     }
@@ -467,8 +488,8 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
 
     @Override
     public void showFunctionNotComplete(boolean isNeedBake) {
-        showDialog(getString(R.string.common_dialog_title), getString(R.string.function_not_complete),
-                new CommonDialogListener() {
+        showDialog(getString(R.string.common_dialog_title),
+                getString(R.string.function_not_complete), new CommonDialogListener() {
                     @Override
                     public void clickConfirm() {
                         if (isNeedBake) {
@@ -535,5 +556,24 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
         if (!BackHandlerHelper.handleBackPress(this)) {
             super.onBackPressed();
         }
+    }
+
+    public void getCurrentAppPermission(Callback callback) {
+        getPermission(new PermissionRequestListener() {
+            @Override
+            public void permissionRequest(Context context, Permission permission) {
+                if (permission.granted) {
+                    if (callback != null) {
+                        callback.call();
+                    }
+                } else if (permission.shouldShowRequestPermissionRationale) {
+                    showToast(getString(R.string.error_common_permission_denied_some));
+                } else {
+                    showToast(getString(R.string.error_common_permission_never_show));
+                }
+            }
+        }, Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE);
     }
 }

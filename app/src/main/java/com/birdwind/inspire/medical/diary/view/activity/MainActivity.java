@@ -47,17 +47,9 @@ import com.leaf.library.StatusBarUtil;
 import com.tbruyelle.rxpermissions3.Permission;
 
 public class MainActivity extends AbstractActivity<MainPresenter, ActivityMainBinding>
-    implements AbstractActivity.PermissionRequestListener, FragNavController.TransactionListener,
-    FragNavController.RootFragmentListener, FragmentNavigationListener, View.OnClickListener, PatineNameDialogListener,
-    MainView {
-
-    private final String PAGE_SCAN = "SCAN";
-
-    private final String PAGE_QRCODE = "QRCODE";
-
-    private final String PAGE_QUIZ = "QUIZ";
-
-    private final String PAGE_SETTING = "SETTING";
+        implements AbstractActivity.PermissionRequestListener,
+        FragNavController.TransactionListener, FragNavController.RootFragmentListener,
+        FragmentNavigationListener, View.OnClickListener, PatineNameDialogListener, MainView {
 
     private IdentityEnums identityEnums;
 
@@ -69,10 +61,6 @@ public class MainActivity extends AbstractActivity<MainPresenter, ActivityMainBi
 
     private FragNavTransactionOptions popFragNavTransactionOptions;
 
-    // private FragNavTransactionOptions tabToRightFragNavTransactionOptions;
-    //
-    // private FragNavTransactionOptions tabToLeftFragNavTransactionOptions;
-
     private ToolbarCallback toolbarCallback;
 
     private PainterBroadcastReceiver painterBroadcastReceiver;
@@ -81,10 +69,11 @@ public class MainActivity extends AbstractActivity<MainPresenter, ActivityMainBi
 
     private Intent inspireDiaryWebSocketServiceIntent;
 
+    private String[] permissions;
+
     @Override
     public void initView() {
         StatusBarUtil.setColor(this, App.userModel.getIdentityMainColor());
-        setTopBarVisible(identityEnums, true);
     }
 
     @Override
@@ -94,14 +83,14 @@ public class MainActivity extends AbstractActivity<MainPresenter, ActivityMainBi
             Uri data = intent.getData();
             if (data != null) {
                 String temp = data.getQueryParameter("identity");
-                IdentityEnums identityEnums = IdentityEnums.parseEnumsByType(Integer.parseInt(temp));
+                IdentityEnums identityEnums =
+                        IdentityEnums.parseEnumsByType(Integer.parseInt(temp));
                 LogUtils.d("身分", identityEnums.name());
                 if (identityEnums == IdentityEnums.PAINTER) {
                     PatientMainFragment patientMainFragment = new PatientMainFragment();
                     Bundle bundle = new Bundle();
                     bundle.putString("action", "quiz");
                     patientMainFragment.setArguments(bundle);
-                    // replaceFragment(patientMainFragment, false);
                     pushFragment(new ChatFragment());
                 }
             }
@@ -118,7 +107,8 @@ public class MainActivity extends AbstractActivity<MainPresenter, ActivityMainBi
     }
 
     @Override
-    public ActivityMainBinding getViewBinding(LayoutInflater inflater, ViewGroup container, boolean attachToParent) {
+    public ActivityMainBinding getViewBinding(LayoutInflater inflater, ViewGroup container,
+            boolean attachToParent) {
         return ActivityMainBinding.inflate(getLayoutInflater());
     }
 
@@ -129,15 +119,6 @@ public class MainActivity extends AbstractActivity<MainPresenter, ActivityMainBi
         binding.compTopBarMainActivity.btRightButtonTopBarComp.setOnClickListener(this);
         binding.compTopBarMainActivity.btLeftButtonTopBarComp.setOnClickListener(this);
         binding.compTopBarMainActivity.llCloseTopBarComp.setOnClickListener(this);
-        // binding.compDoctorTopBarMainActivity.llScanTopBarComponent.setOnClickListener(this);
-        // binding.compDoctorTopBarMainActivity.llSettingTopBarComponent.setOnClickListener(this);
-        // binding.compFamilyTopBarMainActivity.llQuizFamilyTopBarComponent.setOnClickListener(this);
-        // binding.compFamilyTopBarMainActivity.llScanFamilyTopBarComponent.setOnClickListener(this);
-        // binding.compFamilyTopBarMainActivity.llSettingFamilyTopBarComponent.setOnClickListener(this);
-        // binding.compPatientTopBarMainActivity.llQrcodePatientTopBarComponent.setOnClickListener(this);
-        // binding.compPatientTopBarMainActivity.llQuizPatientTopBarComponent.setOnClickListener(this);
-        // binding.compPatientTopBarMainActivity.llSettingPatientTopBarComponent.setOnClickListener(this);
-
     }
 
     @Override
@@ -145,12 +126,13 @@ public class MainActivity extends AbstractActivity<MainPresenter, ActivityMainBi
         identityEnums = App.userModel.getIdentityEnums();
         doubleBackToExitPressedOnce = false;
 
-        FragNavTransactionOptions defaultFragNavTransactionOptions =
-            FragNavTransactionOptions.newBuilder().customAnimations(R.anim.slide_in_from_right,
-                R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right).build();
+        FragNavTransactionOptions defaultFragNavTransactionOptions = FragNavTransactionOptions
+                .newBuilder().customAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left,
+                        R.anim.slide_in_from_left, R.anim.slide_out_to_right)
+                .build();
 
         popFragNavTransactionOptions = FragNavTransactionOptions.newBuilder()
-            .customAnimations(R.anim.slide_in_from_left, R.anim.slide_out_to_right).build();
+                .customAnimations(R.anim.slide_in_from_left, R.anim.slide_out_to_right).build();
         //
         // tabToRightFragNavTransactionOptions = FragNavTransactionOptions.newBuilder()
         // .customAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left).build();
@@ -163,8 +145,9 @@ public class MainActivity extends AbstractActivity<MainPresenter, ActivityMainBi
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         mNavController = FragNavController
-            .newBuilder(savedInstanceState, fragmentManager, binding.mainContainer.getId()).transactionListener(this)
-            .rootFragmentListener(this, 1).defaultTransactionOptions(defaultFragNavTransactionOptions).build();
+                .newBuilder(savedInstanceState, fragmentManager, binding.mainContainer.getId())
+                .transactionListener(this).rootFragmentListener(this, 1)
+                .defaultTransactionOptions(defaultFragNavTransactionOptions).build();
 
         patineNameDialog = new PatineNameDialog(context, this);
     }
@@ -195,7 +178,8 @@ public class MainActivity extends AbstractActivity<MainPresenter, ActivityMainBi
 
     private void startSignalRService() {
         if (!SystemUtils.isServiceRunning(InspireDiaryWebSocketService.class, context)) {
-            inspireDiaryWebSocketServiceIntent = new Intent(this, InspireDiaryWebSocketService.class);
+            inspireDiaryWebSocketServiceIntent =
+                    new Intent(this, InspireDiaryWebSocketService.class);
             this.startService(inspireDiaryWebSocketServiceIntent);
         }
     }
@@ -209,8 +193,9 @@ public class MainActivity extends AbstractActivity<MainPresenter, ActivityMainBi
             public void onReceive(Context context, Intent intent) {
                 Bundle bundle = intent.getExtras();
                 PainterDiseaseModel painterDiseaseModel =
-                    (PainterDiseaseModel) bundle.getSerializable("painterDiseaseModel");
-                App.userModel.setDiseaseEnums(DiseaseEnums.parseEnumsByType(painterDiseaseModel.getDisease()));
+                        (PainterDiseaseModel) bundle.getSerializable("painterDiseaseModel");
+                App.userModel.setDiseaseEnums(
+                        DiseaseEnums.parseEnumsByType(painterDiseaseModel.getDisease()));
                 App.userModel.setNeedPatineName(painterDiseaseModel.isNeedSetPatientName());
 
                 App.updateUserModel();
@@ -243,17 +228,8 @@ public class MainActivity extends AbstractActivity<MainPresenter, ActivityMainBi
     }
 
     @Override
-    public void onFragmentTransaction(Fragment fragment, FragNavController.TransactionType transactionType) {
-        if (transactionType == FragNavController.TransactionType.PUSH) {
-            setTopBarVisible(identityEnums, false);
-        } else if (transactionType == FragNavController.TransactionType.POP) {
-            if (identityEnums == IdentityEnums.DOCTOR && fragment.getClass() == DoctorPatientFragment.class) {
-                setTopBarVisible(identityEnums, true);
-            } else if (fragment.getClass() == ChatFragment.class) {
-                setTopBarVisible(identityEnums, true);
-            }
-        }
-    }
+    public void onFragmentTransaction(Fragment fragment,
+            FragNavController.TransactionType transactionType) {}
 
     @Override
     public Fragment getRootFragment(int index) {
@@ -287,9 +263,10 @@ public class MainActivity extends AbstractActivity<MainPresenter, ActivityMainBi
     public void popIndexTabFragment(int tab) {}
 
     @Override
-    public void updateToolbar(String title, int titleColor, int backgroundColor, boolean isStatusLightMode,
-        boolean isShowBack, boolean isShowHeader, boolean isShowRightButton, String rightButtonText,
-        int rightImageButton, ToolbarCallback toolbarCallback, String leftButtonText) {
+    public void updateToolbar(String title, int titleColor, int backgroundColor,
+            boolean isStatusLightMode, boolean isShowBack, boolean isShowHeader,
+            boolean isShowRightButton, String rightButtonText, int rightImageButton,
+            ToolbarCallback toolbarCallback, String leftButtonText) {
         if (title != null) {
             binding.compTopBarMainActivity.tvTitleTopBarComp.setText(title);
         } else {
@@ -300,16 +277,17 @@ public class MainActivity extends AbstractActivity<MainPresenter, ActivityMainBi
         } else {
             StatusBarUtil.setDarkMode(this);
         }
-        binding.compTopBarMainActivity.tvTitleTopBarComp.setTextColor(ContextCompat.getColor(this, titleColor));
-        binding.compTopBarMainActivity.ivBackTopBarComp.setColorFilter(ContextCompat.getColor(this, titleColor),
-            android.graphics.PorterDuff.Mode.SRC_IN);
+        binding.compTopBarMainActivity.tvTitleTopBarComp
+                .setTextColor(ContextCompat.getColor(this, titleColor));
+        binding.compTopBarMainActivity.ivBackTopBarComp.setColorFilter(
+                ContextCompat.getColor(this, titleColor), android.graphics.PorterDuff.Mode.SRC_IN);
 
         if (backgroundColor == -1) {
-            binding.compTopBarMainActivity.rlBackgroundTopBarComp
-                .setBackgroundColor(ContextCompat.getColor(this, App.userModel.getIdentityMainColorId()));
+            binding.compTopBarMainActivity.rlBackgroundTopBarComp.setBackgroundColor(
+                    ContextCompat.getColor(this, App.userModel.getIdentityMainColorId()));
         } else {
             binding.compTopBarMainActivity.rlBackgroundTopBarComp
-                .setBackgroundColor(ContextCompat.getColor(this, backgroundColor));
+                    .setBackgroundColor(ContextCompat.getColor(this, backgroundColor));
         }
 
         if (isShowBack) {
@@ -341,7 +319,7 @@ public class MainActivity extends AbstractActivity<MainPresenter, ActivityMainBi
         if (rightImageButton != 0) {
             binding.compTopBarMainActivity.llRightButtonTopBarComp.setVisibility(View.VISIBLE);
             binding.compTopBarMainActivity.ivRightButtonTopBarComp
-                .setImageDrawable(ContextCompat.getDrawable(context, rightImageButton));
+                    .setImageDrawable(ContextCompat.getDrawable(context, rightImageButton));
         } else {
             binding.compTopBarMainActivity.llRightButtonTopBarComp.setVisibility(View.GONE);
         }
@@ -351,7 +329,8 @@ public class MainActivity extends AbstractActivity<MainPresenter, ActivityMainBi
 
     @Override
     public void updateTitle(String title) {
-        binding.compTopBarMainActivity.tvTitleTopBarComp.setText(title != null ? title : getString(R.string.app_name));
+        binding.compTopBarMainActivity.tvTitleTopBarComp
+                .setText(title != null ? title : getString(R.string.app_name));
     }
 
     @Override
@@ -377,7 +356,7 @@ public class MainActivity extends AbstractActivity<MainPresenter, ActivityMainBi
 
     public void openScanFragment() {
         if (!hasPermission(Manifest.permission.CAMERA)) {
-            getPermission(new String[] {Manifest.permission.CAMERA}, this);
+            getPermission(this, Manifest.permission.CAMERA);
         } else {
             pushFragment(new ScanFragment());
         }
@@ -388,49 +367,6 @@ public class MainActivity extends AbstractActivity<MainPresenter, ActivityMainBi
             mNavController.replaceFragment(fragment, popFragNavTransactionOptions);
         } else {
             mNavController.replaceFragment(fragment);
-        }
-    }
-
-    private void setTopBarVisible(IdentityEnums identityEnums, boolean isVisible) {
-        boolean isPrepared = false;
-        if (identityEnums == IdentityEnums.PAINTER) {
-            if (App.userModel.getDiseaseEnums() != null && App.userModel.getDiseaseEnums() != DiseaseEnums.NOT_SET) {
-                isPrepared = true;
-            }
-        } else if (identityEnums == IdentityEnums.FAMILY) {
-            isPrepared = App.userModel.isHasFamily();
-        }
-
-        // binding.compDoctorTopBarMainActivity.llDoctorTopBarComponent
-        // .setVisibility(identityEnums == IdentityEnums.DOCTOR && isVisible ? View.VISIBLE : View.GONE);
-        // binding.compFamilyTopBarMainActivity.llFamilyTopBarComponent
-        // .setVisibility(identityEnums == IdentityEnums.FAMILY && isPrepared && isVisible ? View.VISIBLE : View.GONE);
-        // binding.compPatientTopBarMainActivity.llPatientTopBarComponent.setVisibility(
-        // identityEnums == IdentityEnums.PAINTER && isPrepared && isVisible ? View.VISIBLE : View.GONE);
-    }
-
-    public void openPage(String page) {
-        switch (page) {
-            case PAGE_SCAN:
-                openScanFragment();
-                break;
-            case PAGE_QRCODE:
-                pushFragment(new QRCodeFragment());
-                break;
-            case PAGE_QUIZ:
-                // switch (App.userModel.getDiseaseEnums()) {
-                // case HEADACHE:
-                // pushFragment(new QuizHeadacheFragment());
-                // break;
-                // case ALZHEIMER:
-                // case PERKINS:
-                // pushFragment(new QuizAkzhimerFamilyFragment());
-                // break;
-                // }
-                break;
-            case PAGE_SETTING:
-                pushFragment(new SettingFragment());
-                break;
         }
     }
 

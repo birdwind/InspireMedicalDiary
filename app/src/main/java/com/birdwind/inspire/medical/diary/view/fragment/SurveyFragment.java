@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
+import com.birdwind.inspire.medical.diary.base.basic.Callback;
 import com.birdwind.inspire.medical.diary.base.network.request.ProgressRequestBody;
 import com.birdwind.inspire.medical.diary.base.utils.LogUtils;
 import com.birdwind.inspire.medical.diary.base.view.AbstractActivity;
@@ -29,8 +30,8 @@ import com.birdwind.inspire.medical.diary.view.viewCallback.ToolbarCallback;
 import com.tbruyelle.rxpermissions3.Permission;
 
 public class SurveyFragment extends AbstractFragment<SurveyPresenter, FragmentSurveyBinding>
-    implements SurveyView, ToolbarCallback, QuestionAdapter.AnswerCompleteListener, ProgressRequestBody.UploadCallbacks,
-    AbstractActivity.PermissionRequestListener {
+        implements SurveyView, ToolbarCallback, QuestionAdapter.AnswerCompleteListener,
+        ProgressRequestBody.UploadCallbacks {
 
     private QuestionAdapter questionAdapter;
 
@@ -46,7 +47,8 @@ public class SurveyFragment extends AbstractFragment<SurveyPresenter, FragmentSu
     }
 
     @Override
-    public FragmentSurveyBinding getViewBinding(LayoutInflater inflater, ViewGroup container, boolean attachToParent) {
+    public FragmentSurveyBinding getViewBinding(LayoutInflater inflater, ViewGroup container,
+            boolean attachToParent) {
         return FragmentSurveyBinding.inflate(inflater);
     }
 
@@ -68,8 +70,8 @@ public class SurveyFragment extends AbstractFragment<SurveyPresenter, FragmentSu
         Bundle bundle = getArguments();
         if (bundle != null) {
             questionnaireID = bundle.getInt("questionnaireID", 0);
-            identityEnums =
-                IdentityEnums.parseEnumsByType(bundle.getInt("identity", App.userModel.getIdentityEnums().getType()));
+            identityEnums = IdentityEnums.parseEnumsByType(
+                    bundle.getInt("identity", App.userModel.getIdentityEnums().getType()));
         } else {
             questionnaireID = 0;
             identityEnums = App.userModel.getIdentityEnums();
@@ -82,7 +84,8 @@ public class SurveyFragment extends AbstractFragment<SurveyPresenter, FragmentSu
 
     @Override
     public void initView() {
-        binding.rvQuizFragment.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+        binding.rvQuizFragment.setLayoutManager(
+                new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         binding.rvQuizFragment.setHasFixedSize(true);
         binding.rvQuizFragment.setAdapter(questionAdapter);
         if (questionnaireID != 0) {
@@ -94,10 +97,10 @@ public class SurveyFragment extends AbstractFragment<SurveyPresenter, FragmentSu
 
     @Override
     public void doSomething() {
-        if (hasPermission(Manifest.permission.RECORD_AUDIO) && hasPermission(Manifest.permission.RECORD_AUDIO)) {
+        if (hasPermission(Manifest.permission.RECORD_AUDIO, Manifest.permission.RECORD_AUDIO)) {
             init();
         } else {
-            getPermission(new String[] {Manifest.permission.RECORD_AUDIO, Manifest.permission.RECORD_AUDIO}, this);
+            ((AbstractActivity) context).getCurrentAppPermission(this::init);
         }
     }
 
@@ -134,7 +137,8 @@ public class SurveyFragment extends AbstractFragment<SurveyPresenter, FragmentSu
         binding.tvEmptyQuizFragment.setVisibility(View.GONE);
         this.questionnaireResponse = questionnaireResponse;
         questionAdapter.setList(questionnaireResponse.getSurveyResponse().getQuestions());
-        fragmentNavigationListener.updateTitle(questionnaireResponse.getSurveyResponse().getSurveyName());
+        fragmentNavigationListener
+                .updateTitle(questionnaireResponse.getSurveyResponse().getSurveyName());
     }
 
     @Override
@@ -145,15 +149,15 @@ public class SurveyFragment extends AbstractFragment<SurveyPresenter, FragmentSu
     @Override
     public void complete() {
         binding.btSubmitSurveyFragment.setEnabled(true);
-        binding.btSubmitSurveyFragment.setBackgroundTintList(
-            ColorStateList.valueOf(getResources().getColor(App.userModel.getIdentityMainColorId())));
+        binding.btSubmitSurveyFragment.setBackgroundTintList(ColorStateList
+                .valueOf(getResources().getColor(App.userModel.getIdentityMainColorId())));
     }
 
     @Override
     public void unComplete() {
         binding.btSubmitSurveyFragment.setEnabled(false);
-        binding.btSubmitSurveyFragment
-            .setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorGray_A6A6A6)));
+        binding.btSubmitSurveyFragment.setBackgroundTintList(
+                ColorStateList.valueOf(getResources().getColor(R.color.colorGray_A6A6A6)));
     }
 
     @Override
@@ -169,17 +173,5 @@ public class SurveyFragment extends AbstractFragment<SurveyPresenter, FragmentSu
     @Override
     public void onFinish() {
 
-    }
-
-    @Override
-    public void permissionRequest(Context context, Permission permission) {
-        if (permission.granted) {
-            init();
-        } else if (permission.shouldShowRequestPermissionRationale) {
-
-            showToast(getString(R.string.scan_no_permission));
-        } else {
-            showToast(getString(R.string.error_common_permission_never_show));
-        }
     }
 }

@@ -6,6 +6,8 @@ import com.birdwind.inspire.medical.diary.base.utils.LogUtils;
 import com.birdwind.inspire.medical.diary.base.utils.SharedPreferencesUtils;
 import com.birdwind.inspire.medical.diary.base.utils.fcm.MyFirebaseMessagingService;
 import com.birdwind.inspire.medical.diary.model.UserModel;
+import com.fxn.stash.Stash;
+
 import android.app.Application;
 import android.content.Context;
 import android.content.res.Resources;
@@ -22,12 +24,13 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Stash.init(this);
+
         App = this;
         LogUtils.e("FirebaseToken", MyFirebaseMessagingService.getFCMToken());
         if (BuildConfig.DEBUG) {
             // Stetho.initializeWithDefaults(this);
         }
-
         userModel = GsonUtils.parseJsonToBean(SharedPreferencesUtils.get(Config.USER_MODEL_NAME, ""), UserModel.class);
         doubleBackToExitPressedOnce = false;
     }

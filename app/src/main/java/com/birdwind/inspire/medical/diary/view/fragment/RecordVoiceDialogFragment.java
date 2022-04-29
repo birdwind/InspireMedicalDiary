@@ -32,9 +32,10 @@ import com.tbruyelle.rxpermissions3.Permission;
 
 import java.io.File;
 
-public class RecordVoiceDialogFragment extends AbstractFragment<RecordVoiceDialogPresenter, FragmentRecordBinding>
-    implements RecordVoiceDialogView, AbstractActivity.PermissionRequestListener, ToolbarCallback, AudioRecordListener,
-    MediaPlayListener, ProgressRequestBody.UploadCallbacks {
+public class RecordVoiceDialogFragment
+        extends AbstractFragment<RecordVoiceDialogPresenter, FragmentRecordBinding> implements
+        RecordVoiceDialogView, AbstractActivity.PermissionRequestListener, ToolbarCallback,
+        AudioRecordListener, MediaPlayListener, ProgressRequestBody.UploadCallbacks {
 
     private Recorder recorder;
 
@@ -52,7 +53,8 @@ public class RecordVoiceDialogFragment extends AbstractFragment<RecordVoiceDialo
     }
 
     @Override
-    public FragmentRecordBinding getViewBinding(LayoutInflater inflater, ViewGroup container, boolean attachToParent) {
+    public FragmentRecordBinding getViewBinding(LayoutInflater inflater, ViewGroup container,
+            boolean attachToParent) {
         return FragmentRecordBinding.inflate(getLayoutInflater());
     }
 
@@ -100,15 +102,15 @@ public class RecordVoiceDialogFragment extends AbstractFragment<RecordVoiceDialo
 
     @Override
     public void initView() {
-        binding.ibPlayRecordFragment.setColorFilter(ContextCompat.getColor(context, R.color.colorGray_C4C4C4),
-            PorterDuff.Mode.SRC_IN);
+        binding.ibPlayRecordFragment.setColorFilter(
+                ContextCompat.getColor(context, R.color.colorGray_C4C4C4), PorterDuff.Mode.SRC_IN);
     }
 
     @Override
     public void doSomething() {
         presenter.getVoiceQuiz();
-        getPermission(new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO},
-            this);
+        getPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.RECORD_AUDIO);
     }
 
     private void startRecord() {
@@ -137,10 +139,12 @@ public class RecordVoiceDialogFragment extends AbstractFragment<RecordVoiceDialo
         if (permission.granted) {
 
         } else if (permission.shouldShowRequestPermissionRationale) {
-            ToastUtils.show(context, context.getString(R.string.error_common_permission_denied_some));
+            ToastUtils.show(context,
+                    context.getString(R.string.error_common_permission_denied_some));
             onBackPressed();
         } else {
-            ToastUtils.show(context, context.getString(R.string.error_common_permission_never_show));
+            ToastUtils.show(context,
+                    context.getString(R.string.error_common_permission_never_show));
             onBackPressed();
         }
     }
@@ -151,8 +155,8 @@ public class RecordVoiceDialogFragment extends AbstractFragment<RecordVoiceDialo
         player = new Player(this);
         player.injectMedia(audioUri);
         file = new File(audioUri);
-        binding.ibPlayRecordFragment.setColorFilter(ContextCompat.getColor(context, R.color.colorBlack_000000),
-            PorterDuff.Mode.SRC_IN);
+        binding.ibPlayRecordFragment.setColorFilter(
+                ContextCompat.getColor(context, R.color.colorBlack_000000), PorterDuff.Mode.SRC_IN);
     }
 
     @Override
@@ -165,8 +169,9 @@ public class RecordVoiceDialogFragment extends AbstractFragment<RecordVoiceDialo
         showToast(errorMessage);
 
         binding.ibRecordRecordFragment.post(() -> {
-            binding.ibRecordRecordFragment.setColorFilter(ContextCompat.getColor(context, R.color.colorBlack_000000),
-                PorterDuff.Mode.SRC_IN);
+            binding.ibRecordRecordFragment.setColorFilter(
+                    ContextCompat.getColor(context, R.color.colorBlack_000000),
+                    PorterDuff.Mode.SRC_IN);
         });
         isRecording = false;
     }
@@ -186,8 +191,8 @@ public class RecordVoiceDialogFragment extends AbstractFragment<RecordVoiceDialo
     @Override
     public void onGetVoiceQuiz(boolean isSuccess, VoiceQuizResponse.Response response) {
         CustomPicasso.getImageLoader(context).load(response.getPhotoUrl())
-            .placeholder(ContextCompat.getDrawable(context, R.drawable.ic_default_image))
-            .into(binding.ivImageRecordFragment);
+                .placeholder(ContextCompat.getDrawable(context, R.drawable.ic_default_image))
+                .into(binding.ivImageRecordFragment);
 
         binding.tvDescriptionRecordFragment.setText(response.getContent());
         id = response.getVTID();
@@ -196,25 +201,29 @@ public class RecordVoiceDialogFragment extends AbstractFragment<RecordVoiceDialo
     @Override
     public void onUploadRecord(boolean isSuccess, String url) {
 
-        if(getParentFragment() instanceof PatientMainFragment){
-            ((PatientMainFragment) getParentFragment()).popFragmentToRoot(PatientDashboardFragment.TAB_2);
-        }else{
-            ((FamilyMainFragment) getParentFragment()).popFragmentToRoot(PatientDashboardFragment.TAB_2);
+        if (getParentFragment() instanceof PatientMainFragment) {
+            ((PatientMainFragment) getParentFragment())
+                    .popFragmentToRoot(PatientDashboardFragment.TAB_2);
+        } else {
+            ((FamilyMainFragment) getParentFragment())
+                    .popFragmentToRoot(PatientDashboardFragment.TAB_2);
         }
-//        if (App.userModel.getIdentityEnums() == IdentityEnums.PAINTER) {
-//            ((PatientMainFragment) getParentFragment()).popFragmentToRoot(PatientDashboardFragment.TAB_2);
-//        } else if (App.userModel.getIdentityEnums() == IdentityEnums.FAMILY) {
-//            ((FamilyMainFragment) getParentFragment()).popFragmentToRoot(PatientDashboardFragment.TAB_2);
-//        }
+        // if (App.userModel.getIdentityEnums() == IdentityEnums.PAINTER) {
+        // ((PatientMainFragment)
+        // getParentFragment()).popFragmentToRoot(PatientDashboardFragment.TAB_2);
+        // } else if (App.userModel.getIdentityEnums() == IdentityEnums.FAMILY) {
+        // ((FamilyMainFragment)
+        // getParentFragment()).popFragmentToRoot(PatientDashboardFragment.TAB_2);
+        // }
     }
 
     @Override
     public void onProgressUpdate(int percentage) {
         LogUtils.d("上傳", String.valueOf(percentage));
-//        if (progressLoadingDialog == null || !progressLoadingDialog.isShowing()) {
-//            showLoadingFileDialog();
-//        }
-//        progressLoadingDialog.setPiePercentage(percentage);
+        // if (progressLoadingDialog == null || !progressLoadingDialog.isShowing()) {
+        // showLoadingFileDialog();
+        // }
+        // progressLoadingDialog.setPiePercentage(percentage);
     }
 
     @Override

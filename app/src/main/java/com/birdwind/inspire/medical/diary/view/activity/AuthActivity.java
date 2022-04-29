@@ -6,6 +6,10 @@ import com.birdwind.inspire.medical.diary.base.view.AbstractActivity;
 import com.birdwind.inspire.medical.diary.databinding.ActivityAuthBinding;
 import com.birdwind.inspire.medical.diary.enums.IdentityEnums;
 import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
+import com.tbruyelle.rxpermissions3.Permission;
+
+import android.Manifest;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -22,7 +26,8 @@ public class AuthActivity extends AbstractActivity<AbstractPresenter, ActivityAu
     }
 
     @Override
-    public ActivityAuthBinding getViewBinding(LayoutInflater inflater, ViewGroup container, boolean attachToParent) {
+    public ActivityAuthBinding getViewBinding(LayoutInflater inflater, ViewGroup container,
+            boolean attachToParent) {
         return ActivityAuthBinding.inflate(getLayoutInflater());
     }
 
@@ -60,7 +65,7 @@ public class AuthActivity extends AbstractActivity<AbstractPresenter, ActivityAu
 
     @Override
     public void doSomething() {
-
+        getCurrentAppPermission(null);
     }
 
     private void openLoginActivity(IdentityEnums identityEnums) {
@@ -73,7 +78,7 @@ public class AuthActivity extends AbstractActivity<AbstractPresenter, ActivityAu
     public void onBackPressed() {
         if (App.isDoubleBack()) {
             super.onBackPressed();
-        }else{
+        } else {
             showToast(getString(R.string.common_double_click_back));
         }
     }
