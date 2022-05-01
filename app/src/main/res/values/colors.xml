@@ -11,6 +11,7 @@
     <color name="colorTextBlack">@color/colorBlack_1A1A1A</color>
     <color name="colorUnderLineDefault">@color/colorBlack_333333</color>
     <color name="colorUnderLineBlue">@color/colorBlue_03139F</color>
+    <color name="spotlightBackground">#BF000000</color>
 
     <!--White-->
     <color name="colorWhite_FFFFFF">#FFFFFF</color>

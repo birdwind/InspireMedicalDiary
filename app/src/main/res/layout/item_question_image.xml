@@ -16,16 +16,29 @@
         android:id="@+id/iv_picture_question_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_title_question_item"/>
+        android:layout_below="@id/tv_title_question_item" />
 
     <ImageButton
         android:id="@+id/ibtn_drawing_question_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/ic_circle"
-        android:layout_marginVertical="12dp"
+        android:layout_below="@id/iv_picture_question_item"
         android:layout_centerInParent="true"
-        android:src="@drawable/ic_drawing"
-        android:layout_below="@id/iv_picture_question_item"/>
+        android:layout_marginVertical="12dp"
+        android:background="@drawable/ic_circle"
+        android:src="@drawable/ic_drawing" />
+
+    <View
+        android:id="@+id/view_image_underline_drawing_question_item"
+        style="@style/UnderLine"
+        android:layout_below="@id/iv_picture_question_item"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/iv_answer_picture_question_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_image_underline_drawing_question_item"
+        android:visibility="gone" />
 
 </RelativeLayout>

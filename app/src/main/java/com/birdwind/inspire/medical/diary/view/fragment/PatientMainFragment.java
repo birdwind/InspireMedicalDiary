@@ -6,7 +6,11 @@ import com.birdwind.inspire.medical.diary.base.utils.fragmentNavUtils.FragNavTra
 import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
 import com.birdwind.inspire.medical.diary.databinding.FragmentPatientMainBinding;
 import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
+import com.birdwind.inspire.medical.diary.view.activity.DrawingActivity;
+
 import java.util.Stack;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -120,17 +124,8 @@ public class PatientMainFragment extends AbstractFragment<AbstractPresenter, Fra
     }
 
     private void openQuizFragment() {
-//        switch (App.userModel.getDiseaseEnums()) {
-//            case HEADACHE:
-//                pushFragment(new QuizHeadacheFragment());
-//                break;
-//            case ALZHEIMER:
-//                pushFragment(new RecordFragment());
-//                break;
-//            case PERKINS:
-//                pushFragment(new QuizPerkinsPatientFragment());
-//                break;
-//        }
+//        Intent intent = new Intent(context, DrawingActivity.class);
+//        activityResultLauncher.launch(intent);
         pushFragment(new SurveyFragment());
     }
 }

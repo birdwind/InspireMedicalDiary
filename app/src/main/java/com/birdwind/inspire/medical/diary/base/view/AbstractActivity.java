@@ -9,6 +9,7 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.telecom.Call;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
@@ -576,9 +577,9 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
         }
     }
 
-    public void getCurrentAppPermission(Callback callback) {
+    public void getCurrentAppPermission(Callback callback, Callback partOfBackCallback, Callback neverShowOfBackCallback) {
         boolean isAsked = Stash.getBoolean(Config.PERMISSION, false);
-        if (!isAsked) {
+        if (!isAsked || callback != null) {
             getPermission(new PermissionRequestListener() {
                 @Override
                 public void permissionRequest(Context context, Permission permission) {
@@ -587,8 +588,14 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
                             callback.call();
                         }
                     } else if (permission.shouldShowRequestPermissionRationale) {
+                        if(partOfBackCallback != null){
+                            partOfBackCallback.call();
+                        }
                         showToast(getString(R.string.error_common_permission_denied_some));
                     } else {
+                        if(neverShowOfBackCallback != null){
+                            neverShowOfBackCallback.call();
+                        }
                         showToast(getString(R.string.error_common_permission_never_show));
                     }
                 }

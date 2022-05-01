@@ -18,12 +18,11 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv_title_drawing_fragment"
+                android:id="@+id/tv_title_drawing_activity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorOrange_FAF1E7"
@@ -32,21 +31,23 @@
                 android:paddingBottom="12dp" />
 
             <ImageView
-                android:id="@+id/iv_image_drawing_fragment"
+                android:id="@+id/iv_image_drawing_activity"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="250dp"
+                android:visibility="gone"/>
         </LinearLayout>
 
-        <View style="@style/UnderLine" />
+        <View style="@style/UnderLine"
+            android:id="@+id/view_image_underline_drawing_activity"
+            android:visibility="gone"/>
 
         <RelativeLayout
             android:id="@+id/rl_drawing_parent_drawing_activity"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <zhanglei.com.paintview.PaintView
+            <com.birdwind.inspire.medical.diary.view.customer.PaintViewCustom
                 android:id="@+id/pv_drawing_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
@@ -69,10 +70,10 @@
                     <View
                         android:id="@+id/view_toolbar_underline_drawing_activity"
                         style="@style/UnderLine"
+                        android:layout_width="48dp"
+                        android:layout_height="4dp"
                         android:background="@drawable/background_board_radius_5dp"
-                        android:backgroundTint="@color/colorOrange_DC7400"
-                        android:layout_width="24dp"
-                        android:layout_height="4dp" />
+                        android:backgroundTint="@color/colorOrange_DC7400" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -80,10 +81,26 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="12dp"
+                    android:layout_marginBottom="12dp"
                     android:background="@drawable/background_board_radius_8dp"
                     android:backgroundTint="@color/colorOrange_DC7400"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="12dp">
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+<!--                    <LinearLayout-->
+<!--                        android:id="@+id/ll_width_drawing_activity"-->
+<!--                        android:layout_width="34dp"-->
+<!--                        android:layout_height="34dp"-->
+<!--                        android:gravity="center"-->
+<!--                        android:padding="6dp">-->
+
+<!--                        <View-->
+<!--                            android:id="@+id/view_width_drawing_activity"-->
+<!--                            android:layout_width="20dp"-->
+<!--                            android:layout_height="20dp"-->
+<!--                            android:background="@drawable/ic_circle" />-->
+
+<!--                    </LinearLayout>-->
 
                     <ImageButton
                         android:id="@+id/ibtn_pen_drawing_activity"

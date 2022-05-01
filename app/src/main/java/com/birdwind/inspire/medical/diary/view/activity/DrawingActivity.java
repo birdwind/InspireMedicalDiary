@@ -1,9 +1,13 @@
 package com.birdwind.inspire.medical.diary.view.activity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -18,47 +22,78 @@ import androidx.transition.TransitionManager;
 
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
+import com.birdwind.inspire.medical.diary.base.network.request.ProgressRequestBody;
+import com.birdwind.inspire.medical.diary.base.utils.CustomPicasso;
+import com.birdwind.inspire.medical.diary.base.utils.FileUtils;
 import com.birdwind.inspire.medical.diary.base.utils.LogUtils;
 import com.birdwind.inspire.medical.diary.base.view.AbstractActivity;
 import com.birdwind.inspire.medical.diary.databinding.DrawingActivityBinding;
-import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
+import com.birdwind.inspire.medical.diary.model.QuestionModel;
+import com.birdwind.inspire.medical.diary.presenter.DrawingPresenter;
+import com.birdwind.inspire.medical.diary.utils.ImageUtils;
+import com.birdwind.inspire.medical.diary.view.viewCallback.DrawingView;
 import com.github.dhaval2404.colorpicker.ColorPickerDialog;
 import com.github.dhaval2404.colorpicker.model.ColorShape;
 import com.leaf.library.StatusBarUtil;
 
+import java.io.File;
+
 import zhanglei.com.paintview.DrawTypeEnum;
 
-public class DrawingActivity extends AbstractActivity<AbstractPresenter, DrawingActivityBinding> {
+public class DrawingActivity extends AbstractActivity<DrawingPresenter, DrawingActivityBinding>
+    implements DrawingView, ProgressRequestBody.UploadCallbacks {
 
     private boolean isShowDrawingToolbar;
+
     private int currentColor;
 
     private ColorPickerDialog colorPickerDialog;
 
+    private QuestionModel questionModel;
+
     @Override
-    public AbstractPresenter createPresenter() {
-        return null;
+    public DrawingPresenter createPresenter() {
+        return new DrawingPresenter(this);
     }
 
     @Override
-    public DrawingActivityBinding getViewBinding(LayoutInflater inflater, ViewGroup container,
-            boolean attachToParent) {
+    public DrawingActivityBinding getViewBinding(LayoutInflater inflater, ViewGroup container, boolean attachToParent) {
         return DrawingActivityBinding.inflate(getLayoutInflater());
     }
 
     @Override
     public void addListener() {
+        binding.compTopBarMainActivity.llBackTopBarComp.setOnClickListener(v -> {
+            onBackPressed();
+        });
+
+        binding.compTopBarMainActivity.ivRightButtonTopBarComp.setOnClickListener(v -> {
+            Uri uri = ImageUtils.getImageUri(this, binding.pvDrawingFragment.getPaintViewScreen());
+            File file = null;
+            if (uri != null) {
+                String filePath = FileUtils.getFileFromContentUri(this, uri);
+                if (filePath != null) {
+                    file = new File(filePath);
+                }
+            }
+            if (file == null) {
+                showToast("繪圖轉換失敗，請稍後再試");
+            } else {
+                presenter.uploadRecord(file, this);
+            }
+        });
+
         binding.llToolbarUnderlineDrawingActivity.setOnClickListener(v -> {
             showDrawingToolbar(!isShowDrawingToolbar);
         });
 
         binding.ibtnPenDrawingActivity.setOnClickListener(v -> {
             binding.pvDrawingFragment.setDrawType(DrawTypeEnum.PEN);
-            showDrawingToolbar(isShowDrawingToolbar);
+            // showDrawingToolbar(!isShowDrawingToolbar);
         });
         binding.ibtnEraseDrawingActivity.setOnClickListener(v -> {
             binding.pvDrawingFragment.setDrawType(DrawTypeEnum.ERASER);
-            showDrawingToolbar(isShowDrawingToolbar);
+            showDrawingToolbar(!isShowDrawingToolbar);
         });
 
         binding.ibtnColorpickerDrawingActivity.setOnClickListener(v -> {
@@ -75,44 +110,59 @@ public class DrawingActivity extends AbstractActivity<AbstractPresenter, Drawing
 
         binding.ibtnClearDrawingActivity.setOnClickListener(v -> {
             binding.pvDrawingFragment.clear();
-            showDrawingToolbar(isShowDrawingToolbar);
+            showDrawingToolbar(!isShowDrawingToolbar);
         });
     }
 
     @Override
     public void initData(Bundle savedInstanceState) {
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        if (bundle != null) {
+            questionModel = (QuestionModel) bundle.getSerializable("question");
+        }
         isShowDrawingToolbar = true;
         currentColor = getResources().getColor(R.color.colorBlack_000000);
-        colorPickerDialog = new ColorPickerDialog.Builder(this).setTitle("Pick Theme")
-                .setColorShape(ColorShape.SQAURE).setDefaultColor(currentColor)
-                .setColorListener((color, colorHex) -> {
-                    currentColor = color;
-                    binding.pvDrawingFragment.setPaintColor(currentColor);
-                    showDrawingToolbar(false);
-                }).build();
+        colorPickerDialog = new ColorPickerDialog.Builder(this).setTitle("Pick Theme").setColorShape(ColorShape.SQAURE)
+            .setDefaultColor(currentColor).setColorListener((color, colorHex) -> {
+                currentColor = color;
+                binding.pvDrawingFragment.setPaintColor(currentColor);
+                showDrawingToolbar(false);
+            }).build();
     }
 
     @Override
     public void initView() {
-        StatusBarUtil.setColor(this,
-                getResources().getColor(App.userModel.getIdentityMainColorId()), 8);
+        StatusBarUtil.setColor(this, getResources().getColor(App.userModel.getIdentityMainColorId()), 8);
         StatusBarUtil.setDarkMode(this);
         binding.compTopBarMainActivity.tvTitleTopBarComp.setText("");
-        binding.compTopBarMainActivity.rlBackgroundTopBarComp.setBackgroundColor(
-                getResources().getColor(App.userModel.getIdentityMainColorId()));
+        binding.compTopBarMainActivity.rlBackgroundTopBarComp
+            .setBackgroundColor(getResources().getColor(App.userModel.getIdentityMainColorId()));
         binding.compTopBarMainActivity.llBackTopBarComp.setVisibility(View.VISIBLE);
         binding.compTopBarMainActivity.rlBackgroundTopBarComp.setVisibility(View.VISIBLE);
         binding.compTopBarMainActivity.llRightButtonTopBarComp.setVisibility(View.VISIBLE);
         binding.compTopBarMainActivity.btRightButtonTopBarComp.setVisibility(View.GONE);
         binding.compTopBarMainActivity.ivRightButtonTopBarComp
-                .setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_save));
-        binding.compTopBarMainActivity.ivRightButtonTopBarComp.setImageTintList(
-                ColorStateList.valueOf(getResources().getColor(R.color.colorWhite_FFFFFF)));
+            .setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_save));
+        binding.compTopBarMainActivity.ivRightButtonTopBarComp
+            .setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorWhite_FFFFFF)));
 
-        binding.viewToolbarUnderlineDrawingActivity.setBackgroundTintList(ColorStateList
-                .valueOf(getResources().getColor(App.userModel.getIdentityMainColorId())));
-        binding.llToolbarDrawingActivity.setBackgroundTintList(ColorStateList
-                .valueOf(getResources().getColor(App.userModel.getIdentityMainColorId())));
+        binding.viewToolbarUnderlineDrawingActivity.setBackgroundTintList(
+            ColorStateList.valueOf(getResources().getColor(App.userModel.getIdentityMainColorId())));
+        binding.llToolbarDrawingActivity.setBackgroundTintList(
+            ColorStateList.valueOf(getResources().getColor(App.userModel.getIdentityMainColorId())));
+
+        binding.tvTitleDrawingActivity.setText(questionModel.getQuestionText());
+
+        if (questionModel != null && !TextUtils.isEmpty(questionModel.getMediaLink())) {
+            binding.ivImageDrawingActivity.setVisibility(View.VISIBLE);
+            binding.viewImageUnderlineDrawingActivity.setVisibility(View.VISIBLE);
+            CustomPicasso.getImageLoader(this).load(questionModel.getMediaLink()).into(binding.ivImageDrawingActivity);
+        } else {
+            binding.ivImageDrawingActivity.setVisibility(View.GONE);
+            binding.viewImageUnderlineDrawingActivity.setVisibility(View.GONE);
+
+        }
     }
 
     @Override
@@ -140,6 +190,7 @@ public class DrawingActivity extends AbstractActivity<AbstractPresenter, Drawing
             showDrawingToolbar(false);
             return true;
         }
+
         return super.dispatchTouchEvent(ev);
     }
 
@@ -160,8 +211,7 @@ public class DrawingActivity extends AbstractActivity<AbstractPresenter, Drawing
 
             TransitionManager.beginDelayedTransition(parent, transition);
             targetView.setVisibility(show ? View.VISIBLE : View.GONE);
-            binding.llToolbarUnderlineDrawingActivity
-                    .setVisibility(show ? View.GONE : View.VISIBLE);
+            binding.llToolbarUnderlineDrawingActivity.setVisibility(show ? View.GONE : View.VISIBLE);
             isShowDrawingToolbar = show;
         }
     }
@@ -170,5 +220,31 @@ public class DrawingActivity extends AbstractActivity<AbstractPresenter, Drawing
         if (colorPickerDialog != null) {
             colorPickerDialog.show();
         }
+    }
+
+    @Override
+    public void onUpload(boolean isSuccess, String url) {
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("url", url);
+        returnIntent.putExtra("questionId", questionModel.getQuestionID());
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish();
+    }
+
+    @Override
+    public void onProgressUpdate(int percentage) {
+        LogUtils.d("上傳", String.valueOf(percentage));
+    }
+
+    @Override
+    public void onError() {
+        LogUtils.d("上傳", "失敗");
+        hideLoading();
+    }
+
+    @Override
+    public void onFinish() {
+        LogUtils.d("上傳", "完成");
+        hideLoading();
     }
 }

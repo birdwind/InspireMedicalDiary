@@ -2,8 +2,12 @@ package com.birdwind.inspire.medical.diary.base.utils;
 
 import static com.birdwind.inspire.medical.diary.App.getAppContext;
 
+import android.annotation.SuppressLint;
 import android.content.ContentResolver;
+import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.webkit.MimeTypeMap;
 
 public class FileUtils {
@@ -26,5 +30,34 @@ public class FileUtils {
             mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(fileExtension.toLowerCase());
         }
         return mimeType;
+    }
+
+    /**
+     * Android 10 以上适配 另一种写法
+     * 
+     * @param context
+     * @param uri
+     * @return
+     */
+    @SuppressLint("Range")
+    public static String getFileFromContentUri(Context context, Uri uri) {
+        if (uri == null) {
+            return null;
+        }
+        String filePath;
+        String[] filePathColumn = {MediaStore.DownloadColumns.DATA, MediaStore.DownloadColumns.DISPLAY_NAME};
+        ContentResolver contentResolver = context.getContentResolver();
+        Cursor cursor = contentResolver.query(uri, filePathColumn, null, null, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+            try {
+                filePath = cursor.getString(cursor.getColumnIndex(filePathColumn[0]));
+                return filePath;
+            } catch (Exception e) {
+            } finally {
+                cursor.close();
+            }
+        }
+        return "";
     }
 }

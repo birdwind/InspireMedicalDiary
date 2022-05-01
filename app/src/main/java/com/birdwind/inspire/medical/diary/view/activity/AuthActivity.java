@@ -65,7 +65,7 @@ public class AuthActivity extends AbstractActivity<AbstractPresenter, ActivityAu
 
     @Override
     public void doSomething() {
-        getCurrentAppPermission(null);
+        getCurrentAppPermission(null, null, null);
     }
 
     private void openLoginActivity(IdentityEnums identityEnums) {

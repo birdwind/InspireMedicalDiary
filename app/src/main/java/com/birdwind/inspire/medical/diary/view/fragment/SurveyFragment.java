@@ -5,11 +5,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,6 +22,7 @@ import com.birdwind.inspire.medical.diary.base.view.AbstractActivity;
 import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
 import com.birdwind.inspire.medical.diary.databinding.FragmentSurveyBinding;
 import com.birdwind.inspire.medical.diary.enums.IdentityEnums;
+import com.birdwind.inspire.medical.diary.model.QuestionModel;
 import com.birdwind.inspire.medical.diary.model.response.QuestionnaireResponse;
 import com.birdwind.inspire.medical.diary.model.response.SurveyResponse;
 import com.birdwind.inspire.medical.diary.model.response.UploadMediaResponse;
@@ -32,8 +33,8 @@ import com.birdwind.inspire.medical.diary.view.viewCallback.SurveyView;
 import com.birdwind.inspire.medical.diary.view.viewCallback.ToolbarCallback;
 
 public class SurveyFragment extends AbstractFragment<SurveyPresenter, FragmentSurveyBinding>
-        implements SurveyView, ToolbarCallback, QuestionAdapter.AnswerCompleteListener,
-        QuestionAdapter.SpecialAnswerListener, ProgressRequestBody.UploadCallbacks {
+    implements SurveyView, ToolbarCallback, QuestionAdapter.AnswerCompleteListener,
+    QuestionAdapter.SpecialAnswerListener, ProgressRequestBody.UploadCallbacks {
 
     private QuestionAdapter questionAdapter;
 
@@ -43,15 +44,13 @@ public class SurveyFragment extends AbstractFragment<SurveyPresenter, FragmentSu
 
     private QuestionnaireResponse.Response questionnaireResponse;
 
-
     @Override
     public SurveyPresenter createPresenter() {
         return new SurveyPresenter(this);
     }
 
     @Override
-    public FragmentSurveyBinding getViewBinding(LayoutInflater inflater, ViewGroup container,
-            boolean attachToParent) {
+    public FragmentSurveyBinding getViewBinding(LayoutInflater inflater, ViewGroup container, boolean attachToParent) {
         return FragmentSurveyBinding.inflate(inflater);
     }
 
@@ -73,30 +72,21 @@ public class SurveyFragment extends AbstractFragment<SurveyPresenter, FragmentSu
         Bundle bundle = getArguments();
         if (bundle != null) {
             questionnaireID = bundle.getInt("questionnaireID", 0);
-            identityEnums = IdentityEnums.parseEnumsByType(
-                    bundle.getInt("identity", App.userModel.getIdentityEnums().getType()));
+            identityEnums =
+                IdentityEnums.parseEnumsByType(bundle.getInt("identity", App.userModel.getIdentityEnums().getType()));
         } else {
             questionnaireID = 0;
             identityEnums = App.userModel.getIdentityEnums();
         }
 
-        questionAdapter = new QuestionAdapter(this);
+        questionAdapter = new QuestionAdapter(this, this);
         questionAdapter.setAnimationEnable(true);
         questionAdapter.setRecyclerView(binding.rvQuizFragment);
-
-        activityResultLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(), result -> {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        // There are no request codes
-                        Intent data = result.getData();
-                    }
-                });
     }
 
     @Override
     public void initView() {
-        binding.rvQuizFragment.setLayoutManager(
-                new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+        binding.rvQuizFragment.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         binding.rvQuizFragment.setHasFixedSize(true);
         binding.rvQuizFragment.setAdapter(questionAdapter);
         if (questionnaireID != 0) {
@@ -111,7 +101,8 @@ public class SurveyFragment extends AbstractFragment<SurveyPresenter, FragmentSu
         if (hasPermission(Manifest.permission.RECORD_AUDIO, Manifest.permission.RECORD_AUDIO)) {
             init();
         } else {
-            ((AbstractActivity) context).getCurrentAppPermission(this::init);
+            ((AbstractActivity) context).getCurrentAppPermission(this::init, this::onBackPressedByActivity,
+                this::onBackPressedByActivity);
         }
 
     }
@@ -149,8 +140,7 @@ public class SurveyFragment extends AbstractFragment<SurveyPresenter, FragmentSu
         binding.tvEmptyQuizFragment.setVisibility(View.GONE);
         this.questionnaireResponse = questionnaireResponse;
         questionAdapter.setList(questionnaireResponse.getSurveyResponse().getQuestions());
-        fragmentNavigationListener
-                .updateTitle(questionnaireResponse.getSurveyResponse().getSurveyName());
+        fragmentNavigationListener.updateTitle(questionnaireResponse.getSurveyResponse().getSurveyName());
     }
 
     @Override
@@ -161,15 +151,15 @@ public class SurveyFragment extends AbstractFragment<SurveyPresenter, FragmentSu
     @Override
     public void complete() {
         binding.btSubmitSurveyFragment.setEnabled(true);
-        binding.btSubmitSurveyFragment.setBackgroundTintList(ColorStateList
-                .valueOf(getResources().getColor(App.userModel.getIdentityMainColorId())));
+        binding.btSubmitSurveyFragment.setBackgroundTintList(
+            ColorStateList.valueOf(getResources().getColor(App.userModel.getIdentityMainColorId())));
     }
 
     @Override
     public void unComplete() {
         binding.btSubmitSurveyFragment.setEnabled(false);
-        binding.btSubmitSurveyFragment.setBackgroundTintList(
-                ColorStateList.valueOf(getResources().getColor(R.color.colorGray_A6A6A6)));
+        binding.btSubmitSurveyFragment
+            .setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorGray_A6A6A6)));
     }
 
     @Override
@@ -188,13 +178,23 @@ public class SurveyFragment extends AbstractFragment<SurveyPresenter, FragmentSu
     }
 
     @Override
-    public void drawing() {
+    public void drawing(QuestionModel questionModel) {
         Intent intent = new Intent(context, DrawingActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("question", questionModel);
+        intent.putExtras(bundle);
         activityResultLauncher.launch(intent);
     }
 
     @Override
     public void onActivityResult(Intent intent) {
-        Bundle bundle = intent.getBundleExtra("bundle");
+        showToast("測試");
+        if(intent != null){
+            String url = intent.getStringExtra("url");
+            int questionId = intent.getIntExtra("questionId", -1);
+            if(!TextUtils.isEmpty(url) && questionId != -1){
+                questionAdapter.updateAnswer(questionId, url);
+            }
+        }
     }
 }
