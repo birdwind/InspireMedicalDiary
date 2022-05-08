@@ -14,6 +14,7 @@ import com.birdwind.inspire.medical.diary.base.utils.fragmentNavUtils.FragNavTra
 import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
 import com.birdwind.inspire.medical.diary.databinding.FragmentDoctorMainBinding;
 import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
+import com.birdwind.inspire.medical.diary.view.activity.CameraActivity;
 import com.birdwind.inspire.medical.diary.view.activity.MainActivity;
 import com.birdwind.inspire.medical.diary.view.viewCallback.ToolbarCallback;
 
@@ -48,7 +49,9 @@ public class DoctorMainFragment
 
         binding.llSettingDoctorMain.setOnClickListener(v -> {
             // ((MainActivity)context).pushFragment(new SettingFragment());
-            pushFragment(new SettingFragment());
+//            pushFragment(new SettingFragment());
+
+            startActivity(CameraActivity.class);
         });
     }
 

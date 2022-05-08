@@ -1,21 +1,20 @@
 package com.birdwind.inspire.medical.diary.view.fragment;
 
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
+
 import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.base.utils.fragmentNavUtils.FragNavController;
 import com.birdwind.inspire.medical.diary.base.utils.fragmentNavUtils.FragNavTransactionOptions;
 import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
 import com.birdwind.inspire.medical.diary.databinding.FragmentPatientMainBinding;
 import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
-import com.birdwind.inspire.medical.diary.view.activity.DrawingActivity;
 
 import java.util.Stack;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import androidx.fragment.app.Fragment;
 
 public class PatientMainFragment extends AbstractFragment<AbstractPresenter, FragmentPatientMainBinding>
     implements FragNavController.RootFragmentListener, FragNavController.TransactionListener {
@@ -117,15 +116,15 @@ public class PatientMainFragment extends AbstractFragment<AbstractPresenter, Fra
         return true;
     }
 
-    public void popFragmentToRoot(int patientDashboardTabIndex){
+    public void popFragmentToRoot(int patientDashboardTabIndex) {
         mNavController.clearStack();
         patientDashboardFragment.switchTab(patientDashboardTabIndex);
         binding.llMenuPatientMainFragment.setVisibility(View.VISIBLE);
     }
 
     private void openQuizFragment() {
-//        Intent intent = new Intent(context, DrawingActivity.class);
-//        activityResultLauncher.launch(intent);
+        // Intent intent = new Intent(context, DrawingActivity.class);
+        // activityResultLauncher.launch(intent);
         pushFragment(new SurveyFragment());
     }
 }

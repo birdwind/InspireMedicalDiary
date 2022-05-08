@@ -90,6 +90,7 @@ public class InspireDiaryWebSocketService extends Service {
                     Intent intent = new Intent(BroadcastReceiverAction.LISTENER_CHAT_MESSAGE);
                     Bundle bundle = new Bundle();
                     bundle.putLong("chatID", chat.getID());
+                    bundle.putLong("userId", chat.getPID());
                     intent.putExtras(bundle);
 
                     sendBroadcast(intent);

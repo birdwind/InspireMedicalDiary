@@ -20,4 +20,11 @@ public class ToastUtils {
         toast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
         toast.show();
     }
+    public static void show(Context context, CharSequence text, int toastDuration) {
+        if (toast != null) {
+            toast.cancel();
+        }
+        toast = Toast.makeText(context, text, toastDuration);
+        toast.show();
+    }
 }

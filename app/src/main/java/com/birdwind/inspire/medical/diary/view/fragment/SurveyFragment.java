@@ -27,6 +27,7 @@ import com.birdwind.inspire.medical.diary.model.response.QuestionnaireResponse;
 import com.birdwind.inspire.medical.diary.model.response.SurveyResponse;
 import com.birdwind.inspire.medical.diary.model.response.UploadMediaResponse;
 import com.birdwind.inspire.medical.diary.presenter.SurveyPresenter;
+import com.birdwind.inspire.medical.diary.view.activity.CameraActivity;
 import com.birdwind.inspire.medical.diary.view.activity.DrawingActivity;
 import com.birdwind.inspire.medical.diary.view.adapter.QuestionAdapter;
 import com.birdwind.inspire.medical.diary.view.viewCallback.SurveyView;
@@ -180,6 +181,15 @@ public class SurveyFragment extends AbstractFragment<SurveyPresenter, FragmentSu
     @Override
     public void drawing(QuestionModel questionModel) {
         Intent intent = new Intent(context, DrawingActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("question", questionModel);
+        intent.putExtras(bundle);
+        activityResultLauncher.launch(intent);
+    }
+
+    @Override
+    public void recordVideo(QuestionModel questionModel) {
+        Intent intent = new Intent(context, CameraActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("question", questionModel);
         intent.putExtras(bundle);

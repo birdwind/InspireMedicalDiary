@@ -69,14 +69,16 @@ public class PatientManagerDialog
             for (int i = 0; i < adapter.getData().size(); i++) {
                 ImageView imageView = (ImageView) adapter.getViewByPosition(i, R.id.iv_check_survey_item);
                 TextView textView = (TextView) adapter.getViewByPosition(i, R.id.tv_name_survey_item);
-                if (i == position) {
-                    imageView.setImageTintList(ColorStateList
-                        .valueOf(getContext().getResources().getColor(App.userModel.getIdentityMainColorId())));
-                    textView.setTextColor(App.userModel.getIdentityMainColorId());
-                } else {
-                    imageView.setImageTintList(
-                        ColorStateList.valueOf(getContext().getResources().getColor(R.color.colorBlack_000000)));
-                    textView.setTextColor(getContext().getResources().getColor(R.color.colorBlack_000000));
+                if (imageView != null && textView != null) {
+                    if (i == position) {
+                        imageView.setImageTintList(ColorStateList
+                            .valueOf(getContext().getResources().getColor(App.userModel.getIdentityMainColorId())));
+                        textView.setTextColor(App.userModel.getIdentityMainColorId());
+                    } else {
+                        imageView.setImageTintList(
+                            ColorStateList.valueOf(getContext().getResources().getColor(R.color.colorBlack_000000)));
+                        textView.setTextColor(getContext().getResources().getColor(R.color.colorBlack_000000));
+                    }
                 }
             }
         });
@@ -86,14 +88,16 @@ public class PatientManagerDialog
             for (int i = 0; i < adapter.getData().size(); i++) {
                 ImageView imageView = (ImageView) adapter.getViewByPosition(i, R.id.iv_check_survey_item);
                 TextView textView = (TextView) adapter.getViewByPosition(i, R.id.tv_name_survey_item);
-                if (i == position) {
-                    imageView.setImageTintList(ColorStateList
-                        .valueOf(getContext().getResources().getColor(App.userModel.getIdentityMainColorId())));
-                    textView.setTextColor(App.userModel.getIdentityMainColorId());
-                } else {
-                    imageView.setImageTintList(
-                        ColorStateList.valueOf(getContext().getResources().getColor(R.color.colorBlack_000000)));
-                    textView.setTextColor(getContext().getResources().getColor(R.color.colorBlack_000000));
+                if (imageView != null && textView != null) {
+                    if (i == position) {
+                        imageView.setImageTintList(ColorStateList
+                            .valueOf(getContext().getResources().getColor(App.userModel.getIdentityMainColorId())));
+                        textView.setTextColor(App.userModel.getIdentityMainColorId());
+                    } else {
+                        imageView.setImageTintList(
+                            ColorStateList.valueOf(getContext().getResources().getColor(R.color.colorBlack_000000)));
+                        textView.setTextColor(getContext().getResources().getColor(R.color.colorBlack_000000));
+                    }
                 }
             }
         });
@@ -183,8 +187,13 @@ public class PatientManagerDialog
 
     @Override
     public void onGetInformation(boolean isSuccess, InformationResponse.Response informationResponse) {
-        binding.tvNamePatientManagerDialog
-            .setText(informationResponse.getName() + "(" + informationResponse.getSex() + ")");
+        if(informationResponse.getName() == null){
+            binding.tvNamePatientManagerDialog
+                    .setText("尚未設定姓名" + "(" + informationResponse.getSexString() + ")");
+        }else{
+            binding.tvNamePatientManagerDialog
+                    .setText(informationResponse.getName() + "(" + informationResponse.getSexString() + ")");
+        }
         binding.tvIdcardPatientManagerDialog.setText(informationResponse.getIDNumber());
         binding.tvPhonePatientManagerDialog.setText(informationResponse.getPhone());
     }

@@ -15,6 +15,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -270,9 +271,11 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
     @Override
     public void logout(Bundle bundle) {
         String tempUniPass = Stash.getString(Config.UNI_PASS, "");
+        boolean isPermission = Stash.getBoolean(Config.PERMISSION, false);
         DatabaseConfig.getInstance(context).clearAllTables();
         Stash.clearAll();
         Stash.put(Config.UNI_PASS, tempUniPass);
+        Stash.put(Config.PERMISSION, isPermission);
         App.userModel = null;
         startActivityWithFinish(AuthActivity.class);
     }
@@ -456,10 +459,10 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
 
             } else if (permission.shouldShowRequestPermissionRationale) {
                 ToastUtils.show(context,
-                        context.getString(R.string.error_common_permission_denied_some));
+                        context.getString(R.string.error_common_permission_denied_some), Toast.LENGTH_LONG);
             } else {
                 ToastUtils.show(context,
-                        context.getString(R.string.error_common_permission_never_show));
+                        context.getString(R.string.error_common_permission_never_show), Toast.LENGTH_LONG);
             }
         }
     }

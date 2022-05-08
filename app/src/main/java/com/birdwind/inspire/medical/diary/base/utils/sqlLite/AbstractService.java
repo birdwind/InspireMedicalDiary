@@ -1,8 +1,8 @@
 package com.birdwind.inspire.medical.diary.base.utils.sqlLite;
 
-import java.util.List;
-
 import android.content.Context;
+
+import java.util.List;
 
 public abstract class AbstractService<E extends Object, T extends BaseDao<E>> implements BaseService<E, T> {
     protected Context context;

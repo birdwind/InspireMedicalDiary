@@ -1,5 +1,7 @@
 package com.birdwind.inspire.medical.diary.view.fragment;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
 import com.birdwind.inspire.medical.diary.databinding.FragmentDoctorPatientBinding;
 import com.birdwind.inspire.medical.diary.model.response.PatientResponse;
 import com.birdwind.inspire.medical.diary.presenter.DoctorPatientPresenter;
+import com.birdwind.inspire.medical.diary.receiver.ChatBroadcastReceiver;
 import com.birdwind.inspire.medical.diary.view.adapter.PatientAdapter;
 import com.birdwind.inspire.medical.diary.view.viewCallback.DoctorPatientPresent;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -25,6 +28,8 @@ public class DoctorPatientFragment extends AbstractFragment<DoctorPatientPresent
     implements DoctorPatientPresent, OnItemClickListener {
 
     private PatientAdapter patientAdapter;
+
+    private ChatBroadcastReceiver chatBroadcastReceiver;
 
     @Override
     public DoctorPatientPresenter createPresenter() {
@@ -89,5 +94,40 @@ public class DoctorPatientFragment extends AbstractFragment<DoctorPatientPresent
     @Override
     public boolean isShowTopBar() {
         return false;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        chatBroadcastReceiver = new ChatBroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Bundle bundle = intent.getExtras();
+                long userId = 0;
+                if (bundle != null) {
+                    userId = bundle.getLong("userId", 0);
+                    updateNewChatIcon(userId);
+                }
+            }
+        };
+        chatBroadcastReceiver.register(context);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        chatBroadcastReceiver.unregister(context);
+    }
+
+    private void updateNewChatIcon(Long userId) {
+        for (int i = 0; i < patientAdapter.getData().size(); i++) {
+            PatientResponse.Response patient = patientAdapter.getItem(i);
+            if (patient.getPID() == userId) {
+                patient.setHasUnreadMessage(true);
+                patientAdapter.setData(i, patient);
+                break;
+            }
+        }
     }
 }

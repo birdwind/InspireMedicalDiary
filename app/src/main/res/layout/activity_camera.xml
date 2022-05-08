@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:camerakit="http://schemas.android.com/tools">
+
+    <com.wonderkiln.camerakit.CameraView
+        android:id="@+id/ckv_camera_activity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        camerakit:ckFacing="back"
+        camerakit:ckFlash="off"
+        camerakit:ckFocus="continuous"
+        camerakit:ckMethod="standard"
+        camerakit:ckZoom="pinch"
+        camerakit:ckPermissions="strict"
+        camerakit:ckCropOutput="true"
+        camerakit:ckJpegQuality="100"
+        camerakit:ckVideoQuality="480p"
+        android:adjustViewBounds="true" />
+
+    <ImageView
+        android:id="@+id/iv_start_camera_activity"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignBottom="@id/ckv_camera_activity"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="24dp"
+        android:src="@drawable/ic_circle"/>
+
+</RelativeLayout>

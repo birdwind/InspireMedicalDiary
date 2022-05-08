@@ -1,10 +1,10 @@
 package com.birdwind.inspire.medical.diary.base.basic;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
-import com.birdwind.inspire.medical.diary.base.enums.ErrorCodeEnums;
 import com.birdwind.inspire.medical.diary.base.network.response.BaseSystemResponse;
 import com.birdwind.inspire.medical.diary.base.utils.GsonUtils;
 import com.birdwind.inspire.medical.diary.base.utils.LogUtils;
@@ -112,27 +112,18 @@ public abstract class AbstractBaseObserver<T extends ResponseBody, BR extends Ba
                 LogUtils.exceptionTAG(functionName + "Error", jsonException);
             }
 
-            switch (httpException.code()) {
-                case 401:
-                    view.onLoginError(context.getString(R.string.error_common_logout));
-                    break;
-                case 406:
-                    onError(errorTitle, String.valueOf(ErrorCodeEnums.ILLEGAL_STATE_ERROR.getCode()),
-                        "(" + ErrorCodeEnums.SERVER_ERROR.getCode() + ")" + errorMsg, false);
-                    break;
-                case 500:
-                    onError(errorTitle, String.valueOf(ErrorCodeEnums.SERVER_ERROR.getCode()),
-                        "(" + ErrorCodeEnums.SERVER_ERROR.getCode() + ")" + ErrorCodeEnums.SERVER_ERROR.getMessage(),
-                        false);
-                    break;
+            if (TextUtils.isEmpty(errorMsg)) {
+                RxException rxException = RxException.handleException(e);
+                onError(errorTitle, String.valueOf(rxException.getCode()), rxException.getMessage(), false);
+            } else {
+                onError(errorTitle, String.valueOf(httpException.code()), errorMsg, false);
             }
             view.hideLoading();
         } else {
             LogUtils.exceptionTAG(functionName + "Error", e);
 
             RxException rxException = RxException.handleException(e);
-            onError(errorTitle, String.valueOf(rxException.getCode()),
-                "(" + rxException.getCode() + ")" + rxException.getMessage(), false);
+            onError(errorTitle, String.valueOf(rxException.getCode()), rxException.getMessage(), false);
         }
         if (view != null && isShowLoading) {
             view.hideLoading();
@@ -154,8 +145,8 @@ public abstract class AbstractBaseObserver<T extends ResponseBody, BR extends Ba
 
     @Override
     public void onError(String title, String code, String msg, boolean isDialog) {
-        showMsg(title, msg, isDialog);
-        LogUtils.e(functionName + "Error", msg);
+        showMsg(title, "(" + code + ")" + msg, isDialog);
+        LogUtils.e(functionName + "Error", "(" + code + ")" + msg);
     }
 
     protected void showMsg(String title, String msg, boolean isDialog) {

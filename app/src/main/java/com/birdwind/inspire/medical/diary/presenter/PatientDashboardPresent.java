@@ -24,7 +24,11 @@ public class PatientDashboardPresent extends AbstractPresenter<PatientDashboardV
                 @Override
                 public void onSuccess(ChatMemberResponse response) {
                     ChatMemberService chatMemberService = new ChatMemberService(context);
-                    chatMemberService.save(response.getJsonData().getFamily());
+                    if (response.getJsonData().getFamily() != null) {
+                        chatMemberService.save(response.getJsonData().getFamily());
+                    } else {
+                        chatMemberService.delete();
+                    }
                     baseView.onGetChatMember(true);
                 }
             });

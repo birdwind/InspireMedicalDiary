@@ -82,6 +82,7 @@ public class QuestionAdapter extends BaseMultiItemQuickAdapter<QuestionModel, Ba
         addChildClickViewIds(R.id.ibtn_record_question_item, R.id.ibtn_play_question_item,
             R.id.awv_record_question_item);
         addChildClickViewIds(R.id.ibtn_drawing_question_item);
+        addChildClickViewIds(R.id.ibtn_picture_question_item);
         setOnItemChildClickListener((adapter, view, position) -> {
         });
         this.answerCompleteListener = answerCompleteListener;
@@ -180,6 +181,10 @@ public class QuestionAdapter extends BaseMultiItemQuickAdapter<QuestionModel, Ba
                     specialAnswerListener.drawing(getItem(position));
                 }
                 break;
+            case AnswerTypeEnum.VIDEO:
+                if (v.getId() == R.id.ibtn_picture_question_item) {
+                    specialAnswerListener.recordVideo(getItem(position));
+                }
         }
     }
 
@@ -291,7 +296,7 @@ public class QuestionAdapter extends BaseMultiItemQuickAdapter<QuestionModel, Ba
                                 answerAdapter.updateData(Integer.parseInt(questionAnswerRequest.getValue()));
                                 break;
                             case AnswerTypeEnum.IMAGE:
-//                                getViewByPosition(i, R.id.iv_picture_question_item).setVisibility(View.GONE);
+                                // getViewByPosition(i, R.id.iv_picture_question_item).setVisibility(View.GONE);
                                 getViewByPosition(i, R.id.ibtn_drawing_question_item).setVisibility(View.GONE);
                                 getViewByPosition(i, R.id.view_image_underline_drawing_question_item)
                                     .setVisibility(View.VISIBLE);
@@ -406,5 +411,7 @@ public class QuestionAdapter extends BaseMultiItemQuickAdapter<QuestionModel, Ba
 
     public interface SpecialAnswerListener {
         void drawing(QuestionModel questionModel);
+
+        void recordVideo(QuestionModel questionModel);
     }
 }

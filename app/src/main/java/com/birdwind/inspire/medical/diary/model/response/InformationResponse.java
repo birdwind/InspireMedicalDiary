@@ -63,5 +63,15 @@ public class InformationResponse extends AbstractResponse<InformationResponse.Re
         public void setPhone(String phone) {
             Phone = phone;
         }
+
+        public String getSexString(){
+            switch (Sex){
+                case 1:
+                    return "男";
+                case 2:
+                    return "女";
+            }
+            return "尚未設定性別";
+        }
     }
 }
