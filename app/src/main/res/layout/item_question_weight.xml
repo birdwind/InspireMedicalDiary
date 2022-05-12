@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_main_question_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_title_question_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorOrange_FAF1E7"
+        android:padding="12dp"
+        android:text="Question Title"/>
+
+    <ImageView
+        android:id="@+id/iv_picture_question_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_title_question_item" />
+
+    <LinearLayout
+        android:id="@+id/ll_info_question_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/iv_picture_question_item"
+        android:gravity="end"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="3dp">
+
+        <TextView
+            android:id="@+id/tv_total_question_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total Score: 10/10"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/ll_info_question_item"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="3dp">
+
+        <include
+            layout="@layout/item_weight_answer"/>
+
+        <include
+            layout="@layout/item_weight_answer"/>
+
+    </LinearLayout>
+
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/rv_weight_answer_question_item"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@id/iv_picture_question_item"-->
+<!--        android:padding="12dp" />-->
+
+</RelativeLayout>
