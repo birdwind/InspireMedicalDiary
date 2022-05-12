@@ -1,10 +1,7 @@
 package com.birdwind.inspire.medical.diary.view.dialog;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.media.MediaRecorder;
-import android.os.Build;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
@@ -15,13 +12,12 @@ import androidx.annotation.Nullable;
 import com.asynctaskcoffee.audiorecorder.worker.AudioRecordListener;
 import com.asynctaskcoffee.audiorecorder.worker.MediaPlayListener;
 import com.asynctaskcoffee.audiorecorder.worker.Player;
+import com.asynctaskcoffee.audiorecorder.worker.Recorder;
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.base.network.request.ProgressRequestBody;
-import com.birdwind.inspire.medical.diary.base.utils.FileUtils;
 import com.birdwind.inspire.medical.diary.base.utils.LogUtils;
 import com.birdwind.inspire.medical.diary.base.utils.ToastUtils;
-import com.birdwind.inspire.medical.diary.base.view.AbstractActivity;
 import com.birdwind.inspire.medical.diary.base.view.AbstractDialog;
 import com.birdwind.inspire.medical.diary.databinding.DialogRecordVoiceBinding;
 import com.birdwind.inspire.medical.diary.model.response.VoiceQuizResponse;
@@ -33,15 +29,14 @@ import com.birdwind.inspire.medical.diary.view.viewCallback.RecordVoiceDialogVie
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.io.IOException;
 
-public class RecordVoiceDialog
+public class RecordVoiceDialog2
     extends AbstractDialog<CommonDialogListener, RecordVoiceDialogPresenter, DialogRecordVoiceBinding>
     implements RecordVoiceDialogView, AudioRecordListener, MediaPlayListener, ProgressRequestBody.UploadCallbacks {
 
     private boolean isRecording;
 
-    private MediaRecorder mediaRecorder;
+    private Recorder recorder;
 
     private Animation animation;
 
@@ -53,7 +48,7 @@ public class RecordVoiceDialog
 
     private RecordVoiceDialogListener recordVoiceDialogListener;
 
-    public RecordVoiceDialog(@NonNull @NotNull Context context, RecordVoiceDialogListener recordVoiceDialogListener) {
+    public RecordVoiceDialog2(@NonNull @NotNull Context context, RecordVoiceDialogListener recordVoiceDialogListener) {
         super(context, new CommonDialogListener() {});
         setCancelable(false);
         animation = new AlphaAnimation(1, 0);
@@ -73,7 +68,7 @@ public class RecordVoiceDialog
     public void addListener() {
         binding.ibtnRecordVoiceDialog.setOnClickListener(v -> {
             if (isRecording)
-                stopRecording();
+                stopRecordSound();
         });
     }
 
@@ -127,75 +122,36 @@ public class RecordVoiceDialog
 
     }
 
-    @SuppressLint("SimpleDateFormat")
-    public void startRecording() {
+    private void startRecordSound() {
+        recorder = new Recorder(this, getContext());
+        recorder.setFileName("/" + App.userModel.getUid() + "_" + System.nanoTime() + ".m4a");
+        binding.ibtnRecordVoiceDialog.post(() -> {
+            binding.ibtnRecordVoiceDialog.setImageTintList(
+                ColorStateList.valueOf(getContext().getResources().getColor(R.color.colorRed_B70908)));
+        });
+        recorder.startRecord();
         isRecording = true;
-        mediaRecorder = new MediaRecorder();
-        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+        binding.ibtnRecordVoiceDialog.startAnimation(animation);
+    }
 
-        file = FileUtils.createFile(((AbstractActivity) context).getOutputDirectoryFile("Recording"), ".m4a");
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            mediaRecorder.setOutputFile(file);
-        } else {
-            mediaRecorder.setOutputFile("/" + App.userModel.getUid() + "_" + System.nanoTime() + ".m4a");
-        }
-        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+    private void stopRecordSound() {
         try {
-            mediaRecorder.prepare();
-            binding.ibtnRecordVoiceDialog.post(() -> {
-                binding.ibtnRecordVoiceDialog.setImageTintList(
-                    ColorStateList.valueOf(getContext().getResources().getColor(R.color.colorRed_B70908)));
-            });
-            binding.ibtnRecordVoiceDialog.startAnimation(animation);
-        } catch (IOException e) {
-            LogUtils.e("prepare() failed");
+            recorder.stopRecording();
+        } catch (RuntimeException e) {
+            ToastUtils.show(getContext(), "間格時間太小");
         }
-        mediaRecorder.start();
 
-    }
-
-    public void stopRecording() {
-        mediaRecorder.stop();
+        binding.ibtnRecordVoiceDialog.post(() -> {
+            binding.ibtnRecordVoiceDialog.setImageTintList(
+                ColorStateList.valueOf(getContext().getResources().getColor(R.color.colorBlack_000000)));
+        });
         binding.ibtnRecordVoiceDialog.clearAnimation();
-
-        presenter.uploadRecord(file, this);
-        mediaRecorder.release();
-        mediaRecorder = null;
         isRecording = false;
-
     }
-
-    // private void startRecordSound() {
-    // recorder = new Recorder(this, getContext());
-    // recorder.setFileName("/" + App.userModel.getUid() + "_" + System.nanoTime() + ".m4a");
-    // binding.ibtnRecordVoiceDialog.post(() -> {
-    // binding.ibtnRecordVoiceDialog.setImageTintList(
-    // ColorStateList.valueOf(getContext().getResources().getColor(R.color.colorRed_B70908)));
-    // });
-    // recorder.startRecord();
-    // isRecording = true;
-    // binding.ibtnRecordVoiceDialog.startAnimation(animation);
-    // }
-    //
-    // private void stopRecordSound() {
-    // try {
-    // recorder.stopRecording();
-    // } catch (RuntimeException e) {
-    // ToastUtils.show(getContext(), "間格時間太小");
-    // }
-    //
-    // binding.ibtnRecordVoiceDialog.post(() -> {
-    // binding.ibtnRecordVoiceDialog.setImageTintList(
-    // ColorStateList.valueOf(getContext().getResources().getColor(R.color.colorBlack_000000)));
-    // });
-    // binding.ibtnRecordVoiceDialog.clearAnimation();
-    // isRecording = false;
-    // }
 
     public void initRecord(int questionId) {
         this.questionId = questionId;
-        startRecording();
+        startRecordSound();
     }
 
     @Override
@@ -205,7 +161,7 @@ public class RecordVoiceDialog
 
     @Override
     public void onUploadRecord(boolean isSuccess, String url) {
-        // mediaRecorder.reset();
+        recorder.reset();
         recordVoiceDialogListener.recordVoiceDone(questionId, url);
         dismiss();
     }

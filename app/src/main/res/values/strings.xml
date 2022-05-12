@@ -82,9 +82,9 @@
     <string name="doctor_main_menu_report">報告</string>
     <string name="doctor_main_menu_setting">&setting;</string>
     <string name="doctor_main_tab_message">訊息</string>
-    <string name="doctor_main_tab_chart">測驗</string>
-    <string name="doctor_main_tab_chart_family">家屬</string>
-    <string name="doctor_main_tab_chart_patient">病患</string>
+    <string name="doctor_main_tab_chart">問卷</string>
+    <string name="doctor_main_tab_chart_family">家屬問卷</string>
+    <string name="doctor_main_tab_chart_patient">病患問卷</string>
     <string name="doctor_main_patient_none_data">您尚無任何病患</string>
 
     <!--PainterMain-->
@@ -97,7 +97,7 @@
     <!--FamilyMain-->
     <string name="family_main_menu_scan">&scan;</string>
     <string name="family_main_menu_qrcode">&qrcode;</string>
-    <string name="family_main_menu_report">開始看護</string>
+    <string name="family_main_menu_report">開始測驗</string>
     <string name="family_main_menu_visit">&visit;</string>
     <string name="family_main_menu_setting">&setting;</string>
 
@@ -115,6 +115,8 @@
     <string name="quiz_boolean_no">否</string>
     <string name="quiz_number_hint">請輸入數字</string>
     <string name="quiz_text_hint">請輸入回答</string>
+    <string name="quiz_family">家屬</string>
+    <string name="quiz_patient">病患</string>
 
     <!--Scan-->
     <string name="scan_no_permission">您未同意授權，無法開啟相機掃描QRCODE</string>

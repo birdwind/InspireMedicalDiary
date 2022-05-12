@@ -19,6 +19,7 @@ import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.birdwind.inspire.medical.diary.App;
@@ -35,6 +36,7 @@ import com.birdwind.inspire.medical.diary.model.request.SurveyAnswerRequest;
 import com.birdwind.inspire.medical.diary.view.dialog.RecordVoiceDialog;
 import com.birdwind.inspire.medical.diary.view.dialog.callback.RecordVoiceDialogListener;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.google.android.flexbox.AlignItems;
@@ -78,11 +80,17 @@ public class QuestionAdapter extends BaseMultiItemQuickAdapter<QuestionModel, Ba
         addItemType(AnswerTypeEnum.AUDIO, R.layout.item_question_audio);
         addItemType(AnswerTypeEnum.VIDEO, R.layout.item_question_video);
 
+        // boolean
         addChildClickViewIds(R.id.rb_true_question_boolean_item, R.id.rb_false_question_boolean_item);
-        addChildClickViewIds(R.id.ibtn_record_question_item, R.id.ibtn_play_question_item,
+        // audio
+        addChildClickViewIds(R.id.ibtn_record_audio_question_item, R.id.ibtn_play_audio_question_item,
             R.id.awv_record_question_item);
-        addChildClickViewIds(R.id.ibtn_drawing_question_item);
-        addChildClickViewIds(R.id.ibtn_picture_question_item);
+        // drawing
+        addChildClickViewIds(R.id.ibtn_drawing_question_item, R.id.ibtn_play_image_question_item,
+            R.id.iv_answer_picture_question_item);
+        // video
+        addChildClickViewIds(R.id.ibtn_record_video_question_item, R.id.iv_preview_question_item,
+            R.id.ibtn_play_video_question_item);
         setOnItemChildClickListener((adapter, view, position) -> {
         });
         this.answerCompleteListener = answerCompleteListener;
@@ -121,9 +129,9 @@ public class QuestionAdapter extends BaseMultiItemQuickAdapter<QuestionModel, Ba
                     @Override
                     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                         try {
-                            updateAnswer(questionModel.getQuestionID(), charSequence.toString());
+                            updateAnswer(questionModel.getQuestionID(), charSequence.toString(), AnswerTypeEnum.NUMBER);
                         } catch (Exception e) {
-                            updateAnswer(questionModel.getQuestionID(), null);
+                            updateAnswer(questionModel.getQuestionID(), null, AnswerTypeEnum.NUMBER);
                             LogUtils.exception(e);
                         }
                     }
@@ -140,8 +148,8 @@ public class QuestionAdapter extends BaseMultiItemQuickAdapter<QuestionModel, Ba
             case AnswerTypeEnum.AUDIO:
                 AudioWaveView audioWaveView = baseViewHolder.getView(R.id.awv_record_question_item);
                 audioWaveView.setOnProgressListener(this);
-                baseViewHolder.getView(R.id.ibtn_record_question_item).setVisibility(View.VISIBLE);
-                baseViewHolder.getView(R.id.ibtn_play_question_item).setVisibility(View.GONE);
+                // baseViewHolder.getView(R.id.ibtn_record_audio_question_item).setVisibility(View.VISIBLE);
+                // baseViewHolder.getView(R.id.ibtn_play_audio_question_item).setVisibility(View.GONE);
                 break;
             case AnswerTypeEnum.VIDEO:
                 break;
@@ -152,39 +160,60 @@ public class QuestionAdapter extends BaseMultiItemQuickAdapter<QuestionModel, Ba
     protected void setOnItemChildClick(@NonNull View v, int position) {
         super.setOnItemChildClick(v, position);
         QuestionModel questionModel = getData().get(position);
+        String url = "";
         switch (questionModel.getAnswerType()) {
             case AnswerTypeEnum.BOOLEAN:
                 if (v.getId() == R.id.rb_true_question_boolean_item) {
                     ((RadioButton) Objects
                         .requireNonNull(getViewByPosition(position, R.id.rb_false_question_boolean_item)))
                             .setChecked(false);
-                    updateAnswer(questionModel.getQuestionID(), "1");
+                    updateAnswer(questionModel.getQuestionID(), "1", AnswerTypeEnum.BOOLEAN);
                 } else if (v.getId() == R.id.rb_false_question_boolean_item) {
                     ((RadioButton) Objects
                         .requireNonNull(getViewByPosition(position, R.id.rb_true_question_boolean_item)))
                             .setChecked(false);
-                    updateAnswer(questionModel.getQuestionID(), "0");
+                    updateAnswer(questionModel.getQuestionID(), "0", AnswerTypeEnum.BOOLEAN);
                 }
                 break;
             case AnswerTypeEnum.AUDIO:
-                if (v.getId() == R.id.ibtn_record_question_item) {
+                if (v.getId() == R.id.ibtn_record_audio_question_item) {
                     if (((AbstractActivity) getContext()).hasPermission(Manifest.permission.RECORD_AUDIO)) {
                         recordVoiceDialog.show();
                         recordVoiceDialog.initRecord(getData().get(position).getQuestionID());
                     }
-                } else if (v.getId() == R.id.ibtn_play_question_item || v.getId() == R.id.awv_record_question_item) {
-                    playAudio(position);
+                } else if (v.getId() == R.id.ibtn_play_audio_question_item
+                    || v.getId() == R.id.awv_record_question_item) {
+                    url = (String) getViewByPosition(position, R.id.awv_record_question_item)
+                        .getTag(R.id.view_tag_answer_url);
+                    if (!TextUtils.isEmpty(url)) {
+                        playAudio(position, url);
+                    }
                 }
                 break;
             case AnswerTypeEnum.IMAGE:
                 if (v.getId() == R.id.ibtn_drawing_question_item) {
                     specialAnswerListener.drawing(getItem(position));
+                } else if (v.getId() == R.id.ibtn_play_image_question_item
+                    || v.getId() == R.id.iv_answer_picture_question_item) {
+                    url = (String) getViewByPosition(position, R.id.iv_answer_picture_question_item)
+                        .getTag(R.id.view_tag_answer_url);
+                    if (!TextUtils.isEmpty(url)) {
+                        specialAnswerListener.previewImage(url);
+                    }
                 }
                 break;
             case AnswerTypeEnum.VIDEO:
-                if (v.getId() == R.id.ibtn_picture_question_item) {
+                if (v.getId() == R.id.ibtn_record_video_question_item) {
                     specialAnswerListener.recordVideo(getItem(position));
+                } else if (v.getId() == R.id.iv_preview_question_item
+                    || v.getId() == R.id.ibtn_play_video_question_item) {
+                    url = (String) getViewByPosition(position, R.id.iv_preview_question_item)
+                        .getTag(R.id.view_tag_answer_url);
+                    if (!TextUtils.isEmpty(url)) {
+                        specialAnswerListener.previewVideo(url);
+                    }
                 }
+                break;
         }
     }
 
@@ -200,7 +229,8 @@ public class QuestionAdapter extends BaseMultiItemQuickAdapter<QuestionModel, Ba
                     Objects.requireNonNull(radioButton).setChecked(false);
                 } else {
                     updateAnswer(questionModel.getQuestionID(),
-                        String.valueOf(((MultipleChooseModel) adapter.getItem(position)).getChoiceID()));
+                        String.valueOf(((MultipleChooseModel) adapter.getItem(position)).getChoiceID()),
+                        AnswerTypeEnum.MULTIPLE);
                 }
             }
         });
@@ -237,9 +267,17 @@ public class QuestionAdapter extends BaseMultiItemQuickAdapter<QuestionModel, Ba
     /**
      * 更新問題答案
      */
-    public void updateAnswer(int questionId, String answer) {
+    public void updateAnswer(int questionId, String answer, int answerType) {
+        int position = 0;
         if (surveyAnswerRequest != null) {
             boolean isExist = false;
+            for (; position < getData().size(); position++) {
+                QuestionModel questionModel = getItem(position);
+                if (questionModel.getQuestionID() == questionId) {
+                    break;
+                }
+            }
+
             for (SurveyAnswerRequest.QuestionAnswerRequest questionAnswerRequest : surveyAnswerRequest.getQuestions()) {
                 if (questionAnswerRequest.getQuestionID() == questionId) {
                     if (!TextUtils.isEmpty(answer)) {
@@ -256,7 +294,33 @@ public class QuestionAdapter extends BaseMultiItemQuickAdapter<QuestionModel, Ba
                     .add(new SurveyAnswerRequest.QuestionAnswerRequest(questionId, answer));
             }
         }
+        updateQuestionModeAnswerView(position, answer, answerType);
         checkAnswerComplete();
+    }
+
+    private void updateQuestionModeAnswerView(int position, String answer, int answerType) {
+        if (!TextUtils.isEmpty(answer)) {
+            switch (answerType) {
+                case AnswerTypeEnum.VIDEO:
+                    getViewByPosition(position, R.id.ibtn_play_video_question_item).setAlpha(1);
+                    getViewByPosition(position, R.id.iv_preview_question_item).setTag(R.id.view_tag_answer_url, answer);
+                    break;
+                case AnswerTypeEnum.AUDIO:
+                    getViewByPosition(position, R.id.ibtn_play_audio_question_item).setAlpha(1);
+                    getViewByPosition(position, R.id.awv_record_question_item).setTag(R.id.view_tag_answer_url, answer);
+                    break;
+                case AnswerTypeEnum.IMAGE:
+                    getViewByPosition(position, R.id.ibtn_play_image_question_item).setAlpha(1);
+                    getViewByPosition(position, R.id.iv_answer_picture_question_item).setTag(R.id.view_tag_answer_url,
+                        answer);
+                    break;
+            }
+            getViewByPosition(position, R.id.tv_title_question_item)
+                .setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorGray_F3F3F3));
+        } else {
+            getViewByPosition(position, R.id.tv_title_question_item)
+                .setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorOrange_FAF1E7));
+        }
     }
 
     /**
@@ -270,6 +334,7 @@ public class QuestionAdapter extends BaseMultiItemQuickAdapter<QuestionModel, Ba
                 QuestionModel questionModel = questionModels.get(i);
                 if (questionAnswerRequest.getQuestionID() == questionModel.getQuestionID()) {
                     try {
+                        View view = null;
                         switch (questionModel.getAnswerType()) {
                             case AnswerTypeEnum.BOOLEAN:
                                 RadioButton rbBooleanTrue =
@@ -280,8 +345,10 @@ public class QuestionAdapter extends BaseMultiItemQuickAdapter<QuestionModel, Ba
                                 rbBooleanFalse.setEnabled(false);
                                 if (questionAnswerRequest.getValue().equals("1")) {
                                     rbBooleanTrue.setChecked(true);
-                                } else {
                                     rbBooleanFalse.setChecked(false);
+                                } else {
+                                    rbBooleanTrue.setChecked(false);
+                                    rbBooleanFalse.setChecked(true);
                                 }
                                 break;
                             case AnswerTypeEnum.NUMBER:
@@ -296,25 +363,47 @@ public class QuestionAdapter extends BaseMultiItemQuickAdapter<QuestionModel, Ba
                                 answerAdapter.updateData(Integer.parseInt(questionAnswerRequest.getValue()));
                                 break;
                             case AnswerTypeEnum.IMAGE:
-                                // getViewByPosition(i, R.id.iv_picture_question_item).setVisibility(View.GONE);
-                                getViewByPosition(i, R.id.ibtn_drawing_question_item).setVisibility(View.GONE);
+                                getViewByPosition(i, R.id.ll_question_item).setVisibility(View.GONE);
                                 getViewByPosition(i, R.id.view_image_underline_drawing_question_item)
                                     .setVisibility(View.VISIBLE);
-                                getViewByPosition(i, R.id.iv_answer_picture_question_item).setVisibility(View.VISIBLE);
-                                CustomPicasso.getImageLoader(getContext()).load(questionAnswerRequest.getValue())
-                                    .into((ImageView) getViewByPosition(i, R.id.iv_answer_picture_question_item));
+                                view = getViewByPosition(i, R.id.iv_answer_picture_question_item);
+                                if (view != null) {
+                                    view.setVisibility(View.VISIBLE);
+                                    view.setTag(R.id.view_tag_answer_url, questionAnswerRequest.getValue());
+                                    CustomPicasso.getImageLoader(getContext()).load(questionAnswerRequest.getValue())
+                                        .into((ImageView) view);
+                                }
+
                                 break;
                             case AnswerTypeEnum.AUDIO:
-                                View view = getViewByPosition(i, R.id.ibtn_record_question_item);
+                                getViewByPosition(i, R.id.awv_record_question_item).setTag(R.id.view_tag_answer_url,
+                                    questionAnswerRequest.getValue());
+                                view = getViewByPosition(i, R.id.ibtn_record_audio_question_item);
                                 if (view != null) {
                                     view.setVisibility(View.GONE);
                                 }
-                                view = getViewByPosition(i, R.id.ibtn_play_question_item);
+                                view = getViewByPosition(i, R.id.ibtn_play_audio_question_item);
                                 if (view != null) {
-                                    view.setVisibility(View.VISIBLE);
+                                    view.setAlpha(1);
                                 }
                                 break;
                             case AnswerTypeEnum.VIDEO:
+                                view = getViewByPosition(i, R.id.iv_preview_question_item);
+                                if (view != null) {
+                                    Glide.with(getContext()).load(questionAnswerRequest.getValue())
+                                        .diskCacheStrategy(DiskCacheStrategy.ALL).into((ImageView) view);
+                                    view.setTag(R.id.view_tag_answer_url, questionAnswerRequest.getValue());
+                                }
+
+                                view = getViewByPosition(i, R.id.ll_question_item);
+                                if (view != null) {
+                                    view.setVisibility(View.GONE);
+                                }
+
+                                view = getViewByPosition(i, R.id.rl_preview_question_item);
+                                if (view != null) {
+                                    view.setVisibility(View.VISIBLE);
+                                }
                                 break;
                         }
                     } catch (Exception e) {
@@ -329,12 +418,12 @@ public class QuestionAdapter extends BaseMultiItemQuickAdapter<QuestionModel, Ba
 
     @Override
     public void recordVoiceDone(int questionId, String recordUrl) {
-        updateAnswer(questionId, recordUrl);
+        updateAnswer(questionId, recordUrl, AnswerTypeEnum.AUDIO);
     }
 
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
-        stopAudio();
+        resetAudioPlayView();
     }
 
     @Override
@@ -361,15 +450,15 @@ public class QuestionAdapter extends BaseMultiItemQuickAdapter<QuestionModel, Ba
     @Override
     public void onStopTracking(float v) {}
 
-    private void playAudio(int position) {
+    private void playAudio(int position, String url) {
         if (mediaUtils != null && !mediaUtils.isPlaying()) {
             currentPosition = position;
-            ImageButton ibtnPlay = (ImageButton) getViewByPosition(position, R.id.ibtn_play_question_item);
+            ImageButton ibtnPlay = (ImageButton) getViewByPosition(position, R.id.ibtn_play_audio_question_item);
             audioWaveView = (AudioWaveView) getViewByPosition(position, R.id.awv_record_question_item);
             audioWaveView.setWaveColor(App.userModel.getIdentityMainColor());
             ibtnPlay.setImageResource(R.drawable.lb_ic_pause);
             ibtnPlay.setImageTintList(ColorStateList.valueOf(App.userModel.getIdentityMainColor()));
-            mediaUtils.playAudioByUrl(surveyAnswerRequest.getQuestions().get(position).getValue(), this);
+            mediaUtils.playAudioByUrl(url, this);
             ((Activity) getContext()).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -392,14 +481,18 @@ public class QuestionAdapter extends BaseMultiItemQuickAdapter<QuestionModel, Ba
     private void stopAudio() {
         if (mediaUtils.isPlaying()) {
             mediaUtils.stop();
-            ImageButton ibtnPlay = (ImageButton) getViewByPosition(currentPosition, R.id.ibtn_play_question_item);
-            ibtnPlay.setImageResource(R.drawable.ic_play);
-            ibtnPlay.setImageTintList(
-                ColorStateList.valueOf(getContext().getResources().getColor(R.color.colorBlack_000000)));
-            audioWaveView.setWaveColor(R.color.colorBlack_000000);
-            audioWaveView.setProgress(0);
+            resetAudioPlayView();
             handler = new Handler();
         }
+    }
+
+    private void resetAudioPlayView() {
+        ImageButton ibtnPlay = (ImageButton) getViewByPosition(currentPosition, R.id.ibtn_play_audio_question_item);
+        ibtnPlay.setImageResource(R.drawable.ic_play);
+        ibtnPlay
+            .setImageTintList(ColorStateList.valueOf(getContext().getResources().getColor(R.color.colorBlack_000000)));
+        audioWaveView.setWaveColor(getContext().getResources().getColor(R.color.colorBlack_000000));
+        audioWaveView.setProgress(0);
     }
 
     public interface AnswerCompleteListener {
@@ -413,5 +506,9 @@ public class QuestionAdapter extends BaseMultiItemQuickAdapter<QuestionModel, Ba
         void drawing(QuestionModel questionModel);
 
         void recordVideo(QuestionModel questionModel);
+
+        void previewVideo(String videoUrl);
+
+        void previewImage(String imageUrl);
     }
 }

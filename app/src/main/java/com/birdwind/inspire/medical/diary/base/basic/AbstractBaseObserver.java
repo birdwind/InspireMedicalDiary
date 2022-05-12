@@ -116,7 +116,14 @@ public abstract class AbstractBaseObserver<T extends ResponseBody, BR extends Ba
                 RxException rxException = RxException.handleException(e);
                 onError(errorTitle, String.valueOf(rxException.getCode()), rxException.getMessage(), false);
             } else {
-                onError(errorTitle, String.valueOf(httpException.code()), errorMsg, false);
+                switch (httpException.code()) {
+                    case 401:
+                        view.onLoginError(errorMsg);
+                        break;
+                    default:
+                        onError(errorTitle, String.valueOf(httpException.code()), errorMsg, false);
+                        break;
+                }
             }
             view.hideLoading();
         } else {

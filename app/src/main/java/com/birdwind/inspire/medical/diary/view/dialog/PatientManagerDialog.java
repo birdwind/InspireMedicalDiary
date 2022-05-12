@@ -106,7 +106,7 @@ public class PatientManagerDialog
             if (selectPatientSurvey != null) {
                 presenter.setSurvey(uid, selectPatientSurvey.getSurveyID(), IdentityEnums.PAINTER.getType());
             }
-            if (selectFamilySurvey != null) {
+            if (selectPatientSurvey == null && selectFamilySurvey != null) {
                 presenter.setSurvey(uid, selectFamilySurvey.getSurveyID(), IdentityEnums.FAMILY.getType());
             }
             dismiss();
@@ -176,10 +176,26 @@ public class PatientManagerDialog
     @Override
     public void onSetSurvey(boolean isSuccess, String response, int identity) {
         if (isSuccess) {
-            // if (identity == IdentityEnums.PAINTER.getType()) {
-            // } else {
-            dismiss();
-            // }
+            boolean isCanDismiss = true;
+            if (identity == IdentityEnums.PAINTER.getType()) {
+                selectPatientSurvey = null;
+            }
+            if (identity == IdentityEnums.FAMILY.getType()) {
+                selectFamilySurvey = null;
+            }
+
+            if (selectPatientSurvey != null) {
+                presenter.setSurvey(uid, selectPatientSurvey.getSurveyID(), IdentityEnums.PAINTER.getType());
+                isCanDismiss = false;
+            }
+            if (selectFamilySurvey != null) {
+                presenter.setSurvey(uid, selectFamilySurvey.getSurveyID(), IdentityEnums.FAMILY.getType());
+                isCanDismiss = false;
+            }
+            if (isCanDismiss) {
+
+                dismiss();
+            }
         } else {
             ToastUtils.show(getContext(), "問卷更新失敗，請稍後再試");
         }
@@ -187,12 +203,11 @@ public class PatientManagerDialog
 
     @Override
     public void onGetInformation(boolean isSuccess, InformationResponse.Response informationResponse) {
-        if(informationResponse.getName() == null){
+        if (informationResponse.getName() == null) {
+            binding.tvNamePatientManagerDialog.setText("尚未設定姓名" + "(" + informationResponse.getSexString() + ")");
+        } else {
             binding.tvNamePatientManagerDialog
-                    .setText("尚未設定姓名" + "(" + informationResponse.getSexString() + ")");
-        }else{
-            binding.tvNamePatientManagerDialog
-                    .setText(informationResponse.getName() + "(" + informationResponse.getSexString() + ")");
+                .setText(informationResponse.getName() + "(" + informationResponse.getSexString() + ")");
         }
         binding.tvIdcardPatientManagerDialog.setText(informationResponse.getIDNumber());
         binding.tvPhonePatientManagerDialog.setText(informationResponse.getPhone());

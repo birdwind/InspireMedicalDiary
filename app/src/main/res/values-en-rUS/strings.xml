@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><!DOCTYPE resources [<!ENTITY appname "Diary"><!ENTITY scan "Scan"><!ENTITY qrcode "QRCode"><!ENTITY setting "Setting"><!ENTITY visit "Next visit">]>
+<?xml version="1.0" encoding="utf-8"?><!DOCTYPE resources [<!ENTITY appname "Diary"><!ENTITY scan "Scan"><!ENTITY qrcode "My ID"><!ENTITY setting "Setting"><!ENTITY visit "Next visit">]>
 <resources>
     <string name="app_name">&appname;</string>
     <string name="company_name">BirdWind</string>
@@ -64,11 +64,11 @@
     <!--Login-->
     <string name="login_name">Name</string>
     <string name="login_phone">Phone</string>
-    <string name="login_verification_code">Verification code</string>
+    <string name="login_verification_code">Code</string>
     <string name="login_name_hint">Please enter a name</string>
     <string name="login_phone_hint">Please enter phone</string>
-    <string name="login_verification_code_hint">Please enter verification code</string>
-    <string name="login_send_verification_code"><u>Send SMS verification code</u></string>
+    <string name="login_verification_code_hint">Please enter code</string>
+    <string name="login_send_verification_code"><u>Send SMS code</u></string>
     <string name="login_send_verification_code_countdown">Resend in ${second} seconds</string>
     <string name="login_login">Login</string>
     <string name="login_verification">Verification</string>
@@ -82,22 +82,22 @@
     <string name="doctor_main_menu_report">Report</string>
     <string name="doctor_main_menu_setting">&setting;</string>
     <string name="doctor_main_tab_message">Message</string>
-    <string name="doctor_main_tab_chart">Quiz</string>
-    <string name="doctor_main_tab_chart_family">family</string>
-    <string name="doctor_main_tab_chart_patient">patient</string>
+    <string name="doctor_main_tab_chart">Surveys</string>
+    <string name="doctor_main_tab_chart_family">Caregiver Surveys</string>
+    <string name="doctor_main_tab_chart_patient">Patient Surveys</string>
     <string name="doctor_main_patient_none_data">You have no patients yet</string>
 
     <!--PainterMain-->
     <string name="painter_main_menu_scan">&scan;</string>
     <string name="painter_main_menu_qrcode">&qrcode;</string>
-    <string name="painter_main_menu_quiz">Start Quiz</string>
+    <string name="painter_main_menu_quiz">Run Survey</string>
     <string name="painter_main_menu_visit">&visit;</string>
     <string name="painter_main_menu_setting">&setting;</string>
 
     <!--FamilyMain-->
     <string name="family_main_menu_scan">&scan;</string>
     <string name="family_main_menu_qrcode">&qrcode;</string>
-    <string name="family_main_menu_report">Start nursing</string>
+    <string name="family_main_menu_report">Run Survey</string>
     <string name="family_main_menu_visit">&visit;</string>
     <string name="family_main_menu_setting">&setting;</string>
 
@@ -115,6 +115,8 @@
     <string name="quiz_boolean_no">no</string>
     <string name="quiz_number_hint">Please enter a number</string>
     <string name="quiz_text_hint">Please enter answer</string>
+    <string name="quiz_family">Caregiver</string>
+    <string name="quiz_patient">Patient</string>
 
     <!--Scan-->
     <string name="scan_no_permission">You do not agree to the authorization, you cannot open the camera to scan QRCODE</string>

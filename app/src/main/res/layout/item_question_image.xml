@@ -18,15 +18,33 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_title_question_item" />
 
-    <ImageButton
-        android:id="@+id/ibtn_drawing_question_item"
-        android:layout_width="wrap_content"
+
+    <LinearLayout
+        android:id="@+id/ll_question_item"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/iv_picture_question_item"
         android:layout_centerInParent="true"
-        android:layout_marginVertical="12dp"
-        android:background="@drawable/ic_circle"
-        android:src="@drawable/ic_drawing" />
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/ibtn_drawing_question_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:background="@drawable/ic_circle"
+            android:src="@drawable/ic_drawing" />
+
+        <ImageButton
+            android:id="@+id/ibtn_play_image_question_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:alpha="0.3"
+            android:background="@drawable/ic_circle"
+            android:src="@drawable/ic_picture" />
+    </LinearLayout>
 
     <View
         android:id="@+id/view_image_underline_drawing_question_item"
@@ -37,8 +55,10 @@
     <ImageView
         android:id="@+id/iv_answer_picture_question_item"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="150dp"
         android:layout_below="@id/view_image_underline_drawing_question_item"
+        android:background="@color/colorBlack_000000"
+        android:layout_margin="12dp"
         android:visibility="gone" />
 
 </RelativeLayout>

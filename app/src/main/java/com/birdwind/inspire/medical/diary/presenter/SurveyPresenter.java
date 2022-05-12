@@ -1,13 +1,19 @@
 package com.birdwind.inspire.medical.diary.presenter;
 
 import com.birdwind.inspire.medical.diary.base.basic.AbstractObserver;
+import com.birdwind.inspire.medical.diary.base.network.request.ProgressRequestBody;
 import com.birdwind.inspire.medical.diary.base.network.response.Response;
 import com.birdwind.inspire.medical.diary.enums.IdentityEnums;
 import com.birdwind.inspire.medical.diary.model.request.SurveyAnswerRequest;
 import com.birdwind.inspire.medical.diary.model.response.QuestionnaireResponse;
 import com.birdwind.inspire.medical.diary.model.response.SurveyResponse;
+import com.birdwind.inspire.medical.diary.model.response.UploadMediaResponse;
 import com.birdwind.inspire.medical.diary.server.SurveyApiServer;
 import com.birdwind.inspire.medical.diary.view.viewCallback.SurveyView;
+
+import java.io.File;
+
+import okhttp3.MultipartBody;
 
 public class SurveyPresenter extends AbstractPresenter<SurveyView> {
     public SurveyPresenter(SurveyView baseView) {
@@ -58,5 +64,20 @@ public class SurveyPresenter extends AbstractPresenter<SurveyView> {
                     baseView.onGetQuestionnaire(response.getJsonData());
                 }
             });
+    }
+
+    public void uploadVideoRecord(File file, ProgressRequestBody.UploadCallbacks uploadCallbacks) {
+        initMap();
+        ProgressRequestBody progressRequestBody = new ProgressRequestBody(file, "audio/m4a", uploadCallbacks);
+        MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", file.getName(), progressRequestBody);
+        addDisposable(
+                apiServer.uploadFile(SurveyApiServer.UPLOAD_MEDIA_FILE.valueOfName(), paramsMap, headerMap, filePart),
+                new AbstractObserver<UploadMediaResponse>(this, baseView, "UploadRecord", null, UploadMediaResponse.class,
+                        false) {
+                    @Override
+                    public void onSuccess(UploadMediaResponse response) {
+                        baseView.onUploadRecord(true, response.getJsonData().getMediaLink());
+                    }
+                });
     }
 }

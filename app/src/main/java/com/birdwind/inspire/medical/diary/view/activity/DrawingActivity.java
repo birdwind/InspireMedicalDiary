@@ -1,5 +1,7 @@
 package com.birdwind.inspire.medical.diary.view.activity;
 
+import static com.birdwind.inspire.medical.diary.view.fragment.SurveyFragment.ACTIVITY_RESULT_DRAWING_OK;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -28,6 +30,7 @@ import com.birdwind.inspire.medical.diary.base.utils.FileUtils;
 import com.birdwind.inspire.medical.diary.base.utils.LogUtils;
 import com.birdwind.inspire.medical.diary.base.view.AbstractActivity;
 import com.birdwind.inspire.medical.diary.databinding.DrawingActivityBinding;
+import com.birdwind.inspire.medical.diary.enums.AnswerTypeEnum;
 import com.birdwind.inspire.medical.diary.model.QuestionModel;
 import com.birdwind.inspire.medical.diary.presenter.DrawingPresenter;
 import com.birdwind.inspire.medical.diary.utils.ImageUtils;
@@ -227,7 +230,7 @@ public class DrawingActivity extends AbstractActivity<DrawingPresenter, DrawingA
         Intent returnIntent = new Intent();
         returnIntent.putExtra("url", url);
         returnIntent.putExtra("questionId", questionModel.getQuestionID());
-        setResult(Activity.RESULT_OK, returnIntent);
+        setResult(ACTIVITY_RESULT_DRAWING_OK, returnIntent);
         finish();
     }
 

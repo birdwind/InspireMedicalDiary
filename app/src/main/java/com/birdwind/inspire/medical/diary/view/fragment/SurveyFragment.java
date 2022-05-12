@@ -1,16 +1,16 @@
 package com.birdwind.inspire.medical.diary.view.fragment;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.activity.result.ActivityResult;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,11 +21,11 @@ import com.birdwind.inspire.medical.diary.base.utils.LogUtils;
 import com.birdwind.inspire.medical.diary.base.view.AbstractActivity;
 import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
 import com.birdwind.inspire.medical.diary.databinding.FragmentSurveyBinding;
+import com.birdwind.inspire.medical.diary.enums.AnswerTypeEnum;
 import com.birdwind.inspire.medical.diary.enums.IdentityEnums;
 import com.birdwind.inspire.medical.diary.model.QuestionModel;
 import com.birdwind.inspire.medical.diary.model.response.QuestionnaireResponse;
 import com.birdwind.inspire.medical.diary.model.response.SurveyResponse;
-import com.birdwind.inspire.medical.diary.model.response.UploadMediaResponse;
 import com.birdwind.inspire.medical.diary.presenter.SurveyPresenter;
 import com.birdwind.inspire.medical.diary.view.activity.CameraActivity;
 import com.birdwind.inspire.medical.diary.view.activity.DrawingActivity;
@@ -36,6 +36,10 @@ import com.birdwind.inspire.medical.diary.view.viewCallback.ToolbarCallback;
 public class SurveyFragment extends AbstractFragment<SurveyPresenter, FragmentSurveyBinding>
     implements SurveyView, ToolbarCallback, QuestionAdapter.AnswerCompleteListener,
     QuestionAdapter.SpecialAnswerListener, ProgressRequestBody.UploadCallbacks {
+
+    public static final int ACTIVITY_RESULT_DRAWING_OK = 0x101;
+
+    public static final int ACTIVITY_RESULT_VIDEO_OK = 0x201;
 
     private QuestionAdapter questionAdapter;
 
@@ -145,9 +149,7 @@ public class SurveyFragment extends AbstractFragment<SurveyPresenter, FragmentSu
     }
 
     @Override
-    public void onUploadRecord(UploadMediaResponse response) {
-
-    }
+    public void onUploadRecord(boolean isSuccess, String url) {}
 
     @Override
     public void complete() {
@@ -166,16 +168,19 @@ public class SurveyFragment extends AbstractFragment<SurveyPresenter, FragmentSu
     @Override
     public void onProgressUpdate(int percentage) {
         LogUtils.d("上傳", String.valueOf(percentage));
+        showLoading();
     }
 
     @Override
     public void onError() {
-
+        LogUtils.d("上傳", "失敗");
+        hideLoading();
     }
 
     @Override
     public void onFinish() {
-
+        LogUtils.d("上傳", "完成");
+        hideLoading();
     }
 
     @Override
@@ -197,13 +202,31 @@ public class SurveyFragment extends AbstractFragment<SurveyPresenter, FragmentSu
     }
 
     @Override
-    public void onActivityResult(Intent intent) {
-        showToast("測試");
-        if(intent != null){
+    public void previewVideo(String videoUrl) {
+        Intent playVideo = new Intent(Intent.ACTION_VIEW);
+        playVideo.setDataAndType(Uri.parse(videoUrl), "video/mp4");
+        startActivity(playVideo);
+    }
+
+    @Override
+    public void previewImage(String imageUrl) {
+        Intent playVideo = new Intent(Intent.ACTION_VIEW);
+        playVideo.setDataAndType(Uri.parse(imageUrl), "image/jpg");
+        startActivity(playVideo);
+    }
+
+    @Override
+    public void onActivityResult(ActivityResult result) {
+        Intent intent = result.getData();
+        if (intent != null) {
             String url = intent.getStringExtra("url");
             int questionId = intent.getIntExtra("questionId", -1);
-            if(!TextUtils.isEmpty(url) && questionId != -1){
-                questionAdapter.updateAnswer(questionId, url);
+            if (!TextUtils.isEmpty(url) && questionId != -1) {
+                if (result.getResultCode() == ACTIVITY_RESULT_DRAWING_OK) {
+                    questionAdapter.updateAnswer(questionId, url, AnswerTypeEnum.IMAGE);
+                } else if (result.getResultCode() == ACTIVITY_RESULT_VIDEO_OK) {
+                    questionAdapter.updateAnswer(questionId, url, AnswerTypeEnum.VIDEO);
+                }
             }
         }
     }

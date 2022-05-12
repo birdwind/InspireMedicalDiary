@@ -14,9 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
 import com.birdwind.inspire.medical.diary.databinding.FragmentDoctorPatientBinding;
+import com.birdwind.inspire.medical.diary.model.PainterDiseaseModel;
+import com.birdwind.inspire.medical.diary.model.SurveyWebSocketModel;
 import com.birdwind.inspire.medical.diary.model.response.PatientResponse;
 import com.birdwind.inspire.medical.diary.presenter.DoctorPatientPresenter;
 import com.birdwind.inspire.medical.diary.receiver.ChatBroadcastReceiver;
+import com.birdwind.inspire.medical.diary.receiver.PainterSurveyBroadcastReceiver;
 import com.birdwind.inspire.medical.diary.view.adapter.PatientAdapter;
 import com.birdwind.inspire.medical.diary.view.viewCallback.DoctorPatientPresent;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -30,6 +33,8 @@ public class DoctorPatientFragment extends AbstractFragment<DoctorPatientPresent
     private PatientAdapter patientAdapter;
 
     private ChatBroadcastReceiver chatBroadcastReceiver;
+
+    private PainterSurveyBroadcastReceiver painterSurveyBroadcastReceiver;
 
     @Override
     public DoctorPatientPresenter createPresenter() {
@@ -112,12 +117,25 @@ public class DoctorPatientFragment extends AbstractFragment<DoctorPatientPresent
             }
         };
         chatBroadcastReceiver.register(context);
+
+        painterSurveyBroadcastReceiver = new PainterSurveyBroadcastReceiver(){
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Bundle bundle = intent.getExtras();
+                if (bundle != null) {
+                    SurveyWebSocketModel surveyWebSocketModel =
+                            (SurveyWebSocketModel) bundle.getSerializable("surveyWebSocketModel");
+                    updateNewSurveyIcon(surveyWebSocketModel.getPID());
+                }
+            }
+        };
     }
 
     @Override
     public void onPause() {
         super.onPause();
         chatBroadcastReceiver.unregister(context);
+        painterSurveyBroadcastReceiver.unregister(context);
     }
 
     private void updateNewChatIcon(Long userId) {
@@ -125,6 +143,17 @@ public class DoctorPatientFragment extends AbstractFragment<DoctorPatientPresent
             PatientResponse.Response patient = patientAdapter.getItem(i);
             if (patient.getPID() == userId) {
                 patient.setHasUnreadMessage(true);
+                patientAdapter.setData(i, patient);
+                break;
+            }
+        }
+    }
+
+    private void updateNewSurveyIcon(Long userId) {
+        for (int i = 0; i < patientAdapter.getData().size(); i++) {
+            PatientResponse.Response patient = patientAdapter.getItem(i);
+            if (patient.getPID() == userId) {
+                patient.setHasUnreadReport(true);
                 patientAdapter.setData(i, patient);
                 break;
             }

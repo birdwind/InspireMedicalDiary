@@ -1,6 +1,5 @@
 package com.birdwind.inspire.medical.diary.view.fragment;
 
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -8,12 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
-import android.view.animation.DecelerateInterpolator;
 import android.view.animation.RotateAnimation;
-import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -39,9 +35,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 public class PatientDashboardFragment extends AbstractFragment<PatientDashboardPresent, FragmentPatientBinding>
@@ -158,7 +152,9 @@ public class PatientDashboardFragment extends AbstractFragment<PatientDashboardP
 
         fragmentMap = new LinkedHashMap<>();
         fragmentMap.put(getString(R.string.doctor_main_tab_message), chatFragment);
-        fragmentMap.put(getString(R.string.doctor_main_tab_chart), surveyPatientListFragment);
+        fragmentMap
+            .put(getString(App.userModel.getIdentityEnums() == IdentityEnums.PAINTER ? R.string.doctor_main_tab_chart
+                : R.string.doctor_main_tab_chart_patient), surveyPatientListFragment);
         if (App.userModel.isProxy()) {
             fragmentMap.put(getString(R.string.doctor_main_tab_chart_family), surveyFamilyListFragment);
         }

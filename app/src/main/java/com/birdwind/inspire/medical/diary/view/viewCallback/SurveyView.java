@@ -10,5 +10,5 @@ public interface SurveyView extends BaseCustomView {
     void submitSuccess(boolean isSuccess);
 
     void onGetQuestionnaire(QuestionnaireResponse.Response questionnaireResponse);
-    void onUploadRecord(UploadMediaResponse response);
+    void onUploadRecord(boolean isSuccess, String url);
 }

@@ -10,6 +10,9 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.webkit.MimeTypeMap;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+
 public class FileUtils {
     public static String getMimeType(String url) {
         String type = null;
@@ -59,5 +62,10 @@ public class FileUtils {
             }
         }
         return "";
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    public static File createFile(File baseFolder, String extension) {
+        return new File(baseFolder, new SimpleDateFormat("yyyyMMddHHmmss").format(System.currentTimeMillis()) + extension);
     }
 }

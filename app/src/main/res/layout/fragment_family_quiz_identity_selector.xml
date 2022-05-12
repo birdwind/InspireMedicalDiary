@@ -10,10 +10,11 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:background="@color/colorOrange_E89210"
-        android:letterSpacing="1"
-        android:text="病患"
+        android:lines="1"
+        android:singleLine="true"
+        android:text="@string/quiz_patient"
         android:textColor="@color/colorWhite_FFFFFF"
-        android:textSize="48sp" />
+        android:textSize="36sp" />
 
     <Button
         android:id="@+id/bt_family_family_quiz_identity_selector_fragment"
@@ -21,9 +22,10 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:background="@color/colorRed_B70908"
-        android:letterSpacing="1"
-        android:text="家屬"
+        android:lines="1"
+        android:singleLine="true"
+        android:text="@string/quiz_family"
         android:textColor="@color/colorWhite_FFFFFF"
-        android:textSize="48sp" />
+        android:textSize="36sp" />
 
 </LinearLayout>

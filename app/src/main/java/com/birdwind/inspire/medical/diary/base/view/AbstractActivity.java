@@ -9,7 +9,7 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.telecom.Call;
+import android.os.Environment;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,6 +20,7 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -48,11 +49,13 @@ import com.fxn.stash.Stash;
 import com.tbruyelle.rxpermissions3.Permission;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 
+import java.io.File;
+
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 
-public abstract class AbstractActivity<P extends AbstractPresenter, VB extends ViewBinding>
-        extends AppCompatActivity implements BaseView, BaseCustomView, BaseActivity<P, VB> {
+public abstract class AbstractActivity<P extends AbstractPresenter, VB extends ViewBinding> extends AppCompatActivity
+    implements BaseView, BaseCustomView, BaseActivity<P, VB> {
 
     public Context context;
 
@@ -85,14 +88,14 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
 
         initData(savedInstanceState);
         initView();
-        activityResultLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(), result -> {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        // There are no request codes
-                        Intent intent = result.getData();
-                        onActivityResult(intent);
-                    }
-                });
+        activityResultLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    // There are no request codes
+                    Intent intent = result.getData();
+                    onActivityResult(intent);
+                }
+            });
         addListener();
         doSomething();
     }
@@ -127,9 +130,8 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
     public void showFileDialog() {
         // TODO:Show File Dialog
         if (!isFinishing()) {
-            loadingDialog = new LoadingFlower.Builder(this)
-                    .direction(LoadingConstant.DIRECT_CLOCKWISE).themeColor(Color.WHITE)
-                    .text("正在下載中,請稍後").fadeColor(Color.DKGRAY).build();
+            loadingDialog = new LoadingFlower.Builder(this).direction(LoadingConstant.DIRECT_CLOCKWISE)
+                .themeColor(Color.WHITE).text("正在下載中,請稍後").fadeColor(Color.DKGRAY).build();
             loadingDialog.show();
         }
     }
@@ -154,9 +156,8 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
     public void showLoadingDialog() {
         if (!isFinishing()) {
             if (loadingDialog == null) {
-                loadingDialog = new LoadingFlower.Builder(context)
-                        .direction(LoadingConstant.DIRECT_CLOCKWISE).themeColor(Color.WHITE)
-                        .fadeColor(Color.DKGRAY).build();
+                loadingDialog = new LoadingFlower.Builder(context).direction(LoadingConstant.DIRECT_CLOCKWISE)
+                    .themeColor(Color.WHITE).fadeColor(Color.DKGRAY).build();
             }
             loadingDialog.show();
         }
@@ -176,8 +177,7 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
     }
 
     @Override
-    public void showMessage(String title, String msg, boolean isDialog,
-            CommonDialogListener commonDialogListener) {
+    public void showMessage(String title, String msg, boolean isDialog, CommonDialogListener commonDialogListener) {
         if (msg == null)
             msg = "";
         if (!isDialog) {
@@ -316,44 +316,42 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
 
     @Override
     public void onServerShutDown() {
-        showDialog(context.getString(R.string.common_dialog_title),
-                getString(R.string.error_common_server_shutdown), new CommonDialogListener() {
-                    @Override
-                    public void clickConfirm() {
-                        finish();
-                    }
+        showDialog(context.getString(R.string.common_dialog_title), getString(R.string.error_common_server_shutdown),
+            new CommonDialogListener() {
+                @Override
+                public void clickConfirm() {
+                    finish();
+                }
 
-                    @Override
-                    public void clickCancel() {
+                @Override
+                public void clickCancel() {
 
-                    }
+                }
 
-                    @Override
-                    public void onLoginError(String msg) {
+                @Override
+                public void onLoginError(String msg) {
 
-                    }
+                }
 
-                    @Override
-                    public void onServerShutDown() {
+                @Override
+                public void onServerShutDown() {
 
-                    }
-                });
+                }
+            });
     }
 
-    public void switchFragment(int containerViewId, Fragment fragment,
-            FragmentTransaction fragmentTransaction) {
+    public void switchFragment(int containerViewId, Fragment fragment, FragmentTransaction fragmentTransaction) {
         switchFrag(containerViewId, fragment, fragmentTransaction);
     }
 
     public void switchFragmentWithBack(int containerViewId, Fragment fragment,
-            FragmentTransaction fragmentTransaction) {
+        FragmentTransaction fragmentTransaction) {
         String backStateName = fragment.getClass().getSimpleName();
         fragmentTransaction.addToBackStack(backStateName);
         switchFrag(containerViewId, fragment, fragmentTransaction);
     }
 
-    private void switchFrag(int containerViewId, Fragment fragment,
-            FragmentTransaction fragmentTransaction) {
+    private void switchFrag(int containerViewId, Fragment fragment, FragmentTransaction fragmentTransaction) {
         fragmentTransaction.replace(containerViewId, fragment);
         fragmentTransaction.commit();
     }
@@ -405,8 +403,7 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
     }
 
     public void hideSoftKeyboard(View view) {
-        InputMethodManager imm =
-                (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null) {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
@@ -429,11 +426,10 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
         return false;
     }
 
-    public void getPermission(PermissionRequestListener permissionRequestListener,
-            String... permissionArray) {
+    public void getPermission(PermissionRequestListener permissionRequestListener, String... permissionArray) {
         // if (group) {
-        addDisposable(rxPermissions.requestEachCombined(permissionArray).subscribe(
-                permission -> permissionRequestListener.permissionRequest(context, permission)));
+        addDisposable(rxPermissions.requestEachCombined(permissionArray)
+            .subscribe(permission -> permissionRequestListener.permissionRequest(context, permission)));
         // } else {
         // addDisposable(rxPermissions.requestEach(permissionArray)
         // .subscribe(permission -> permissionRequestListener.permissionRequest(context,
@@ -444,8 +440,7 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
     public boolean hasPermission(@NonNull String... permission) {
         boolean isHasPermissions = true;
         for (String target : permission) {
-            isHasPermissions = ContextCompat.checkSelfPermission(this,
-                    target) == PackageManager.PERMISSION_GRANTED;
+            isHasPermissions = ContextCompat.checkSelfPermission(this, target) == PackageManager.PERMISSION_GRANTED;
             if (!isHasPermissions) {
                 break;
             }
@@ -458,11 +453,11 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
             if (permission.granted) {
 
             } else if (permission.shouldShowRequestPermissionRationale) {
-                ToastUtils.show(context,
-                        context.getString(R.string.error_common_permission_denied_some), Toast.LENGTH_LONG);
+                ToastUtils.show(context, context.getString(R.string.error_common_permission_denied_some),
+                    Toast.LENGTH_LONG);
             } else {
-                ToastUtils.show(context,
-                        context.getString(R.string.error_common_permission_never_show), Toast.LENGTH_LONG);
+                ToastUtils.show(context, context.getString(R.string.error_common_permission_never_show),
+                    Toast.LENGTH_LONG);
             }
         }
     }
@@ -510,23 +505,23 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
 
     @Override
     public void showFunctionNotComplete(boolean isNeedBake) {
-        showDialog(getString(R.string.common_dialog_title),
-                getString(R.string.function_not_complete), new CommonDialogListener() {
-                    @Override
-                    public void clickConfirm() {
-                        if (isNeedBake) {
-                            onBackPressed();
-                        }
+        showDialog(getString(R.string.common_dialog_title), getString(R.string.function_not_complete),
+            new CommonDialogListener() {
+                @Override
+                public void clickConfirm() {
+                    if (isNeedBake) {
+                        onBackPressed();
                     }
+                }
 
-                    @Override
-                    public void clickClose() {
+                @Override
+                public void clickClose() {
 
-                        if (isNeedBake) {
-                            onBackPressed();
-                        }
+                    if (isNeedBake) {
+                        onBackPressed();
                     }
-                });
+                }
+            });
     }
 
     @Override
@@ -580,7 +575,8 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
         }
     }
 
-    public void getCurrentAppPermission(Callback callback, Callback partOfBackCallback, Callback neverShowOfBackCallback) {
+    public void getCurrentAppPermission(Callback callback, Callback partOfBackCallback,
+        Callback neverShowOfBackCallback) {
         boolean isAsked = Stash.getBoolean(Config.PERMISSION, false);
         if (!isAsked || callback != null) {
             getPermission(new PermissionRequestListener() {
@@ -591,21 +587,19 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
                             callback.call();
                         }
                     } else if (permission.shouldShowRequestPermissionRationale) {
-                        if(partOfBackCallback != null){
+                        if (partOfBackCallback != null) {
                             partOfBackCallback.call();
                         }
                         showToast(getString(R.string.error_common_permission_denied_some));
                     } else {
-                        if(neverShowOfBackCallback != null){
+                        if (neverShowOfBackCallback != null) {
                             neverShowOfBackCallback.call();
                         }
                         showToast(getString(R.string.error_common_permission_never_show));
                     }
                 }
-            }, Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    Manifest.permission.READ_EXTERNAL_STORAGE,
-                    Manifest.permission.READ_PHONE_STATE);
+            }, Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE);
 
             Stash.put(Config.PERMISSION, true);
         }
@@ -615,5 +609,19 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
     public int checkScreenOrientation() {
         Configuration configuration = getResources().getConfiguration();
         return configuration.orientation;
+    }
+
+    public String getOutputDirectoryPath(@Nullable String type){
+        String baseDirectory = "";
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            baseDirectory = type;
+        } else {
+            baseDirectory = getExternalFilesDir(type).getAbsolutePath();
+        }
+        return baseDirectory + "/" + Config.APP_DEFINE_NAME + "/";
+    }
+
+    public File getOutputDirectoryFile(@Nullable String type){
+        return getExternalFilesDir(type);
     }
 }

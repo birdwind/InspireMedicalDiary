@@ -1,6 +1,5 @@
 package com.birdwind.inspire.medical.diary.service;
 
-import static com.microsoft.signalr.HubConnectionState.CONNECTED;
 import static com.microsoft.signalr.HubConnectionState.CONNECTING;
 import static com.microsoft.signalr.HubConnectionState.DISCONNECTED;
 
@@ -20,6 +19,7 @@ import com.birdwind.inspire.medical.diary.base.utils.GsonUtils;
 import com.birdwind.inspire.medical.diary.base.utils.LogUtils;
 import com.birdwind.inspire.medical.diary.base.utils.NetworkUtils;
 import com.birdwind.inspire.medical.diary.model.PainterDiseaseModel;
+import com.birdwind.inspire.medical.diary.model.SurveyWebSocketModel;
 import com.birdwind.inspire.medical.diary.model.response.ChatResponse;
 import com.birdwind.inspire.medical.diary.receiver.BroadcastReceiverAction;
 import com.birdwind.inspire.medical.diary.sqlLite.service.ChatService;
@@ -80,6 +80,7 @@ public class InspireDiaryWebSocketService extends Service {
                     HubConnectionBuilder.create(Config.BASE_URL + "/MessageHub?Token=" + App.userModel.getToken())
                         .withHeader("Token", App.userModel.getToken()).build();
                 hubConnection.setKeepAliveInterval(5 * 1000);
+
                 hubConnection.on("ReceiveMessage", (json) -> {
                     // {"ID":17,"PID":78,"FromUID":6,"Content":"yyyy","Identity":2,"FromName":"\u8521\u52DD\u8C48","PhotoUrl":"https://toxto.top/Images/F2.png","Self":false,"TimeC":"2021-08-22T01:38:42.6201791+08:00"}
                     LogUtils.d("WebSocket-ReceiveMessage", json);
@@ -106,6 +107,20 @@ public class InspireDiaryWebSocketService extends Service {
                     Intent intent = new Intent(BroadcastReceiverAction.PAINTER_HAVE_DOCTOR);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("painterDiseaseModel", painterDiseaseModel);
+
+                    intent.putExtras(bundle);
+                    sendBroadcast(intent);
+
+                }, String.class);
+
+                hubConnection.on("NewSurveyRequest", (json) -> {
+                    LogUtils.d("WebSocket-NewSurveyRequest", json);
+                    SurveyWebSocketModel surveyWebSocketModel =
+                        GsonUtils.parseJsonToBean(json, SurveyWebSocketModel.class);
+
+                    Intent intent = new Intent(BroadcastReceiverAction.PAINTER_SURVEY_UPDATE);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("surveyWebSocketModel", surveyWebSocketModel);
 
                     intent.putExtras(bundle);
                     sendBroadcast(intent);

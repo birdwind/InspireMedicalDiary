@@ -10,8 +10,8 @@
     <uses-feature
         android:name="android.hardware.touchscreen"
         android:required="false" />
-    <uses-feature
-        android:name="android.hardware.camera"
+
+    <uses-feature android:name="android.hardware.camera.any"
         android:required="false" />
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -91,6 +91,17 @@
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="com.birdwind.inspire.medical.diary.painter.have_doctor" />
+            </intent-filter>
+        </receiver>
+
+
+        <receiver
+            android:name="com.birdwind.inspire.medical.diary.receiver.PainterSurveyBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="com.birdwind.inspire.medical.diary.painter.survey_update" />
             </intent-filter>
         </receiver>
 

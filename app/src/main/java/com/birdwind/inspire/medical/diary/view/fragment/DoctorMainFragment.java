@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.result.ActivityResult;
 import androidx.fragment.app.Fragment;
 
 import com.birdwind.inspire.medical.diary.R;
@@ -48,16 +49,19 @@ public class DoctorMainFragment
         });
 
         binding.llSettingDoctorMain.setOnClickListener(v -> {
-            // ((MainActivity)context).pushFragment(new SettingFragment());
-//            pushFragment(new SettingFragment());
+//             ((MainActivity)context).pushFragment(new SettingFragment());
+            pushFragment(new SettingFragment());
 
-            startActivity(CameraActivity.class);
+//            startActivity(CameraActivity.class);
         });
     }
 
     @Override
-    public void onActivityResult(Intent intent) {
-        Bundle bundle = intent.getBundleExtra("bundle");
+    public void onActivityResult(ActivityResult result) {
+        Intent intent = result.getData();
+        if(intent != null){
+            Bundle bundle = intent.getBundleExtra("bundle");
+        }
     }
 
     @Override

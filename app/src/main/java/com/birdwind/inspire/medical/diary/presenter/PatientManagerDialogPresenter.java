@@ -32,7 +32,7 @@ public class PatientManagerDialogPresenter extends AbstractPresenter<PatientMana
         initMap();
         paramsMap.put("UID", uid);
         paramsMap.put("SurveyID", surveyID);
-        paramsMap.put("selectedSurvey", identity + 1);
+        paramsMap.put("RespondentType", identity + 1);
 
         addDisposable(apiServer.executePostFormUrlEncode(SurveyApiServer.SET_SURVEY_FOR_USER.valueOfName(), paramsMap,
             fieldMap, headerMap),
