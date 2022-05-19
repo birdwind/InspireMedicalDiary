@@ -2,11 +2,11 @@ package com.birdwind.inspire.medical.diary.view.activity;
 
 import static com.birdwind.inspire.medical.diary.view.fragment.SurveyFragment.ACTIVITY_RESULT_DRAWING_OK;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.transition.Slide;
 import androidx.transition.Transition;
@@ -30,11 +31,12 @@ import com.birdwind.inspire.medical.diary.base.utils.FileUtils;
 import com.birdwind.inspire.medical.diary.base.utils.LogUtils;
 import com.birdwind.inspire.medical.diary.base.view.AbstractActivity;
 import com.birdwind.inspire.medical.diary.databinding.DrawingActivityBinding;
-import com.birdwind.inspire.medical.diary.enums.AnswerTypeEnum;
 import com.birdwind.inspire.medical.diary.model.QuestionModel;
 import com.birdwind.inspire.medical.diary.presenter.DrawingPresenter;
 import com.birdwind.inspire.medical.diary.utils.ImageUtils;
 import com.birdwind.inspire.medical.diary.view.viewCallback.DrawingView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
 import com.github.dhaval2404.colorpicker.ColorPickerDialog;
 import com.github.dhaval2404.colorpicker.model.ColorShape;
 import com.leaf.library.StatusBarUtil;
@@ -71,7 +73,7 @@ public class DrawingActivity extends AbstractActivity<DrawingPresenter, DrawingA
         });
 
         binding.compTopBarMainActivity.ivRightButtonTopBarComp.setOnClickListener(v -> {
-            Uri uri = ImageUtils.getImageUri(this, binding.pvDrawingFragment.getPaintViewScreen());
+            Uri uri = ImageUtils.getImageUri(this, ImageUtils.getBitmapFromView(binding.rlAreaDrawingActivity));
             File file = null;
             if (uri != null) {
                 String filePath = FileUtils.getFileFromContentUri(this, uri);
@@ -164,7 +166,12 @@ public class DrawingActivity extends AbstractActivity<DrawingPresenter, DrawingA
         } else {
             binding.ivImageDrawingActivity.setVisibility(View.GONE);
             binding.viewImageUnderlineDrawingActivity.setVisibility(View.GONE);
+        }
 
+        if (questionModel.isBackground()) {
+            binding.ivImageDrawingActivity.setVisibility(View.GONE);
+            binding.viewImageUnderlineDrawingActivity.setVisibility(View.GONE);
+            Glide.with(this).load(questionModel.getMediaLink()).into(binding.ivBackgroundDrawingActivity);
         }
     }
 

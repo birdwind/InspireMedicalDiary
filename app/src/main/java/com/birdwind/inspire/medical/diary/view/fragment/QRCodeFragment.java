@@ -71,6 +71,12 @@ public class QRCodeFragment extends AbstractFragment<QRCordPresenter, FragmentQr
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        presenter.checkDisease();
+    }
+
+    @Override
     public String setRightButtonText() {
         if ((App.userModel.getIdentityEnums() == IdentityEnums.PAINTER
             && App.userModel.getDiseaseEnums() == DiseaseEnums.NOT_SET)

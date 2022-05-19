@@ -12,6 +12,8 @@ public class SurveyResponse extends AbstractResponse<SurveyResponse.Response> {
     public class Response implements BaseResponse {
         private int SurveyID;
 
+        private float Version;
+
         private String SurveyName;
 
         private int QuestionsCount;
@@ -48,6 +50,14 @@ public class SurveyResponse extends AbstractResponse<SurveyResponse.Response> {
 
         public void setQuestions(List<QuestionModel> questions) {
             Questions = questions;
+        }
+
+        public float getVersion() {
+            return Version;
+        }
+
+        public void setVersion(float version) {
+            Version = version;
         }
     }
 }

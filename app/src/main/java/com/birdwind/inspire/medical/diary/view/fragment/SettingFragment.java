@@ -8,7 +8,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,11 +20,14 @@ import androidx.core.content.ContextCompat;
 
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
+import com.birdwind.inspire.medical.diary.animation.SlideHeightAnimation;
 import com.birdwind.inspire.medical.diary.base.network.request.ProgressRequestBody;
 import com.birdwind.inspire.medical.diary.base.utils.LogUtils;
+import com.birdwind.inspire.medical.diary.base.utils.Utils;
 import com.birdwind.inspire.medical.diary.base.view.AbstractActivity;
 import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
 import com.birdwind.inspire.medical.diary.databinding.FragmentSettingBinding;
+import com.birdwind.inspire.medical.diary.enums.IdentityEnums;
 import com.birdwind.inspire.medical.diary.model.response.UploadMediaResponse;
 import com.birdwind.inspire.medical.diary.presenter.SettingPresenter;
 import com.birdwind.inspire.medical.diary.utils.EasyImageUtils;
@@ -37,12 +44,21 @@ import pl.aprilapps.easyphotopicker.MediaFile;
 import pl.aprilapps.easyphotopicker.MediaSource;
 
 public class SettingFragment extends AbstractFragment<SettingPresenter, FragmentSettingBinding>
-        implements SettingView, ProgressRequestBody.UploadCallbacks,
-        AbstractActivity.PermissionRequestListener {
+    implements SettingView, ProgressRequestBody.UploadCallbacks, AbstractActivity.PermissionRequestListener {
 
     private EasyImageUtils easyImageUtils;
 
     private EasyImage easyImage;
+
+    protected SlideHeightAnimation expandSlideMemberGroupAnimation;
+
+    protected SlideHeightAnimation shrinkSlideMemberGroupAnimation;
+
+    protected RotateAnimation expandRotateArrowAnimation;
+
+    protected RotateAnimation shrinkRotateArrowAnimation;
+
+    private boolean isShowPatientInfo;
 
     @Override
     public SettingPresenter createPresenter() {
@@ -50,31 +66,56 @@ public class SettingFragment extends AbstractFragment<SettingPresenter, Fragment
     }
 
     @Override
-    public FragmentSettingBinding getViewBinding(LayoutInflater inflater, ViewGroup container,
-            boolean attachToParent) {
+    public FragmentSettingBinding getViewBinding(LayoutInflater inflater, ViewGroup container, boolean attachToParent) {
         return FragmentSettingBinding.inflate(getLayoutInflater());
     }
 
     @Override
     public void addListener() {
         binding.ibEditAvatarSettingFragment.setOnClickListener(v -> {
-            if (hasPermission(Manifest.permission.CAMERA,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            if (hasPermission(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE)) {
                 easyImageUtils.showEasyImage(this);
             } else {
-                getPermission(this, Manifest.permission.CAMERA,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.READ_EXTERNAL_STORAGE);
+                getPermission(this, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE);
             }
         });
 
+        // binding.ibPatientEditAvatarSettingFragment.setOnClickListener(v -> {
+        // if (hasPermission(Manifest.permission.CAMERA,
+        // Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        // Manifest.permission.READ_EXTERNAL_STORAGE)) {
+        // easyImageUtils.showEasyImage(this);
+        // } else {
+        // getPermission(this, Manifest.permission.CAMERA,
+        // Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        // Manifest.permission.READ_EXTERNAL_STORAGE);
+        // }
+        // });
+
         binding.tvBasicInfoSettingFragment.setOnClickListener(v -> {
-            pushFragment(new BasicInfoFragment());
+            BasicInfoFragment basicInfoFragment = new BasicInfoFragment();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("identity", App.userModel.getIdentityEnums());
+            basicInfoFragment.setArguments(bundle);
+            pushFragment(basicInfoFragment);
         });
+
+//        binding.llPatientSettingFragment.setOnClickListener(v -> {
+//            hidePatientInfo(!isShowPatientInfo);
+//        });
 
         binding.tvLogoutSettingFragment.setOnClickListener(v -> {
             ((MainActivity) context).logout();
+        });
+
+        binding.llPatientBasicInfoSettingFragment.setOnClickListener(v->{
+            BasicInfoFragment basicInfoFragment = new BasicInfoFragment();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("identity", IdentityEnums.PAINTER);
+            basicInfoFragment.setArguments(bundle);
+            pushFragment(basicInfoFragment);
         });
     }
 
@@ -87,17 +128,48 @@ public class SettingFragment extends AbstractFragment<SettingPresenter, Fragment
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        easyImageUtils =
-                new EasyImageUtils(context, getString(R.string.setting_basic_upload_avatar));
+        isShowPatientInfo = false;
+        easyImageUtils = new EasyImageUtils(context, getString(R.string.setting_basic_upload_avatar));
         easyImage = easyImageUtils.getEasyImage();
+
+        if(App.userModel.isProxy()){
+            binding.rlPatientSettingFragment.setVisibility(View.VISIBLE);
+        }
+
+        expandSlideMemberGroupAnimation = new SlideHeightAnimation(binding.ibDropdownPatientSettingFragment,
+            Utils.dp2px(context, 45), Utils.dp2px(context, 148), 300);
+        shrinkSlideMemberGroupAnimation = new SlideHeightAnimation(binding.ibDropdownPatientSettingFragment,
+            Utils.dp2px(context, 148), Utils.dp2px(context, 45), 300);
+        expandSlideMemberGroupAnimation.setInterpolator(new AccelerateInterpolator());
+        shrinkSlideMemberGroupAnimation.setInterpolator(new AccelerateInterpolator());
+
+        expandRotateArrowAnimation =
+            new RotateAnimation(180, 0, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        shrinkRotateArrowAnimation =
+            new RotateAnimation(0, 180, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
     }
 
     @Override
     public void doSomething() {}
 
+    private void hidePatientInfo(boolean isHide) {
+        isShowPatientInfo = isHide;
+        if (isHide) {
+            startAnimation(binding.rlPatientSettingFragment, shrinkSlideMemberGroupAnimation);
+            startAnimation(binding.ibDropdownPatientSettingFragment, shrinkRotateArrowAnimation);
+        } else {
+            startAnimation(binding.rlPatientSettingFragment, expandSlideMemberGroupAnimation);
+            startAnimation(binding.ibDropdownPatientSettingFragment, expandRotateArrowAnimation);
+        }
+    }
+
+    private void startAnimation(View view, Animation animation) {
+        view.setAnimation(animation);
+        view.startAnimation(animation);
+    }
+
     @Override
-    public void onUpdateAvatar(boolean isSuccess,
-            UploadMediaResponse.Response uploadMediaResponse) {
+    public void onUpdateAvatar(boolean isSuccess, UploadMediaResponse.Response uploadMediaResponse) {
         if (isSuccess) {
             App.userModel.setPhotoUrl(uploadMediaResponse.getMediaLink());
             App.updateUserModel();
@@ -124,8 +196,8 @@ public class SettingFragment extends AbstractFragment<SettingPresenter, Fragment
 
     private void loadAvatar() {
         Glide.with(context).load(App.userModel.getPhotoUrl())
-                .placeholder(ContextCompat.getDrawable(getContext(), R.drawable.ic_avatar))
-                .into(binding.civAvatarSettingFragment);
+            .placeholder(ContextCompat.getDrawable(getContext(), R.drawable.ic_avatar))
+            .into(binding.civAvatarSettingFragment);
     }
 
     @Override
@@ -154,26 +226,24 @@ public class SettingFragment extends AbstractFragment<SettingPresenter, Fragment
         }
 
         if (resultCode == RESULT_OK) {
-            easyImage.handleActivityResult(requestCode, resultCode, data,
-                    (AbstractActivity) context, new EasyImage.Callbacks() {
-                        @Override
-                        public void onImagePickerError(@NonNull Throwable throwable,
-                                @NonNull MediaSource mediaSource) {
-                            showToast(getString(R.string.error_common_unknow));
-                            LogUtils.exception(throwable);
-                        }
+            easyImage.handleActivityResult(requestCode, resultCode, data, (AbstractActivity) context,
+                new EasyImage.Callbacks() {
+                    @Override
+                    public void onImagePickerError(@NonNull Throwable throwable, @NonNull MediaSource mediaSource) {
+                        showToast(getString(R.string.error_common_unknow));
+                        LogUtils.exception(throwable);
+                    }
 
-                        @Override
-                        public void onMediaFilesPicked(@NonNull MediaFile[] mediaFiles,
-                                @NonNull MediaSource mediaSource) {
-                            cropImage(mediaFiles[0].getFile());
-                        }
+                    @Override
+                    public void onMediaFilesPicked(@NonNull MediaFile[] mediaFiles, @NonNull MediaSource mediaSource) {
+                        cropImage(mediaFiles[0].getFile());
+                    }
 
-                        @Override
-                        public void onCanceled(@NonNull MediaSource mediaSource) {
+                    @Override
+                    public void onCanceled(@NonNull MediaSource mediaSource) {
 
-                        }
-                    });
+                    }
+                });
         }
     }
 

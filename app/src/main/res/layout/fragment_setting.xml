@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/rl_personal_setting_fragment"
@@ -42,14 +44,12 @@
 
     <View
         style="@style/UnderLine"
-        android:layout_below="@id/rl_personal_setting_fragment"
         android:background="@color/colorGray_E7E9EC" />
 
     <LinearLayout
         android:id="@+id/ll_basic_info_setting_fragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/rl_personal_setting_fragment"
         android:orientation="vertical"
         android:paddingHorizontal="12dp">
 
@@ -66,11 +66,127 @@
 
     </LinearLayout>
 
+    <RelativeLayout
+        android:id="@+id/rl_patient_setting_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="12dp"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/ll_patient_setting_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tv_patient_setting_fragment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingVertical="12dp"
+                android:text="@string/setting_patient_info" />
+
+            <ImageButton
+                android:id="@+id/ib_dropdown_patient_setting_fragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_down_arrow"
+                android:background="@null"
+                android:rotation="-180"
+                tools:ignore="ContentDescription"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_patient_data_setting_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ll_patient_setting_fragment"
+            android:background="@drawable/background_board_radius_5dp"
+            android:backgroundTint="@color/colorGray_F2F2F2"
+            android:orientation="vertical"
+            android:paddingBottom="12dp">
+
+            <RelativeLayout
+                android:id="@+id/rl_patient_data_setting_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="6dp"
+                android:paddingHorizontal="24dp"
+                android:visibility="gone">
+
+                <com.mikhaellopez.circularimageview.CircularImageView
+                    android:id="@+id/civ_patient_avatar_setting_fragment"
+                    android:layout_width="94dp"
+                    android:layout_height="94dp"
+                    android:layout_marginVertical="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:src="@drawable/ic_avatar" />
+
+                <ImageButton
+                    android:id="@+id/ib_patient_edit_avatar_setting_fragment"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_alignEnd="@id/civ_patient_avatar_setting_fragment"
+                    android:layout_alignBottom="@id/civ_patient_avatar_setting_fragment"
+                    android:alpha="0.8"
+                    android:background="@drawable/ic_circle"
+                    android:backgroundTint="@color/colorGray_E7E9EC"
+                    android:paddingStart="2.5dp"
+                    android:src="@drawable/ic_edit" />
+
+                <TextView
+                    android:id="@+id/tv_patient_name_setting_fragment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/civ_patient_avatar_setting_fragment"
+                    android:text="病患" />
+
+            </RelativeLayout>
+
+            <View
+                style="@style/UnderLine"
+                android:background="@color/colorWhite_FFFFFF" />
+
+            <LinearLayout
+                android:id="@+id/ll_patient_basic_info_setting_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="12dp">
+
+                <TextView
+                    android:id="@+id/tv_patient_basic_info_setting_fragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="12dp"
+                    android:text="@string/setting_basic_info" />
+
+                <View
+                    style="@style/UnderLine"
+                    android:background="@color/colorWhite_FFFFFF" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <View
+            android:layout_marginTop="6dp"
+            android:layout_below="@id/ll_patient_data_setting_fragment"
+            style="@style/UnderLine"
+            android:background="@color/colorGray_E7E9EC" />
+
+    </RelativeLayout>
+
     <LinearLayout
         android:id="@+id/ll_logout_setting_fragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/ll_basic_info_setting_fragment"
         android:orientation="vertical"
         android:paddingHorizontal="12dp">
 
@@ -87,4 +203,4 @@
 
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

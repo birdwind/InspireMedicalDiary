@@ -83,7 +83,7 @@ public class NotificationUtils {
         String body;
         String sound;
         String action;
-        String id;
+        String type;
         String timestamp;
         Intent notificationIntent;
 
@@ -94,7 +94,7 @@ public class NotificationUtils {
         body = notificationBodyMap.get("body");
         sound = notificationBodyMap.get("sound");
         action = notificationBodyMap.get("action");
-        id = notificationBodyMap.get("id");
+        type = notificationBodyMap.get("type");
         timestamp = String.valueOf(remoteMessage.getSentTime());
 
         int pendingNotificationsCount = App.getUnreadCount() + 1;
@@ -106,14 +106,14 @@ public class NotificationUtils {
         // BadgeNumberManager.from(App.getAppContext()).setBadgeNumber(App.getUnreadCount());
 
         notificationIntent = new Intent(context, MainActivity.class);
-        if (action != null && action.equals("test")) {
-            notificationIntent = new Intent(Intent.ACTION_VIEW).setData(Uri.parse("diary://inspire.medical.diary/quiz?identity=0"));
+        if (action != null && action.equals("Survey")) {
+            notificationIntent = new Intent(Intent.ACTION_VIEW).setData(Uri.parse("diary://inspire.medical.diary/quiz?identity=" + type));
         }
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-        notificationIntent.putExtra("body", body);
-        notificationIntent.putExtra("action", action);
-        notificationIntent.putExtra("id", id);
+//        notificationIntent.putExtra("body", body);
+//        notificationIntent.putExtra("action", action);
+//        notificationIntent.putExtra("id", type);
 
         showNotification(title, body, timestamp, notificationIntent);
 

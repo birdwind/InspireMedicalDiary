@@ -95,7 +95,8 @@ public class FamilyMainFragment extends AbstractFragment<AbstractPresenter, Frag
 
     @Override
     public void pushFragment(Fragment fragment) {
-        mNavController.pushFragment(fragment);
+        super.pushFragment(fragment);
+        // mNavController.pushFragment(fragment);
         binding.llMenuFamilyMainFragment.setVisibility(View.GONE);
     }
 

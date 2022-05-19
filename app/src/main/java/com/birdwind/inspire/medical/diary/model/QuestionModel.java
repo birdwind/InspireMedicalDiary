@@ -17,7 +17,11 @@ public class QuestionModel implements Serializable, MultiItemEntity {
 
     private String MediaLink;
 
-    private int MediaType;
+    private List<String> MediaLinks;
+
+    private boolean IsBackground;
+
+    private float Version;
 
     public int getQuestionID() {
         return QuestionID;
@@ -59,12 +63,28 @@ public class QuestionModel implements Serializable, MultiItemEntity {
         MediaLink = mediaLink;
     }
 
-    public int getMediaType() {
-        return MediaType;
+    public List<String> getMediaLinks() {
+        return MediaLinks;
     }
 
-    public void setMediaType(int mediaType) {
-        this.MediaType = mediaType;
+    public void setMediaLinks(List<String> mediaLinks) {
+        MediaLinks = mediaLinks;
+    }
+
+    public boolean isBackground() {
+        return IsBackground;
+    }
+
+    public void setBackground(boolean background) {
+        IsBackground = background;
+    }
+
+    public float getVersion() {
+        return Version;
+    }
+
+    public void setVersion(float version) {
+        Version = version;
     }
 
     @Override

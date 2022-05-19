@@ -47,10 +47,27 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.birdwind.inspire.medical.diary.view.customer.PaintViewCustom
-                android:id="@+id/pv_drawing_fragment"
+            <RelativeLayout
+                android:id="@+id/rl_area_drawing_activity"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/iv_background_drawing_activity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@id/pv_drawing_fragment"
+                    android:layout_alignEnd="@id/pv_drawing_fragment"
+                    android:layout_alignTop="@id/pv_drawing_fragment"
+                    android:layout_alignBottom="@id/pv_drawing_fragment"
+                    android:scaleType="fitCenter"/>
+
+                <com.birdwind.inspire.medical.diary.view.customer.PaintViewCustom
+                    android:id="@+id/pv_drawing_fragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"

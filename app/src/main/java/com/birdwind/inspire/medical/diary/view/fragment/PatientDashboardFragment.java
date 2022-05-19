@@ -104,7 +104,7 @@ public class PatientDashboardFragment extends AbstractFragment<PatientDashboardP
 
         binding.comGroupMemberPatientFragment.llPatientChatGroupComponent.setOnLongClickListener(view -> {
             // TODO:彈窗
-            PatientManagerDialog patientManagerDialog = new PatientManagerDialog(context, uid, diseaseEnums);
+            PatientManagerDialog patientManagerDialog = new PatientManagerDialog(context, uid, diseaseEnums, IdentityEnums.PAINTER);
             patientManagerDialog.show();
             return false;
         });
@@ -153,8 +153,8 @@ public class PatientDashboardFragment extends AbstractFragment<PatientDashboardP
         fragmentMap = new LinkedHashMap<>();
         fragmentMap.put(getString(R.string.doctor_main_tab_message), chatFragment);
         fragmentMap
-            .put(getString(App.userModel.getIdentityEnums() == IdentityEnums.PAINTER ? R.string.doctor_main_tab_chart
-                : R.string.doctor_main_tab_chart_patient), surveyPatientListFragment);
+            .put(getString(App.userModel.getIdentityEnums() == IdentityEnums.FAMILY ? R.string.doctor_main_tab_chart_patient
+                : R.string.doctor_main_tab_chart), surveyPatientListFragment);
         if (App.userModel.isProxy()) {
             fragmentMap.put(getString(R.string.doctor_main_tab_chart_family), surveyFamilyListFragment);
         }

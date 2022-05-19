@@ -31,9 +31,16 @@ public class AnswerAdapter extends BaseQuickAdapter<MultipleChooseModel, BaseVie
         ImageView ivPicture = baseViewHolder.getView(R.id.iv_answer_item);
         rbAnswerItem.setText(multipleChooseModel.getAnswerText());
         rbAnswerItem.setTag(multipleChooseModel.getChoiceID());
+        boolean isAnyMediaHave = false;
+        for (MultipleChooseModel item : getData()) {
+            if (!TextUtils.isEmpty(item.getMediaLink())) {
+                isAnyMediaHave = true;
+                break;
+            }
+        }
+        ivPicture.setVisibility(isAnyMediaHave ? View.VISIBLE : View.GONE);
         if (!TextUtils.isEmpty(multipleChooseModel.getMediaLink())) {
             Glide.with(getContext()).load(multipleChooseModel.getMediaLink()).into(ivPicture);
-            ivPicture.setVisibility(View.VISIBLE);
         }
     }
 

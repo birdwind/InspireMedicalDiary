@@ -134,6 +134,7 @@
 
     <!--Setting-->
     <string name="setting_basic_info">Personal info</string>
+    <string name="setting_patient_info">Patient Info</string>
     <string name="setting_basic_upload_avatar">Upload Avatar</string>
 
     <!--Survey-->

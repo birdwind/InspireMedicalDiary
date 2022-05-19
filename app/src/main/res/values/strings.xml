@@ -134,6 +134,7 @@
 
     <!--Setting-->
     <string name="setting_basic_info">個人資訊</string>
+    <string name="setting_patient_info">病患資訊</string>
     <string name="setting_basic_upload_avatar">上傳頭像</string>
 
     <!--Survey-->

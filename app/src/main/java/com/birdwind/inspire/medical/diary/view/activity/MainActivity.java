@@ -42,6 +42,7 @@ import com.birdwind.inspire.medical.diary.view.fragment.PatientMainFragment;
 import com.birdwind.inspire.medical.diary.view.fragment.QRCodeFragment;
 import com.birdwind.inspire.medical.diary.view.fragment.ScanFragment;
 import com.birdwind.inspire.medical.diary.view.fragment.SettingFragment;
+import com.birdwind.inspire.medical.diary.view.fragment.SurveyFragment;
 import com.birdwind.inspire.medical.diary.view.viewCallback.MainView;
 import com.birdwind.inspire.medical.diary.view.viewCallback.ToolbarCallback;
 import com.leaf.library.StatusBarUtil;
@@ -79,17 +80,17 @@ public class MainActivity extends AbstractActivity<MainPresenter, ActivityMainBi
     public void doSomething() {
         Intent intent = getIntent();
         if (intent != null) {
-            Uri data = intent.getData();
-            if (data != null) {
-                String temp = data.getQueryParameter("identity");
-                IdentityEnums identityEnums = IdentityEnums.parseEnumsByType(Integer.parseInt(temp));
-                LogUtils.d("身分", identityEnums.name());
-                if (identityEnums == IdentityEnums.PAINTER) {
-                    PatientMainFragment patientMainFragment = new PatientMainFragment();
+            Uri uri = intent.getData();
+            if (uri != null) {
+                String identity = uri.getQueryParameter("identity");
+                IdentityEnums identityEnums = IdentityEnums.parseEnumsByType(Integer.parseInt(identity) - 1);
+                if (identityEnums != null) {
+                    LogUtils.d("身分", identityEnums.name());
+                    SurveyFragment surveyFragment = new SurveyFragment();
                     Bundle bundle = new Bundle();
-                    bundle.putString("action", "quiz");
-                    patientMainFragment.setArguments(bundle);
-                    pushFragment(new ChatFragment());
+                    bundle.putInt("identity", identityEnums.getType());
+                    surveyFragment.setArguments(bundle);
+                    pushFragment(surveyFragment);
                 }
             }
         }

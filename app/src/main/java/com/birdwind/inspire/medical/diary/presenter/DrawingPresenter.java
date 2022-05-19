@@ -38,7 +38,7 @@ public class DrawingPresenter extends AbstractPresenter<DrawingView> {
         addDisposable(
             apiServer.uploadFile(SurveyApiServer.UPLOAD_MEDIA_FILE.valueOfName(), paramsMap, headerMap, filePart),
             new AbstractObserver<UploadMediaResponse>(this, baseView, "UploadRecord", null, UploadMediaResponse.class,
-                false) {
+                true) {
                 @Override
                 public void onSuccess(UploadMediaResponse response) {
                     baseView.onUpload(true, response.getJsonData().getMediaLink());

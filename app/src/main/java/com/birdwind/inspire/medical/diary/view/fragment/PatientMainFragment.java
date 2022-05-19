@@ -98,7 +98,8 @@ public class PatientMainFragment extends AbstractFragment<AbstractPresenter, Fra
 
     @Override
     public void pushFragment(Fragment fragment) {
-        mNavController.pushFragment(fragment);
+        super.pushFragment(fragment);
+        // mNavController.pushFragment(fragment);
         binding.llMenuPatientMainFragment.setVisibility(View.GONE);
     }
 

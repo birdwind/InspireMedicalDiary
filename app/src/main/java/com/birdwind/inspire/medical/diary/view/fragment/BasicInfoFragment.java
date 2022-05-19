@@ -12,17 +12,17 @@ import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.base.utils.GsonUtils;
 import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
 import com.birdwind.inspire.medical.diary.databinding.FragmentBasicInfoBinding;
+import com.birdwind.inspire.medical.diary.enums.IdentityEnums;
 import com.birdwind.inspire.medical.diary.model.response.InformationResponse;
 import com.birdwind.inspire.medical.diary.presenter.BasicInfoPresenter;
-import com.birdwind.inspire.medical.diary.utils.EasyImageUtils;
 import com.birdwind.inspire.medical.diary.view.viewCallback.BasicInfoView;
-
-import pl.aprilapps.easyphotopicker.EasyImage;
 
 public class BasicInfoFragment extends AbstractFragment<BasicInfoPresenter, FragmentBasicInfoBinding>
     implements BasicInfoView {
 
     private boolean isFirst;
+
+    private IdentityEnums identityEnums;
 
     private InformationResponse.Response originalInformation;
 
@@ -92,6 +92,13 @@ public class BasicInfoFragment extends AbstractFragment<BasicInfoPresenter, Frag
 
     @Override
     public void initData(Bundle savedInstanceState) {
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            identityEnums = (IdentityEnums) bundle.getSerializable("identity");
+        }
+        if (identityEnums == null) {
+            identityEnums = App.userModel.getIdentityEnums();
+        }
         originalInformation = new InformationResponse.Response();
         information = new InformationResponse.Response();
         isFirst = true;
@@ -105,14 +112,14 @@ public class BasicInfoFragment extends AbstractFragment<BasicInfoPresenter, Frag
 
     @Override
     public void doSomething() {
-        presenter.getBasicInfo(App.userModel.getUid());
+        presenter.getBasicInfo(App.userModel.getUid(), identityEnums);
     }
 
     @Override
     public void onGetInformation(boolean isSuccess, InformationResponse.Response response) {
         originalInformation = response;
         information = GsonUtils.parseJsonToBean(GsonUtils.toJson(response), InformationResponse.Response.class);
-         binding.etNameBasicInfoFragment.setText(response.getName());
+        binding.etNameBasicInfoFragment.setText(response.getName());
         binding.etIdBasicInfoFragment.setText(response.getIDNumber());
         if (originalInformation.getSex().equals(1)) {
             binding.rbFemaleBasicInfoFragment.setChecked(false);

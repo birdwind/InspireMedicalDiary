@@ -2,6 +2,7 @@ package com.birdwind.inspire.medical.diary.presenter;
 
 import com.birdwind.inspire.medical.diary.base.basic.AbstractObserver;
 import com.birdwind.inspire.medical.diary.base.network.response.Response;
+import com.birdwind.inspire.medical.diary.enums.IdentityEnums;
 import com.birdwind.inspire.medical.diary.model.response.InformationResponse;
 import com.birdwind.inspire.medical.diary.model.response.SurveyListResponse;
 import com.birdwind.inspire.medical.diary.server.MyApiServer;
@@ -44,9 +45,10 @@ public class PatientManagerDialogPresenter extends AbstractPresenter<PatientMana
             });
     }
 
-    public void getInformation(long uid) {
+    public void getInformation(long uid, IdentityEnums identityEnums) {
         initMap();
         paramsMap.put("UID", uid);
+        paramsMap.put("RespondentType", identityEnums.getType() + 1);
         addDisposable(apiServer.executeGet(MyApiServer.GET_INFORMATION.valueOfName(), paramsMap, headerMap),
             new AbstractObserver<InformationResponse>(this, baseView, "GetInformation", null, InformationResponse.class,
                 true) {

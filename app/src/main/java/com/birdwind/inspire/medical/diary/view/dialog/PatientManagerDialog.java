@@ -36,6 +36,8 @@ public class PatientManagerDialog
 
     private DiseaseEnums diseaseEnums;
 
+    private IdentityEnums identityEnums;
+
     private String name;
 
     private SurveyAdapter patientSurveyAdapter;
@@ -46,10 +48,11 @@ public class PatientManagerDialog
 
     private SurveyListResponse.Response selectFamilySurvey;
 
-    public PatientManagerDialog(@NonNull @NotNull Context context, Long uid, DiseaseEnums diseaseEnums) {
+    public PatientManagerDialog(@NonNull @NotNull Context context, Long uid, DiseaseEnums diseaseEnums, IdentityEnums identityEnums) {
         super(context, new CommonDialogListener() {});
         this.uid = uid;
         this.diseaseEnums = diseaseEnums;
+        this.identityEnums = identityEnums;
 
         patientSurveyAdapter = new SurveyAdapter(R.layout.item_survey);
         patientSurveyAdapter.setAnimationEnable(true);
@@ -167,7 +170,7 @@ public class PatientManagerDialog
                         binding.tvEmptyFamilySurveyUserDialog.setVisibility(View.VISIBLE);
                     }
                     familySurveyAdapter.setList(response);
-                    presenter.getInformation(uid);
+                    presenter.getInformation(uid, identityEnums);
                     break;
             }
         }

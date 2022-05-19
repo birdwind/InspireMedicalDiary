@@ -59,8 +59,8 @@ public class QuizFamilyIdentityFragment
 
     }
 
-    @Override
-    public void pushFragment(Fragment fragment) {
-        ((FamilyMainFragment) getParentFragment()).pushFragment(fragment);
-    }
+//    @Override
+//    public void pushFragment(Fragment fragment) {
+//        pushFragment(fragment);
+//    }
 }
