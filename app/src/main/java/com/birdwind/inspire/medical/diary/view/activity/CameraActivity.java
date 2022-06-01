@@ -70,6 +70,8 @@ public class CameraActivity extends AbstractActivity<CameraPresenter, ActivityCa
 
     private QuestionModel questionModel;
 
+    private int position;
+
     private boolean isVideo;
 
     private boolean isRecording;
@@ -223,6 +225,7 @@ public class CameraActivity extends AbstractActivity<CameraPresenter, ActivityCa
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
             questionModel = (QuestionModel) bundle.getSerializable("question");
+            position = bundle.getInt("position");
         }
 
         animation = new AlphaAnimation(1, 0);
@@ -267,6 +270,7 @@ public class CameraActivity extends AbstractActivity<CameraPresenter, ActivityCa
         Intent returnIntent = new Intent();
         returnIntent.putExtra("url", url);
         returnIntent.putExtra("questionId", questionModel.getQuestionID());
+        returnIntent.putExtra("position", position);
         if (isVideo) {
             setResult(ACTIVITY_RESULT_VIDEO_OK, returnIntent);
         } else {

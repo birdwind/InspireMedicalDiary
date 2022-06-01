@@ -19,6 +19,8 @@ public class App extends Application {
 
     public static boolean doubleBackToExitPressedOnce;
 
+    public static boolean isShowUpdated;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -31,6 +33,7 @@ public class App extends Application {
         }
         userModel = (UserModel) Stash.getObject(Config.USER_MODEL_NAME, UserModel.class);
         doubleBackToExitPressedOnce = false;
+        isShowUpdated = false;
     }
 
     /**

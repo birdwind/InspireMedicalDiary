@@ -16,12 +16,15 @@ public class InformationResponse extends AbstractResponse<InformationResponse.Re
 
         private String Phone;
 
+        private String PhotoUrl;
+
         public Response() {
             UID = 0L;
             IDNumber = "";
             Sex = 0;
             Name = "";
             Phone = "";
+            PhotoUrl = "";
         }
 
         public Long getUID() {
@@ -62,6 +65,14 @@ public class InformationResponse extends AbstractResponse<InformationResponse.Re
 
         public void setPhone(String phone) {
             Phone = phone;
+        }
+
+        public String getPhotoUrl() {
+            return PhotoUrl;
+        }
+
+        public void setPhotoUrl(String photoUrl) {
+            PhotoUrl = photoUrl;
         }
 
         public String getSexString(){

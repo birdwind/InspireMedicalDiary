@@ -54,7 +54,7 @@ public class WebViewActivity extends AbstractActivity<AbstractPresenter, Activit
 
     @Override
     public void initView() {
-        StatusBarUtil.setLightMode(this);
+        StatusBarUtil.setDarkMode(this);
         binding.progressWebView.setPageStatus(pageStatus);
         binding.viewWebViewHeader.llRightButtonTopBarComp.setVisibility(View.GONE);
         binding.viewWebViewHeader.btRightButtonTopBarComp.setVisibility(View.GONE);

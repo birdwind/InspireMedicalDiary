@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -17,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.transition.Slide;
 import androidx.transition.Transition;
@@ -36,7 +34,6 @@ import com.birdwind.inspire.medical.diary.presenter.DrawingPresenter;
 import com.birdwind.inspire.medical.diary.utils.ImageUtils;
 import com.birdwind.inspire.medical.diary.view.viewCallback.DrawingView;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.CustomTarget;
 import com.github.dhaval2404.colorpicker.ColorPickerDialog;
 import com.github.dhaval2404.colorpicker.model.ColorShape;
 import com.leaf.library.StatusBarUtil;
@@ -55,6 +52,8 @@ public class DrawingActivity extends AbstractActivity<DrawingPresenter, DrawingA
     private ColorPickerDialog colorPickerDialog;
 
     private QuestionModel questionModel;
+
+    private int position;
 
     @Override
     public DrawingPresenter createPresenter() {
@@ -125,6 +124,7 @@ public class DrawingActivity extends AbstractActivity<DrawingPresenter, DrawingA
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
             questionModel = (QuestionModel) bundle.getSerializable("question");
+            position = bundle.getInt("position");
         }
         isShowDrawingToolbar = true;
         currentColor = getResources().getColor(R.color.colorBlack_000000);
@@ -237,6 +237,7 @@ public class DrawingActivity extends AbstractActivity<DrawingPresenter, DrawingA
         Intent returnIntent = new Intent();
         returnIntent.putExtra("url", url);
         returnIntent.putExtra("questionId", questionModel.getQuestionID());
+        returnIntent.putExtra("position", position);
         setResult(ACTIVITY_RESULT_DRAWING_OK, returnIntent);
         finish();
     }

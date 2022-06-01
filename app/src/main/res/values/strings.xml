@@ -72,6 +72,7 @@
     <string name="login_send_verification_code_countdown">${second}秒後重新發送</string>
     <string name="login_login">登入</string>
     <string name="login_verification">驗證</string>
+    <string name="login_sms_receive">簡訊發送成功</string>
 
     <!--ComponentTopBar-->
     <string name="component_top_bar_prev">上一頁</string>
@@ -102,6 +103,7 @@
     <string name="family_main_menu_setting">&setting;</string>
 
     <!--PainterDialog-->
+    <string name="painter_dialog_not_set">未設定</string>
     <string name="painter_dialog_headache">頭痛</string>
     <string name="painter_dialog_alzheimer">阿茲海默症</string>
     <string name="painter_dialog_perkins">巴金森氏症</string>
@@ -133,12 +135,19 @@
     <string name="chat_system">系統訊息</string>
 
     <!--Setting-->
+    <string name="setting_basic_info_patient">病患</string>
+    <string name="setting_basic_info_family">家屬</string>
+    <string name="setting_basic_info_patient_name">病患姓名</string>
+    <string name="setting_basic_info_name">個人姓名</string>
+    <string name="setting_basic_info_disease">病徵</string>
     <string name="setting_basic_info">個人資訊</string>
     <string name="setting_patient_info">病患資訊</string>
     <string name="setting_basic_upload_avatar">上傳頭像</string>
+    <string name="setting_feedback">意見回饋</string>
 
     <!--Survey-->
     <string name="survey_empty">目前沒有任何問卷</string>
+    <string name="survey_weighted_total_score">總分: ${score}/100</string>
 
     <!--Information-->
     <string name="information_name">姓名</string>

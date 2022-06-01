@@ -1,18 +1,14 @@
 package com.birdwind.inspire.medical.diary.view.fragment;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.Nullable;
-
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.base.Config;
 import com.birdwind.inspire.medical.diary.base.utils.CustomPicasso;
-import com.birdwind.inspire.medical.diary.base.view.AbstractActivity;
 import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
 import com.birdwind.inspire.medical.diary.databinding.FragmentQrcodeBinding;
 import com.birdwind.inspire.medical.diary.enums.DiseaseEnums;
@@ -24,13 +20,6 @@ import com.birdwind.inspire.medical.diary.view.activity.MainActivity;
 import com.birdwind.inspire.medical.diary.view.dialog.callback.CommonDialogListener;
 import com.birdwind.inspire.medical.diary.view.viewCallback.QRCodeView;
 import com.birdwind.inspire.medical.diary.view.viewCallback.ToolbarCallback;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.HttpException;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 
 public class QRCodeFragment extends AbstractFragment<QRCordPresenter, FragmentQrcodeBinding>
     implements QRCodeView, ToolbarCallback {
@@ -51,7 +40,9 @@ public class QRCodeFragment extends AbstractFragment<QRCordPresenter, FragmentQr
             loadQRCode();
         });
         binding.rlMainQrcodeFragment.setOnClickListener(v -> {
-            presenter.checkDisease();
+            if (App.userModel.getDiseaseEnums() == null) {
+                presenter.checkDisease();
+            }
         });
     }
 
@@ -73,7 +64,9 @@ public class QRCodeFragment extends AbstractFragment<QRCordPresenter, FragmentQr
     @Override
     public void onResume() {
         super.onResume();
-        presenter.checkDisease();
+        if (App.userModel.getDiseaseEnums() == null) {
+            presenter.checkDisease();
+        }
     }
 
     @Override
@@ -138,8 +131,8 @@ public class QRCodeFragment extends AbstractFragment<QRCordPresenter, FragmentQr
     }
 
     private void loadQRCode() {
-         CustomPicasso.getImageLoader(context).load(Config.BASE_URL + FileApiServer.MY_QRCODE.valueOfName())
-         .into(binding.ivQrcodeFragment);
+        CustomPicasso.getImageLoader(context).load(Config.BASE_URL + FileApiServer.MY_QRCODE.valueOfName())
+            .into(binding.ivQrcodeFragment);
     }
 
     @Override

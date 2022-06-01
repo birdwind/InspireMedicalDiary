@@ -8,6 +8,8 @@ public abstract class AbstractListResponse<BR extends Object> implements BaseSys
 
     private String Message;
 
+    private String Ver;
+
     private ArrayList<BR> JsonData;
 
     @Override
@@ -28,6 +30,16 @@ public abstract class AbstractListResponse<BR extends Object> implements BaseSys
     @Override
     public void setMessage(String message) {
         this.Message = message;
+    }
+
+    @Override
+    public String getVer() {
+        return this.Ver;
+    }
+
+    @Override
+    public void setVer(String ver) {
+        this.Ver = ver;
     }
 
     public ArrayList<BR> getJsonData() {

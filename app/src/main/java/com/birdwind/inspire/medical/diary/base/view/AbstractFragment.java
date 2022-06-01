@@ -440,9 +440,7 @@ public abstract class AbstractFragment<P extends AbstractPresenter, VB extends V
 
     @Override
     public void showUpdate(String msg) {
-        // TODO:Show Update Dialog
-        // UpdateDialog updateDialog = new UpdateDialog(context);
-        // updateDialog.show();
+        ((AbstractActivity) context).showUpdate(msg);
     }
 
     @Override

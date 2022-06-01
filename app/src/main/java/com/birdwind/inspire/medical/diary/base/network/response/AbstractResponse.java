@@ -8,6 +8,8 @@ public abstract class AbstractResponse<BR extends BaseResponse> implements Seria
 
     private String Message;
 
+    private String Ver;
+
     private BR JsonData;
 
     @Override
@@ -28,6 +30,16 @@ public abstract class AbstractResponse<BR extends BaseResponse> implements Seria
     @Override
     public void setMessage(String message) {
         this.Message = message;
+    }
+
+    @Override
+    public String getVer() {
+        return this.Ver;
+    }
+
+    @Override
+    public void setVer(String ver) {
+        this.Ver = ver;
     }
 
     public BR getJsonData() {

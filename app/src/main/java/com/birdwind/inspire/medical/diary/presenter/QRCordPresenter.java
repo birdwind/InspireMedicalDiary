@@ -14,7 +14,7 @@ public class QRCordPresenter extends AbstractPresenter<QRCodeView> {
         initMap();
 
         addDisposable(
-            apiServer.executePostFormUrlEncode(PatientApiServer.CHECK_DISEASE.valueOfName(), paramsMap, fieldMap,
+            apiServer.executeGet(PatientApiServer.CHECK_DISEASE.valueOfName(), paramsMap,
                 headerMap),
             new AbstractObserver<CheckDiseaseResponse>(this, baseView, "CheckDisease", null, CheckDiseaseResponse.class,
                 true) {
@@ -23,6 +23,14 @@ public class QRCordPresenter extends AbstractPresenter<QRCodeView> {
                     if (response.getJsonData() != null) {
                         baseView.checkDisease(true, response.getJsonData());
                     }
+                }
+
+                @Override
+                public boolean onErrorHandler(String title, String code, String msg, boolean isDialog, CheckDiseaseResponse response) {
+                    if(msg.equals("Not Disease")){
+                        return true;
+                    }
+                    return super.onErrorHandler(title, code, msg, isDialog, response);
                 }
             });
     }

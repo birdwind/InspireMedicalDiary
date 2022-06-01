@@ -370,8 +370,9 @@ public class MainActivity extends AbstractActivity<MainPresenter, ActivityMainBi
     }
 
     @Override
-    public void onSetPatientName(boolean isSuccess) {
+    public void onSetPatientName(boolean isSuccess, String name) {
         App.userModel.setNeedPatineName(false);
+        App.userModel.setProxyPatientName(name);
         App.updateUserModel();
     }
 

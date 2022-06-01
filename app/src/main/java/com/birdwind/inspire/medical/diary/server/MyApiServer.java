@@ -5,6 +5,7 @@ import com.birdwind.inspire.medical.diary.base.enums.BaseEnums;
 import java.io.Serializable;
 
 public enum MyApiServer implements BaseEnums {
+    CHANGE_GROPE_PHOTO("ChangeGroupPhoto"),
     CHANGE_PHOTO("ChangePhoto"),
     GET_INFORMATION("GetInformation"),
     CHANGE_INFORMATION("ChangeInformation");

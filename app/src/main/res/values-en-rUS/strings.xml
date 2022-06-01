@@ -46,9 +46,9 @@
     <string name="common_next">Next</string>
     <string name="common_add">Add</string>
     <string name="common_dialog_title">System Alert</string>
-    <string name="common_dialog_logout">Are you sure you want to log out?</string>
+    <string name="common_dialog_logout">Are you sure you want to logout?</string>
     <string name="common_double_click_back">Click back again to end &appname;</string>
-    <string name="common_logout">logout</string>
+    <string name="common_logout">Logout</string>
     <string name="common_none_data">No data at this time</string>
 
     <!--Identity-->
@@ -72,6 +72,7 @@
     <string name="login_send_verification_code_countdown">Resend in ${second} seconds</string>
     <string name="login_login">Login</string>
     <string name="login_verification">Verification</string>
+    <string name="login_sms_receive">SMS Sent</string>
 
     <!--ComponentTopBar-->
     <string name="component_top_bar_prev">Previous</string>
@@ -102,6 +103,7 @@
     <string name="family_main_menu_setting">&setting;</string>
 
     <!--PainterDialog-->
+    <string name="painter_dialog_not_set">Not Set</string>
     <string name="painter_dialog_headache">Headache</string>
     <string name="painter_dialog_alzheimer">Alzheimer</string>
     <string name="painter_dialog_perkins">Parkinson</string>
@@ -133,12 +135,19 @@
     <string name="chat_system">System message</string>
 
     <!--Setting-->
+    <string name="setting_basic_info_patient">Patient</string>
+    <string name="setting_basic_info_family">Caregiver</string>
+    <string name="setting_basic_info_patient_name">Patient Name</string>
+    <string name="setting_basic_info_name">Personal Name</string>
+    <string name="setting_basic_info_disease">Disease</string>
     <string name="setting_basic_info">Personal info</string>
     <string name="setting_patient_info">Patient Info</string>
     <string name="setting_basic_upload_avatar">Upload Avatar</string>
+    <string name="setting_feedback">Feedback</string>
 
     <!--Survey-->
     <string name="survey_empty">There are currently no surveys</string>
+    <string name="survey_weighted_total_score">Total Score: ${score}/100</string>
 
     <!--Information-->
     <string name="information_name">Name</string>

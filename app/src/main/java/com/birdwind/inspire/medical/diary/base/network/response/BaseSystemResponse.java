@@ -9,4 +9,9 @@ public interface BaseSystemResponse extends BaseResponse {
     String getMessage();
 
     void setMessage(String message);
+
+    String getVer();
+
+    void setVer(String ver);
+
 }

@@ -10,6 +10,7 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -152,8 +153,9 @@ public class PatientDashboardFragment extends AbstractFragment<PatientDashboardP
 
         fragmentMap = new LinkedHashMap<>();
         fragmentMap.put(getString(R.string.doctor_main_tab_message), chatFragment);
+
         fragmentMap
-            .put(getString(App.userModel.getIdentityEnums() == IdentityEnums.FAMILY ? R.string.doctor_main_tab_chart_patient
+            .put(getString(App.userModel.getIdentityEnums() == IdentityEnums.FAMILY && App.userModel.isProxy() ? R.string.doctor_main_tab_chart_patient
                 : R.string.doctor_main_tab_chart), surveyPatientListFragment);
         if (App.userModel.isProxy()) {
             fragmentMap.put(getString(R.string.doctor_main_tab_chart_family), surveyFamilyListFragment);

@@ -21,7 +21,7 @@ public class MainPresenter extends AbstractPresenter<MainView> {
             new AbstractObserver<Response>(this, baseView, "SetPatientName", null, Response.class, true) {
                 @Override
                 public void onSuccess(Response response) {
-                    baseView.onSetPatientName(true);
+                    baseView.onSetPatientName(true, name);
                 }
             });
     }

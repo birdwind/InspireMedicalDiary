@@ -28,4 +28,8 @@ public interface BaseObserver<R extends BaseResponse> {
     default boolean onErrorHandler(String title, String code, String msg, boolean isDialog, R response){
         return false;
     }
+
+    default void onUpdateVersion(){
+
+    }
 }

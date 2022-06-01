@@ -1,6 +1,7 @@
 package com.birdwind.inspire.medical.diary.presenter;
 
 import com.birdwind.inspire.medical.diary.App;
+import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.base.basic.AbstractObserver;
 import com.birdwind.inspire.medical.diary.base.network.response.Response;
 import com.birdwind.inspire.medical.diary.enums.DiseaseEnums;
@@ -27,7 +28,7 @@ public class LoginVerificationPresenter extends AbstractPresenter<LoginVerificat
             new AbstractObserver<Response>(this, baseView, "SendVerificationCode", null, Response.class, true) {
                 @Override
                 public void onSuccess(Response response) {
-                    showMsg(response.getMessage(), true);
+                    showMsg(context.getString(R.string.login_sms_receive), true);
                     baseView.onSendVerify(true);
                 }
 
@@ -35,6 +36,8 @@ public class LoginVerificationPresenter extends AbstractPresenter<LoginVerificat
                 public boolean onErrorHandler(String title, String code, String msg, boolean isDialog,
                     Response response) {
                     baseView.onSendVerify(false);
+
+                    showMsg(msg, isDialog);
                     return false;
                 }
             });

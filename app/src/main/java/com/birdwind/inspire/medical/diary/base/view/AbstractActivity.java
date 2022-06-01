@@ -43,6 +43,7 @@ import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
 import com.birdwind.inspire.medical.diary.sqlLite.DatabaseConfig;
 import com.birdwind.inspire.medical.diary.view.activity.AuthActivity;
 import com.birdwind.inspire.medical.diary.view.dialog.CommonDialog;
+import com.birdwind.inspire.medical.diary.view.dialog.UpdateDialog;
 import com.birdwind.inspire.medical.diary.view.dialog.callback.CommonDialogListener;
 import com.birdwind.inspire.medical.diary.view.viewCallback.BaseCustomView;
 import com.fxn.stash.Stash;
@@ -499,8 +500,8 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
     @Override
     public void showUpdate(String msg) {
         // TODO:Show Update Dialog
-        // UpdateDialog updateDialog = new UpdateDialog(context);
-        // updateDialog.show();
+         UpdateDialog updateDialog = new UpdateDialog(context);
+         updateDialog.show();
     }
 
     @Override

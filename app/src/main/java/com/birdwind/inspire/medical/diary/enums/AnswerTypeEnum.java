@@ -14,4 +14,6 @@ public class AnswerTypeEnum {
     public final static int AUDIO = 5;
 
     public final static int VIDEO = 6;
+
+    public final static int WEIGHTED = 7;
 }

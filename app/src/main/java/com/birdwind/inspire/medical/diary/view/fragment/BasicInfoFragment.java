@@ -85,7 +85,7 @@ public class BasicInfoFragment extends AbstractFragment<BasicInfoPresenter, Frag
 
         binding.btConfirmBasiInfoFragment.setOnClickListener(v -> {
             if (checkChanged()) {
-                presenter.settBasicInfo(information);
+                presenter.setBasicInfo(information, identityEnums);
             }
         });
     }
@@ -136,7 +136,11 @@ public class BasicInfoFragment extends AbstractFragment<BasicInfoPresenter, Frag
 
     @Override
     public void onSetInformation(boolean isSuccess) {
-        App.userModel.setName(information.getName());
+        if (App.userModel.isProxy() && identityEnums == IdentityEnums.PAINTER) {
+            App.userModel.setProxyPatientName(information.getName());
+        } else {
+            App.userModel.setName(information.getName());
+        }
         App.updateUserModel();
         onBackPressedByActivity();
     }

@@ -152,8 +152,7 @@ public abstract class AbstractDialog<C extends BaseDialogListener, P extends Abs
 
     @Override
     public void showUpdate(String msg) {
-        UpdateDialog updateDialog = new UpdateDialog(context);
-        updateDialog.show();
+        ((AbstractActivity) context).showUpdate(msg);
     }
 
     @Override

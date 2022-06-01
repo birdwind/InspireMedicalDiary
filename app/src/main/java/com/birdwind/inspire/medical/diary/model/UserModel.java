@@ -31,6 +31,10 @@ public class UserModel implements BaseModel {
 
     private boolean isNeedPatineName;
 
+    private String proxyPatientName;
+
+    private String proxyPatientPhotoUrl;
+
     public int getUid() {
         return uid;
     }
@@ -133,5 +137,21 @@ public class UserModel implements BaseModel {
 
     public void setNeedPatineName(boolean needPatineName) {
         isNeedPatineName = needPatineName;
+    }
+
+    public String getProxyPatientName() {
+        return proxyPatientName;
+    }
+
+    public void setProxyPatientName(String proxyPatientName) {
+        this.proxyPatientName = proxyPatientName;
+    }
+
+    public String getProxyPatientPhotoUrl() {
+        return proxyPatientPhotoUrl;
+    }
+
+    public void setProxyPatientPhotoUrl(String proxyPatientPhotoUrl) {
+        this.proxyPatientPhotoUrl = proxyPatientPhotoUrl;
     }
 }

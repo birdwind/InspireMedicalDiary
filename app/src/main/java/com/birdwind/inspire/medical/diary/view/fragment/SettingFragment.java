@@ -10,34 +10,37 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
-import com.birdwind.inspire.medical.diary.animation.SlideHeightAnimation;
 import com.birdwind.inspire.medical.diary.base.network.request.ProgressRequestBody;
 import com.birdwind.inspire.medical.diary.base.utils.LogUtils;
-import com.birdwind.inspire.medical.diary.base.utils.Utils;
 import com.birdwind.inspire.medical.diary.base.view.AbstractActivity;
 import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
 import com.birdwind.inspire.medical.diary.databinding.FragmentSettingBinding;
 import com.birdwind.inspire.medical.diary.enums.IdentityEnums;
+import com.birdwind.inspire.medical.diary.enums.SettingFunctionEnums;
+import com.birdwind.inspire.medical.diary.model.response.InformationResponse;
 import com.birdwind.inspire.medical.diary.model.response.UploadMediaResponse;
 import com.birdwind.inspire.medical.diary.presenter.SettingPresenter;
 import com.birdwind.inspire.medical.diary.utils.EasyImageUtils;
 import com.birdwind.inspire.medical.diary.view.activity.MainActivity;
+import com.birdwind.inspire.medical.diary.view.activity.WebViewActivity;
+import com.birdwind.inspire.medical.diary.view.adapter.SettingItemAdapter;
 import com.birdwind.inspire.medical.diary.view.viewCallback.SettingView;
 import com.bumptech.glide.Glide;
 import com.tbruyelle.rxpermissions3.Permission;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import pl.aprilapps.easyphotopicker.EasyImage;
 import pl.aprilapps.easyphotopicker.MediaFile;
@@ -50,15 +53,17 @@ public class SettingFragment extends AbstractFragment<SettingPresenter, Fragment
 
     private EasyImage easyImage;
 
-    protected SlideHeightAnimation expandSlideMemberGroupAnimation;
-
-    protected SlideHeightAnimation shrinkSlideMemberGroupAnimation;
-
-    protected RotateAnimation expandRotateArrowAnimation;
-
-    protected RotateAnimation shrinkRotateArrowAnimation;
-
     private boolean isShowPatientInfo;
+
+    private SettingItemAdapter patientSettingItemAdapter;
+
+    private SettingItemAdapter settingItemAdapter;
+
+    private List<SettingFunctionEnums> patientSettingList;
+
+    private List<SettingFunctionEnums> settingList;
+
+    private boolean isUpdatePatientPhoto;
 
     @Override
     public SettingPresenter createPresenter() {
@@ -75,6 +80,17 @@ public class SettingFragment extends AbstractFragment<SettingPresenter, Fragment
         binding.ibEditAvatarSettingFragment.setOnClickListener(v -> {
             if (hasPermission(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                isUpdatePatientPhoto = false;
+                easyImageUtils.showEasyImage(this);
+            } else {
+                getPermission(this, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE);
+            }
+        });
+        binding.ibPatinetEditAvatarSettingFragment.setOnClickListener(v -> {
+            if (hasPermission(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                isUpdatePatientPhoto = true;
                 easyImageUtils.showEasyImage(this);
             } else {
                 getPermission(this, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -82,40 +98,18 @@ public class SettingFragment extends AbstractFragment<SettingPresenter, Fragment
             }
         });
 
-        // binding.ibPatientEditAvatarSettingFragment.setOnClickListener(v -> {
-        // if (hasPermission(Manifest.permission.CAMERA,
-        // Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        // Manifest.permission.READ_EXTERNAL_STORAGE)) {
-        // easyImageUtils.showEasyImage(this);
-        // } else {
-        // getPermission(this, Manifest.permission.CAMERA,
-        // Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        // Manifest.permission.READ_EXTERNAL_STORAGE);
-        // }
-        // });
-
-        binding.tvBasicInfoSettingFragment.setOnClickListener(v -> {
-            BasicInfoFragment basicInfoFragment = new BasicInfoFragment();
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("identity", App.userModel.getIdentityEnums());
-            basicInfoFragment.setArguments(bundle);
-            pushFragment(basicInfoFragment);
+        binding.llPatientBasicInfoSettingFragment.setOnClickListener(v -> {
+            settingAdapterOnClick(SettingFunctionEnums.PERSONAL_INFO);
         });
 
-//        binding.llPatientSettingFragment.setOnClickListener(v -> {
-//            hidePatientInfo(!isShowPatientInfo);
-//        });
-
-        binding.tvLogoutSettingFragment.setOnClickListener(v -> {
-            ((MainActivity) context).logout();
+        settingItemAdapter.setOnItemClickListener((adapter, view, position) -> {
+            SettingFunctionEnums settingFunctionEnums = (SettingFunctionEnums) adapter.getItem(position);
+            settingAdapterOnClick(settingFunctionEnums);
         });
 
-        binding.llPatientBasicInfoSettingFragment.setOnClickListener(v->{
-            BasicInfoFragment basicInfoFragment = new BasicInfoFragment();
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("identity", IdentityEnums.PAINTER);
-            basicInfoFragment.setArguments(bundle);
-            pushFragment(basicInfoFragment);
+        patientSettingItemAdapter.setOnItemClickListener((adapter, view, position) -> {
+            SettingFunctionEnums settingFunctionEnums = (SettingFunctionEnums) adapter.getItem(position);
+            settingAdapterOnClick(settingFunctionEnums, IdentityEnums.PAINTER);
         });
     }
 
@@ -123,55 +117,73 @@ public class SettingFragment extends AbstractFragment<SettingPresenter, Fragment
     public void initView() {
         binding.tvNameSettingFragment.setText(App.userModel.getName());
 
+        setProxyInfo();
+
+        binding.rvPatientListSettingFragment
+            .setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+        binding.rvPatientListSettingFragment.setHasFixedSize(true);
+        binding.rvPatientListSettingFragment.setAdapter(patientSettingItemAdapter);
+
+        binding.rvListSettingFragment
+            .setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+        binding.rvListSettingFragment.setHasFixedSize(true);
+        binding.rvListSettingFragment.setAdapter(settingItemAdapter);
+
         loadAvatar();
     }
 
     @Override
     public void initData(Bundle savedInstanceState) {
         isShowPatientInfo = false;
+        isUpdatePatientPhoto = false;
         easyImageUtils = new EasyImageUtils(context, getString(R.string.setting_basic_upload_avatar));
         easyImage = easyImageUtils.getEasyImage();
 
-        if(App.userModel.isProxy()){
-            binding.rlPatientSettingFragment.setVisibility(View.VISIBLE);
-        }
+        patientSettingItemAdapter = new SettingItemAdapter(R.layout.item_setting);
+        patientSettingItemAdapter.setAnimationEnable(true);
+        settingItemAdapter = new SettingItemAdapter(R.layout.item_setting);
+        settingItemAdapter.setAnimationEnable(true);
+        patientSettingList = new ArrayList<>();
+        settingList = new ArrayList<>();
 
-        expandSlideMemberGroupAnimation = new SlideHeightAnimation(binding.ibDropdownPatientSettingFragment,
-            Utils.dp2px(context, 45), Utils.dp2px(context, 148), 300);
-        shrinkSlideMemberGroupAnimation = new SlideHeightAnimation(binding.ibDropdownPatientSettingFragment,
-            Utils.dp2px(context, 148), Utils.dp2px(context, 45), 300);
-        expandSlideMemberGroupAnimation.setInterpolator(new AccelerateInterpolator());
-        shrinkSlideMemberGroupAnimation.setInterpolator(new AccelerateInterpolator());
+        patientSettingList.add(SettingFunctionEnums.PERSONAL_INFO);
 
-        expandRotateArrowAnimation =
-            new RotateAnimation(180, 0, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        shrinkRotateArrowAnimation =
-            new RotateAnimation(0, 180, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        settingList.add(SettingFunctionEnums.PERSONAL_INFO);
+        settingList.add(SettingFunctionEnums.FEEDBACK);
+        settingList.add(SettingFunctionEnums.LOGOUT);
+
+        patientSettingItemAdapter.setList(patientSettingList);
+        settingItemAdapter.setList(settingList);
     }
 
     @Override
-    public void doSomething() {}
+    public void doSomething() {
+        patientSettingItemAdapter.setRecyclerView(binding.rvPatientListSettingFragment);
+        settingItemAdapter.setRecyclerView(binding.rvListSettingFragment);
 
-    private void hidePatientInfo(boolean isHide) {
-        isShowPatientInfo = isHide;
-        if (isHide) {
-            startAnimation(binding.rlPatientSettingFragment, shrinkSlideMemberGroupAnimation);
-            startAnimation(binding.ibDropdownPatientSettingFragment, shrinkRotateArrowAnimation);
-        } else {
-            startAnimation(binding.rlPatientSettingFragment, expandSlideMemberGroupAnimation);
-            startAnimation(binding.ibDropdownPatientSettingFragment, expandRotateArrowAnimation);
+        if (App.userModel.isProxy()) {
+            presenter.getBasicInfo(App.userModel.getUid(), IdentityEnums.PAINTER);
         }
     }
 
-    private void startAnimation(View view, Animation animation) {
-        view.setAnimation(animation);
-        view.startAnimation(animation);
+    @Override
+    public void onGetInformation(boolean isSuccess, InformationResponse.Response response) {
+        App.userModel.setProxyPatientName(response.getName());
+        App.userModel.setProxyPatientPhotoUrl(response.getPhotoUrl());
+        App.updateUserModel();
+        setProxyInfo();
+        loadAvatar();
     }
 
     @Override
-    public void onUpdateAvatar(boolean isSuccess, UploadMediaResponse.Response uploadMediaResponse) {
+    public void onUpdateAvatar(boolean isSuccess, UploadMediaResponse.Response uploadMediaResponse,
+        IdentityEnums identityEnums) {
         if (isSuccess) {
-            App.userModel.setPhotoUrl(uploadMediaResponse.getMediaLink());
+            if (App.userModel.isProxy() && identityEnums == IdentityEnums.PAINTER) {
+                App.userModel.setProxyPatientPhotoUrl(uploadMediaResponse.getMediaLink());
+            } else {
+                App.userModel.setPhotoUrl(uploadMediaResponse.getMediaLink());
+            }
             App.updateUserModel();
             loadAvatar();
         }
@@ -196,8 +208,13 @@ public class SettingFragment extends AbstractFragment<SettingPresenter, Fragment
 
     private void loadAvatar() {
         Glide.with(context).load(App.userModel.getPhotoUrl())
-            .placeholder(ContextCompat.getDrawable(getContext(), R.drawable.ic_avatar))
+            .placeholder(ContextCompat.getDrawable(context, R.drawable.ic_avatar))
             .into(binding.civAvatarSettingFragment);
+        if (App.userModel.isProxy()) {
+            Glide.with(context).load(App.userModel.getProxyPatientPhotoUrl())
+                .placeholder(ContextCompat.getDrawable(context, R.drawable.ic_avatar))
+                .into(binding.civPatientAvatarSettingFragment);
+        }
     }
 
     @Override
@@ -217,7 +234,7 @@ public class SettingFragment extends AbstractFragment<SettingPresenter, Fragment
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
-                uploadAvatar(new File(result.getUri().getPath()));
+                uploadAvatar(new File(result.getUri().getPath()), isUpdatePatientPhoto ? IdentityEnums.PAINTER : null);
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
                 showToast(getString(R.string.error_common_unknow));
@@ -251,7 +268,42 @@ public class SettingFragment extends AbstractFragment<SettingPresenter, Fragment
         CropImage.activity(Uri.fromFile(file)).start(context, this);
     }
 
-    private void uploadAvatar(File file) {
-        presenter.uploadAvatar(file, this);
+    private void uploadAvatar(File file, IdentityEnums identityEnums) {
+        presenter.uploadAvatar(file, this, identityEnums);
+    }
+
+    private void settingAdapterOnClick(SettingFunctionEnums settingFunctionEnums) {
+        settingAdapterOnClick(settingFunctionEnums, App.userModel.getIdentityEnums());
+    }
+
+    private void settingAdapterOnClick(SettingFunctionEnums settingFunctionEnums, IdentityEnums identityEnums) {
+        Bundle bundle;
+        switch (settingFunctionEnums) {
+            case PERSONAL_INFO:
+                bundle = new Bundle();
+                BasicInfoFragment basicInfoFragment = new BasicInfoFragment();
+                bundle.putSerializable("identity", identityEnums);
+                basicInfoFragment.setArguments(bundle);
+                pushFragment(basicInfoFragment);
+                break;
+            case LOGOUT:
+                ((MainActivity) context).logout();
+                break;
+            case FEEDBACK:
+                bundle = new Bundle();
+                bundle.putString("link", "https://coda.io/form/Quick-feedback-for-IM_d8PqQqYioZe");
+                startActivity(WebViewActivity.class, bundle);
+                break;
+        }
+    }
+
+    private void setProxyInfo() {
+        if (App.userModel.getIdentityEnums() == IdentityEnums.FAMILY && App.userModel.isProxy()) {
+            binding.tvIdentitySettingFragment.setVisibility(View.VISIBLE);
+            binding.llPatientSettingFragment.setVisibility(View.VISIBLE);
+            binding.tvPatientNameSettingFragment.setText(App.userModel.getProxyPatientName());
+            binding.tvPatientDiseaseSettingFragment
+                .setText(getString(App.userModel.getDiseaseEnums().getDiseaseNameId()));
+        }
     }
 }

@@ -28,9 +28,12 @@ public class BasicInfoPresenter extends AbstractPresenter<BasicInfoView> {
             });
     }
 
-    public void settBasicInfo(InformationResponse.Response response) {
+    public void setBasicInfo(InformationResponse.Response response, IdentityEnums identityEnums) {
         initMap();
-        addDisposable(apiServer.executePost(MyApiServer.CHANGE_INFORMATION.valueOfName(), paramsMap, packageToRequestBody(response), headerMap),
+        paramsMap.put("RespondentType", identityEnums.getType() + 1);
+        addDisposable(
+            apiServer.executePost(MyApiServer.CHANGE_INFORMATION.valueOfName(), paramsMap,
+                packageToRequestBody(response), headerMap),
             new AbstractObserver<InformationResponse>(this, baseView, "SetInformation", null, InformationResponse.class,
                 true) {
                 @Override

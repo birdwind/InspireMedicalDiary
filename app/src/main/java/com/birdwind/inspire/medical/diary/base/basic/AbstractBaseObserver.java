@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
+import com.birdwind.inspire.medical.diary.base.Config;
 import com.birdwind.inspire.medical.diary.base.network.response.BaseSystemResponse;
 import com.birdwind.inspire.medical.diary.base.utils.GsonUtils;
 import com.birdwind.inspire.medical.diary.base.utils.LogUtils;
@@ -14,6 +15,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import io.reactivex.observers.DisposableObserver;
 import okhttp3.ResponseBody;
@@ -74,6 +76,9 @@ public abstract class AbstractBaseObserver<T extends ResponseBody, BR extends Ba
                     onError(errorTitle, "0", context.getString(R.string.error_common_server_data), true);
                 } else {
                     if (response.isSuccess()) {
+                        if (!Objects.equals(response.getVer(), Config.APP_VERSION)) {
+                            onUpdateVersion();
+                        }
                         onSuccess(response);
                     } else {
                         if (response.getMessage().equals("金鑰失效。")) {
@@ -104,10 +109,14 @@ public abstract class AbstractBaseObserver<T extends ResponseBody, BR extends Ba
             HttpException httpException = (HttpException) e;
             JSONObject errorJsonObject = null;
             String errorMsg = "";
+            String ver = "";
             try {
                 errorJsonObject = new JSONObject(((HttpException) e).response().errorBody().string());
                 errorMsg = errorJsonObject.getString("Message");
-
+                ver = errorJsonObject.getString("Ver");
+                if (!ver.equals(Config.APP_VERSION)) {
+                    onUpdateVersion();
+                }
             } catch (JSONException | IOException jsonException) {
                 LogUtils.exceptionTAG(functionName + "Error", jsonException);
             }
@@ -152,8 +161,10 @@ public abstract class AbstractBaseObserver<T extends ResponseBody, BR extends Ba
 
     @Override
     public void onError(String title, String code, String msg, boolean isDialog) {
-        showMsg(title, "(" + code + ")" + msg, isDialog);
-        LogUtils.e(functionName + "Error", "(" + code + ")" + msg);
+        if (!onErrorHandler(title, null, msg, true, null)) {
+            showMsg(title, "(" + code + ")" + msg, isDialog);
+            LogUtils.e(functionName + "Error", "(" + code + ")" + msg);
+        }
     }
 
     protected void showMsg(String title, String msg, boolean isDialog) {
@@ -164,5 +175,13 @@ public abstract class AbstractBaseObserver<T extends ResponseBody, BR extends Ba
 
     protected void showMsg(String msg, boolean isDialog) {
         showMsg(errorTitle, msg, isDialog);
+    }
+
+    @Override
+    public void onUpdateVersion() {
+        if(view != null && !App.isShowUpdated){
+            App.isShowUpdated = true;
+            view.showUpdate("");
+        }
     }
 }

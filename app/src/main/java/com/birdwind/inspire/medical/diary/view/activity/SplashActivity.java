@@ -1,6 +1,5 @@
 package com.birdwind.inspire.medical.diary.view.activity;
 
-import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
