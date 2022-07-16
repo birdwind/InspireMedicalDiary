@@ -1,12 +1,6 @@
 package com.birdwind.inspire.medical.diary.view.fragment;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import androidx.fragment.app.Fragment;
-
+import com.birdwind.inspire.medical.diary.App;
 import com.birdwind.inspire.medical.diary.R;
 import com.birdwind.inspire.medical.diary.base.utils.fragmentNavUtils.FragNavController;
 import com.birdwind.inspire.medical.diary.base.utils.fragmentNavUtils.FragNavTransactionOptions;
@@ -14,7 +8,15 @@ import com.birdwind.inspire.medical.diary.base.view.AbstractFragment;
 import com.birdwind.inspire.medical.diary.databinding.FragmentPatientMainBinding;
 import com.birdwind.inspire.medical.diary.presenter.AbstractPresenter;
 
+import android.Manifest;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import java.util.Stack;
+
+import androidx.fragment.app.Fragment;
 
 public class PatientMainFragment extends AbstractFragment<AbstractPresenter, FragmentPatientMainBinding>
     implements FragNavController.RootFragmentListener, FragNavController.TransactionListener {
@@ -124,8 +126,14 @@ public class PatientMainFragment extends AbstractFragment<AbstractPresenter, Fra
     }
 
     private void openQuizFragment() {
-        // Intent intent = new Intent(context, DrawingActivity.class);
-        // activityResultLauncher.launch(intent);
-        pushFragment(new SurveyFragment());
+        if (App.isStepByStep) {
+            pushFragment(new QuestionFragment());
+        } else {
+            if (hasPermission(Manifest.permission.RECORD_AUDIO, Manifest.permission.RECORD_AUDIO)) {
+                pushFragment(new SurveyFragment());
+            } else {
+                showToast(getString(R.string.error_common_permission_denied_some));
+            }
+        }
     }
 }

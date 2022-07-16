@@ -151,6 +151,7 @@ public class SettingFragment extends AbstractFragment<SettingPresenter, Fragment
         settingList.add(SettingFunctionEnums.PERSONAL_INFO);
         settingList.add(SettingFunctionEnums.FEEDBACK);
         settingList.add(SettingFunctionEnums.LOGOUT);
+        settingList.add(SettingFunctionEnums.TEMP);
 
         patientSettingItemAdapter.setList(patientSettingList);
         settingItemAdapter.setList(settingList);
@@ -293,6 +294,10 @@ public class SettingFragment extends AbstractFragment<SettingPresenter, Fragment
                 bundle = new Bundle();
                 bundle.putString("link", "https://coda.io/form/Quick-feedback-for-IM_d8PqQqYioZe");
                 startActivity(WebViewActivity.class, bundle);
+                break;
+            case TEMP:
+                App.isStepByStep = !App.isStepByStep;
+                showToast("Changed Survey Type!");
                 break;
         }
     }

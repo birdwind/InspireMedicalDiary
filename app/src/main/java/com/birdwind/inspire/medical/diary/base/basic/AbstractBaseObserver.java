@@ -76,7 +76,7 @@ public abstract class AbstractBaseObserver<T extends ResponseBody, BR extends Ba
                     onError(errorTitle, "0", context.getString(R.string.error_common_server_data), true);
                 } else {
                     if (response.isSuccess()) {
-                        if (!Objects.equals(response.getVer(), Config.APP_VERSION)) {
+                        if (!Objects.equals(response.getVer() == null? Config.APP_VERSION:response.getVer(), Config.APP_VERSION)) {
                             onUpdateVersion();
                         }
                         onSuccess(response);

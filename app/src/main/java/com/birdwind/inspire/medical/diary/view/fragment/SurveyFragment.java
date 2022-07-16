@@ -110,7 +110,6 @@ public class SurveyFragment extends AbstractFragment<SurveyPresenter, FragmentSu
             ((AbstractActivity) context).getCurrentAppPermission(this::init, this::onBackPressedByActivity,
                 this::onBackPressedByActivity);
         }
-
     }
 
     private void init() {

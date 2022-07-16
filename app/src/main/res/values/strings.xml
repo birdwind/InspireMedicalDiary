@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!DOCTYPE resources [<!ENTITY appname "Diary"><!ENTITY scan "掃描條碼"><!ENTITY qrcode "行動條碼"><!ENTITY setting "設定"><!ENTITY visit "下次訪問">]>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">&appname;</string>
     <string name="company_name">BirdWind</string>
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
@@ -144,6 +144,7 @@
     <string name="setting_patient_info">病患資訊</string>
     <string name="setting_basic_upload_avatar">上傳頭像</string>
     <string name="setting_feedback">意見回饋</string>
+    <string name="setting_temp" tools:ignore="MissingTranslation">Change Survey Type</string>
 
     <!--Survey-->
     <string name="survey_empty">目前沒有任何問卷</string>

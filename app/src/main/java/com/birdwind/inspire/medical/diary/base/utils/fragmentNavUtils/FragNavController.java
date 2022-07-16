@@ -15,6 +15,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.birdwind.inspire.medical.diary.base.utils.LogUtils;
+
 import org.json.JSONArray;
 
 import java.lang.annotation.Retention;
@@ -719,10 +721,14 @@ public class FragNavController {
      * This check is here to prevent recursive entries into executePendingTransactions
      */
     private void executePendingTransactions() {
-        if (!mExecutingTransaction && !mFragmentManager.isDestroyed()) {
-            mExecutingTransaction = true;
-            mFragmentManager.executePendingTransactions();
-            mExecutingTransaction = false;
+        try {
+            if (!mExecutingTransaction && !mFragmentManager.isDestroyed()) {
+                mExecutingTransaction = true;
+                mFragmentManager.executePendingTransactions();
+                mExecutingTransaction = false;
+            }
+        } catch (Exception e) {
+            LogUtils.exception(e);
         }
     }
 

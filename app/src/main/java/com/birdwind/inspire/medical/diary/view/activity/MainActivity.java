@@ -356,6 +356,7 @@ public class MainActivity extends AbstractActivity<MainPresenter, ActivityMainBi
         }
     }
 
+    @Override
     public void replaceFragment(Fragment fragment, boolean isBack) {
         if (isBack) {
             mNavController.replaceFragment(fragment, popFragNavTransactionOptions);

@@ -9,6 +9,8 @@ public interface FragmentNavigationListener {
 
     void pushFragment(Fragment fragment);
 
+    void replaceFragment(Fragment fragment, boolean isBack);
+
     void popIndexTabFragment(int tab);
 
     void updateToolbar(String title, int titleColor, int backgroundColor, boolean isStatusLightMode, boolean isShowBack,

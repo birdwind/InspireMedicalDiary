@@ -68,6 +68,10 @@ public class SurveyActivity extends AbstractActivity<AbstractPresenter, Activity
     }
 
     @Override
+    public void replaceFragment(Fragment fragment, boolean isBack) {
+    }
+
+    @Override
     public void popIndexTabFragment(int tab) {
 
     }

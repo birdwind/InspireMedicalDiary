@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/ll_bottom_question_fragment">
+
+        <TextView
+            android:id="@+id/tv_intro_question_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:lineSpacingExtra="8sp"
+            android:text="現在我們來看一張圖，請仔細觀察，並盡可能地描述這張圖，越詳細越好，並試著串成一個完整的故事。"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="24dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_title_question_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="現在要給你看一系列的圖片，一次一張，請告訴我您看到的東西叫做什麼名字。"
+                android:textSize="24sp"
+                android:visibility="gone"/>
+
+            <ImageView
+                android:id="@+id/iv_image_question_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="30dp"
+                android:layout_weight="1"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/audio1"
+                android:visibility="gone"/>
+
+            <com.birdwind.inspire.medical.diary.view.customer.PaintViewCustom
+                android:id="@+id/pv_drawing_question_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="15dp"
+                android:layout_weight="1"
+                android:background="@drawable/background_board_radius_10dp"
+                android:backgroundTint="@color/colorGray_F3F3F3"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_bottom_question_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ll_tool_question_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginVertical="30dp"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_countdown_question_fragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:text="0:01"
+                android:textSize="25sp"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/bt_next_question_fragment"
+                android:layout_width="0dp"
+                android:layout_height="55dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_double_green"
+                android:text="完成"
+                android:textColor="@color/colorWhite_FFFFFF"
+                android:textSize="25sp"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_boolean_question_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginVertical="30dp"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/bt_true_question_fragment"
+                android:layout_width="0dp"
+                android:layout_height="55dp"
+                android:layout_marginHorizontal="15dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_double_green"
+                android:text="是"
+                android:textColor="@color/colorWhite_FFFFFF"
+                android:textSize="25sp" />
+
+            <Button
+                android:id="@+id/bt_false_question_fragment"
+                android:layout_width="0dp"
+                android:layout_height="55dp"
+                android:layout_marginHorizontal="15dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_double_red"
+                android:text="否"
+                android:textColor="@color/colorWhite_FFFFFF"
+                android:textSize="25sp" />
+
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

@@ -427,15 +427,27 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
         return false;
     }
 
-    public void getPermission(PermissionRequestListener permissionRequestListener, String... permissionArray) {
+
+    public void getPermission(PermissionRequestListener permissionRequestListener, Callback callback, String... permissionArray) {
         // if (group) {
-        addDisposable(rxPermissions.requestEachCombined(permissionArray)
-            .subscribe(permission -> permissionRequestListener.permissionRequest(context, permission)));
+        try {
+            addDisposable(rxPermissions.requestEachCombined(permissionArray)
+                    .subscribe(permission -> permissionRequestListener.permissionRequest(context, permission)));
+        }catch (Exception e){
+            if(callback != null){
+                callback.call();
+            }
+            LogUtils.exception(e);
+        }
         // } else {
         // addDisposable(rxPermissions.requestEach(permissionArray)
         // .subscribe(permission -> permissionRequestListener.permissionRequest(context,
         // permission)));
         // }
+    }
+
+    public void getPermission(PermissionRequestListener permissionRequestListener, String... permissionArray) {
+        getPermission(permissionRequestListener, null, permissionArray);
     }
 
     public boolean hasPermission(@NonNull String... permission) {
@@ -599,8 +611,8 @@ public abstract class AbstractActivity<P extends AbstractPresenter, VB extends V
                         showToast(getString(R.string.error_common_permission_never_show));
                     }
                 }
-            }, Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE);
+            }, partOfBackCallback, Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_SETTINGS);
 
             Stash.put(Config.PERMISSION, true);
         }

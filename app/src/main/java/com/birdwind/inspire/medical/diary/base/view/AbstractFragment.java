@@ -250,6 +250,14 @@ public abstract class AbstractFragment<P extends AbstractPresenter, VB extends V
         }
     }
 
+    public void replaceFragment(Fragment fragment) {
+        if (context instanceof FragmentNavigationListener) {
+            ((FragmentNavigationListener) context).replaceFragment(fragment, false);
+        } else {
+            LogUtils.e("於底部導航外，沒有底層UI!");
+        }
+    }
+
     public void popIndexTabFragment(int tab) {
         if (context instanceof FragmentNavigationListener) {
             ((FragmentNavigationListener) context).popIndexTabFragment(tab);

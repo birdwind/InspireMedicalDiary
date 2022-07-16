@@ -17,6 +17,7 @@ public class UserModel implements BaseModel {
 
     private String name;
 
+    0
     private String photoUrl;
 
     private boolean hasFamily;

@@ -126,6 +126,11 @@ public class BottomNavigationActivity extends AbstractActivity<AbstractPresenter
     }
 
     @Override
+    public void replaceFragment(Fragment fragment, boolean isBack) {
+
+    }
+
+    @Override
     public void popIndexTabFragment(int tab) {
         popIndexTab = tab;
     }
